@@ -1,0 +1,15 @@
+---
+description: Prisma schema is the single source of truth; use migrations and generation flow
+globs: prisma/**/*.prisma,src/**/*.ts,src/**/*.tsx
+---
+# Prisma Workflow
+
+- The canonical schema is [prisma/schema.prisma](mdc:prisma/schema.prisma). All DB changes start here.
+- After editing the schema, prefer `npx prisma migrate dev` to create/apply migrations. Avoid manual DB changes.
+- `npx prisma generate` runs as part of other commands; use it if the client types fall out of date.
+- Use `npx prisma studio` for inspecting data locally.
+- For rapid prototyping only, `npx prisma db push` syncs schema without migrations. Do not use in production.
+- Import generated types and client from `@prisma/client`. Keep the Prisma client as a singleton (e.g. `src/lib/prisma.ts`).
+
+Useful scripts (see `package.json`): lint, test, build, dev. See [README.md](mdc:README.md) for details.
+

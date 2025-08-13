@@ -1,0 +1,14 @@
+---
+globs: src/**/*.ts,src/**/*.tsx
+description: Performance, typing, and security conventions from the project README
+---
+# Conventions & Quality
+
+- Performance first: Prefer Server Components by default; keep Client Components only where interactivity is needed (`'use client'`).
+- Strong typing: Use generated types from `@prisma/client` and avoid `any`. Narrow fields with `.select()` to limit payloads.
+- Security: Never expose Prisma to the browser. All DB access must be via Server Components, Server Actions, or Route Handlers.
+- Mutations: Implement with Server Actions (`'use server'`). Revalidate relevant paths with `revalidatePath` after writes.
+- Source of truth: Treat [prisma/schema.prisma](mdc:prisma/schema.prisma) as canonical. Evolve schema via migrations, not manual DB edits.
+
+See the full guidance in [README.md](mdc:README.md).
+

@@ -1,0 +1,14 @@
+---
+globs: src/**/*.ts,src/**/*.tsx
+---
+# Data Access Policy (Next.js + Prisma)
+
+- Use Server Components for reads. Access the database directly with a Prisma client singleton (place in `src/lib`, e.g., [src/lib/prisma.ts](mdc:src/lib/prisma.ts)). Do not import Prisma in Client Components.
+- Use Server Actions for mutations. Mark actions with `'use server'`, import them from Client Components, and trigger via `<form action={...}>` or event handlers. Use `revalidatePath` after mutations when needed.
+- Use Route Handlers under `src/app/api/*` for webhooks, public APIs, or when integrating TanStack Query from the client.
+- Client Components should fetch via Server Actions or `/api/*` endpoints; never import the Prisma client or access `@prisma/client` directly.
+- Prefer narrow Prisma selections with `.select()` for performance, and rely on generated types from `@prisma/client`.
+- The schema of record is [prisma/schema.prisma](mdc:prisma/schema.prisma). Evolve it via migrations, not manual DB edits.
+
+References: [README.md](mdc:README.md)
+
