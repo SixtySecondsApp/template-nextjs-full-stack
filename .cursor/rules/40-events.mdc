@@ -1,0 +1,17 @@
+---
+globs: src/infrastructure/events/**/*.ts,src/domain/**/**.events.ts
+description: Rules for event bus and handlers
+---
+## Domain Events & Event Bus
+
+- Events are immutable classes (`*.events.ts`) in the Domain.
+- Use Cases publish events via an injected bus.
+- Handlers live in `src/infrastructure/events` and are registered at startup.
+- Handlers must not contain core business logic; they handle side effects (logs, emails, analytics).
+- Do not silently catch errors; log and isolate failures.
+
+Refs:
+- [src/domain/client/client.events.ts](mdc:src/domain/client/client.events.ts)
+- [src/infrastructure/events/simple-event-bus.ts](mdc:src/infrastructure/events/simple-event-bus.ts)
+- [src/infrastructure/events/client-created.handler.ts](mdc:src/infrastructure/events/client-created.handler.ts)
+

@@ -1,0 +1,16 @@
+---
+globs: src/**/mappers/**/*.ts,src/infrastructure/mappers.ts/**/*.ts
+description: Rules for Domain↔DTO↔Persistence mappers
+---
+## Mappers – Domain ↔ DTO ↔ Persistence (Prisma)
+
+- Mappers are static classes (`*.mapper.ts`) per aggregate (e.g. `ClientDtoMapper`, `ClientPrismaMapper`).
+- It is forbidden to expose Prisma types in Domain/Application.
+- `toDto(domain)` and `toDomain(dto)` on the application side; `toPersistence(domain)` and `toDomain(raw)` on the infrastructure side.
+- Maintain field parity between the entity and the Prisma model; handle optional fields properly.
+- No heavy validation in mappers.
+
+Refs:
+- [src/application/mappers/client-dto.mapper.ts](mdc:src/application/mappers/client-dto.mapper.ts)
+- [src/infrastructure/mappers.ts/client-prisma.mapper.ts](mdc:src/infrastructure/mappers.ts/client-prisma.mapper.ts)
+

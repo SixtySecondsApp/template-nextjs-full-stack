@@ -1,0 +1,196 @@
+---
+alwaysApply: false
+description: Generator and checklist to scaffold a new Domain feature (Entity, Events, Port, Prisma Repository, Mappers, Use Cases, API routes) under Hexagonal Architecture.
+---
+
+## Feature Generator – Hexagonal Architecture
+
+This rule guides the agent to plan and implement a new feature (aggregate/root) end‑to‑end, mirroring the existing Clients feature and abiding by global architecture rules.
+
+It covers: Domain Entity and Events, Port/Repository interface, Prisma Repository implementation, DTOs and Mappers, Use Cases with error enums + events, API routes with validation, and basic event handlers.
+
+Follow the steps precisely and keep controllers thin, mappers small, and repositories persistence‑only.
+
+### References
+- Global rules: see project README and Cursor rules
+- API Controllers: [src/app/api/clients/route.ts](mdc:src/app/api/clients/route.ts), [src/app/api/clients/[id]/route.ts](mdc:src/app/api/clients/[id]/route.ts)
+- Use Cases (pattern): [src/application/use-cases/clients](mdc:src/application/use-cases/clients)
+- DTOs and App Mappers: [src/application/dto/clientDTO.ts](mdc:src/application/dto/clientDTO.ts), [src/application/mappers/client-dto.mapper.ts](mdc:src/application/mappers/client-dto.mapper.ts)
+- Domain Entity/Events: [src/domain/client/client.entity.ts](mdc:src/domain/client/client.entity.ts), [src/domain/client/client.events.ts](mdc:src/domain/client/client.events.ts)
+- Prisma Repository: [src/infrastructure/prisma/client.repository.prisma.ts](mdc:src/infrastructure/prisma/client.repository.prisma.ts)
+- Infra Mapper: [src/infrastructure/mappers/client-prisma.mapper.ts](mdc:src/infrastructure/mappers/client-prisma.mapper.ts)
+- Event Bus & sample handler: [src/infrastructure/events/simple-event-bus.ts](mdc:src/infrastructure/events/simple-event-bus.ts), [src/infrastructure/events/client-created.handler.ts](mdc:src/infrastructure/events/client-created.handler.ts)
+
+---
+
+## Invocation Inputs (to be provided by the user)
+- Feature name (singular, PascalCase for classes, kebab/plural for routes), e.g. "Project".
+- Purpose and key fields (names, types, optional/required, defaults).
+- Relationships to existing aggregates (e.g. `Project` belongs to a `Client`).
+- Invariants/constraints (e.g. unique fields, required associations, allowed status values).
+- CRUD surface needed now (Create/List/Get/Update/Archive/Delete?).
+- Events to publish (Created/Updated/Archived/Deleted) and any side effects.
+- Validation rules (zod schemas outline) and error behaviours.
+
+The agent MUST ask clarifying questions if any of the above are missing or ambiguous. Only after agreement, proceed to implementation.
+
+---
+
+## Plan Template (the agent must propose this before coding)
+1. Confirm entity name, plural route segment, and relationships.
+2. List files to create/update with exact paths.
+3. Outline DTO shapes, zod schemas, and error enums.
+4. Describe use cases and events to publish.
+5. Confirm Prisma needs (model + migration) if the persistence model is new.
+6. Agree on acceptance criteria (endpoints + responses).
+
+---
+
+## Scaffold – Files to Create/Update
+
+Assuming the feature name is `X` (singular, PascalCase) and route segment is `xs` (lowercase plural):
+
+- Domain
+  - `src/domain/x/x.entity.ts` – Entity with private fields, getters, `update(props)`, `archive()`.
+  - `src/domain/x/x.events.ts` – `XCreatedEvent`, `XUpdatedEvent`, `XArchivedEvent`, `XDeletedEvent`.
+
+- Ports
+  - `src/ports/repositories.ts` – Add `IXRepository` interface (create, update, archive, restore, delete, findById, findByName? findAll) similar to `IClientRepository`.
+
+- Infrastructure
+  - `src/infrastructure/mappers/x-prisma.mapper.ts` – `XPrismaMapper.toDomain(raw)` and `toPersistence(entity)`.
+  - `src/infrastructure/prisma/x.repository.prisma.ts` – `XRepositoryPrisma` implementing `IXRepository` with soft delete filtering.
+  - `src/infrastructure/events/x-created.handler.ts` (and others as needed) – minimal side‑effect handlers subscribed on the simple event bus.
+
+- Application (DTOs, Mappers, Use Cases)
+  - `src/application/dto/xDTO.ts` – `XDTO`, `XCreateDTO`, `XUpdateDTO`.
+  - `src/application/mappers/x-dto.mapper.ts` – `XDtoMapper` and `XCreateDtoMapper`.
+  - `src/application/use-cases/xs/create-x.usecase.ts` – emits `XCreatedEvent`.
+  - `src/application/use-cases/xs/list-xs.usecase.ts` – returns `XDTO[]`.
+  - `src/application/use-cases/xs/get-x.usecase.ts` – `GetXUseCaseError` with `X_NOT_FOUND` and fallback strategy if applicable.
+  - `src/application/use-cases/xs/update-x.usecase.ts` – validates id, calls entity `.update()`, emits `XUpdatedEvent`.
+  - `src/application/use-cases/xs/archive-x.usecase.ts` – calls `.archive()` and repo `archive(id)`, emits `XArchivedEvent`.
+
+- Presentation (API Controllers)
+  - `src/app/api/xs/route.ts` – `GET` (list), `POST` (create) with zod validation.
+  - `src/app/api/xs/[id]/route.ts` – `GET`, `PATCH`, `DELETE` (archive) with zod validation and error mapping.
+
+- Prisma (if needed)
+  - Update `prisma/schema.prisma` with model `X` and relations (e.g. `clientId` foreign key).
+  - Create a migration and seed updates if required.
+
+---
+
+## Implementation Rules (must follow existing conventions)
+
+### Domain
+- Keep business logic here. No framework or Prisma imports.
+- Private fields with getters; timestamps optional. Provide `update(props)` and `archive()`.
+- Maintain UK English in identifiers/comments where relevant.
+
+### Ports/Repositories
+- Define `IXRepository` in `src/ports/repositories.ts` mirroring the Client port.
+- Do not add business logic. It is a contract only.
+
+### Infrastructure – Prisma Repository
+- Implement `IXRepository` in `XRepositoryPrisma`.
+- Use mapper `XPrismaMapper` exclusively to convert.
+- Enforce soft delete: all reads default to `where: { deletedAt: null }`.
+- `archive(id)` sets `deletedAt: new Date()`. `restore(id)` sets `deletedAt: null`. `delete(id)` is irreversible.
+- Do not leak DB details in thrown errors.
+
+### Mappers
+- Application mapper: `XDtoMapper` with `toDto(domain)` and `toDomain(dto)`; `XCreateDtoMapper` for create‑only.
+- Infrastructure mapper: `XPrismaMapper` with `toDomain(raw)` and `toPersistence(entity)`; maintain field parity.
+- Never expose Prisma types in Domain/Application layers.
+
+### Use Cases
+- Each use case has an `enum` for errors (e.g. `CreateXUseCaseError`).
+- Throw `Error` with enum values; controllers map them to HTTP codes per rules.
+- Publish domain events via injected `publishEvent` (from the simple event bus).
+
+### API Controllers
+- Validate request inputs with `zod`.
+- Instantiate use cases with concrete adapters: `new XRepositoryPrisma()` and `eventBus.publish.bind(eventBus)`.
+- Return JSON with `{ success, data | message }`.
+- Map errors to HTTP: 400 (validation/missing id), 404 (not found), 500 (internal).
+
+### Events & Handlers
+- Events are simple classes in Domain (`*.events.ts`).
+- Handlers live in `src/infrastructure/events` and perform side effects (log, notify) without core business logic.
+
+---
+
+## Clarifying Questions (the agent must ask before coding)
+- What exact fields does `X` have? Which are required/optional? Any enums?
+- What are the relationships (e.g. must `X` reference `Client` via `clientId`)?
+- Unique constraints? Indexes? Case sensitivity rules for names?
+- Which events do we need to publish now (Created/Updated/Archived/Deleted)?
+- Which endpoints should exist initially (Create, List, Get by id, Update, Archive)?
+- Any default ordering/pagination requirements for list?
+- Should soft delete apply (archive) by default? Any restore endpoint?
+
+---
+
+## Checklists
+
+### Planning Checklist
+- [ ] Confirm entity name and route segment
+- [ ] Confirm fields and validations
+- [ ] Confirm relationships and constraints
+- [ ] Confirm endpoints and error mapping
+- [ ] Confirm events to publish
+- [ ] Confirm Prisma model/migration needs
+
+### Implementation Checklist
+- [ ] Create Domain entity and events
+- [ ] Add port interface to `src/ports/repositories.ts`
+- [ ] Create Infra mapper and Prisma repository
+- [ ] Add DTOs and App mappers
+- [ ] Implement use cases (create/list/get/update/archive)
+- [ ] Create API routes with zod validation and error handling
+- [ ] Add basic event handlers and subscribe on event bus
+- [ ] Update Prisma schema and run migration (if new model)
+
+### Validation Checklist
+- [ ] Controllers are thin; no business logic
+- [ ] Repositories filter `deletedAt: null` by default
+- [ ] Mappers handle all fields; no Prisma types in Domain/App
+- [ ] Use case errors are enums; controllers map to 400/404/500
+- [ ] UK English in comments/messages
+
+---
+
+## Example – Project Feature (illustrative only)
+
+Context: A `Project` must be associated to a `Client` and must have a `manager` (string or user id, TBD). Start with: create/list/get/update/archive.
+
+Fields (proposed): `id`, `name` (unique per client), `clientId` (FK), `manager`, `status` (enum: draft|active|archived), optional `description`, timestamps, `deletedAt` for soft delete.
+
+Routes:
+- `POST /api/projects` – create (zod validates `name`, `clientId`, `manager`, optional `description`, `status` default `draft`).
+- `GET /api/projects` – list.
+- `GET /api/projects/[id]` – get by id.
+- `PATCH /api/projects/[id]` – partial update.
+- `DELETE /api/projects/[id]` – archive.
+
+Events: `ProjectCreatedEvent`, `ProjectUpdatedEvent`, `ProjectArchivedEvent`.
+
+The agent should use this rule to scaffold the corresponding files and implementations across layers, then align Prisma schema and run a migration.
+
+---
+
+## Output Requirements
+- Generate code with clear, readable names; avoid abbreviations.
+- Add all necessary imports and ensure the code compiles.
+- Keep controllers free of business logic; route validation with `zod`.
+- Do not leak DB errors; map to defined error enums.
+- Use UK English for comments/messages.
+
+---
+
+## Aftercare
+- If schema changed: create a Prisma migration and update seed data where relevant.
+- Add simple event handlers for Created/Updated/Archived events.
+- Consider adding tests following the project’s testing strategy (unit for domain/use cases, integration for repos, E2E for API).
+

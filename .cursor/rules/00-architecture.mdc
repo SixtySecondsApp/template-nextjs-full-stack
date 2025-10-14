@@ -1,0 +1,22 @@
+---
+alwaysApply: true
+---
+## Hexagonal Architecture (Clean Architecture) – Global Rules
+
+- Strictly separate the layers:
+  - **Domain**: pure business rules (entities, events). No framework/DB dependencies.
+  - **Application**: orchestration via Use Cases. Depends on ports (interfaces), publishes events.
+  - **Infrastructure**: implementations (Prisma, mappers, event bus, external adapters).
+  - **Presentation (Next.js App Router)**: routes/API = thin controllers.
+
+- **Dependencies**: Presentation → Application → Domain; Infrastructure is injected into Application via interfaces (ports).
+- **No business logic** in Next.js routes or in Prisma repositories.
+- **Dependency injection**: Use Cases receive their dependencies (repositories, event bus) via constructor.
+- **Mappers everywhere**: Domain ↔ DTO ↔ Persistence (Prisma). No Prisma or Next.js types in Domain/Application.
+- **Naming**:
+  - `*.entity.ts`, `*.events.ts`, `*.usecase.ts`, `*.repository.prisma.ts`, `*.mapper.ts`.
+- **Generalised soft delete**: filter `deletedAt == null` by default; archiving = set `deletedAt`.
+- **Tests**: Domain (unit), Use Cases (unit with fakes), Repos (integration), API (E2E).
+
+Refs: [README.md](mdc:README.md), [cursor-rules.md](mdc:cursor-rules.md)
+

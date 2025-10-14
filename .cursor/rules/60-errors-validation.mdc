@@ -1,0 +1,29 @@
+---
+description: Rules for application errors, input validation, and HTTP mapping
+globs: src/app/api/**/**.ts,src/application/use-cases/**/**.ts
+---
+## Errors & Validation
+
+- Validate all route inputs with `zod` (explicit schema per route/method).
+- Use Cases expose error enums (`XYZUseCaseError`) and throw `Error` with these messages.
+- Controllers map:
+  - 400 → validation errors or `*_ID_REQUIRED`.
+  - 404 → `*_NOT_FOUND`.
+  - 500 → `INTERNAL_SERVER_ERROR` and unknown defaults.
+- Never return sensitive DB information in errors.
+
+Snippet de mapping:
+```ts
+try {
+  const dto = await useCase.execute(input)
+  return NextResponse.json({ success: true, data: dto })
+} catch (error) {
+  if (error instanceof Error && error.message === SomeUseCaseError.SOMETHING) {
+    return NextResponse.json({ success: false, message: SomeUseCaseError.SOMETHING }, { status: 4xx })
+  }
+  return NextResponse.json({ success: false, message: SomeUseCaseError.INTERNAL_SERVER_ERROR }, { status: 500 })
+}
+```
+
+Réfs: [src/app/api/clients/route.ts](mdc:src/app/api/clients/route.ts), [src/app/api/clients/[id]/route.ts](mdc:src/app/api/clients/[id]/route.ts)
+

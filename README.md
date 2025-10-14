@@ -1,173 +1,167 @@
-# Project: [Project Name] - README & Development Guide
+# 📚 Next.js + Prisma Template – Architecture, Structure & Best Practice Guide
 
-This document is the single source of truth for all developers working on this project. It outlines the architecture, conventions, and workflow required to ensure our codebase is performant, maintainable, and scalable.
+> This repository is a reference template. All future projects should be started from a fork of this base. This guide unifies architecture, conventions, and the development workflow.
 
-## 1. Philosophy
+## 1) Objectives and Principles
 
-We build this project according to three core principles:
-1.  **Performance First:** Every line of code must be written with its impact on user experience in mind. We leverage Server Components by default.
-2.  **Developer Experience (DX):** Modern tooling and a clear workflow enable us to focus on delivering business logic.
-3.  **Quality and Maintainability:** A strongly-typed, well-structured, and tested codebase is non-negotiable.
+- **Strict separation of concerns**, following **Hexagonal/Clean Architecture**.
+- **Quality and maintainability**: typed code (TypeScript), testable, scalable.
+- **DX & performance**: clear conventions, thin controllers, data access via ports/adapters.
 
-## 2. Getting Started
+## 2) Quick Start
 
-Ensure you have Node.js v18+ and `npm` installed.
+1. Prerequisites: Node.js 18+ and npm.
+2. Installation:
+   ```bash
+   npm install
+   ```
+3. Environment variables:
+   - Create `.env.local` (not versioned) and set `DATABASE_URL`.
+   ```
+   DATABASE_URL="postgresql://user:password@host:port/database?sslmode=require"
+   ```
+4. Prisma migrations (run manually):
+   ```bash
+   npx prisma migrate dev
+   ```
+5. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-1.  **Clone the repository**
-    ```bash
-    git clone [REPO_URL]
-    cd [PROJECT_NAME]
-    ```
+## 3) Hexagonal Architecture
 
-2.  **Install dependencies**
-    ```bash
-    npm install
-    ```
+Layer | Role | Key Rules
+---|---|---
+**Domain** | Entities, Value Objects, Domain Events | No framework/DB imports. Business invariants only.
+**Application** | Use Cases (orchestrators) | Depends on interfaces (ports), publishes events.
+**Infrastructure** | Adapters (Prisma, event bus, mappers) | Implements ports, no business logic.
+**Presentation (Next.js App Router)** | Routes/API = thin controllers | Validate, call Use Case, return DTO.
 
-3.  **Set up environment variables**
-    *   Copy the `.env.example` file to a new file named `.env.local`.
-    *   Fill in the `DATABASE_URL` variable with the connection string for your PostgreSQL database (provided by Neon, Railway, or AWS RDS).
+Dependency constraints: `Presentation → Application → Domain`, and `Infrastructure` injected into `Application` via interfaces.
 
-    ```bash
-    cp .env.example .env.local
-    ```
+### Standard flow
 
-    **Contents of `.env.local` (DO NOT COMMIT):**
-    ```
-    # PostgreSQL database connection string
-    DATABASE_URL="postgresql://user:password@host:port/database?sslmode=require"
-    ```
+```
+Route (API) → Use Case → Repository (port) → Prisma Adapter → DB
+                       ↘ publishes Event → Handlers (side-effects)
+```
 
-4.  **Apply database migrations**
-    *   This command will read your `prisma/schema.prisma` file and apply any pending changes to your database.
-
-    ```bash
-    npx prisma migrate dev
-    ```
-
-5.  **Run the development server**
-    ```bash
-    npm run dev
-    ```
-
-## 3. Architecture & Key Concepts
-
-### A. Next.js: Our Frontend and Backend
-
-We adopt a "full-stack Next.js" architecture. The framework handles both UI rendering and server-side logic. **There is no separate backend server (e.g., Express).**
-
-*   **Server Components (`async function Page()`)**: Used for displaying content and reading data. They can call Prisma directly.
-*   **Server Actions (`'use server'`)**: Used for data mutations (create, update, delete) initiated from the client. This is the preferred method for form submissions.
-*   **Route Handlers (`app/api/`)**: Used to create traditional API endpoints when Server Actions are not suitable (e.g., for webhooks or a public API for third parties).
-
-### B. Data Management with Prisma
-
-Prisma is our ORM. The `prisma/schema.prisma` file is the **single source of truth** for our database schema.
-
-1.  **Server-Side Data Access (Reads)**
-    *   **Method:** Import a singleton instance of the Prisma client and use it directly within your Server Components.
-    *   **Justification:** This is the simplest and most performant approach. The query is executed on the server at render time.
-
-    ```tsx
-    // lib/prisma.ts (Example singleton)
-    import { PrismaClient } from '@prisma/client';
-    export const prisma = new PrismaClient();
-
-    // app/page.tsx (Server Component)
-    import { prisma } from '@/lib/prisma';
-
-    export default async function HomePage() {
-      const posts = await prisma.post.findMany();
-      // ... Rest of the JSX
-    }
-    ```
-
-2.  **Data Mutations with Server Actions**
-    *   **Method:** Create an async function with the `'use server'` directive, import it into a Client Component, and call it from a form or event handler.
-    *   **Justification:** This eliminates the need to create API endpoints for every action. It is safer, simpler, and perfectly integrated with React.
-
-    ```tsx
-    // app/posts/actions.ts
-    'use server';
-    import { prisma } from '@/lib/prisma';
-    import { revalidatePath } from 'next/cache';
-
-    export async function createPost(formData: FormData) {
-      const title = formData.get('title') as string;
-      await prisma.post.create({ data: { title } });
-      revalidatePath('/'); // Refreshes the data on the home page
-    }
-
-    // components/features/CreatePostForm.tsx (Client Component)
-    'use client';
-    import { createPost } from '@/app/posts/actions';
-
-    export function CreatePostForm() {
-      return (
-        <form action={createPost}>
-          <input type="text" name="title" />
-          <button type="submit">Create Post</button>
-        </form>
-      );
-    }
-    ```
-
-3.  **Client-Side Data with TanStack Query**
-    *   **When to use it:** For rich, interactive client-side experiences (e.g., data tables with real-time filtering and sorting) that cannot be managed on the server alone.
-    *   **Method:**
-        1.  Create a **Route Handler** (`app/api/posts/route.ts`) that uses Prisma to expose the data.
-        2.  Call this endpoint from a Client Component using the `useQuery` hook from TanStack Query.
-
-### C. Folder Structure
+### Recommended structure
 
 ```
 /src
-├── app/                  # Routes, including Route Handlers (API)
-│   ├── (main)/
-│   │   └── page.tsx
-│   ├── api/
-│   │   └── posts/
-│   │       └── route.ts
-│   └── layout.tsx
-├── actions/              # Server Actions (mutation logic)
-├── components/           # React components
-│   ├── ui/               # Base UI components (from shadcn/ui)
-│   └── features/         # Business-specific components
-├── lib/                  # Utilities, helpers, Prisma instance
-│   └── prisma.ts
-├── prisma/               # Prisma configuration
-│   ├── migrations/       # Database migration history
-│   └── schema.prisma     # Your database schema
-└── styles/
-    └── globals.css
+  /app                 # Next.js App Router (UI + API = controllers)
+  /domain              # Entities, Value Objects, Domain Events
+  /application
+    /use-cases         # Use Cases (orchestration services)
+    /dto               # Input/Output DTOs
+    /mappers           # Domain ↔ DTO mappers
+  /ports               # Interfaces (repos, event bus, etc.)
+  /infrastructure
+    /prisma            # Prisma client + repository implementations
+    /mappers           # DB ↔ Domain mappers
+    /events            # Event bus + handlers
+  /shared              # Errors, logger, config, utils
 ```
 
-## 4. Development Workflow
+## 4) Essential Rules
 
-(Identical to the standard company workflow)
+- **No business logic** in Next.js routes or Prisma repositories.
+- **Dependency injection**: Use Cases receive `repositories`, `eventBus` via constructor.
+- **Mappers everywhere**: Domain ↔ DTO (application), Domain ↔ Persistence (infra). No Prisma type ever exposed outside infra.
+- **Soft delete everywhere**: use a `deletedAt` field; reads default to filtering `deletedAt: null`; dedicated `archive(id)`/`restore(id)` methods; `delete(id)` = permanent removal.
+- **Errors/validation**: input validated via `zod`; Use Cases define error enums; controllers map to HTTP (400/404/500) without leaking sensitive info.
 
-1.  **Git Branches:** `main` is for production. Development happens on `feat/...` or `fix/...` branches.
-2.  **Pull Requests (PRs):** All changes must go through a PR to `main`. Self-review is mandatory before requesting a review from others.
-3.  **Environment Variables:** `DATABASE_URL` and other secrets are stored in `.env.local` (never committed) and in Vercel project settings for production.
+## 5) API Controllers (Next.js Route Handlers)
 
-## 5. Best Practices & Conventions
+- Validate input (zod), instantiate the Use Case with its adapters, return a JSON DTO.
+- Map application errors to HTTP: 400 (validation/missing id), 404 (not found), 500 (default).
 
-*   **Prisma Schema:** The `schema.prisma` file is the single source of truth. All changes to the database structure **must** start here.
-*   **Migrations:** Use `npx prisma migrate dev` to evolve your database schema. Never modify the database manually.
-*   **Typing:** The Prisma client (`@prisma/client`) is **fully-typed**. Use these types to ensure the safety of your database interactions.
-*   **Performance:** Use Prisma's `.select()` method in queries to fetch only the fields you need.
-*   **Security:** Never expose the Prisma client directly to the browser. All database access must occur via Server Components, Server Actions, or Route Handlers.
+Minimal example:
+```ts
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { CreateXUseCase } from "@/application/use-cases/xs/create-x.usecase";
+import { XRepositoryPrisma } from "@/infrastructure/prisma/x.repository.prisma";
+import { eventBus } from "@/infrastructure/events/simple-event-bus";
 
-## 6. Useful Scripts
+const schema = z.object({ name: z.string().min(1) });
 
-*   `npm run dev`: Runs the development server.
-*   `npm run build`: Builds the application for production.
-*   `npm run lint`: Runs ESLint to check code quality.
-*   `npm run test`: Runs tests with Vitest.
+export async function POST(request: NextRequest) {
+  const data = schema.parse(await request.json());
+  const useCase = new CreateXUseCase(new XRepositoryPrisma(), eventBus.publish.bind(eventBus));
+  const dto = await useCase.execute(data);
+  return NextResponse.json({ success: true, data: dto });
+}
+```
 
-### Prisma-Specific Scripts
+## 6) Prisma Repositories & Soft Delete
 
-*   `npx prisma migrate dev`: Creates a new migration and applies it to your development database. This is the main command you will use.
-*   `npx prisma generate`: Updates the Prisma client (`@prisma/client`) after you modify `schema.prisma`. This is often run automatically by other Prisma commands.
-*   `npx prisma studio`: Opens a local web interface to view and edit the data in your database. Extremely useful for debugging.
-*   `npx prisma db push`: Synchronises your schema with the database without creating a migration file. Useful for rapid prototyping, but **should be avoided in production**.
+- Implement the interfaces defined in `src/ports`.
+- Use infrastructure mappers: `toDomain(raw)`/`toPersistence(entity)`.
+- Default to filtering `deletedAt: null` on reads. Provide dedicated `archive(id)`/`restore(id)` methods, and `delete(id)` for permanent removal.
+
+## 7) Domain Events & Event Bus
+
+- Use Cases publish immutable events (classes `*.events.ts`).
+- Handlers (`src/infrastructure/events`) take care of side effects (logs, emails, analytics) without any business logic.
+
+## 8) Naming Conventions
+
+- `*.entity.ts` (entities), `*.events.ts` (events), `*.usecase.ts` (use cases),
+  `*.repository.ts` (interfaces), `*.repository.prisma.ts` (Prisma adapters), `*.mapper.ts` (mappers).
+
+## 9) Tests
+
+- Domain: pure unit tests (no DB).
+- Use Cases: unit tests with fake repositories.
+- Repositories: integration tests (test DB).
+- API: E2E.
+
+## 10) Team Workflow
+
+- Branches: `main` for production; development on `feat/...` and `fix/...`.
+- Pull requests mandatory to `main` with self-review beforehand.
+- Secrets in `.env.local` and on the hosting platform.
+
+## 11) Useful Scripts
+
+- `npm run dev` – Next.js dev server
+- `npm run build` – production build
+- `npm run start` – production start
+- `npm run lint` – ESLint
+
+Prisma (manual):
+- `npx prisma migrate dev` – create/apply a migration (local/dev)
+- `npx prisma generate` – regenerate Prisma client
+- `npx prisma studio` – local data UI
+- `npx prisma db push` – push schema (no migration, avoid in production)
+
+## 12) Adding a New Feature (Checklist)
+
+1. Domain: create the entity `X` and `XCreated/Updated/Archived.events.ts`.
+2. Ports: add `IXRepository` in `src/ports`.
+3. Infra: `XPrismaMapper` and `XRepositoryPrisma` (default to soft delete).
+4. Application: DTOs + mappers, Use Cases (create/list/get/update/archive) + error enums, event publication.
+5. API: routes `GET/POST /api/xs` and `GET/PATCH/DELETE /api/xs/[id]` with zod + error mapping.
+6. (If needed) Prisma: update `prisma/schema.prisma` and create a migration.
+7. Simple event handlers (log/notify) in `src/infrastructure/events`.
+
+Tip: Follow the "Feature Generator" guide (`.cursor/rules/70-feature-generator.mdc`) for step-by-step scaffolding.
+
+## 13) Notes on Server Components / Server Actions
+
+To preserve separation of concerns in this template:
+- **No business logic** or direct Prisma access in Server Components or Server Actions.
+- Always prefer: Route Handler (thin controller) → Use Case → Repository (port) → Prisma Adapter.
+
+## 14) Security & Quality
+
+- TypeScript strict, ESLint enabled, controllers short, focused Use Cases.
+- Never expose sensitive DB error details to the client.
+- Log business events centrally.
+
+---
+
+This guide is the single source of truth for architecture, structure, and best practices for all projects derived from this template.

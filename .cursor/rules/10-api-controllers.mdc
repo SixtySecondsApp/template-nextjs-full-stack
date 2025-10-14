@@ -1,0 +1,34 @@
+---
+globs: src/app/api/**/route.ts,src/app/api/**/[id]/route.ts
+description: Rules for Next.js App Router API controllers
+---
+## API Controllers – Next.js App Router
+
+- Routes are thin controllers:
+  - Validate input (e.g. with `zod`).
+  - Instantiate Use Cases with their adapter implementations (Prisma repo, event bus).
+  - Transform output to JSON DTO.
+- No business logic here. No direct Prisma usage.
+- Map application errors to consistent HTTP status codes.
+
+Snippet type:
+
+```ts
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+import { CreateClientUseCase } from "@/application/use-cases/clients/create-client.usecase";
+import { ClientRepositoryPrisma } from "@/infrastructure/prisma/client.repository.prisma";
+import { eventBus } from "@/infrastructure/events/simple-event-bus";
+
+const schema = z.object({ name: z.string().min(1) /* ... */ });
+
+export async function POST(request: NextRequest) {
+  const data = schema.parse(await request.json());
+  const useCase = new CreateClientUseCase(new ClientRepositoryPrisma(), eventBus.publish.bind(eventBus));
+  const dto = await useCase.execute(data);
+  return NextResponse.json({ success: true, data: dto });
+}
+```
+
+Réfs: [src/app/api/clients/route.ts](mdc:src/app/api/clients/route.ts), [src/app/api/clients/[id]/route.ts](mdc:src/app/api/clients/[id]/route.ts)
+

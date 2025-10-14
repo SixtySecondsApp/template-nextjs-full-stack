@@ -1,0 +1,40 @@
+---
+description: Guide to rules and conventions for the Clients feature
+globs: src/**/client/**,src/**/clients/**
+---
+## Feature Guide – Clients
+
+### Expected Flow
+- API Route (`/app/api/clients`) → Application Use Case(s) → Prisma Repository → Prisma → DB
+- Published events: `ClientCreatedEvent`, `ClientUpdatedEvent`, `ClientArchivedEvent`.
+
+### Use Cases
+- `CreateClientUseCase`: creates a `Client` via the repository, publishes `ClientCreatedEvent`, returns `ClientDTO`.
+- `ListClientsUseCase`: returns an array of `ClientDTO`.
+- `GetClientUseCase`: retrieves by `id` (then fallback by `name`), throws `CLIENT_NOT_FOUND` otherwise.
+- `UpdateClientUseCase`: updates via entity `.update()`, publishes `ClientUpdatedEvent`.
+- `ArchiveClientUseCase`: calls `client.archive()` then repository `archive(id)`, publishes `ClientArchivedEvent`.
+
+### Domain Entity `Client`
+- Encapsulates properties; exposes `update(props)` and `archive()`.
+- Updates `updatedAt` in `update()`.
+
+### Prisma Repository
+- Implements `IClientRepository` (contract in `src/ports/repositories.ts`).
+- Uses `ClientPrismaMapper` for Domain↔Persistence.
+- By default filters `deletedAt: null` for `find*`.
+
+### Mappers
+- `ClientDtoMapper` (Application) and `ClientPrismaMapper` (Infrastructure) are the only gateways for types between layers.
+
+### API Controllers
+- Validate with `zod`.
+- Instantiate Use Cases with `ClientRepositoryPrisma` and `eventBus`.
+- Map Use Case errors to HTTP (400/404/500).
+
+Refs:
+- Routes: [src/app/api/clients/route.ts](mdc:src/app/api/clients/route.ts), [src/app/api/clients/[id]/route.ts](mdc:src/app/api/clients/[id]/route.ts)
+- Use Cases: [src/application/use-cases/clients](mdc:src/application/use-cases/clients)
+- Entity/Events: [src/domain/client](mdc:src/domain/client)
+- Prisma Repo: [src/infrastructure/prisma/client.repository.prisma.ts](mdc:src/infrastructure/prisma/client.repository.prisma.ts)
+- Mappers: [src/application/mappers/client-dto.mapper.ts](mdc:src/application/mappers/client-dto.mapper.ts), [src/infrastructure/mappers.ts/client-prisma.mapper.ts](mdc:src/infrastructure/mappers.ts/client-prisma.mapper.ts)
