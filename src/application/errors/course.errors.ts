@@ -1,0 +1,43 @@
+/**
+ * Course Use Case Error Enums
+ * Defines all error types for course operations
+ * Controllers map these to appropriate HTTP status codes
+ */
+
+/**
+ * Course error types for use case operations
+ * Maps to HTTP status codes in API routes:
+ * - 400: Validation errors (INVALID_*)
+ * - 404: Not found errors (*_NOT_FOUND)
+ * - 409: Conflict errors (ALREADY_*, CANNOT_*)
+ * - 500: Internal server errors
+ */
+export enum CourseError {
+  // Validation errors (400)
+  INVALID_INPUT = "INVALID_INPUT",
+  INVALID_TITLE = "INVALID_TITLE",
+  INVALID_DESCRIPTION = "INVALID_DESCRIPTION",
+  TITLE_TOO_SHORT = "TITLE_TOO_SHORT",
+  TITLE_TOO_LONG = "TITLE_TOO_LONG",
+  DESCRIPTION_TOO_SHORT = "DESCRIPTION_TOO_SHORT",
+
+  // Not found errors (404)
+  COURSE_NOT_FOUND = "COURSE_NOT_FOUND",
+  COMMUNITY_NOT_FOUND = "COMMUNITY_NOT_FOUND",
+  INSTRUCTOR_NOT_FOUND = "INSTRUCTOR_NOT_FOUND",
+
+  // Conflict errors (409)
+  COURSE_ALREADY_PUBLISHED = "COURSE_ALREADY_PUBLISHED",
+  COURSE_NOT_PUBLISHED = "COURSE_NOT_PUBLISHED",
+  COURSE_ALREADY_ARCHIVED = "COURSE_ALREADY_ARCHIVED",
+  CANNOT_ARCHIVE_PUBLISHED_COURSE = "CANNOT_ARCHIVE_PUBLISHED_COURSE",
+  CANNOT_MODIFY_ARCHIVED_COURSE = "CANNOT_MODIFY_ARCHIVED_COURSE",
+  CANNOT_PUBLISH_ARCHIVED_COURSE = "CANNOT_PUBLISH_ARCHIVED_COURSE",
+
+  // Authorization errors (403)
+  UNAUTHORIZED = "UNAUTHORIZED",
+  NOT_COURSE_INSTRUCTOR = "NOT_COURSE_INSTRUCTOR",
+
+  // Server errors (500)
+  INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
+}

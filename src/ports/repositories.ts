@@ -301,8 +301,76 @@ export interface INotificationRepository {
 }
 
 /**
+ * Course Repository Interface
+ * Defines persistence operations for Course aggregate
+ * Note: Requires Course domain entity to be created
+ */
+export interface ICourseRepository {
+  create(course: any): Promise<any>; // TODO: Replace 'any' with Course entity
+  update(course: any): Promise<any>;
+  archive(id: string): Promise<void>;
+  restore(id: string): Promise<void>;
+  delete(id: string): Promise<void>;
+  findById(id: string): Promise<any | null>;
+  findByCommunityId(communityId: string): Promise<any[]>;
+  findByInstructorId(instructorId: string): Promise<any[]>;
+  findAll(): Promise<any[]>;
+}
+
+/**
+ * Lesson Repository Interface
+ * Defines persistence operations for Lesson aggregate
+ * Note: Requires Lesson domain entity to be created
+ */
+export interface ILessonRepository {
+  create(lesson: any): Promise<any>; // TODO: Replace 'any' with Lesson entity
+  update(lesson: any): Promise<any>;
+  archive(id: string): Promise<void>;
+  restore(id: string): Promise<void>;
+  delete(id: string): Promise<void>;
+  findById(id: string): Promise<any | null>;
+  findByCourseId(courseId: string): Promise<any[]>;
+  reorder(lessons: Array<{ id: string; order: number }>): Promise<void>;
+}
+
+/**
+ * CourseProgress Repository Interface
+ * Defines persistence operations for CourseProgress aggregate
+ * Note: Requires CourseProgress domain entity to be created
+ */
+export interface ICourseProgressRepository {
+  create(progress: any): Promise<any>; // TODO: Replace 'any' with CourseProgress entity
+  update(progress: any): Promise<any>;
+  findById(id: string): Promise<any | null>;
+  findByUserIdAndCourseId(
+    userId: string,
+    courseId: string
+  ): Promise<any | null>;
+  findByUserId(userId: string): Promise<any[]>;
+  findByCourseId(courseId: string): Promise<any[]>;
+}
+
+/**
+ * Certificate Repository Interface
+ * Defines persistence operations for Certificate aggregate
+ * Note: Requires Certificate domain entity to be created
+ */
+export interface ICertificateRepository {
+  create(certificate: any): Promise<any>; // TODO: Replace 'any' with Certificate entity
+  update(certificate: any): Promise<any>;
+  findById(id: string): Promise<any | null>;
+  findByVerificationCode(code: string): Promise<any | null>;
+  findByUserId(userId: string): Promise<any[]>;
+  findByUserIdAndCourseId(
+    userId: string,
+    courseId: string
+  ): Promise<any | null>;
+}
+
+/**
  * Export infrastructure port interfaces
  * These are re-exported from infrastructure layer for convenience
  */
 export * from "../infrastructure/search/search.port";
 export * from "../infrastructure/email/email.port";
+export * from "../infrastructure/pdf/pdf.port";

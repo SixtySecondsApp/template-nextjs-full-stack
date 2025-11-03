@@ -211,6 +211,7 @@ exports.Prisma.NotificationScalarFieldEnum = {
   type: 'type',
   message: 'message',
   linkUrl: 'linkUrl',
+  actorId: 'actorId',
   isRead: 'isRead',
   createdAt: 'createdAt',
   deletedAt: 'deletedAt'
@@ -221,20 +222,9 @@ exports.Prisma.CourseScalarFieldEnum = {
   communityId: 'communityId',
   title: 'title',
   description: 'description',
-  thumbnailUrl: 'thumbnailUrl',
-  startDate: 'startDate',
+  instructorId: 'instructorId',
   isPublished: 'isPublished',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
-};
-
-exports.Prisma.CourseSectionScalarFieldEnum = {
-  id: 'id',
-  courseId: 'courseId',
-  title: 'title',
-  description: 'description',
-  order: 'order',
+  publishedAt: 'publishedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
@@ -242,46 +232,42 @@ exports.Prisma.CourseSectionScalarFieldEnum = {
 
 exports.Prisma.LessonScalarFieldEnum = {
   id: 'id',
+  courseId: 'courseId',
   sectionId: 'sectionId',
   title: 'title',
-  type: 'type',
   content: 'content',
+  type: 'type',
+  videoUrl: 'videoUrl',
   pdfUrl: 'pdfUrl',
   order: 'order',
-  dripDays: 'dripDays',
+  dripAvailableAt: 'dripAvailableAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
 };
 
-exports.Prisma.LessonCommentScalarFieldEnum = {
-  id: 'id',
-  lessonId: 'lessonId',
-  authorId: 'authorId',
-  content: 'content',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
-};
-
-exports.Prisma.CourseEnrollmentScalarFieldEnum = {
+exports.Prisma.CourseProgressScalarFieldEnum = {
   id: 'id',
   courseId: 'courseId',
   userId: 'userId',
-  enrolledAt: 'enrolledAt',
-  completedAt: 'completedAt',
-  certificateUrl: 'certificateUrl',
-  deletedAt: 'deletedAt'
-};
-
-exports.Prisma.LessonProgressScalarFieldEnum = {
-  id: 'id',
-  lessonId: 'lessonId',
-  userId: 'userId',
-  isCompleted: 'isCompleted',
+  completedLessonIds: 'completedLessonIds',
+  lastAccessedLessonId: 'lastAccessedLessonId',
   completedAt: 'completedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CertificateScalarFieldEnum = {
+  id: 'id',
+  courseId: 'courseId',
+  userId: 'userId',
+  userName: 'userName',
+  courseName: 'courseName',
+  instructorName: 'instructorName',
+  issuedAt: 'issuedAt',
+  pdfUrl: 'pdfUrl',
+  verificationCode: 'verificationCode',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.PaymentTierScalarFieldEnum = {
@@ -363,12 +349,6 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   SUBSCRIPTION_CANCELLED: 'SUBSCRIPTION_CANCELLED'
 };
 
-exports.LessonType = exports.$Enums.LessonType = {
-  TEXT: 'TEXT',
-  VIDEO: 'VIDEO',
-  PDF: 'PDF'
-};
-
 exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
   ACTIVE: 'ACTIVE',
   TRIALING: 'TRIALING',
@@ -394,11 +374,9 @@ exports.Prisma.ModelName = {
   ContentVersion: 'ContentVersion',
   Notification: 'Notification',
   Course: 'Course',
-  CourseSection: 'CourseSection',
   Lesson: 'Lesson',
-  LessonComment: 'LessonComment',
-  CourseEnrollment: 'CourseEnrollment',
-  LessonProgress: 'LessonProgress',
+  CourseProgress: 'CourseProgress',
+  Certificate: 'Certificate',
   PaymentTier: 'PaymentTier',
   Subscription: 'Subscription',
   Payment: 'Payment'
