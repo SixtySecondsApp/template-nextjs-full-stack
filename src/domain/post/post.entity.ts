@@ -3,6 +3,10 @@ import {
   ReconstitutePostInput,
   UpdatePostInput,
 } from "./post.types";
+import {
+  ContentVersion,
+  ContentType,
+} from "../content-version/content-version.entity";
 
 /**
  * Post entity represents a forum post within a community.
@@ -329,6 +333,23 @@ export class Post {
   incrementViewCount(): void {
     this.viewCount += 1;
     this.updatedAt = new Date();
+  }
+
+  /**
+   * Create a version snapshot of the current post content.
+   * Used for version history tracking and restore functionality.
+   *
+   * @param versionNumber - The version number for this snapshot (sequential)
+   * @returns ContentVersion entity representing this snapshot
+   */
+  createVersionSnapshot(versionNumber: number): ContentVersion {
+    return ContentVersion.create({
+      id: crypto.randomUUID(),
+      contentType: ContentType.POST,
+      contentId: this.id,
+      content: this.content,
+      versionNumber,
+    });
   }
 
   // Private validation methods

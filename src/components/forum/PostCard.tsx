@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
-import { Heart, MessageSquare, CheckCircle, Pin, Eye } from 'lucide-react';
+import { Heart, MessageSquare, CheckCircle, Pin, Eye, History } from 'lucide-react';
 import { formatRelativeTime, extractExcerpt, formatNumber } from '@/lib/utils/formatters';
+import { VersionHistoryModal } from '@/components/versions';
 
 interface PostCardProps {
   post: {
@@ -22,13 +24,32 @@ interface PostCardProps {
     communityName?: string;
   };
   onClick?: () => void;
+  showVersionHistory?: boolean; // Optional: control visibility of version history button
+  isAuthor?: boolean; // Optional: only show version history to post author
 }
 
-export function PostCard({ post, onClick }: PostCardProps) {
+export function PostCard({ post, onClick, showVersionHistory = false, isAuthor = false }: PostCardProps) {
+  const [showVersionHistoryModal, setShowVersionHistoryModal] = useState(false);
   const excerpt = extractExcerpt(post.content, 200);
   const isRecent = new Date(post.createdAt).getTime() > Date.now() - 24 * 60 * 60 * 1000;
 
+  const handleRestoreVersion = async (versionNumber: number) => {
+    const response = await fetch(`/api/posts/${post.id}/versions/restore`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ versionNumber })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to restore version');
+    }
+
+    // Optionally trigger a refresh of the post data
+    window.location.reload();
+  };
+
   return (
+    <>
     <Link
       href={`/posts/${post.id}`}
       onClick={(e) => {
@@ -129,6 +150,22 @@ export function PostCard({ post, onClick }: PostCardProps) {
             <Eye size={16} />
             <span>{formatNumber(post.viewCount)}</span>
           </div>
+
+          {/* Version History (if enabled and is author) */}
+          {showVersionHistory && isAuthor && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setShowVersionHistoryModal(true);
+              }}
+              className="flex items-center gap-1.5 hover:text-primary-color transition-colors"
+              aria-label="View version history"
+            >
+              <History size={16} />
+              <span>History</span>
+            </button>
+          )}
         </div>
 
         {/* Helpful Count (if any) */}
@@ -139,5 +176,18 @@ export function PostCard({ post, onClick }: PostCardProps) {
         )}
       </div>
     </Link>
+
+    {/* Version History Modal */}
+    {showVersionHistoryModal && (
+      <VersionHistoryModal
+        isOpen={showVersionHistoryModal}
+        onClose={() => setShowVersionHistoryModal(false)}
+        contentId={post.id}
+        contentType="POST"
+        currentContent={post.content}
+        onRestore={handleRestoreVersion}
+      />
+    )}
+    </>
   );
 }

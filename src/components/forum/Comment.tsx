@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { Heart, MessageSquare, MoreVertical, ThumbsUp, Edit, Trash2 } from 'lucide-react';
+import { Heart, MessageSquare, MoreVertical, ThumbsUp, Edit, Trash2, History } from 'lucide-react';
 import { formatRelativeTime, formatNumber } from '@/lib/utils/formatters';
 import { RichTextEditor } from '@/components/editor/RichTextEditor';
+import { VersionHistoryModal } from '@/components/versions';
 
 interface CommentProps {
   comment: {
@@ -41,6 +42,7 @@ export function Comment({
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [replyContent, setReplyContent] = useState('');
   const [editContent, setEditContent] = useState(comment.content);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -107,6 +109,21 @@ export function Comment({
     }
   };
 
+  const handleRestoreVersion = async (versionNumber: number) => {
+    const response = await fetch(`/api/comments/${comment.id}/versions/restore`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ versionNumber })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to restore version');
+    }
+
+    // Optionally trigger a refresh
+    window.location.reload();
+  };
+
   return (
     <div className={`comment-container ${isNested ? 'ml-6 pl-4 border-l-2 border-border-color' : ''}`}>
       <div className="bg-surface-elevated rounded-lg p-4 mb-3">
@@ -165,6 +182,16 @@ export function Comment({
                   >
                     <Edit size={14} />
                     Edit
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowVersionHistory(true);
+                      setShowMenu(false);
+                    }}
+                    className="w-full px-4 py-2 text-left text-sm text-text-primary hover:bg-surface transition-colors flex items-center gap-2"
+                  >
+                    <History size={14} />
+                    History
                   </button>
                   <button
                     onClick={() => {
@@ -301,6 +328,18 @@ export function Comment({
             />
           ))}
         </div>
+      )}
+
+      {/* Version History Modal */}
+      {showVersionHistory && (
+        <VersionHistoryModal
+          isOpen={showVersionHistory}
+          onClose={() => setShowVersionHistory(false)}
+          contentId={comment.id}
+          contentType="COMMENT"
+          currentContent={comment.content}
+          onRestore={handleRestoreVersion}
+        />
       )}
     </div>
   );

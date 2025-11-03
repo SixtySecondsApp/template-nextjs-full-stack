@@ -8,6 +8,7 @@ import { User } from "@/domain/user/user.entity";
 import { Community } from "@/domain/community/community.entity";
 import { Post } from "@/domain/post/post.entity";
 import { Comment } from "@/domain/comment/comment.entity";
+import { ContentVersion } from "@/domain/content-version/content-version.entity";
 
 /**
  * User Repository Interface
@@ -207,6 +208,47 @@ export interface ICommentRepository {
 
   /**
    * Permanently delete a comment (use sparingly)
+   */
+  delete(id: string): Promise<void>;
+}
+
+/**
+ * ContentVersion Repository Interface
+ * Defines persistence operations for ContentVersion aggregate
+ */
+export interface IContentVersionRepository {
+  /**
+   * Create a new content version
+   */
+  create(version: ContentVersion): Promise<ContentVersion>;
+
+  /**
+   * Find version by ID
+   */
+  findById(id: string): Promise<ContentVersion | null>;
+
+  /**
+   * Find all versions for a specific piece of content (post or comment)
+   * Ordered by versionNumber DESC (latest first)
+   */
+  findByContentId(contentId: string): Promise<ContentVersion[]>;
+
+  /**
+   * Find specific version by content ID and version number
+   */
+  findByContentIdAndVersion(
+    contentId: string,
+    versionNumber: number
+  ): Promise<ContentVersion | null>;
+
+  /**
+   * Get the latest version for a specific piece of content
+   */
+  getLatestVersion(contentId: string): Promise<ContentVersion | null>;
+
+  /**
+   * Permanently delete a version (use sparingly)
+   * Note: Versions are typically kept for audit trail
    */
   delete(id: string): Promise<void>;
 }

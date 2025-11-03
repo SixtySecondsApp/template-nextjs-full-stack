@@ -1,6 +1,8 @@
 import { ICommentRepository } from "@/ports/repositories";
 import { Comment } from "@/domain/comment/comment.entity";
+import { ContentVersion } from "@/domain/content-version/content-version.entity";
 import { CommentPrismaMapper } from "@/infrastructure/mappers/comment-prisma.mapper";
+import { ContentVersionPrismaMapper } from "@/infrastructure/mappers/content-version-prisma.mapper";
 import { prisma } from "@/lib/prisma";
 
 /**
@@ -258,6 +260,137 @@ export class CommentRepositoryPrisma implements ICommentRepository {
         error.message.includes("Record to delete does not exist")
       ) {
         throw new Error("Comment not found");
+      }
+      throw error;
+    }
+  }
+
+  /**
+   * Create a comment with its initial content version atomically.
+   * Uses Prisma transaction to ensure both records are created together.
+   *
+   * This method ensures data consistency:
+   * - Comment and initial version are created in a single transaction
+   * - If version creation fails, comment creation is rolled back
+   * - If comment creation fails, version creation is rolled back
+   *
+   * Use case: Creating a new comment with version history tracking enabled.
+   *
+   * @param comment Comment domain entity
+   * @param version ContentVersion domain entity (version 1)
+   */
+  async createWithVersion(
+    comment: Comment,
+    version: ContentVersion
+  ): Promise<Comment> {
+    try {
+      const result = await prisma.$transaction(async (tx) => {
+        // Create comment first
+        const commentData = CommentPrismaMapper.toPersistence(comment);
+        const createdComment = await tx.comment.create({
+          data: {
+            id: commentData.id,
+            postId: commentData.postId,
+            authorId: commentData.authorId,
+            parentId: commentData.parentId,
+            content: commentData.content,
+            likeCount: commentData.likeCount,
+            helpfulCount: commentData.helpfulCount,
+          },
+        });
+
+        // Create initial version
+        const versionData = ContentVersionPrismaMapper.toPersistence(version);
+        await tx.contentVersion.create({
+          data: {
+            id: versionData.id,
+            contentType: versionData.contentType,
+            contentId: versionData.contentId,
+            content: versionData.content,
+            versionNumber: versionData.versionNumber,
+            createdAt: versionData.createdAt,
+          },
+        });
+
+        return createdComment;
+      });
+
+      return CommentPrismaMapper.toDomain(result);
+    } catch (error) {
+      // Handle foreign key constraint violations
+      if (
+        error instanceof Error &&
+        error.message.includes("Foreign key constraint")
+      ) {
+        if (error.message.includes("postId")) {
+          throw new Error("Post not found");
+        }
+        if (error.message.includes("authorId")) {
+          throw new Error("Author not found");
+        }
+        if (error.message.includes("parentId")) {
+          throw new Error("Parent comment not found");
+        }
+      }
+      throw error;
+    }
+  }
+
+  /**
+   * Update a comment and create a new content version atomically.
+   * Uses Prisma transaction to ensure both operations succeed or fail together.
+   *
+   * This method ensures data consistency:
+   * - Comment update and new version are created in a single transaction
+   * - If version creation fails, comment update is rolled back
+   * - If comment update fails, version creation is rolled back
+   *
+   * Use case: Updating comment content with automatic version history tracking.
+   *
+   * @param comment Comment domain entity (with updated content)
+   * @param version ContentVersion domain entity (incremented version number)
+   */
+  async updateWithVersion(
+    comment: Comment,
+    version: ContentVersion
+  ): Promise<Comment> {
+    try {
+      const result = await prisma.$transaction(async (tx) => {
+        // Update comment first
+        const commentData = CommentPrismaMapper.toPersistence(comment);
+        const updatedComment = await tx.comment.update({
+          where: { id: comment.getId() },
+          data: {
+            content: commentData.content,
+            likeCount: commentData.likeCount,
+            helpfulCount: commentData.helpfulCount,
+            updatedAt: commentData.updatedAt,
+          },
+        });
+
+        // Create new version
+        const versionData = ContentVersionPrismaMapper.toPersistence(version);
+        await tx.contentVersion.create({
+          data: {
+            id: versionData.id,
+            contentType: versionData.contentType,
+            contentId: versionData.contentId,
+            content: versionData.content,
+            versionNumber: versionData.versionNumber,
+            createdAt: versionData.createdAt,
+          },
+        });
+
+        return updatedComment;
+      });
+
+      return CommentPrismaMapper.toDomain(result);
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message.includes("Record to update not found")
+      ) {
+        throw new Error("Comment not found or is archived");
       }
       throw error;
     }

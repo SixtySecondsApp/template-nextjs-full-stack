@@ -2,6 +2,10 @@ import {
   CreateCommentInput,
   ReconstituteCommentInput,
 } from "./comment.types";
+import {
+  ContentVersion,
+  ContentType,
+} from "../content-version/content-version.entity";
 
 /**
  * Comment entity represents a comment on a forum post.
@@ -174,6 +178,23 @@ export class Comment {
   incrementHelpfulCount(): void {
     this.helpfulCount += 1;
     this.updatedAt = new Date();
+  }
+
+  /**
+   * Create a version snapshot of the current comment content.
+   * Used for version history tracking and restore functionality.
+   *
+   * @param versionNumber - The version number for this snapshot (sequential)
+   * @returns ContentVersion entity representing this snapshot
+   */
+  createVersionSnapshot(versionNumber: number): ContentVersion {
+    return ContentVersion.create({
+      id: crypto.randomUUID(),
+      contentType: ContentType.COMMENT,
+      contentId: this.id,
+      content: this.content,
+      versionNumber,
+    });
   }
 
   // Private validation methods
