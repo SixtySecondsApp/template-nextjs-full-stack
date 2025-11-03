@@ -1,0 +1,543 @@
+{
+  "projectName": "Community OS - V1 MVP",
+  "generatedAt": "2025-11-03T18:30:00Z",
+  "mvpLaunchTarget": "March 2026 (4 months from Dec 2025)",
+  "totalPhases": 6,
+  "completedPhases": 0,
+  "currentPhase": 1,
+  "estimatedWeeks": "12-16 weeks",
+  "teamSize": "9 people (as per V1-MVP.md)",
+  "versionScope": "V1 MVP - Core reliability + Forums + Basic Courses + Stripe only",
+  "phases": [
+    {
+      "id": 1,
+      "name": "Foundation: Auth (Clerk), User Roles, Dark Mode",
+      "status": "pending",
+      "estimatedHours": 60,
+      "estimatedWeeks": "1-2",
+      "priority": "critical",
+      "dependencies": [],
+      "versionTag": "V1",
+      "tasks": [
+        {
+          "id": "1.1",
+          "layer": "domain",
+          "description": "Create User entity with role validation (Owner, Admin, Member, Guest)",
+          "status": "pending",
+          "files": ["src/domain/user/user.entity.ts", "src/domain/user/user.events.ts"]
+        },
+        {
+          "id": "1.2",
+          "layer": "domain",
+          "description": "Create Community entity (name, logo, primary color only - no custom domain)",
+          "status": "pending",
+          "files": ["src/domain/community/community.entity.ts"]
+        },
+        {
+          "id": "1.3",
+          "layer": "prisma",
+          "description": "Design Prisma schema for User, Community with soft delete",
+          "status": "pending",
+          "files": ["prisma/schema.prisma"]
+        },
+        {
+          "id": "1.4",
+          "layer": "infrastructure",
+          "description": "Integrate Clerk.com authentication with role mapping",
+          "status": "pending",
+          "files": ["src/infrastructure/auth/clerk-adapter.ts"]
+        },
+        {
+          "id": "1.5",
+          "layer": "infrastructure",
+          "description": "Implement User, Community repositories with Prisma",
+          "status": "pending",
+          "files": [
+            "src/infrastructure/repositories/user.repository.prisma.ts",
+            "src/infrastructure/repositories/community.repository.prisma.ts"
+          ]
+        },
+        {
+          "id": "1.6",
+          "layer": "application",
+          "description": "Create Use Cases: CreateCommunity, GetCommunity, UpdateCommunity",
+          "status": "pending",
+          "files": [
+            "src/application/use-cases/create-community.usecase.ts",
+            "src/application/use-cases/get-community.usecase.ts"
+          ]
+        },
+        {
+          "id": "1.7",
+          "layer": "presentation",
+          "description": "Build Left Sidebar navigation (Home, Members, Courses sections)",
+          "status": "pending",
+          "files": ["src/app/components/navigation/Sidebar.tsx"]
+        },
+        {
+          "id": "1.8",
+          "layer": "presentation",
+          "description": "Build Top Navigation bar (Community tab only - no Chat/Calendar/Leaderboard yet)",
+          "status": "pending",
+          "files": ["src/app/components/navigation/TopNav.tsx"]
+        },
+        {
+          "id": "1.9",
+          "layer": "presentation",
+          "description": "Implement Dark Mode with system detection and manual toggle",
+          "status": "pending",
+          "files": ["src/app/components/ThemeProvider.tsx"]
+        },
+        {
+          "id": "1.10",
+          "layer": "presentation",
+          "description": "Apply Design System colors and typography from design_system.md",
+          "status": "pending",
+          "files": ["src/app/globals.css", "tailwind.config.ts"]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Forums: Posts, Comments, Rich Text (V1 MVP Core)",
+      "status": "pending",
+      "estimatedHours": 100,
+      "estimatedWeeks": "2-3",
+      "priority": "critical",
+      "dependencies": [1],
+      "versionTag": "V1",
+      "tasks": [
+        {
+          "id": "2.1",
+          "layer": "domain",
+          "description": "Create Post entity (title, body, image uploads up to 5x10MB, file attachments up to 25MB)",
+          "status": "pending",
+          "files": ["src/domain/post/post.entity.ts", "src/domain/post/post.events.ts"]
+        },
+        {
+          "id": "2.2",
+          "layer": "domain",
+          "description": "Create Comment entity with 2-level threading (V1 limit)",
+          "status": "pending",
+          "files": ["src/domain/comment/comment.entity.ts"]
+        },
+        {
+          "id": "2.3",
+          "layer": "domain",
+          "description": "Create Category/Tag entity for organization (V1: single-feed with tags)",
+          "status": "pending",
+          "files": ["src/domain/category/category.entity.ts"]
+        },
+        {
+          "id": "2.4",
+          "layer": "prisma",
+          "description": "Design Prisma schema for Post, Comment, Category with soft delete",
+          "status": "pending",
+          "files": ["prisma/schema.prisma"]
+        },
+        {
+          "id": "2.5",
+          "layer": "infrastructure",
+          "description": "Implement Post, Comment repositories with filtering (All, New, Top - no Trending yet)",
+          "status": "pending",
+          "files": [
+            "src/infrastructure/repositories/post.repository.prisma.ts",
+            "src/infrastructure/repositories/comment.repository.prisma.ts"
+          ]
+        },
+        {
+          "id": "2.6",
+          "layer": "application",
+          "description": "Create Use Cases: CreatePost, ListPosts, GetPost, UpdatePost, DeletePost",
+          "status": "pending",
+          "files": [
+            "src/application/use-cases/create-post.usecase.ts",
+            "src/application/use-cases/list-posts.usecase.ts"
+          ]
+        },
+        {
+          "id": "2.7",
+          "layer": "application",
+          "description": "Create Use Cases: AddComment, GetComments (2-level threading), DeleteComment",
+          "status": "pending",
+          "files": ["src/application/use-cases/add-comment.usecase.ts"]
+        },
+        {
+          "id": "2.8",
+          "layer": "presentation",
+          "description": "Build Post Composer with rich text editor (based on react-design.md)",
+          "status": "pending",
+          "files": ["src/app/components/posts/PostComposer.tsx"]
+        },
+        {
+          "id": "2.9",
+          "layer": "presentation",
+          "description": "Implement Autosave (5s intervals) with 'Draft saved ✓' indicator",
+          "status": "pending",
+          "files": ["src/app/components/posts/AutosaveIndicator.tsx"]
+        },
+        {
+          "id": "2.10",
+          "layer": "presentation",
+          "description": "Build Post Card component (per design_system.md specs)",
+          "status": "pending",
+          "files": ["src/app/components/posts/PostCard.tsx"]
+        },
+        {
+          "id": "2.11",
+          "layer": "presentation",
+          "description": "Build Comment Thread component (2-level nesting)",
+          "status": "pending",
+          "files": ["src/app/components/comments/CommentThread.tsx"]
+        },
+        {
+          "id": "2.12",
+          "layer": "presentation",
+          "description": "Build Filter Bar (All, New, Top - no Trending/Solved yet)",
+          "status": "pending",
+          "files": ["src/app/components/posts/FilterBar.tsx"]
+        },
+        {
+          "id": "2.13",
+          "layer": "infrastructure",
+          "description": "Implement file upload to AWS S3 (images up to 5x10MB, files up to 25MB)",
+          "status": "pending",
+          "files": ["src/infrastructure/storage/s3-adapter.ts"]
+        },
+        {
+          "id": "2.14",
+          "layer": "presentation",
+          "description": "Build API routes for posts and comments",
+          "status": "pending",
+          "files": ["src/app/api/posts/route.ts", "src/app/api/comments/route.ts"]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Version History & Undelete (V1 Reliability Core)",
+      "status": "pending",
+      "estimatedHours": 40,
+      "estimatedWeeks": "1",
+      "priority": "high",
+      "dependencies": [2],
+      "versionTag": "V1",
+      "tasks": [
+        {
+          "id": "3.1",
+          "layer": "domain",
+          "description": "Create ContentVersion entity (V1: 10 versions, 7-day retention)",
+          "status": "pending",
+          "files": ["src/domain/content-version/content-version.entity.ts"]
+        },
+        {
+          "id": "3.2",
+          "layer": "prisma",
+          "description": "Add ContentVersion model with relations to Post/Comment",
+          "status": "pending",
+          "files": ["prisma/schema.prisma"]
+        },
+        {
+          "id": "3.3",
+          "layer": "infrastructure",
+          "description": "Implement VersionRepository with 7-day retention logic",
+          "status": "pending",
+          "files": ["src/infrastructure/repositories/version.repository.prisma.ts"]
+        },
+        {
+          "id": "3.4",
+          "layer": "application",
+          "description": "Create Use Cases: SaveVersion, GetVersionHistory, RestoreVersion",
+          "status": "pending",
+          "files": ["src/application/use-cases/save-version.usecase.ts"]
+        },
+        {
+          "id": "3.5",
+          "layer": "presentation",
+          "description": "Build Version History UI (list only - no side-by-side diff in V1)",
+          "status": "pending",
+          "files": ["src/app/components/version-history/VersionHistoryModal.tsx"]
+        },
+        {
+          "id": "3.6",
+          "layer": "presentation",
+          "description": "Implement Undelete functionality (7-day soft delete window)",
+          "status": "pending",
+          "files": ["src/app/components/posts/UndeleteButton.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Search, @Mentions, Notifications (V1 MVP)",
+      "status": "pending",
+      "estimatedHours": 60,
+      "estimatedWeeks": "1-2",
+      "priority": "high",
+      "dependencies": [2],
+      "versionTag": "V1",
+      "tasks": [
+        {
+          "id": "4.1",
+          "layer": "infrastructure",
+          "description": "Implement basic PostgreSQL search (posts and members only - no courses yet)",
+          "status": "pending",
+          "files": ["src/infrastructure/search/postgres-search.adapter.ts"]
+        },
+        {
+          "id": "4.2",
+          "layer": "application",
+          "description": "Create Use Case: GlobalSearch (basic keyword match - no fuzzy yet)",
+          "status": "pending",
+          "files": ["src/application/use-cases/global-search.usecase.ts"]
+        },
+        {
+          "id": "4.3",
+          "layer": "presentation",
+          "description": "Build Search Bar (no autocomplete in V1)",
+          "status": "pending",
+          "files": ["src/app/components/search/SearchBar.tsx"]
+        },
+        {
+          "id": "4.4",
+          "layer": "domain",
+          "description": "Add @mention support to Post and Comment entities",
+          "status": "pending",
+          "files": ["src/domain/post/post.entity.ts", "src/domain/comment/comment.entity.ts"]
+        },
+        {
+          "id": "4.5",
+          "layer": "domain",
+          "description": "Create Notification entity (mentions, replies, new posts in followed threads)",
+          "status": "pending",
+          "files": ["src/domain/notification/notification.entity.ts"]
+        },
+        {
+          "id": "4.6",
+          "layer": "infrastructure",
+          "description": "Implement Email notification adapter (AWS SES from .env)",
+          "status": "pending",
+          "files": ["src/infrastructure/email/ses-adapter.ts"]
+        },
+        {
+          "id": "4.7",
+          "layer": "presentation",
+          "description": "Build Notification Bell UI with in-app notifications",
+          "status": "pending",
+          "files": ["src/app/components/notifications/NotificationBell.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Basic Courses: Lessons, Progress, Simple Certificates",
+      "status": "pending",
+      "estimatedHours": 80,
+      "estimatedWeeks": "2",
+      "priority": "critical",
+      "dependencies": [1],
+      "versionTag": "V1",
+      "tasks": [
+        {
+          "id": "5.1",
+          "layer": "domain",
+          "description": "Create Course entity with sections",
+          "status": "pending",
+          "files": ["src/domain/course/course.entity.ts"]
+        },
+        {
+          "id": "5.2",
+          "layer": "domain",
+          "description": "Create Lesson entity (V1 types: Text, Video embed only, PDF - no quizzes/assignments yet)",
+          "status": "pending",
+          "files": ["src/domain/lesson/lesson.entity.ts"]
+        },
+        {
+          "id": "5.3",
+          "layer": "domain",
+          "description": "Create CourseProgress entity with checkmark completion tracking",
+          "status": "pending",
+          "files": ["src/domain/course/course-progress.entity.ts"]
+        },
+        {
+          "id": "5.4",
+          "layer": "domain",
+          "description": "Create Certificate entity (V1: basic template, no customization)",
+          "status": "pending",
+          "files": ["src/domain/certificate/certificate.entity.ts"]
+        },
+        {
+          "id": "5.5",
+          "layer": "prisma",
+          "description": "Design Prisma schema for Course, Lesson, Progress, Certificate",
+          "status": "pending",
+          "files": ["prisma/schema.prisma"]
+        },
+        {
+          "id": "5.6",
+          "layer": "infrastructure",
+          "description": "Implement Course, Lesson repositories",
+          "status": "pending",
+          "files": [
+            "src/infrastructure/repositories/course.repository.prisma.ts",
+            "src/infrastructure/repositories/lesson.repository.prisma.ts"
+          ]
+        },
+        {
+          "id": "5.7",
+          "layer": "application",
+          "description": "Create Use Cases: CreateCourse, AddLesson, TrackProgress, MarkComplete, GenerateCertificate",
+          "status": "pending",
+          "files": [
+            "src/application/use-cases/create-course.usecase.ts",
+            "src/application/use-cases/track-progress.usecase.ts",
+            "src/application/use-cases/generate-certificate.usecase.ts"
+          ]
+        },
+        {
+          "id": "5.8",
+          "layer": "presentation",
+          "description": "Build Course Builder admin UI (drag-drop sections/lessons)",
+          "status": "pending",
+          "files": ["src/app/components/courses/CourseBuilder.tsx"]
+        },
+        {
+          "id": "5.9",
+          "layer": "presentation",
+          "description": "Build Lesson Viewer (video embed, text renderer, PDF viewer - no quizzes)",
+          "status": "pending",
+          "files": ["src/app/components/courses/LessonViewer.tsx"]
+        },
+        {
+          "id": "5.10",
+          "layer": "presentation",
+          "description": "Build Progress Tracker with checkmarks and 'Continue where you left off'",
+          "status": "pending",
+          "files": ["src/app/components/courses/ProgressTracker.tsx"]
+        },
+        {
+          "id": "5.11",
+          "layer": "infrastructure",
+          "description": "Implement basic PDF certificate generation (no customization)",
+          "status": "pending",
+          "files": ["src/infrastructure/pdf/certificate-generator.ts"]
+        },
+        {
+          "id": "5.12",
+          "layer": "presentation",
+          "description": "Build Lesson Comments UI (no timestamps in V1)",
+          "status": "pending",
+          "files": ["src/app/components/courses/LessonComments.tsx"]
+        },
+        {
+          "id": "5.13",
+          "layer": "presentation",
+          "description": "Implement Drip Content scheduling (unlock lessons by date)",
+          "status": "pending",
+          "files": ["src/app/components/courses/DripScheduler.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Monetization: Stripe + Content Gating (V1 MVP)",
+      "status": "pending",
+      "estimatedHours": 70,
+      "estimatedWeeks": "2",
+      "priority": "high",
+      "dependencies": [1, 5],
+      "versionTag": "V1",
+      "tasks": [
+        {
+          "id": "6.1",
+          "layer": "domain",
+          "description": "Create PaymentTier entity (V1: Free + Single Paid tier only)",
+          "status": "pending",
+          "files": ["src/domain/payment/payment-tier.entity.ts"]
+        },
+        {
+          "id": "6.2",
+          "layer": "domain",
+          "description": "Create Subscription entity (monthly or annual)",
+          "status": "pending",
+          "files": ["src/domain/payment/subscription.entity.ts"]
+        },
+        {
+          "id": "6.3",
+          "layer": "domain",
+          "description": "Create Coupon entity (percentage or fixed discount, expiry date)",
+          "status": "pending",
+          "files": ["src/domain/payment/coupon.entity.ts"]
+        },
+        {
+          "id": "6.4",
+          "layer": "prisma",
+          "description": "Add PaymentTier, Subscription, Coupon models",
+          "status": "pending",
+          "files": ["prisma/schema.prisma"]
+        },
+        {
+          "id": "6.5",
+          "layer": "infrastructure",
+          "description": "Integrate Stripe SDK (subscriptions, one-time, 7-day trial) - use existing .env keys",
+          "status": "pending",
+          "files": ["src/infrastructure/payment/stripe-adapter.ts"]
+        },
+        {
+          "id": "6.6",
+          "layer": "application",
+          "description": "Create Use Cases: CreateSubscription, ProcessPayment, GrantAccess, ApplyCoupon",
+          "status": "pending",
+          "files": [
+            "src/application/use-cases/create-subscription.usecase.ts",
+            "src/application/use-cases/apply-coupon.usecase.ts"
+          ]
+        },
+        {
+          "id": "6.7",
+          "layer": "presentation",
+          "description": "Build Stripe Checkout UI (no PayPal in V1)",
+          "status": "pending",
+          "files": ["src/app/components/payment/StripeCheckout.tsx"]
+        },
+        {
+          "id": "6.8",
+          "layer": "presentation",
+          "description": "Implement content gating (Free vs Paid tier with upgrade CTAs)",
+          "status": "pending",
+          "files": ["src/app/components/payment/ContentGate.tsx"]
+        },
+        {
+          "id": "6.9",
+          "layer": "infrastructure",
+          "description": "Implement Stripe webhook handler for auto-entitlement",
+          "status": "pending",
+          "files": ["src/app/api/webhooks/stripe/route.ts"]
+        },
+        {
+          "id": "6.10",
+          "layer": "presentation",
+          "description": "Build Admin Analytics: Member count, MRR, trial-to-paid conversion",
+          "status": "pending",
+          "files": ["src/app/components/admin/AnalyticsDashboard.tsx"]
+        }
+      ]
+    }
+  ],
+  "deferredToV2": [
+    "Real-time Chat (channels, DMs)",
+    "Calendar & Events with RSVP",
+    "Multi-space layout",
+    "PayPal & Razorpay payment gateways",
+    "Gamification (points, badges, leaderboards)",
+    "Advanced course features (quizzes, assignments, customizable certificates)",
+    "Custom domain",
+    "Advanced search (fuzzy matching, autocomplete)"
+  ],
+  "deferredToV3": [
+    "AI Moderation",
+    "@Assistant FAQ bot",
+    "AI Summaries",
+    "Engagement anomaly detection"
+  ]
+}

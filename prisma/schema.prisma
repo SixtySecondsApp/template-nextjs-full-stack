@@ -13,3 +13,452 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// ============================================================================
+// V1 MVP Schema - Community OS
+// ============================================================================
+// Aligned with phases.json (6 phases, 12-16 weeks)
+// Soft delete pattern: All entities have deletedAt field
+// Version history: ContentVersion tracks post/comment revisions
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Phase 1: Foundation - Auth, User Roles, Dark Mode
+// ----------------------------------------------------------------------------
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique // Clerk.com user ID
+  email     String   @unique
+  firstName String?
+  lastName  String?
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime? // Soft delete
+
+  // Relationships
+  memberships      CommunityMember[]
+  posts            Post[]
+  comments         Comment[]
+  courseEnrollments CourseEnrollment[]
+  notifications    Notification[]
+  subscriptions    Subscription[]
+  lessonProgress   LessonProgress[]
+
+  @@index([clerkId])
+  @@index([email])
+  @@map("users")
+}
+
+model Community {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  logoUrl     String?
+  darkMode    Boolean  @default(false) // Community default (users can override)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime? // Soft delete
+
+  // Relationships
+  members       CommunityMember[]
+  posts         Post[]
+  courses       Course[]
+  paymentTiers  PaymentTier[]
+  notifications Notification[]
+
+  @@index([slug])
+  @@map("communities")
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MODERATOR
+  MEMBER
+  GUEST
+}
+
+model CommunityMember {
+  id          String   @id @default(cuid())
+  userId      String
+  communityId String
+  role        Role     @default(MEMBER)
+  joinedAt    DateTime @default(now())
+  deletedAt   DateTime? // Soft delete
+
+  // Relationships
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, communityId])
+  @@index([userId])
+  @@index([communityId])
+  @@index([role])
+  @@map("community_members")
+}
+
+// ----------------------------------------------------------------------------
+// Phase 2: Forums - Posts, Comments, Rich Text
+// ----------------------------------------------------------------------------
+
+model Post {
+  id          String   @id @default(cuid())
+  communityId String
+  authorId    String
+  title       String
+  content     String   @db.Text // Rich text HTML
+  isPinned    Boolean  @default(false)
+  isSolved    Boolean  @default(false)
+  likeCount   Int      @default(0)
+  helpfulCount Int     @default(0)
+  commentCount Int     @default(0)
+  viewCount   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  publishedAt DateTime? // Null = draft
+  deletedAt   DateTime? // Soft delete (7-day retention)
+
+  // Relationships
+  community   Community        @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  author      User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments    Comment[]
+  attachments PostAttachment[]
+  versions    ContentVersion[]
+
+  @@index([communityId])
+  @@index([authorId])
+  @@index([createdAt])
+  @@index([publishedAt])
+  @@index([deletedAt])
+  @@fulltext([title, content]) // Full-text search (PostgreSQL)
+  @@map("posts")
+}
+
+model PostAttachment {
+  id        String   @id @default(cuid())
+  postId    String
+  fileName  String
+  fileUrl   String   // S3 URL
+  fileSize  Int      // Bytes
+  mimeType  String
+  createdAt DateTime @default(now())
+  deletedAt DateTime? // Soft delete
+
+  // Relationships
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@map("post_attachments")
+}
+
+model Comment {
+  id           String   @id @default(cuid())
+  postId       String
+  authorId     String
+  parentId     String?  // For threading (max 2 levels in V1)
+  content      String   @db.Text // Rich text HTML
+  likeCount    Int      @default(0)
+  helpfulCount Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  deletedAt    DateTime? // Soft delete (7-day retention)
+
+  // Relationships
+  post     Post              @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author   User              @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  parent   Comment?          @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies  Comment[]         @relation("CommentReplies")
+  versions ContentVersion[]
+
+  @@index([postId])
+  @@index([authorId])
+  @@index([parentId])
+  @@index([createdAt])
+  @@index([deletedAt])
+  @@map("comments")
+}
+
+// ----------------------------------------------------------------------------
+// Phase 3: Version History & Undelete
+// ----------------------------------------------------------------------------
+
+enum ContentType {
+  POST
+  COMMENT
+}
+
+model ContentVersion {
+  id          String      @id @default(cuid())
+  contentType ContentType
+  contentId   String      // Post or Comment ID
+  content     String      @db.Text // Snapshot of content at save
+  versionNumber Int
+  createdAt   DateTime    @default(now())
+
+  // Relationships (polymorphic via contentId + contentType)
+  post    Post?    @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  comment Comment? @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([contentId, versionNumber])
+  @@index([contentId, contentType])
+  @@index([createdAt])
+  @@map("content_versions")
+}
+
+// ----------------------------------------------------------------------------
+// Phase 4: Search, @Mentions, Notifications
+// ----------------------------------------------------------------------------
+
+enum NotificationType {
+  MENTION
+  REPLY
+  LIKE
+  COURSE_ENROLLMENT
+  SUBSCRIPTION_CREATED
+  SUBSCRIPTION_CANCELLED
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  userId      String
+  communityId String
+  type        NotificationType
+  message     String
+  linkUrl     String? // Deep link to notification target
+  isRead      Boolean          @default(false)
+  createdAt   DateTime         @default(now())
+  deletedAt   DateTime? // Soft delete
+
+  // Relationships
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([communityId])
+  @@index([isRead])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+// ----------------------------------------------------------------------------
+// Phase 5: Basic Courses
+// ----------------------------------------------------------------------------
+
+model Course {
+  id           String   @id @default(cuid())
+  communityId  String
+  title        String
+  description  String?  @db.Text
+  thumbnailUrl String?
+  startDate    DateTime? // For drip content calculation
+  isPublished  Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  deletedAt    DateTime? // Soft delete
+
+  // Relationships
+  community   Community          @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  sections    CourseSection[]
+  enrollments CourseEnrollment[]
+
+  @@index([communityId])
+  @@index([isPublished])
+  @@map("courses")
+}
+
+model CourseSection {
+  id          String   @id @default(cuid())
+  courseId    String
+  title       String
+  description String?  @db.Text
+  order       Int      // Display order
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  deletedAt   DateTime? // Soft delete
+
+  // Relationships
+  course  Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons Lesson[]
+
+  @@index([courseId])
+  @@index([order])
+  @@map("course_sections")
+}
+
+enum LessonType {
+  TEXT
+  VIDEO
+  PDF
+}
+
+model Lesson {
+  id          String     @id @default(cuid())
+  sectionId   String
+  title       String
+  type        LessonType
+  content     String?    @db.Text // Text content or video embed code
+  pdfUrl      String?    // S3 URL for PDF uploads
+  order       Int        // Display order within section
+  dripDays    Int        @default(0) // Days after course start to unlock
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  deletedAt   DateTime?  // Soft delete
+
+  // Relationships
+  section  CourseSection    @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  progress LessonProgress[]
+  comments LessonComment[]
+
+  @@index([sectionId])
+  @@index([order])
+  @@map("lessons")
+}
+
+model LessonComment {
+  id        String   @id @default(cuid())
+  lessonId  String
+  authorId  String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime? // Soft delete
+
+  // Note: No video timestamp support in V1 (deferred to V2)
+
+  // Relationships
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@index([lessonId])
+  @@index([createdAt])
+  @@map("lesson_comments")
+}
+
+model CourseEnrollment {
+  id              String   @id @default(cuid())
+  courseId        String
+  userId          String
+  enrolledAt      DateTime @default(now())
+  completedAt     DateTime? // Set when progress reaches 100%
+  certificateUrl  String?  // S3 URL for auto-generated certificate
+  deletedAt       DateTime? // Soft delete
+
+  // Relationships
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([courseId, userId])
+  @@index([userId])
+  @@index([courseId])
+  @@map("course_enrollments")
+}
+
+model LessonProgress {
+  id          String   @id @default(cuid())
+  lessonId    String
+  userId      String
+  isCompleted Boolean  @default(false)
+  completedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([lessonId, userId])
+  @@index([userId])
+  @@index([lessonId])
+  @@map("lesson_progress")
+}
+
+// ----------------------------------------------------------------------------
+// Phase 6: Monetization - Stripe + Content Gating
+// ----------------------------------------------------------------------------
+
+model PaymentTier {
+  id           String   @id @default(cuid())
+  communityId  String
+  name         String   // e.g., "Free", "Premium"
+  description  String?  @db.Text
+  price        Int      @default(0) // Cents (0 = Free tier)
+  interval     String?  // "month", "year", null for free
+  stripeProductId String?
+  stripePriceId   String?
+  features     String[] // Array of feature descriptions
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  deletedAt    DateTime? // Soft delete
+
+  // Relationships
+  community     Community      @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  subscriptions Subscription[]
+
+  @@index([communityId])
+  @@index([isActive])
+  @@map("payment_tiers")
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  TRIALING
+  PAST_DUE
+  CANCELED
+  UNPAID
+}
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String
+  tierId               String
+  stripeCustomerId     String?
+  stripeSubscriptionId String?            @unique
+  status               SubscriptionStatus @default(ACTIVE)
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  cancelAt             DateTime?
+  canceledAt           DateTime?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  deletedAt            DateTime?          // Soft delete
+
+  // Relationships
+  user  User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tier  PaymentTier  @relation(fields: [tierId], references: [id], onDelete: Cascade)
+  payments Payment[]
+
+  @@index([userId])
+  @@index([tierId])
+  @@index([stripeSubscriptionId])
+  @@index([status])
+  @@map("subscriptions")
+}
+
+enum PaymentStatus {
+  SUCCEEDED
+  PENDING
+  FAILED
+  REFUNDED
+}
+
+model Payment {
+  id               String        @id @default(cuid())
+  subscriptionId   String
+  stripePaymentId  String        @unique
+  amount           Int           // Cents
+  currency         String        @default("usd")
+  status           PaymentStatus
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  // Relationships
+  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+
+  @@index([subscriptionId])
+  @@index([stripePaymentId])
+  @@index([status])
+  @@map("payments")
+}
