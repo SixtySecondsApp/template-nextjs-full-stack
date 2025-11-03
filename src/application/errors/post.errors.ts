@@ -1,0 +1,42 @@
+/**
+ * Post Use Case Error Enums
+ * Defines all error types for post operations
+ * Controllers map these to appropriate HTTP status codes
+ */
+
+/**
+ * Post error types for use case operations
+ * Maps to HTTP status codes in API routes:
+ * - 400: Validation errors (INVALID_*)
+ * - 404: Not found errors (*_NOT_FOUND)
+ * - 409: Conflict errors (ALREADY_*, CANNOT_*)
+ * - 500: Internal server errors
+ */
+export enum PostError {
+  // Validation errors (400)
+  INVALID_INPUT = "INVALID_INPUT",
+  INVALID_TITLE = "INVALID_TITLE",
+  INVALID_CONTENT = "INVALID_CONTENT",
+  TITLE_TOO_SHORT = "TITLE_TOO_SHORT",
+  TITLE_TOO_LONG = "TITLE_TOO_LONG",
+  CONTENT_TOO_SHORT = "CONTENT_TOO_SHORT",
+
+  // Not found errors (404)
+  POST_NOT_FOUND = "POST_NOT_FOUND",
+  COMMUNITY_NOT_FOUND = "COMMUNITY_NOT_FOUND",
+  AUTHOR_NOT_FOUND = "AUTHOR_NOT_FOUND",
+
+  // Conflict errors (409)
+  POST_ALREADY_PUBLISHED = "POST_ALREADY_PUBLISHED",
+  POST_ALREADY_ARCHIVED = "POST_ALREADY_ARCHIVED",
+  POST_NOT_ARCHIVED = "POST_NOT_ARCHIVED",
+  POST_IS_DRAFT = "POST_IS_DRAFT",
+  CANNOT_MODIFY_ARCHIVED_POST = "CANNOT_MODIFY_ARCHIVED_POST",
+  CANNOT_PUBLISH_ARCHIVED_POST = "CANNOT_PUBLISH_ARCHIVED_POST",
+  CANNOT_PIN_ARCHIVED_POST = "CANNOT_PIN_ARCHIVED_POST",
+  CANNOT_SOLVE_ARCHIVED_POST = "CANNOT_SOLVE_ARCHIVED_POST",
+  CANNOT_SOLVE_DRAFT_POST = "CANNOT_SOLVE_DRAFT_POST",
+
+  // Server errors (500)
+  INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR"
+}

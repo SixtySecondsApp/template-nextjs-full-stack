@@ -7,3 +7,5 @@
 
 export { UserRepositoryPrisma } from "./user.repository.prisma";
 export { CommunityRepositoryPrisma } from "./community.repository.prisma";
+export { PostRepositoryPrisma } from "./post.repository.prisma";
+export { CommentRepositoryPrisma } from "./comment.repository.prisma";
