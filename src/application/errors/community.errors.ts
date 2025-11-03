@@ -1,0 +1,27 @@
+/**
+ * Community Error Enums
+ * Application-level errors for Community use cases
+ * Presentation layer maps these to HTTP status codes
+ */
+
+export enum CommunityError {
+  // Validation errors (400)
+  INVALID_INPUT = "INVALID_INPUT",
+  INVALID_NAME = "INVALID_NAME",
+  INVALID_LOGO_URL = "INVALID_LOGO_URL",
+  INVALID_PRIMARY_COLOR = "INVALID_PRIMARY_COLOR",
+  INVALID_OWNER_ID = "INVALID_OWNER_ID",
+
+  // Not found errors (404)
+  COMMUNITY_NOT_FOUND = "COMMUNITY_NOT_FOUND",
+  OWNER_NOT_FOUND = "OWNER_NOT_FOUND",
+
+  // Conflict errors (409)
+  COMMUNITY_ALREADY_ARCHIVED = "COMMUNITY_ALREADY_ARCHIVED",
+  COMMUNITY_NOT_ARCHIVED = "COMMUNITY_NOT_ARCHIVED",
+  CANNOT_MODIFY_ARCHIVED_COMMUNITY = "CANNOT_MODIFY_ARCHIVED_COMMUNITY",
+  OWNER_UNCHANGED = "OWNER_UNCHANGED",
+
+  // Server errors (500)
+  INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
+}

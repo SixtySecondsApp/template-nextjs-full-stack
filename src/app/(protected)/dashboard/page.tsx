@@ -51,7 +51,7 @@ export default async function DashboardPage() {
             Welcome, {dbUser.firstName || "there"}!
           </h2>
           <p className="text-gray-600">
-            Here's what's happening in your communities.
+            Here&apos;s what&apos;s happening in your communities.
           </p>
         </div>
 
@@ -80,7 +80,7 @@ export default async function DashboardPage() {
           {dbUser.memberships.length === 0 ? (
             <div className="text-center py-8">
               <p className="text-gray-600 mb-4">
-                You haven't joined any communities yet.
+                You haven&apos;t joined any communities yet.
               </p>
               <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
                 Browse Communities

@@ -1,0 +1,28 @@
+/**
+ * User Error Enums
+ * Application-level errors for User use cases
+ * Presentation layer maps these to HTTP status codes
+ */
+
+export enum UserError {
+  // Validation errors (400)
+  INVALID_INPUT = "INVALID_INPUT",
+  INVALID_EMAIL = "INVALID_EMAIL",
+  INVALID_NAME = "INVALID_NAME",
+  INVALID_ROLE = "INVALID_ROLE",
+  INVALID_AVATAR_URL = "INVALID_AVATAR_URL",
+
+  // Not found errors (404)
+  USER_NOT_FOUND = "USER_NOT_FOUND",
+  COMMUNITY_NOT_FOUND = "COMMUNITY_NOT_FOUND",
+
+  // Conflict errors (409)
+  EMAIL_ALREADY_EXISTS = "EMAIL_ALREADY_EXISTS",
+  USER_ALREADY_ARCHIVED = "USER_ALREADY_ARCHIVED",
+  USER_NOT_ARCHIVED = "USER_NOT_ARCHIVED",
+  CANNOT_MODIFY_ARCHIVED_USER = "CANNOT_MODIFY_ARCHIVED_USER",
+  ROLE_ALREADY_ASSIGNED = "ROLE_ALREADY_ASSIGNED",
+
+  // Server errors (500)
+  INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
+}
