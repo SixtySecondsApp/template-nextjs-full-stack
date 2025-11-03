@@ -10,3 +10,4 @@ export { CommunityRepositoryPrisma } from "./community.repository.prisma";
 export { PostRepositoryPrisma } from "./post.repository.prisma";
 export { CommentRepositoryPrisma } from "./comment.repository.prisma";
 export { ContentVersionRepositoryPrisma } from "./content-version.repository.prisma";
+export { NotificationRepositoryPrisma } from "./notification.repository.prisma";

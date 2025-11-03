@@ -29,6 +29,7 @@ export class Post {
     private readonly authorId: string,
     private title: string,
     private content: string, // Rich text HTML
+    private mentionedUserIds: string[], // User IDs mentioned in content
     private isPinned: boolean,
     private isSolved: boolean,
     private likeCount: number,
@@ -49,12 +50,13 @@ export class Post {
    * Post starts as a draft (publishedAt = null).
    */
   static create(input: CreatePostInput): Post {
-    return new Post(
+    const post = new Post(
       input.id,
       input.communityId,
       input.authorId,
       input.title,
       input.content,
+      [], // mentionedUserIds (will be extracted from content)
       false, // isPinned
       false, // isSolved
       0, // likeCount
@@ -66,6 +68,11 @@ export class Post {
       null, // publishedAt (draft)
       null // deletedAt
     );
+
+    // Extract mentions from content on creation
+    post.mentionedUserIds = post.extractMentions(input.content);
+
+    return post;
   }
 
   /**
@@ -78,6 +85,7 @@ export class Post {
       input.authorId,
       input.title,
       input.content,
+      input.mentionedUserIds ?? [],
       input.isPinned,
       input.isSolved,
       input.likeCount,
@@ -153,6 +161,10 @@ export class Post {
     return this.deletedAt;
   }
 
+  getMentionedUserIds(): string[] {
+    return [...this.mentionedUserIds];
+  }
+
   isArchived(): boolean {
     return this.deletedAt !== null;
   }
@@ -169,6 +181,7 @@ export class Post {
 
   /**
    * Update post content (title and/or content).
+   * Re-extracts mentions if content is updated.
    * @throws Error if post is archived or validation fails
    */
   update(input: UpdatePostInput): void {
@@ -182,6 +195,8 @@ export class Post {
     if (input.content !== undefined) {
       this.validateContent(input.content);
       this.content = input.content;
+      // Re-extract mentions from updated content
+      this.mentionedUserIds = this.extractMentions(input.content);
     }
 
     this.updatedAt = new Date();
@@ -350,6 +365,63 @@ export class Post {
       content: this.content,
       versionNumber,
     });
+  }
+
+  /**
+   * Add a mentioned user ID to the post.
+   * @param userId - The ID of the user to mention
+   * @throws Error if userId is empty or already mentioned
+   */
+  addMention(userId: string): void {
+    if (!userId || userId.trim().length === 0) {
+      throw new Error("User ID cannot be empty");
+    }
+
+    if (this.mentionedUserIds.includes(userId)) {
+      throw new Error("User is already mentioned");
+    }
+
+    this.mentionedUserIds.push(userId);
+    this.updatedAt = new Date();
+  }
+
+  /**
+   * Extract user mentions from content.
+   * Looks for @[userId:userName] pattern in HTML content.
+   * @param content - The HTML content to parse
+   * @returns Array of unique user IDs mentioned in the content
+   */
+  extractMentions(content: string): string[] {
+    if (!content) {
+      return [];
+    }
+
+    // Pattern: @[userId:userName] or data-mention-id="userId"
+    const mentionPattern = /@\[([^:]+):[^\]]+\]/g;
+    const dataAttributePattern = /data-mention-id="([^"]+)"/g;
+
+    const userIds = new Set<string>();
+
+    // Extract from @[userId:userName] format
+    let match;
+    while ((match = mentionPattern.exec(content)) !== null) {
+      userIds.add(match[1]);
+    }
+
+    // Extract from data-mention-id attribute
+    while ((match = dataAttributePattern.exec(content)) !== null) {
+      userIds.add(match[1]);
+    }
+
+    return Array.from(userIds);
+  }
+
+  /**
+   * Check if the post contains any user mentions.
+   * @returns true if the post has mentions, false otherwise
+   */
+  hasMentions(): boolean {
+    return this.mentionedUserIds.length > 0;
   }
 
   // Private validation methods

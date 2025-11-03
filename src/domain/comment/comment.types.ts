@@ -25,6 +25,7 @@ export interface ReconstituteCommentInput {
   authorId: string;
   parentId: string | null;
   content: string;
+  mentionedUserIds?: string[];
   likeCount: number;
   helpfulCount: number;
   createdAt: Date;

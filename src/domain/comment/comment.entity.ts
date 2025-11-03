@@ -25,6 +25,7 @@ export class Comment {
     private readonly authorId: string,
     private readonly parentId: string | null,
     private content: string, // Rich text HTML
+    private mentionedUserIds: string[], // User IDs mentioned in content
     private likeCount: number,
     private helpfulCount: number,
     private readonly createdAt: Date,
@@ -39,18 +40,24 @@ export class Comment {
    * @throws Error if nesting level exceeds maximum depth (handled in use case)
    */
   static create(input: CreateCommentInput): Comment {
-    return new Comment(
+    const comment = new Comment(
       input.id,
       input.postId,
       input.authorId,
       input.parentId ?? null,
       input.content,
+      [], // mentionedUserIds (will be extracted from content)
       0, // likeCount
       0, // helpfulCount
       new Date(),
       new Date(),
       null // deletedAt
     );
+
+    // Extract mentions from content on creation
+    comment.mentionedUserIds = comment.extractMentions(input.content);
+
+    return comment;
   }
 
   /**
@@ -63,6 +70,7 @@ export class Comment {
       input.authorId,
       input.parentId,
       input.content,
+      input.mentionedUserIds ?? [],
       input.likeCount,
       input.helpfulCount,
       input.createdAt,
@@ -113,6 +121,10 @@ export class Comment {
     return this.deletedAt;
   }
 
+  getMentionedUserIds(): string[] {
+    return [...this.mentionedUserIds];
+  }
+
   isArchived(): boolean {
     return this.deletedAt !== null;
   }
@@ -129,6 +141,7 @@ export class Comment {
 
   /**
    * Update comment content.
+   * Re-extracts mentions if content is updated.
    * @throws Error if comment is archived or validation fails
    */
   update(content: string): void {
@@ -136,6 +149,8 @@ export class Comment {
     this.validateContent(content);
 
     this.content = content;
+    // Re-extract mentions from updated content
+    this.mentionedUserIds = this.extractMentions(content);
     this.updatedAt = new Date();
   }
 
@@ -195,6 +210,63 @@ export class Comment {
       content: this.content,
       versionNumber,
     });
+  }
+
+  /**
+   * Add a mentioned user ID to the comment.
+   * @param userId - The ID of the user to mention
+   * @throws Error if userId is empty or already mentioned
+   */
+  addMention(userId: string): void {
+    if (!userId || userId.trim().length === 0) {
+      throw new Error("User ID cannot be empty");
+    }
+
+    if (this.mentionedUserIds.includes(userId)) {
+      throw new Error("User is already mentioned");
+    }
+
+    this.mentionedUserIds.push(userId);
+    this.updatedAt = new Date();
+  }
+
+  /**
+   * Extract user mentions from content.
+   * Looks for @[userId:userName] pattern in HTML content.
+   * @param content - The HTML content to parse
+   * @returns Array of unique user IDs mentioned in the content
+   */
+  extractMentions(content: string): string[] {
+    if (!content) {
+      return [];
+    }
+
+    // Pattern: @[userId:userName] or data-mention-id="userId"
+    const mentionPattern = /@\[([^:]+):[^\]]+\]/g;
+    const dataAttributePattern = /data-mention-id="([^"]+)"/g;
+
+    const userIds = new Set<string>();
+
+    // Extract from @[userId:userName] format
+    let match;
+    while ((match = mentionPattern.exec(content)) !== null) {
+      userIds.add(match[1]);
+    }
+
+    // Extract from data-mention-id attribute
+    while ((match = dataAttributePattern.exec(content)) !== null) {
+      userIds.add(match[1]);
+    }
+
+    return Array.from(userIds);
+  }
+
+  /**
+   * Check if the comment contains any user mentions.
+   * @returns true if the comment has mentions, false otherwise
+   */
+  hasMentions(): boolean {
+    return this.mentionedUserIds.length > 0;
   }
 
   // Private validation methods

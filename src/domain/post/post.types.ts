@@ -25,6 +25,7 @@ export interface ReconstitutePostInput {
   authorId: string;
   title: string;
   content: string;
+  mentionedUserIds?: string[];
   isPinned: boolean;
   isSolved: boolean;
   likeCount: number;

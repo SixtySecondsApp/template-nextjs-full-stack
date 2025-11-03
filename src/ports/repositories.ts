@@ -9,6 +9,7 @@ import { Community } from "@/domain/community/community.entity";
 import { Post } from "@/domain/post/post.entity";
 import { Comment } from "@/domain/comment/comment.entity";
 import { ContentVersion } from "@/domain/content-version/content-version.entity";
+import { Notification } from "@/domain/notification/notification.entity";
 
 /**
  * User Repository Interface
@@ -252,3 +253,56 @@ export interface IContentVersionRepository {
    */
   delete(id: string): Promise<void>;
 }
+
+/**
+ * Notification Repository Interface
+ * Defines persistence operations for Notification aggregate
+ */
+export interface INotificationRepository {
+  /**
+   * Create a new notification
+   */
+  create(notification: Notification): Promise<Notification>;
+
+  /**
+   * Find notification by ID (excludes archived by default)
+   */
+  findById(id: string): Promise<Notification | null>;
+
+  /**
+   * Find all notifications for a user
+   * @param userId User ID
+   * @param includeRead Optional flag to include read notifications
+   */
+  findByUserId(
+    userId: string,
+    includeRead?: boolean
+  ): Promise<Notification[]>;
+
+  /**
+   * Count unread notifications for a user
+   */
+  findUnreadCount(userId: string): Promise<number>;
+
+  /**
+   * Mark single notification as read
+   */
+  markAsRead(id: string): Promise<void>;
+
+  /**
+   * Mark all notifications as read for a user
+   */
+  markAllAsRead(userId: string): Promise<void>;
+
+  /**
+   * Archive (soft delete) a notification
+   */
+  archive(id: string): Promise<void>;
+}
+
+/**
+ * Export infrastructure port interfaces
+ * These are re-exported from infrastructure layer for convenience
+ */
+export * from "../infrastructure/search/search.port";
+export * from "../infrastructure/email/email.port";

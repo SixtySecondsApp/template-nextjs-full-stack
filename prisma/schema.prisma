@@ -227,6 +227,7 @@ model Notification {
   type        NotificationType
   message     String
   linkUrl     String? // Deep link to notification target
+  actorId     String? // User who triggered the notification
   isRead      Boolean          @default(false)
   createdAt   DateTime         @default(now())
   deletedAt   DateTime? // Soft delete

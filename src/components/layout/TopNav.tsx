@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Bell } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
 import { DarkModeToggle } from "@/components/theme/DarkModeToggle";
+import { SearchBar } from "@/components/search";
+import { NotificationBell } from "@/components/notifications";
 
 const tabs = [
   { id: "community", label: "Community" },
@@ -14,7 +16,7 @@ const tabs = [
 
 export function TopNav() {
   const [activeTab, setActiveTab] = useState("community");
-  const [searchQuery, setSearchQuery] = useState("");
+  const { user } = useUser();
 
   return (
     <header className="top-nav">
@@ -31,21 +33,18 @@ export function TopNav() {
       </div>
 
       <div className="top-nav-actions">
-        <div className="search-box">
-          <Search className="search-icon" size={16} />
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            aria-label="Search"
-          />
+        {/* Desktop: Inline search bar */}
+        <div className="hidden md:block flex-1 max-w-md mx-4">
+          <SearchBar placeholder="Search posts and members..." />
         </div>
 
-        <button className="icon-button" title="Notifications" aria-label="Notifications">
-          <Bell size={20} />
-        </button>
+        {/* Mobile: Search icon that opens modal - TODO: implement modal */}
+        <div className="md:hidden">
+          {/* Placeholder for mobile search modal trigger */}
+        </div>
+
+        {/* Notification Bell */}
+        {user && <NotificationBell userId={user.id} />}
 
         <DarkModeToggle />
 
