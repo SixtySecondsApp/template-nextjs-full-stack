@@ -84,10 +84,10 @@ export type PaymentTier = $Result.DefaultSelection<Prisma.$PaymentTierPayload>
  */
 export type Subscription = $Result.DefaultSelection<Prisma.$SubscriptionPayload>
 /**
- * Model Payment
+ * Model Coupon
  * 
  */
-export type Payment = $Result.DefaultSelection<Prisma.$PaymentPayload>
+export type Coupon = $Result.DefaultSelection<Prisma.$CouponPayload>
 
 /**
  * Enums
@@ -123,27 +123,6 @@ export const NotificationType: {
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
 
-
-export const SubscriptionStatus: {
-  ACTIVE: 'ACTIVE',
-  TRIALING: 'TRIALING',
-  PAST_DUE: 'PAST_DUE',
-  CANCELED: 'CANCELED',
-  UNPAID: 'UNPAID'
-};
-
-export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
-
-
-export const PaymentStatus: {
-  SUCCEEDED: 'SUCCEEDED',
-  PENDING: 'PENDING',
-  FAILED: 'FAILED',
-  REFUNDED: 'REFUNDED'
-};
-
-export type PaymentStatus = (typeof PaymentStatus)[keyof typeof PaymentStatus]
-
 }
 
 export type Role = $Enums.Role
@@ -157,14 +136,6 @@ export const ContentType: typeof $Enums.ContentType
 export type NotificationType = $Enums.NotificationType
 
 export const NotificationType: typeof $Enums.NotificationType
-
-export type SubscriptionStatus = $Enums.SubscriptionStatus
-
-export const SubscriptionStatus: typeof $Enums.SubscriptionStatus
-
-export type PaymentStatus = $Enums.PaymentStatus
-
-export const PaymentStatus: typeof $Enums.PaymentStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -432,14 +403,14 @@ export class PrismaClient<
   get subscription(): Prisma.SubscriptionDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.payment`: Exposes CRUD operations for the **Payment** model.
+   * `prisma.coupon`: Exposes CRUD operations for the **Coupon** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Payments
-    * const payments = await prisma.payment.findMany()
+    * // Fetch zero or more Coupons
+    * const coupons = await prisma.coupon.findMany()
     * ```
     */
-  get payment(): Prisma.PaymentDelegate<ExtArgs, ClientOptions>;
+  get coupon(): Prisma.CouponDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -894,7 +865,7 @@ export namespace Prisma {
     Certificate: 'Certificate',
     PaymentTier: 'PaymentTier',
     Subscription: 'Subscription',
-    Payment: 'Payment'
+    Coupon: 'Coupon'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -913,7 +884,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "community" | "communityMember" | "post" | "postAttachment" | "comment" | "contentVersion" | "notification" | "course" | "lesson" | "courseProgress" | "certificate" | "paymentTier" | "subscription" | "payment"
+      modelProps: "user" | "community" | "communityMember" | "post" | "postAttachment" | "comment" | "contentVersion" | "notification" | "course" | "lesson" | "courseProgress" | "certificate" | "paymentTier" | "subscription" | "coupon"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1953,77 +1924,77 @@ export namespace Prisma {
           }
         }
       }
-      Payment: {
-        payload: Prisma.$PaymentPayload<ExtArgs>
-        fields: Prisma.PaymentFieldRefs
+      Coupon: {
+        payload: Prisma.$CouponPayload<ExtArgs>
+        fields: Prisma.CouponFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.PaymentFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+            args: Prisma.CouponFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CouponPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.PaymentFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+            args: Prisma.CouponFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CouponPayload>
           }
           findFirst: {
-            args: Prisma.PaymentFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PaymentPayload> | null
+            args: Prisma.CouponFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CouponPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.PaymentFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+            args: Prisma.CouponFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CouponPayload>
           }
           findMany: {
-            args: Prisma.PaymentFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+            args: Prisma.CouponFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CouponPayload>[]
           }
           create: {
-            args: Prisma.PaymentCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+            args: Prisma.CouponCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CouponPayload>
           }
           createMany: {
-            args: Prisma.PaymentCreateManyArgs<ExtArgs>
+            args: Prisma.CouponCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.PaymentCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+            args: Prisma.CouponCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CouponPayload>[]
           }
           delete: {
-            args: Prisma.PaymentDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+            args: Prisma.CouponDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CouponPayload>
           }
           update: {
-            args: Prisma.PaymentUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+            args: Prisma.CouponUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CouponPayload>
           }
           deleteMany: {
-            args: Prisma.PaymentDeleteManyArgs<ExtArgs>
+            args: Prisma.CouponDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.PaymentUpdateManyArgs<ExtArgs>
+            args: Prisma.CouponUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.PaymentUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>[]
+            args: Prisma.CouponUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CouponPayload>[]
           }
           upsert: {
-            args: Prisma.PaymentUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PaymentPayload>
+            args: Prisma.CouponUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CouponPayload>
           }
           aggregate: {
-            args: Prisma.PaymentAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregatePayment>
+            args: Prisma.CouponAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCoupon>
           }
           groupBy: {
-            args: Prisma.PaymentGroupByArgs<ExtArgs>
-            result: $Utils.Optional<PaymentGroupByOutputType>[]
+            args: Prisma.CouponGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CouponGroupByOutputType>[]
           }
           count: {
-            args: Prisma.PaymentCountArgs<ExtArgs>
-            result: $Utils.Optional<PaymentCountAggregateOutputType> | number
+            args: Prisma.CouponCountArgs<ExtArgs>
+            result: $Utils.Optional<CouponCountAggregateOutputType> | number
           }
         }
       }
@@ -2133,7 +2104,7 @@ export namespace Prisma {
     certificate?: CertificateOmit
     paymentTier?: PaymentTierOmit
     subscription?: SubscriptionOmit
-    payment?: PaymentOmit
+    coupon?: CouponOmit
   }
 
   /* Types for Logging */
@@ -2331,6 +2302,8 @@ export namespace Prisma {
     posts: number
     courses: number
     paymentTiers: number
+    subscriptions: number
+    coupons: number
     notifications: number
   }
 
@@ -2339,6 +2312,8 @@ export namespace Prisma {
     posts?: boolean | CommunityCountOutputTypeCountPostsArgs
     courses?: boolean | CommunityCountOutputTypeCountCoursesArgs
     paymentTiers?: boolean | CommunityCountOutputTypeCountPaymentTiersArgs
+    subscriptions?: boolean | CommunityCountOutputTypeCountSubscriptionsArgs
+    coupons?: boolean | CommunityCountOutputTypeCountCouponsArgs
     notifications?: boolean | CommunityCountOutputTypeCountNotificationsArgs
   }
 
@@ -2379,6 +2354,20 @@ export namespace Prisma {
    */
   export type CommunityCountOutputTypeCountPaymentTiersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentTierWhereInput
+  }
+
+  /**
+   * CommunityCountOutputType without action
+   */
+  export type CommunityCountOutputTypeCountSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubscriptionWhereInput
+  }
+
+  /**
+   * CommunityCountOutputType without action
+   */
+  export type CommunityCountOutputTypeCountCouponsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CouponWhereInput
   }
 
   /**
@@ -2555,37 +2544,6 @@ export namespace Prisma {
    */
   export type PaymentTierCountOutputTypeCountSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SubscriptionWhereInput
-  }
-
-
-  /**
-   * Count Type SubscriptionCountOutputType
-   */
-
-  export type SubscriptionCountOutputType = {
-    payments: number
-  }
-
-  export type SubscriptionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    payments?: boolean | SubscriptionCountOutputTypeCountPaymentsArgs
-  }
-
-  // Custom InputTypes
-  /**
-   * SubscriptionCountOutputType without action
-   */
-  export type SubscriptionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SubscriptionCountOutputType
-     */
-    select?: SubscriptionCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * SubscriptionCountOutputType without action
-   */
-  export type SubscriptionCountOutputTypeCountPaymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PaymentWhereInput
   }
 
 
@@ -4111,6 +4069,8 @@ export namespace Prisma {
     posts?: boolean | Community$postsArgs<ExtArgs>
     courses?: boolean | Community$coursesArgs<ExtArgs>
     paymentTiers?: boolean | Community$paymentTiersArgs<ExtArgs>
+    subscriptions?: boolean | Community$subscriptionsArgs<ExtArgs>
+    coupons?: boolean | Community$couponsArgs<ExtArgs>
     notifications?: boolean | Community$notificationsArgs<ExtArgs>
     _count?: boolean | CommunityCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["community"]>
@@ -4157,6 +4117,8 @@ export namespace Prisma {
     posts?: boolean | Community$postsArgs<ExtArgs>
     courses?: boolean | Community$coursesArgs<ExtArgs>
     paymentTiers?: boolean | Community$paymentTiersArgs<ExtArgs>
+    subscriptions?: boolean | Community$subscriptionsArgs<ExtArgs>
+    coupons?: boolean | Community$couponsArgs<ExtArgs>
     notifications?: boolean | Community$notificationsArgs<ExtArgs>
     _count?: boolean | CommunityCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -4170,6 +4132,8 @@ export namespace Prisma {
       posts: Prisma.$PostPayload<ExtArgs>[]
       courses: Prisma.$CoursePayload<ExtArgs>[]
       paymentTiers: Prisma.$PaymentTierPayload<ExtArgs>[]
+      subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
+      coupons: Prisma.$CouponPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -4580,6 +4544,8 @@ export namespace Prisma {
     posts<T extends Community$postsArgs<ExtArgs> = {}>(args?: Subset<T, Community$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     courses<T extends Community$coursesArgs<ExtArgs> = {}>(args?: Subset<T, Community$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     paymentTiers<T extends Community$paymentTiersArgs<ExtArgs> = {}>(args?: Subset<T, Community$paymentTiersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentTierPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    subscriptions<T extends Community$subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, Community$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    coupons<T extends Community$couponsArgs<ExtArgs> = {}>(args?: Subset<T, Community$couponsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends Community$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Community$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5100,6 +5066,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PaymentTierScalarFieldEnum | PaymentTierScalarFieldEnum[]
+  }
+
+  /**
+   * Community.subscriptions
+   */
+  export type Community$subscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Subscription
+     */
+    select?: SubscriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Subscription
+     */
+    omit?: SubscriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionInclude<ExtArgs> | null
+    where?: SubscriptionWhereInput
+    orderBy?: SubscriptionOrderByWithRelationInput | SubscriptionOrderByWithRelationInput[]
+    cursor?: SubscriptionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * Community.coupons
+   */
+  export type Community$couponsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Coupon
+     */
+    select?: CouponSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Coupon
+     */
+    omit?: CouponOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CouponInclude<ExtArgs> | null
+    where?: CouponWhereInput
+    orderBy?: CouponOrderByWithRelationInput | CouponOrderByWithRelationInput[]
+    cursor?: CouponWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CouponScalarFieldEnum | CouponScalarFieldEnum[]
   }
 
   /**
@@ -16877,11 +16891,13 @@ export namespace Prisma {
   }
 
   export type PaymentTierAvgAggregateOutputType = {
-    price: number | null
+    priceMonthly: number | null
+    priceAnnual: number | null
   }
 
   export type PaymentTierSumAggregateOutputType = {
-    price: number | null
+    priceMonthly: number | null
+    priceAnnual: number | null
   }
 
   export type PaymentTierMinAggregateOutputType = {
@@ -16889,10 +16905,8 @@ export namespace Prisma {
     communityId: string | null
     name: string | null
     description: string | null
-    price: number | null
-    interval: string | null
-    stripeProductId: string | null
-    stripePriceId: string | null
+    priceMonthly: number | null
+    priceAnnual: number | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -16904,10 +16918,8 @@ export namespace Prisma {
     communityId: string | null
     name: string | null
     description: string | null
-    price: number | null
-    interval: string | null
-    stripeProductId: string | null
-    stripePriceId: string | null
+    priceMonthly: number | null
+    priceAnnual: number | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -16919,10 +16931,8 @@ export namespace Prisma {
     communityId: number
     name: number
     description: number
-    price: number
-    interval: number
-    stripeProductId: number
-    stripePriceId: number
+    priceMonthly: number
+    priceAnnual: number
     features: number
     isActive: number
     createdAt: number
@@ -16933,11 +16943,13 @@ export namespace Prisma {
 
 
   export type PaymentTierAvgAggregateInputType = {
-    price?: true
+    priceMonthly?: true
+    priceAnnual?: true
   }
 
   export type PaymentTierSumAggregateInputType = {
-    price?: true
+    priceMonthly?: true
+    priceAnnual?: true
   }
 
   export type PaymentTierMinAggregateInputType = {
@@ -16945,10 +16957,8 @@ export namespace Prisma {
     communityId?: true
     name?: true
     description?: true
-    price?: true
-    interval?: true
-    stripeProductId?: true
-    stripePriceId?: true
+    priceMonthly?: true
+    priceAnnual?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -16960,10 +16970,8 @@ export namespace Prisma {
     communityId?: true
     name?: true
     description?: true
-    price?: true
-    interval?: true
-    stripeProductId?: true
-    stripePriceId?: true
+    priceMonthly?: true
+    priceAnnual?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -16975,10 +16983,8 @@ export namespace Prisma {
     communityId?: true
     name?: true
     description?: true
-    price?: true
-    interval?: true
-    stripeProductId?: true
-    stripePriceId?: true
+    priceMonthly?: true
+    priceAnnual?: true
     features?: true
     isActive?: true
     createdAt?: true
@@ -17077,11 +17083,9 @@ export namespace Prisma {
     id: string
     communityId: string
     name: string
-    description: string | null
-    price: number
-    interval: string | null
-    stripeProductId: string | null
-    stripePriceId: string | null
+    description: string
+    priceMonthly: number
+    priceAnnual: number
     features: string[]
     isActive: boolean
     createdAt: Date
@@ -17113,10 +17117,8 @@ export namespace Prisma {
     communityId?: boolean
     name?: boolean
     description?: boolean
-    price?: boolean
-    interval?: boolean
-    stripeProductId?: boolean
-    stripePriceId?: boolean
+    priceMonthly?: boolean
+    priceAnnual?: boolean
     features?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -17132,10 +17134,8 @@ export namespace Prisma {
     communityId?: boolean
     name?: boolean
     description?: boolean
-    price?: boolean
-    interval?: boolean
-    stripeProductId?: boolean
-    stripePriceId?: boolean
+    priceMonthly?: boolean
+    priceAnnual?: boolean
     features?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -17149,10 +17149,8 @@ export namespace Prisma {
     communityId?: boolean
     name?: boolean
     description?: boolean
-    price?: boolean
-    interval?: boolean
-    stripeProductId?: boolean
-    stripePriceId?: boolean
+    priceMonthly?: boolean
+    priceAnnual?: boolean
     features?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -17166,10 +17164,8 @@ export namespace Prisma {
     communityId?: boolean
     name?: boolean
     description?: boolean
-    price?: boolean
-    interval?: boolean
-    stripeProductId?: boolean
-    stripePriceId?: boolean
+    priceMonthly?: boolean
+    priceAnnual?: boolean
     features?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -17177,7 +17173,7 @@ export namespace Prisma {
     deletedAt?: boolean
   }
 
-  export type PaymentTierOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "name" | "description" | "price" | "interval" | "stripeProductId" | "stripePriceId" | "features" | "isActive" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["paymentTier"]>
+  export type PaymentTierOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "name" | "description" | "priceMonthly" | "priceAnnual" | "features" | "isActive" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["paymentTier"]>
   export type PaymentTierInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     community?: boolean | CommunityDefaultArgs<ExtArgs>
     subscriptions?: boolean | PaymentTier$subscriptionsArgs<ExtArgs>
@@ -17200,11 +17196,9 @@ export namespace Prisma {
       id: string
       communityId: string
       name: string
-      description: string | null
-      price: number
-      interval: string | null
-      stripeProductId: string | null
-      stripePriceId: string | null
+      description: string
+      priceMonthly: number
+      priceAnnual: number
       features: string[]
       isActive: boolean
       createdAt: Date
@@ -17639,10 +17633,8 @@ export namespace Prisma {
     readonly communityId: FieldRef<"PaymentTier", 'String'>
     readonly name: FieldRef<"PaymentTier", 'String'>
     readonly description: FieldRef<"PaymentTier", 'String'>
-    readonly price: FieldRef<"PaymentTier", 'Int'>
-    readonly interval: FieldRef<"PaymentTier", 'String'>
-    readonly stripeProductId: FieldRef<"PaymentTier", 'String'>
-    readonly stripePriceId: FieldRef<"PaymentTier", 'String'>
+    readonly priceMonthly: FieldRef<"PaymentTier", 'Int'>
+    readonly priceAnnual: FieldRef<"PaymentTier", 'Int'>
     readonly features: FieldRef<"PaymentTier", 'String[]'>
     readonly isActive: FieldRef<"PaymentTier", 'Boolean'>
     readonly createdAt: FieldRef<"PaymentTier", 'DateTime'>
@@ -18099,14 +18091,16 @@ export namespace Prisma {
   export type SubscriptionMinAggregateOutputType = {
     id: string | null
     userId: string | null
-    tierId: string | null
-    stripeCustomerId: string | null
+    communityId: string | null
+    paymentTierId: string | null
     stripeSubscriptionId: string | null
-    status: $Enums.SubscriptionStatus | null
+    stripeCustomerId: string | null
+    status: string | null
+    interval: string | null
     currentPeriodStart: Date | null
     currentPeriodEnd: Date | null
-    cancelAt: Date | null
-    canceledAt: Date | null
+    cancelAtPeriodEnd: boolean | null
+    trialEndsAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -18115,14 +18109,16 @@ export namespace Prisma {
   export type SubscriptionMaxAggregateOutputType = {
     id: string | null
     userId: string | null
-    tierId: string | null
-    stripeCustomerId: string | null
+    communityId: string | null
+    paymentTierId: string | null
     stripeSubscriptionId: string | null
-    status: $Enums.SubscriptionStatus | null
+    stripeCustomerId: string | null
+    status: string | null
+    interval: string | null
     currentPeriodStart: Date | null
     currentPeriodEnd: Date | null
-    cancelAt: Date | null
-    canceledAt: Date | null
+    cancelAtPeriodEnd: boolean | null
+    trialEndsAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -18131,14 +18127,16 @@ export namespace Prisma {
   export type SubscriptionCountAggregateOutputType = {
     id: number
     userId: number
-    tierId: number
-    stripeCustomerId: number
+    communityId: number
+    paymentTierId: number
     stripeSubscriptionId: number
+    stripeCustomerId: number
     status: number
+    interval: number
     currentPeriodStart: number
     currentPeriodEnd: number
-    cancelAt: number
-    canceledAt: number
+    cancelAtPeriodEnd: number
+    trialEndsAt: number
     createdAt: number
     updatedAt: number
     deletedAt: number
@@ -18149,14 +18147,16 @@ export namespace Prisma {
   export type SubscriptionMinAggregateInputType = {
     id?: true
     userId?: true
-    tierId?: true
-    stripeCustomerId?: true
+    communityId?: true
+    paymentTierId?: true
     stripeSubscriptionId?: true
+    stripeCustomerId?: true
     status?: true
+    interval?: true
     currentPeriodStart?: true
     currentPeriodEnd?: true
-    cancelAt?: true
-    canceledAt?: true
+    cancelAtPeriodEnd?: true
+    trialEndsAt?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -18165,14 +18165,16 @@ export namespace Prisma {
   export type SubscriptionMaxAggregateInputType = {
     id?: true
     userId?: true
-    tierId?: true
-    stripeCustomerId?: true
+    communityId?: true
+    paymentTierId?: true
     stripeSubscriptionId?: true
+    stripeCustomerId?: true
     status?: true
+    interval?: true
     currentPeriodStart?: true
     currentPeriodEnd?: true
-    cancelAt?: true
-    canceledAt?: true
+    cancelAtPeriodEnd?: true
+    trialEndsAt?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -18181,14 +18183,16 @@ export namespace Prisma {
   export type SubscriptionCountAggregateInputType = {
     id?: true
     userId?: true
-    tierId?: true
-    stripeCustomerId?: true
+    communityId?: true
+    paymentTierId?: true
     stripeSubscriptionId?: true
+    stripeCustomerId?: true
     status?: true
+    interval?: true
     currentPeriodStart?: true
     currentPeriodEnd?: true
-    cancelAt?: true
-    canceledAt?: true
+    cancelAtPeriodEnd?: true
+    trialEndsAt?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -18270,14 +18274,16 @@ export namespace Prisma {
   export type SubscriptionGroupByOutputType = {
     id: string
     userId: string
-    tierId: string
-    stripeCustomerId: string | null
+    communityId: string
+    paymentTierId: string
     stripeSubscriptionId: string | null
-    status: $Enums.SubscriptionStatus
+    stripeCustomerId: string | null
+    status: string
+    interval: string
     currentPeriodStart: Date
     currentPeriodEnd: Date
-    cancelAt: Date | null
-    canceledAt: Date | null
+    cancelAtPeriodEnd: boolean
+    trialEndsAt: Date | null
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
@@ -18303,109 +18309,121 @@ export namespace Prisma {
   export type SubscriptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    tierId?: boolean
-    stripeCustomerId?: boolean
+    communityId?: boolean
+    paymentTierId?: boolean
     stripeSubscriptionId?: boolean
+    stripeCustomerId?: boolean
     status?: boolean
+    interval?: boolean
     currentPeriodStart?: boolean
     currentPeriodEnd?: boolean
-    cancelAt?: boolean
-    canceledAt?: boolean
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    tier?: boolean | PaymentTierDefaultArgs<ExtArgs>
-    payments?: boolean | Subscription$paymentsArgs<ExtArgs>
-    _count?: boolean | SubscriptionCountOutputTypeDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    paymentTier?: boolean | PaymentTierDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subscription"]>
 
   export type SubscriptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    tierId?: boolean
-    stripeCustomerId?: boolean
+    communityId?: boolean
+    paymentTierId?: boolean
     stripeSubscriptionId?: boolean
+    stripeCustomerId?: boolean
     status?: boolean
+    interval?: boolean
     currentPeriodStart?: boolean
     currentPeriodEnd?: boolean
-    cancelAt?: boolean
-    canceledAt?: boolean
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    tier?: boolean | PaymentTierDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    paymentTier?: boolean | PaymentTierDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subscription"]>
 
   export type SubscriptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
-    tierId?: boolean
-    stripeCustomerId?: boolean
+    communityId?: boolean
+    paymentTierId?: boolean
     stripeSubscriptionId?: boolean
+    stripeCustomerId?: boolean
     status?: boolean
+    interval?: boolean
     currentPeriodStart?: boolean
     currentPeriodEnd?: boolean
-    cancelAt?: boolean
-    canceledAt?: boolean
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    tier?: boolean | PaymentTierDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    paymentTier?: boolean | PaymentTierDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["subscription"]>
 
   export type SubscriptionSelectScalar = {
     id?: boolean
     userId?: boolean
-    tierId?: boolean
-    stripeCustomerId?: boolean
+    communityId?: boolean
+    paymentTierId?: boolean
     stripeSubscriptionId?: boolean
+    stripeCustomerId?: boolean
     status?: boolean
+    interval?: boolean
     currentPeriodStart?: boolean
     currentPeriodEnd?: boolean
-    cancelAt?: boolean
-    canceledAt?: boolean
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
   }
 
-  export type SubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "tierId" | "stripeCustomerId" | "stripeSubscriptionId" | "status" | "currentPeriodStart" | "currentPeriodEnd" | "cancelAt" | "canceledAt" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["subscription"]>
+  export type SubscriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "communityId" | "paymentTierId" | "stripeSubscriptionId" | "stripeCustomerId" | "status" | "interval" | "currentPeriodStart" | "currentPeriodEnd" | "cancelAtPeriodEnd" | "trialEndsAt" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["subscription"]>
   export type SubscriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    tier?: boolean | PaymentTierDefaultArgs<ExtArgs>
-    payments?: boolean | Subscription$paymentsArgs<ExtArgs>
-    _count?: boolean | SubscriptionCountOutputTypeDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    paymentTier?: boolean | PaymentTierDefaultArgs<ExtArgs>
   }
   export type SubscriptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    tier?: boolean | PaymentTierDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    paymentTier?: boolean | PaymentTierDefaultArgs<ExtArgs>
   }
   export type SubscriptionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    tier?: boolean | PaymentTierDefaultArgs<ExtArgs>
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    paymentTier?: boolean | PaymentTierDefaultArgs<ExtArgs>
   }
 
   export type $SubscriptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Subscription"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      tier: Prisma.$PaymentTierPayload<ExtArgs>
-      payments: Prisma.$PaymentPayload<ExtArgs>[]
+      community: Prisma.$CommunityPayload<ExtArgs>
+      paymentTier: Prisma.$PaymentTierPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       userId: string
-      tierId: string
-      stripeCustomerId: string | null
+      communityId: string
+      paymentTierId: string
       stripeSubscriptionId: string | null
-      status: $Enums.SubscriptionStatus
+      stripeCustomerId: string | null
+      status: string
+      interval: string
       currentPeriodStart: Date
       currentPeriodEnd: Date
-      cancelAt: Date | null
-      canceledAt: Date | null
+      cancelAtPeriodEnd: boolean
+      trialEndsAt: Date | null
       createdAt: Date
       updatedAt: Date
       deletedAt: Date | null
@@ -18804,8 +18822,8 @@ export namespace Prisma {
   export interface Prisma__SubscriptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    tier<T extends PaymentTierDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PaymentTierDefaultArgs<ExtArgs>>): Prisma__PaymentTierClient<$Result.GetResult<Prisma.$PaymentTierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    payments<T extends Subscription$paymentsArgs<ExtArgs> = {}>(args?: Subset<T, Subscription$paymentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    paymentTier<T extends PaymentTierDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PaymentTierDefaultArgs<ExtArgs>>): Prisma__PaymentTierClient<$Result.GetResult<Prisma.$PaymentTierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18837,14 +18855,16 @@ export namespace Prisma {
   interface SubscriptionFieldRefs {
     readonly id: FieldRef<"Subscription", 'String'>
     readonly userId: FieldRef<"Subscription", 'String'>
-    readonly tierId: FieldRef<"Subscription", 'String'>
-    readonly stripeCustomerId: FieldRef<"Subscription", 'String'>
+    readonly communityId: FieldRef<"Subscription", 'String'>
+    readonly paymentTierId: FieldRef<"Subscription", 'String'>
     readonly stripeSubscriptionId: FieldRef<"Subscription", 'String'>
-    readonly status: FieldRef<"Subscription", 'SubscriptionStatus'>
+    readonly stripeCustomerId: FieldRef<"Subscription", 'String'>
+    readonly status: FieldRef<"Subscription", 'String'>
+    readonly interval: FieldRef<"Subscription", 'String'>
     readonly currentPeriodStart: FieldRef<"Subscription", 'DateTime'>
     readonly currentPeriodEnd: FieldRef<"Subscription", 'DateTime'>
-    readonly cancelAt: FieldRef<"Subscription", 'DateTime'>
-    readonly canceledAt: FieldRef<"Subscription", 'DateTime'>
+    readonly cancelAtPeriodEnd: FieldRef<"Subscription", 'Boolean'>
+    readonly trialEndsAt: FieldRef<"Subscription", 'DateTime'>
     readonly createdAt: FieldRef<"Subscription", 'DateTime'>
     readonly updatedAt: FieldRef<"Subscription", 'DateTime'>
     readonly deletedAt: FieldRef<"Subscription", 'DateTime'>
@@ -19244,30 +19264,6 @@ export namespace Prisma {
   }
 
   /**
-   * Subscription.payments
-   */
-  export type Subscription$paymentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Payment
-     */
-    select?: PaymentSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Payment
-     */
-    omit?: PaymentOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: PaymentInclude<ExtArgs> | null
-    where?: PaymentWhereInput
-    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
-    cursor?: PaymentWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
-  }
-
-  /**
    * Subscription without action
    */
   export type SubscriptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19287,420 +19283,476 @@ export namespace Prisma {
 
 
   /**
-   * Model Payment
+   * Model Coupon
    */
 
-  export type AggregatePayment = {
-    _count: PaymentCountAggregateOutputType | null
-    _avg: PaymentAvgAggregateOutputType | null
-    _sum: PaymentSumAggregateOutputType | null
-    _min: PaymentMinAggregateOutputType | null
-    _max: PaymentMaxAggregateOutputType | null
+  export type AggregateCoupon = {
+    _count: CouponCountAggregateOutputType | null
+    _avg: CouponAvgAggregateOutputType | null
+    _sum: CouponSumAggregateOutputType | null
+    _min: CouponMinAggregateOutputType | null
+    _max: CouponMaxAggregateOutputType | null
   }
 
-  export type PaymentAvgAggregateOutputType = {
-    amount: number | null
+  export type CouponAvgAggregateOutputType = {
+    discountValue: number | null
+    maxUses: number | null
+    usedCount: number | null
   }
 
-  export type PaymentSumAggregateOutputType = {
-    amount: number | null
+  export type CouponSumAggregateOutputType = {
+    discountValue: number | null
+    maxUses: number | null
+    usedCount: number | null
   }
 
-  export type PaymentMinAggregateOutputType = {
+  export type CouponMinAggregateOutputType = {
     id: string | null
-    subscriptionId: string | null
-    stripePaymentId: string | null
-    amount: number | null
-    currency: string | null
-    status: $Enums.PaymentStatus | null
+    communityId: string | null
+    code: string | null
+    discountType: string | null
+    discountValue: number | null
+    expiresAt: Date | null
+    maxUses: number | null
+    usedCount: number | null
+    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
-  export type PaymentMaxAggregateOutputType = {
+  export type CouponMaxAggregateOutputType = {
     id: string | null
-    subscriptionId: string | null
-    stripePaymentId: string | null
-    amount: number | null
-    currency: string | null
-    status: $Enums.PaymentStatus | null
+    communityId: string | null
+    code: string | null
+    discountType: string | null
+    discountValue: number | null
+    expiresAt: Date | null
+    maxUses: number | null
+    usedCount: number | null
+    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    deletedAt: Date | null
   }
 
-  export type PaymentCountAggregateOutputType = {
+  export type CouponCountAggregateOutputType = {
     id: number
-    subscriptionId: number
-    stripePaymentId: number
-    amount: number
-    currency: number
-    status: number
+    communityId: number
+    code: number
+    discountType: number
+    discountValue: number
+    expiresAt: number
+    maxUses: number
+    usedCount: number
+    isActive: number
     createdAt: number
     updatedAt: number
+    deletedAt: number
     _all: number
   }
 
 
-  export type PaymentAvgAggregateInputType = {
-    amount?: true
+  export type CouponAvgAggregateInputType = {
+    discountValue?: true
+    maxUses?: true
+    usedCount?: true
   }
 
-  export type PaymentSumAggregateInputType = {
-    amount?: true
+  export type CouponSumAggregateInputType = {
+    discountValue?: true
+    maxUses?: true
+    usedCount?: true
   }
 
-  export type PaymentMinAggregateInputType = {
+  export type CouponMinAggregateInputType = {
     id?: true
-    subscriptionId?: true
-    stripePaymentId?: true
-    amount?: true
-    currency?: true
-    status?: true
+    communityId?: true
+    code?: true
+    discountType?: true
+    discountValue?: true
+    expiresAt?: true
+    maxUses?: true
+    usedCount?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
-  export type PaymentMaxAggregateInputType = {
+  export type CouponMaxAggregateInputType = {
     id?: true
-    subscriptionId?: true
-    stripePaymentId?: true
-    amount?: true
-    currency?: true
-    status?: true
+    communityId?: true
+    code?: true
+    discountType?: true
+    discountValue?: true
+    expiresAt?: true
+    maxUses?: true
+    usedCount?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
   }
 
-  export type PaymentCountAggregateInputType = {
+  export type CouponCountAggregateInputType = {
     id?: true
-    subscriptionId?: true
-    stripePaymentId?: true
-    amount?: true
-    currency?: true
-    status?: true
+    communityId?: true
+    code?: true
+    discountType?: true
+    discountValue?: true
+    expiresAt?: true
+    maxUses?: true
+    usedCount?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
+    deletedAt?: true
     _all?: true
   }
 
-  export type PaymentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Payment to aggregate.
+     * Filter which Coupon to aggregate.
      */
-    where?: PaymentWhereInput
+    where?: CouponWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Payments to fetch.
+     * Determine the order of Coupons to fetch.
      */
-    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    orderBy?: CouponOrderByWithRelationInput | CouponOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: PaymentWhereUniqueInput
+    cursor?: CouponWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Payments from the position of the cursor.
+     * Take `±n` Coupons from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Payments.
+     * Skip the first `n` Coupons.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Payments
+     * Count returned Coupons
     **/
-    _count?: true | PaymentCountAggregateInputType
+    _count?: true | CouponCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: PaymentAvgAggregateInputType
+    _avg?: CouponAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: PaymentSumAggregateInputType
+    _sum?: CouponSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: PaymentMinAggregateInputType
+    _min?: CouponMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: PaymentMaxAggregateInputType
+    _max?: CouponMaxAggregateInputType
   }
 
-  export type GetPaymentAggregateType<T extends PaymentAggregateArgs> = {
-        [P in keyof T & keyof AggregatePayment]: P extends '_count' | 'count'
+  export type GetCouponAggregateType<T extends CouponAggregateArgs> = {
+        [P in keyof T & keyof AggregateCoupon]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregatePayment[P]>
-      : GetScalarType<T[P], AggregatePayment[P]>
+        : GetScalarType<T[P], AggregateCoupon[P]>
+      : GetScalarType<T[P], AggregateCoupon[P]>
   }
 
 
 
 
-  export type PaymentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PaymentWhereInput
-    orderBy?: PaymentOrderByWithAggregationInput | PaymentOrderByWithAggregationInput[]
-    by: PaymentScalarFieldEnum[] | PaymentScalarFieldEnum
-    having?: PaymentScalarWhereWithAggregatesInput
+  export type CouponGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CouponWhereInput
+    orderBy?: CouponOrderByWithAggregationInput | CouponOrderByWithAggregationInput[]
+    by: CouponScalarFieldEnum[] | CouponScalarFieldEnum
+    having?: CouponScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: PaymentCountAggregateInputType | true
-    _avg?: PaymentAvgAggregateInputType
-    _sum?: PaymentSumAggregateInputType
-    _min?: PaymentMinAggregateInputType
-    _max?: PaymentMaxAggregateInputType
+    _count?: CouponCountAggregateInputType | true
+    _avg?: CouponAvgAggregateInputType
+    _sum?: CouponSumAggregateInputType
+    _min?: CouponMinAggregateInputType
+    _max?: CouponMaxAggregateInputType
   }
 
-  export type PaymentGroupByOutputType = {
+  export type CouponGroupByOutputType = {
     id: string
-    subscriptionId: string
-    stripePaymentId: string
-    amount: number
-    currency: string
-    status: $Enums.PaymentStatus
+    communityId: string
+    code: string
+    discountType: string
+    discountValue: number
+    expiresAt: Date | null
+    maxUses: number | null
+    usedCount: number
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
-    _count: PaymentCountAggregateOutputType | null
-    _avg: PaymentAvgAggregateOutputType | null
-    _sum: PaymentSumAggregateOutputType | null
-    _min: PaymentMinAggregateOutputType | null
-    _max: PaymentMaxAggregateOutputType | null
+    deletedAt: Date | null
+    _count: CouponCountAggregateOutputType | null
+    _avg: CouponAvgAggregateOutputType | null
+    _sum: CouponSumAggregateOutputType | null
+    _min: CouponMinAggregateOutputType | null
+    _max: CouponMaxAggregateOutputType | null
   }
 
-  type GetPaymentGroupByPayload<T extends PaymentGroupByArgs> = Prisma.PrismaPromise<
+  type GetCouponGroupByPayload<T extends CouponGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<PaymentGroupByOutputType, T['by']> &
+      PickEnumerable<CouponGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof PaymentGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof CouponGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], PaymentGroupByOutputType[P]>
-            : GetScalarType<T[P], PaymentGroupByOutputType[P]>
+              : GetScalarType<T[P], CouponGroupByOutputType[P]>
+            : GetScalarType<T[P], CouponGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type PaymentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type CouponSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    subscriptionId?: boolean
-    stripePaymentId?: boolean
-    amount?: boolean
-    currency?: boolean
-    status?: boolean
+    communityId?: boolean
+    code?: boolean
+    discountType?: boolean
+    discountValue?: boolean
+    expiresAt?: boolean
+    maxUses?: boolean
+    usedCount?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["payment"]>
+    deletedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["coupon"]>
 
-  export type PaymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type CouponSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    subscriptionId?: boolean
-    stripePaymentId?: boolean
-    amount?: boolean
-    currency?: boolean
-    status?: boolean
+    communityId?: boolean
+    code?: boolean
+    discountType?: boolean
+    discountValue?: boolean
+    expiresAt?: boolean
+    maxUses?: boolean
+    usedCount?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["payment"]>
+    deletedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["coupon"]>
 
-  export type PaymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type CouponSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    subscriptionId?: boolean
-    stripePaymentId?: boolean
-    amount?: boolean
-    currency?: boolean
-    status?: boolean
+    communityId?: boolean
+    code?: boolean
+    discountType?: boolean
+    discountValue?: boolean
+    expiresAt?: boolean
+    maxUses?: boolean
+    usedCount?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["payment"]>
+    deletedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["coupon"]>
 
-  export type PaymentSelectScalar = {
+  export type CouponSelectScalar = {
     id?: boolean
-    subscriptionId?: boolean
-    stripePaymentId?: boolean
-    amount?: boolean
-    currency?: boolean
-    status?: boolean
+    communityId?: boolean
+    code?: boolean
+    discountType?: boolean
+    discountValue?: boolean
+    expiresAt?: boolean
+    maxUses?: boolean
+    usedCount?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    deletedAt?: boolean
   }
 
-  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "subscriptionId" | "stripePaymentId" | "amount" | "currency" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
-  export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
+  export type CouponOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "code" | "discountType" | "discountValue" | "expiresAt" | "maxUses" | "usedCount" | "isActive" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["coupon"]>
+  export type CouponInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
   }
-  export type PaymentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
+  export type CouponIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
   }
-  export type PaymentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subscription?: boolean | SubscriptionDefaultArgs<ExtArgs>
+  export type CouponIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
   }
 
-  export type $PaymentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Payment"
+  export type $CouponPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Coupon"
     objects: {
-      subscription: Prisma.$SubscriptionPayload<ExtArgs>
+      community: Prisma.$CommunityPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      subscriptionId: string
-      stripePaymentId: string
-      amount: number
-      currency: string
-      status: $Enums.PaymentStatus
+      communityId: string
+      code: string
+      discountType: string
+      discountValue: number
+      expiresAt: Date | null
+      maxUses: number | null
+      usedCount: number
+      isActive: boolean
       createdAt: Date
       updatedAt: Date
-    }, ExtArgs["result"]["payment"]>
+      deletedAt: Date | null
+    }, ExtArgs["result"]["coupon"]>
     composites: {}
   }
 
-  type PaymentGetPayload<S extends boolean | null | undefined | PaymentDefaultArgs> = $Result.GetResult<Prisma.$PaymentPayload, S>
+  type CouponGetPayload<S extends boolean | null | undefined | CouponDefaultArgs> = $Result.GetResult<Prisma.$CouponPayload, S>
 
-  type PaymentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<PaymentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: PaymentCountAggregateInputType | true
+  type CouponCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CouponFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CouponCountAggregateInputType | true
     }
 
-  export interface PaymentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Payment'], meta: { name: 'Payment' } }
+  export interface CouponDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Coupon'], meta: { name: 'Coupon' } }
     /**
-     * Find zero or one Payment that matches the filter.
-     * @param {PaymentFindUniqueArgs} args - Arguments to find a Payment
+     * Find zero or one Coupon that matches the filter.
+     * @param {CouponFindUniqueArgs} args - Arguments to find a Coupon
      * @example
-     * // Get one Payment
-     * const payment = await prisma.payment.findUnique({
+     * // Get one Coupon
+     * const coupon = await prisma.coupon.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends PaymentFindUniqueArgs>(args: SelectSubset<T, PaymentFindUniqueArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends CouponFindUniqueArgs>(args: SelectSubset<T, CouponFindUniqueArgs<ExtArgs>>): Prisma__CouponClient<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Payment that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Coupon that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {PaymentFindUniqueOrThrowArgs} args - Arguments to find a Payment
+     * @param {CouponFindUniqueOrThrowArgs} args - Arguments to find a Coupon
      * @example
-     * // Get one Payment
-     * const payment = await prisma.payment.findUniqueOrThrow({
+     * // Get one Coupon
+     * const coupon = await prisma.coupon.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends PaymentFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends CouponFindUniqueOrThrowArgs>(args: SelectSubset<T, CouponFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CouponClient<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Payment that matches the filter.
+     * Find the first Coupon that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentFindFirstArgs} args - Arguments to find a Payment
+     * @param {CouponFindFirstArgs} args - Arguments to find a Coupon
      * @example
-     * // Get one Payment
-     * const payment = await prisma.payment.findFirst({
+     * // Get one Coupon
+     * const coupon = await prisma.coupon.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends PaymentFindFirstArgs>(args?: SelectSubset<T, PaymentFindFirstArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends CouponFindFirstArgs>(args?: SelectSubset<T, CouponFindFirstArgs<ExtArgs>>): Prisma__CouponClient<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Payment that matches the filter or
+     * Find the first Coupon that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentFindFirstOrThrowArgs} args - Arguments to find a Payment
+     * @param {CouponFindFirstOrThrowArgs} args - Arguments to find a Coupon
      * @example
-     * // Get one Payment
-     * const payment = await prisma.payment.findFirstOrThrow({
+     * // Get one Coupon
+     * const coupon = await prisma.coupon.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends PaymentFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends CouponFindFirstOrThrowArgs>(args?: SelectSubset<T, CouponFindFirstOrThrowArgs<ExtArgs>>): Prisma__CouponClient<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Payments that matches the filter.
+     * Find zero or more Coupons that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {CouponFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Payments
-     * const payments = await prisma.payment.findMany()
+     * // Get all Coupons
+     * const coupons = await prisma.coupon.findMany()
      * 
-     * // Get first 10 Payments
-     * const payments = await prisma.payment.findMany({ take: 10 })
+     * // Get first 10 Coupons
+     * const coupons = await prisma.coupon.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const paymentWithIdOnly = await prisma.payment.findMany({ select: { id: true } })
+     * const couponWithIdOnly = await prisma.coupon.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends PaymentFindManyArgs>(args?: SelectSubset<T, PaymentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends CouponFindManyArgs>(args?: SelectSubset<T, CouponFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Payment.
-     * @param {PaymentCreateArgs} args - Arguments to create a Payment.
+     * Create a Coupon.
+     * @param {CouponCreateArgs} args - Arguments to create a Coupon.
      * @example
-     * // Create one Payment
-     * const Payment = await prisma.payment.create({
+     * // Create one Coupon
+     * const Coupon = await prisma.coupon.create({
      *   data: {
-     *     // ... data to create a Payment
+     *     // ... data to create a Coupon
      *   }
      * })
      * 
      */
-    create<T extends PaymentCreateArgs>(args: SelectSubset<T, PaymentCreateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends CouponCreateArgs>(args: SelectSubset<T, CouponCreateArgs<ExtArgs>>): Prisma__CouponClient<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Payments.
-     * @param {PaymentCreateManyArgs} args - Arguments to create many Payments.
+     * Create many Coupons.
+     * @param {CouponCreateManyArgs} args - Arguments to create many Coupons.
      * @example
-     * // Create many Payments
-     * const payment = await prisma.payment.createMany({
+     * // Create many Coupons
+     * const coupon = await prisma.coupon.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends PaymentCreateManyArgs>(args?: SelectSubset<T, PaymentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends CouponCreateManyArgs>(args?: SelectSubset<T, CouponCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Payments and returns the data saved in the database.
-     * @param {PaymentCreateManyAndReturnArgs} args - Arguments to create many Payments.
+     * Create many Coupons and returns the data saved in the database.
+     * @param {CouponCreateManyAndReturnArgs} args - Arguments to create many Coupons.
      * @example
-     * // Create many Payments
-     * const payment = await prisma.payment.createManyAndReturn({
+     * // Create many Coupons
+     * const coupon = await prisma.coupon.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Payments and only return the `id`
-     * const paymentWithIdOnly = await prisma.payment.createManyAndReturn({
+     * // Create many Coupons and only return the `id`
+     * const couponWithIdOnly = await prisma.coupon.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -19710,28 +19762,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends PaymentCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends CouponCreateManyAndReturnArgs>(args?: SelectSubset<T, CouponCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Payment.
-     * @param {PaymentDeleteArgs} args - Arguments to delete one Payment.
+     * Delete a Coupon.
+     * @param {CouponDeleteArgs} args - Arguments to delete one Coupon.
      * @example
-     * // Delete one Payment
-     * const Payment = await prisma.payment.delete({
+     * // Delete one Coupon
+     * const Coupon = await prisma.coupon.delete({
      *   where: {
-     *     // ... filter to delete one Payment
+     *     // ... filter to delete one Coupon
      *   }
      * })
      * 
      */
-    delete<T extends PaymentDeleteArgs>(args: SelectSubset<T, PaymentDeleteArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends CouponDeleteArgs>(args: SelectSubset<T, CouponDeleteArgs<ExtArgs>>): Prisma__CouponClient<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Payment.
-     * @param {PaymentUpdateArgs} args - Arguments to update one Payment.
+     * Update one Coupon.
+     * @param {CouponUpdateArgs} args - Arguments to update one Coupon.
      * @example
-     * // Update one Payment
-     * const payment = await prisma.payment.update({
+     * // Update one Coupon
+     * const coupon = await prisma.coupon.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -19741,30 +19793,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends PaymentUpdateArgs>(args: SelectSubset<T, PaymentUpdateArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends CouponUpdateArgs>(args: SelectSubset<T, CouponUpdateArgs<ExtArgs>>): Prisma__CouponClient<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Payments.
-     * @param {PaymentDeleteManyArgs} args - Arguments to filter Payments to delete.
+     * Delete zero or more Coupons.
+     * @param {CouponDeleteManyArgs} args - Arguments to filter Coupons to delete.
      * @example
-     * // Delete a few Payments
-     * const { count } = await prisma.payment.deleteMany({
+     * // Delete a few Coupons
+     * const { count } = await prisma.coupon.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends PaymentDeleteManyArgs>(args?: SelectSubset<T, PaymentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends CouponDeleteManyArgs>(args?: SelectSubset<T, CouponDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Payments.
+     * Update zero or more Coupons.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {CouponUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Payments
-     * const payment = await prisma.payment.updateMany({
+     * // Update many Coupons
+     * const coupon = await prisma.coupon.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -19774,14 +19826,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends PaymentUpdateManyArgs>(args: SelectSubset<T, PaymentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends CouponUpdateManyArgs>(args: SelectSubset<T, CouponUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Payments and returns the data updated in the database.
-     * @param {PaymentUpdateManyAndReturnArgs} args - Arguments to update many Payments.
+     * Update zero or more Coupons and returns the data updated in the database.
+     * @param {CouponUpdateManyAndReturnArgs} args - Arguments to update many Coupons.
      * @example
-     * // Update many Payments
-     * const payment = await prisma.payment.updateManyAndReturn({
+     * // Update many Coupons
+     * const coupon = await prisma.coupon.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -19790,8 +19842,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Payments and only return the `id`
-     * const paymentWithIdOnly = await prisma.payment.updateManyAndReturn({
+     * // Update zero or more Coupons and only return the `id`
+     * const couponWithIdOnly = await prisma.coupon.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -19804,56 +19856,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends PaymentUpdateManyAndReturnArgs>(args: SelectSubset<T, PaymentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends CouponUpdateManyAndReturnArgs>(args: SelectSubset<T, CouponUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Payment.
-     * @param {PaymentUpsertArgs} args - Arguments to update or create a Payment.
+     * Create or update one Coupon.
+     * @param {CouponUpsertArgs} args - Arguments to update or create a Coupon.
      * @example
-     * // Update or create a Payment
-     * const payment = await prisma.payment.upsert({
+     * // Update or create a Coupon
+     * const coupon = await prisma.coupon.upsert({
      *   create: {
-     *     // ... data to create a Payment
+     *     // ... data to create a Coupon
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Payment we want to update
+     *     // ... the filter for the Coupon we want to update
      *   }
      * })
      */
-    upsert<T extends PaymentUpsertArgs>(args: SelectSubset<T, PaymentUpsertArgs<ExtArgs>>): Prisma__PaymentClient<$Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends CouponUpsertArgs>(args: SelectSubset<T, CouponUpsertArgs<ExtArgs>>): Prisma__CouponClient<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Payments.
+     * Count the number of Coupons.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentCountArgs} args - Arguments to filter Payments to count.
+     * @param {CouponCountArgs} args - Arguments to filter Coupons to count.
      * @example
-     * // Count the number of Payments
-     * const count = await prisma.payment.count({
+     * // Count the number of Coupons
+     * const count = await prisma.coupon.count({
      *   where: {
-     *     // ... the filter for the Payments we want to count
+     *     // ... the filter for the Coupons we want to count
      *   }
      * })
     **/
-    count<T extends PaymentCountArgs>(
-      args?: Subset<T, PaymentCountArgs>,
+    count<T extends CouponCountArgs>(
+      args?: Subset<T, CouponCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], PaymentCountAggregateOutputType>
+          : GetScalarType<T['select'], CouponCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Payment.
+     * Allows you to perform aggregations operations on a Coupon.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {CouponAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -19873,13 +19925,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends PaymentAggregateArgs>(args: Subset<T, PaymentAggregateArgs>): Prisma.PrismaPromise<GetPaymentAggregateType<T>>
+    aggregate<T extends CouponAggregateArgs>(args: Subset<T, CouponAggregateArgs>): Prisma.PrismaPromise<GetCouponAggregateType<T>>
 
     /**
-     * Group by Payment.
+     * Group by Coupon.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PaymentGroupByArgs} args - Group by arguments.
+     * @param {CouponGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -19894,14 +19946,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends PaymentGroupByArgs,
+      T extends CouponGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PaymentGroupByArgs['orderBy'] }
-        : { orderBy?: PaymentGroupByArgs['orderBy'] },
+        ? { orderBy: CouponGroupByArgs['orderBy'] }
+        : { orderBy?: CouponGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -19950,22 +20002,22 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, PaymentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, CouponGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCouponGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Payment model
+   * Fields of the Coupon model
    */
-  readonly fields: PaymentFieldRefs;
+  readonly fields: CouponFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Payment.
+   * The delegate class that acts as a "Promise-like" for Coupon.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__PaymentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__CouponClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    subscription<T extends SubscriptionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SubscriptionDefaultArgs<ExtArgs>>): Prisma__SubscriptionClient<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -19992,428 +20044,432 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Payment model
+   * Fields of the Coupon model
    */
-  interface PaymentFieldRefs {
-    readonly id: FieldRef<"Payment", 'String'>
-    readonly subscriptionId: FieldRef<"Payment", 'String'>
-    readonly stripePaymentId: FieldRef<"Payment", 'String'>
-    readonly amount: FieldRef<"Payment", 'Int'>
-    readonly currency: FieldRef<"Payment", 'String'>
-    readonly status: FieldRef<"Payment", 'PaymentStatus'>
-    readonly createdAt: FieldRef<"Payment", 'DateTime'>
-    readonly updatedAt: FieldRef<"Payment", 'DateTime'>
+  interface CouponFieldRefs {
+    readonly id: FieldRef<"Coupon", 'String'>
+    readonly communityId: FieldRef<"Coupon", 'String'>
+    readonly code: FieldRef<"Coupon", 'String'>
+    readonly discountType: FieldRef<"Coupon", 'String'>
+    readonly discountValue: FieldRef<"Coupon", 'Int'>
+    readonly expiresAt: FieldRef<"Coupon", 'DateTime'>
+    readonly maxUses: FieldRef<"Coupon", 'Int'>
+    readonly usedCount: FieldRef<"Coupon", 'Int'>
+    readonly isActive: FieldRef<"Coupon", 'Boolean'>
+    readonly createdAt: FieldRef<"Coupon", 'DateTime'>
+    readonly updatedAt: FieldRef<"Coupon", 'DateTime'>
+    readonly deletedAt: FieldRef<"Coupon", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * Payment findUnique
+   * Coupon findUnique
    */
-  export type PaymentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelect<ExtArgs> | null
+    select?: CouponSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentInclude<ExtArgs> | null
+    include?: CouponInclude<ExtArgs> | null
     /**
-     * Filter, which Payment to fetch.
+     * Filter, which Coupon to fetch.
      */
-    where: PaymentWhereUniqueInput
+    where: CouponWhereUniqueInput
   }
 
   /**
-   * Payment findUniqueOrThrow
+   * Coupon findUniqueOrThrow
    */
-  export type PaymentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelect<ExtArgs> | null
+    select?: CouponSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentInclude<ExtArgs> | null
+    include?: CouponInclude<ExtArgs> | null
     /**
-     * Filter, which Payment to fetch.
+     * Filter, which Coupon to fetch.
      */
-    where: PaymentWhereUniqueInput
+    where: CouponWhereUniqueInput
   }
 
   /**
-   * Payment findFirst
+   * Coupon findFirst
    */
-  export type PaymentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelect<ExtArgs> | null
+    select?: CouponSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentInclude<ExtArgs> | null
+    include?: CouponInclude<ExtArgs> | null
     /**
-     * Filter, which Payment to fetch.
+     * Filter, which Coupon to fetch.
      */
-    where?: PaymentWhereInput
+    where?: CouponWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Payments to fetch.
+     * Determine the order of Coupons to fetch.
      */
-    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    orderBy?: CouponOrderByWithRelationInput | CouponOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Payments.
+     * Sets the position for searching for Coupons.
      */
-    cursor?: PaymentWhereUniqueInput
+    cursor?: CouponWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Payments from the position of the cursor.
+     * Take `±n` Coupons from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Payments.
+     * Skip the first `n` Coupons.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Payments.
+     * Filter by unique combinations of Coupons.
      */
-    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+    distinct?: CouponScalarFieldEnum | CouponScalarFieldEnum[]
   }
 
   /**
-   * Payment findFirstOrThrow
+   * Coupon findFirstOrThrow
    */
-  export type PaymentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelect<ExtArgs> | null
+    select?: CouponSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentInclude<ExtArgs> | null
+    include?: CouponInclude<ExtArgs> | null
     /**
-     * Filter, which Payment to fetch.
+     * Filter, which Coupon to fetch.
      */
-    where?: PaymentWhereInput
+    where?: CouponWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Payments to fetch.
+     * Determine the order of Coupons to fetch.
      */
-    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    orderBy?: CouponOrderByWithRelationInput | CouponOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Payments.
+     * Sets the position for searching for Coupons.
      */
-    cursor?: PaymentWhereUniqueInput
+    cursor?: CouponWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Payments from the position of the cursor.
+     * Take `±n` Coupons from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Payments.
+     * Skip the first `n` Coupons.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Payments.
+     * Filter by unique combinations of Coupons.
      */
-    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+    distinct?: CouponScalarFieldEnum | CouponScalarFieldEnum[]
   }
 
   /**
-   * Payment findMany
+   * Coupon findMany
    */
-  export type PaymentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelect<ExtArgs> | null
+    select?: CouponSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentInclude<ExtArgs> | null
+    include?: CouponInclude<ExtArgs> | null
     /**
-     * Filter, which Payments to fetch.
+     * Filter, which Coupons to fetch.
      */
-    where?: PaymentWhereInput
+    where?: CouponWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Payments to fetch.
+     * Determine the order of Coupons to fetch.
      */
-    orderBy?: PaymentOrderByWithRelationInput | PaymentOrderByWithRelationInput[]
+    orderBy?: CouponOrderByWithRelationInput | CouponOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Payments.
+     * Sets the position for listing Coupons.
      */
-    cursor?: PaymentWhereUniqueInput
+    cursor?: CouponWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Payments from the position of the cursor.
+     * Take `±n` Coupons from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Payments.
+     * Skip the first `n` Coupons.
      */
     skip?: number
-    distinct?: PaymentScalarFieldEnum | PaymentScalarFieldEnum[]
+    distinct?: CouponScalarFieldEnum | CouponScalarFieldEnum[]
   }
 
   /**
-   * Payment create
+   * Coupon create
    */
-  export type PaymentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelect<ExtArgs> | null
+    select?: CouponSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentInclude<ExtArgs> | null
+    include?: CouponInclude<ExtArgs> | null
     /**
-     * The data needed to create a Payment.
+     * The data needed to create a Coupon.
      */
-    data: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>
+    data: XOR<CouponCreateInput, CouponUncheckedCreateInput>
   }
 
   /**
-   * Payment createMany
+   * Coupon createMany
    */
-  export type PaymentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Payments.
+     * The data used to create many Coupons.
      */
-    data: PaymentCreateManyInput | PaymentCreateManyInput[]
+    data: CouponCreateManyInput | CouponCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Payment createManyAndReturn
+   * Coupon createManyAndReturn
    */
-  export type PaymentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelectCreateManyAndReturn<ExtArgs> | null
+    select?: CouponSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
-     * The data used to create many Payments.
+     * The data used to create many Coupons.
      */
-    data: PaymentCreateManyInput | PaymentCreateManyInput[]
+    data: CouponCreateManyInput | CouponCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: CouponIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Payment update
+   * Coupon update
    */
-  export type PaymentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelect<ExtArgs> | null
+    select?: CouponSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentInclude<ExtArgs> | null
+    include?: CouponInclude<ExtArgs> | null
     /**
-     * The data needed to update a Payment.
+     * The data needed to update a Coupon.
      */
-    data: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>
+    data: XOR<CouponUpdateInput, CouponUncheckedUpdateInput>
     /**
-     * Choose, which Payment to update.
+     * Choose, which Coupon to update.
      */
-    where: PaymentWhereUniqueInput
+    where: CouponWhereUniqueInput
   }
 
   /**
-   * Payment updateMany
+   * Coupon updateMany
    */
-  export type PaymentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Payments.
+     * The data used to update Coupons.
      */
-    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>
+    data: XOR<CouponUpdateManyMutationInput, CouponUncheckedUpdateManyInput>
     /**
-     * Filter which Payments to update
+     * Filter which Coupons to update
      */
-    where?: PaymentWhereInput
+    where?: CouponWhereInput
     /**
-     * Limit how many Payments to update.
+     * Limit how many Coupons to update.
      */
     limit?: number
   }
 
   /**
-   * Payment updateManyAndReturn
+   * Coupon updateManyAndReturn
    */
-  export type PaymentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: CouponSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
-     * The data used to update Payments.
+     * The data used to update Coupons.
      */
-    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyInput>
+    data: XOR<CouponUpdateManyMutationInput, CouponUncheckedUpdateManyInput>
     /**
-     * Filter which Payments to update
+     * Filter which Coupons to update
      */
-    where?: PaymentWhereInput
+    where?: CouponWhereInput
     /**
-     * Limit how many Payments to update.
+     * Limit how many Coupons to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: CouponIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Payment upsert
+   * Coupon upsert
    */
-  export type PaymentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelect<ExtArgs> | null
+    select?: CouponSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentInclude<ExtArgs> | null
+    include?: CouponInclude<ExtArgs> | null
     /**
-     * The filter to search for the Payment to update in case it exists.
+     * The filter to search for the Coupon to update in case it exists.
      */
-    where: PaymentWhereUniqueInput
+    where: CouponWhereUniqueInput
     /**
-     * In case the Payment found by the `where` argument doesn't exist, create a new Payment with this data.
+     * In case the Coupon found by the `where` argument doesn't exist, create a new Coupon with this data.
      */
-    create: XOR<PaymentCreateInput, PaymentUncheckedCreateInput>
+    create: XOR<CouponCreateInput, CouponUncheckedCreateInput>
     /**
-     * In case the Payment was found with the provided `where` argument, update it with this data.
+     * In case the Coupon was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<PaymentUpdateInput, PaymentUncheckedUpdateInput>
+    update: XOR<CouponUpdateInput, CouponUncheckedUpdateInput>
   }
 
   /**
-   * Payment delete
+   * Coupon delete
    */
-  export type PaymentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelect<ExtArgs> | null
+    select?: CouponSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentInclude<ExtArgs> | null
+    include?: CouponInclude<ExtArgs> | null
     /**
-     * Filter which Payment to delete.
+     * Filter which Coupon to delete.
      */
-    where: PaymentWhereUniqueInput
+    where: CouponWhereUniqueInput
   }
 
   /**
-   * Payment deleteMany
+   * Coupon deleteMany
    */
-  export type PaymentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Payments to delete
+     * Filter which Coupons to delete
      */
-    where?: PaymentWhereInput
+    where?: CouponWhereInput
     /**
-     * Limit how many Payments to delete.
+     * Limit how many Coupons to delete.
      */
     limit?: number
   }
 
   /**
-   * Payment without action
+   * Coupon without action
    */
-  export type PaymentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type CouponDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Payment
+     * Select specific fields to fetch from the Coupon
      */
-    select?: PaymentSelect<ExtArgs> | null
+    select?: CouponSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Payment
+     * Omit specific fields from the Coupon
      */
-    omit?: PaymentOmit<ExtArgs> | null
+    omit?: CouponOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PaymentInclude<ExtArgs> | null
+    include?: CouponInclude<ExtArgs> | null
   }
 
 
@@ -20622,10 +20678,8 @@ export namespace Prisma {
     communityId: 'communityId',
     name: 'name',
     description: 'description',
-    price: 'price',
-    interval: 'interval',
-    stripeProductId: 'stripeProductId',
-    stripePriceId: 'stripePriceId',
+    priceMonthly: 'priceMonthly',
+    priceAnnual: 'priceAnnual',
     features: 'features',
     isActive: 'isActive',
     createdAt: 'createdAt',
@@ -20639,14 +20693,16 @@ export namespace Prisma {
   export const SubscriptionScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
-    tierId: 'tierId',
-    stripeCustomerId: 'stripeCustomerId',
+    communityId: 'communityId',
+    paymentTierId: 'paymentTierId',
     stripeSubscriptionId: 'stripeSubscriptionId',
+    stripeCustomerId: 'stripeCustomerId',
     status: 'status',
+    interval: 'interval',
     currentPeriodStart: 'currentPeriodStart',
     currentPeriodEnd: 'currentPeriodEnd',
-    cancelAt: 'cancelAt',
-    canceledAt: 'canceledAt',
+    cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+    trialEndsAt: 'trialEndsAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt'
@@ -20655,18 +20711,22 @@ export namespace Prisma {
   export type SubscriptionScalarFieldEnum = (typeof SubscriptionScalarFieldEnum)[keyof typeof SubscriptionScalarFieldEnum]
 
 
-  export const PaymentScalarFieldEnum: {
+  export const CouponScalarFieldEnum: {
     id: 'id',
-    subscriptionId: 'subscriptionId',
-    stripePaymentId: 'stripePaymentId',
-    amount: 'amount',
-    currency: 'currency',
-    status: 'status',
+    communityId: 'communityId',
+    code: 'code',
+    discountType: 'discountType',
+    discountValue: 'discountValue',
+    expiresAt: 'expiresAt',
+    maxUses: 'maxUses',
+    usedCount: 'usedCount',
+    isActive: 'isActive',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
   };
 
-  export type PaymentScalarFieldEnum = (typeof PaymentScalarFieldEnum)[keyof typeof PaymentScalarFieldEnum]
+  export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -20786,34 +20846,6 @@ export namespace Prisma {
    * Reference to a field of type 'NotificationType[]'
    */
   export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'SubscriptionStatus'
-   */
-  export type EnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'SubscriptionStatus[]'
-   */
-  export type ListEnumSubscriptionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SubscriptionStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'PaymentStatus'
-   */
-  export type EnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus'>
-    
-
-
-  /**
-   * Reference to a field of type 'PaymentStatus[]'
-   */
-  export type ListEnumPaymentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentStatus[]'>
     
 
 
@@ -20947,6 +20979,8 @@ export namespace Prisma {
     posts?: PostListRelationFilter
     courses?: CourseListRelationFilter
     paymentTiers?: PaymentTierListRelationFilter
+    subscriptions?: SubscriptionListRelationFilter
+    coupons?: CouponListRelationFilter
     notifications?: NotificationListRelationFilter
   }
 
@@ -20964,6 +20998,8 @@ export namespace Prisma {
     posts?: PostOrderByRelationAggregateInput
     courses?: CourseOrderByRelationAggregateInput
     paymentTiers?: PaymentTierOrderByRelationAggregateInput
+    subscriptions?: SubscriptionOrderByRelationAggregateInput
+    coupons?: CouponOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
   }
 
@@ -20984,6 +21020,8 @@ export namespace Prisma {
     posts?: PostListRelationFilter
     courses?: CourseListRelationFilter
     paymentTiers?: PaymentTierListRelationFilter
+    subscriptions?: SubscriptionListRelationFilter
+    coupons?: CouponListRelationFilter
     notifications?: NotificationListRelationFilter
   }, "id" | "slug">
 
@@ -21869,11 +21907,9 @@ export namespace Prisma {
     id?: StringFilter<"PaymentTier"> | string
     communityId?: StringFilter<"PaymentTier"> | string
     name?: StringFilter<"PaymentTier"> | string
-    description?: StringNullableFilter<"PaymentTier"> | string | null
-    price?: IntFilter<"PaymentTier"> | number
-    interval?: StringNullableFilter<"PaymentTier"> | string | null
-    stripeProductId?: StringNullableFilter<"PaymentTier"> | string | null
-    stripePriceId?: StringNullableFilter<"PaymentTier"> | string | null
+    description?: StringFilter<"PaymentTier"> | string
+    priceMonthly?: IntFilter<"PaymentTier"> | number
+    priceAnnual?: IntFilter<"PaymentTier"> | number
     features?: StringNullableListFilter<"PaymentTier">
     isActive?: BoolFilter<"PaymentTier"> | boolean
     createdAt?: DateTimeFilter<"PaymentTier"> | Date | string
@@ -21887,11 +21923,9 @@ export namespace Prisma {
     id?: SortOrder
     communityId?: SortOrder
     name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    price?: SortOrder
-    interval?: SortOrderInput | SortOrder
-    stripeProductId?: SortOrderInput | SortOrder
-    stripePriceId?: SortOrderInput | SortOrder
+    description?: SortOrder
+    priceMonthly?: SortOrder
+    priceAnnual?: SortOrder
     features?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -21908,11 +21942,9 @@ export namespace Prisma {
     NOT?: PaymentTierWhereInput | PaymentTierWhereInput[]
     communityId?: StringFilter<"PaymentTier"> | string
     name?: StringFilter<"PaymentTier"> | string
-    description?: StringNullableFilter<"PaymentTier"> | string | null
-    price?: IntFilter<"PaymentTier"> | number
-    interval?: StringNullableFilter<"PaymentTier"> | string | null
-    stripeProductId?: StringNullableFilter<"PaymentTier"> | string | null
-    stripePriceId?: StringNullableFilter<"PaymentTier"> | string | null
+    description?: StringFilter<"PaymentTier"> | string
+    priceMonthly?: IntFilter<"PaymentTier"> | number
+    priceAnnual?: IntFilter<"PaymentTier"> | number
     features?: StringNullableListFilter<"PaymentTier">
     isActive?: BoolFilter<"PaymentTier"> | boolean
     createdAt?: DateTimeFilter<"PaymentTier"> | Date | string
@@ -21926,11 +21958,9 @@ export namespace Prisma {
     id?: SortOrder
     communityId?: SortOrder
     name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    price?: SortOrder
-    interval?: SortOrderInput | SortOrder
-    stripeProductId?: SortOrderInput | SortOrder
-    stripePriceId?: SortOrderInput | SortOrder
+    description?: SortOrder
+    priceMonthly?: SortOrder
+    priceAnnual?: SortOrder
     features?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -21950,11 +21980,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"PaymentTier"> | string
     communityId?: StringWithAggregatesFilter<"PaymentTier"> | string
     name?: StringWithAggregatesFilter<"PaymentTier"> | string
-    description?: StringNullableWithAggregatesFilter<"PaymentTier"> | string | null
-    price?: IntWithAggregatesFilter<"PaymentTier"> | number
-    interval?: StringNullableWithAggregatesFilter<"PaymentTier"> | string | null
-    stripeProductId?: StringNullableWithAggregatesFilter<"PaymentTier"> | string | null
-    stripePriceId?: StringNullableWithAggregatesFilter<"PaymentTier"> | string | null
+    description?: StringWithAggregatesFilter<"PaymentTier"> | string
+    priceMonthly?: IntWithAggregatesFilter<"PaymentTier"> | number
+    priceAnnual?: IntWithAggregatesFilter<"PaymentTier"> | number
     features?: StringNullableListFilter<"PaymentTier">
     isActive?: BoolWithAggregatesFilter<"PaymentTier"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"PaymentTier"> | Date | string
@@ -21968,74 +21996,83 @@ export namespace Prisma {
     NOT?: SubscriptionWhereInput | SubscriptionWhereInput[]
     id?: StringFilter<"Subscription"> | string
     userId?: StringFilter<"Subscription"> | string
-    tierId?: StringFilter<"Subscription"> | string
-    stripeCustomerId?: StringNullableFilter<"Subscription"> | string | null
+    communityId?: StringFilter<"Subscription"> | string
+    paymentTierId?: StringFilter<"Subscription"> | string
     stripeSubscriptionId?: StringNullableFilter<"Subscription"> | string | null
-    status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
+    stripeCustomerId?: StringNullableFilter<"Subscription"> | string | null
+    status?: StringFilter<"Subscription"> | string
+    interval?: StringFilter<"Subscription"> | string
     currentPeriodStart?: DateTimeFilter<"Subscription"> | Date | string
     currentPeriodEnd?: DateTimeFilter<"Subscription"> | Date | string
-    cancelAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
-    canceledAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    cancelAtPeriodEnd?: BoolFilter<"Subscription"> | boolean
+    trialEndsAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    tier?: XOR<PaymentTierScalarRelationFilter, PaymentTierWhereInput>
-    payments?: PaymentListRelationFilter
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    paymentTier?: XOR<PaymentTierScalarRelationFilter, PaymentTierWhereInput>
   }
 
   export type SubscriptionOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    tierId?: SortOrder
-    stripeCustomerId?: SortOrderInput | SortOrder
+    communityId?: SortOrder
+    paymentTierId?: SortOrder
     stripeSubscriptionId?: SortOrderInput | SortOrder
+    stripeCustomerId?: SortOrderInput | SortOrder
     status?: SortOrder
+    interval?: SortOrder
     currentPeriodStart?: SortOrder
     currentPeriodEnd?: SortOrder
-    cancelAt?: SortOrderInput | SortOrder
-    canceledAt?: SortOrderInput | SortOrder
+    cancelAtPeriodEnd?: SortOrder
+    trialEndsAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
-    tier?: PaymentTierOrderByWithRelationInput
-    payments?: PaymentOrderByRelationAggregateInput
+    community?: CommunityOrderByWithRelationInput
+    paymentTier?: PaymentTierOrderByWithRelationInput
   }
 
   export type SubscriptionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     stripeSubscriptionId?: string
+    userId_communityId?: SubscriptionUserIdCommunityIdCompoundUniqueInput
     AND?: SubscriptionWhereInput | SubscriptionWhereInput[]
     OR?: SubscriptionWhereInput[]
     NOT?: SubscriptionWhereInput | SubscriptionWhereInput[]
     userId?: StringFilter<"Subscription"> | string
-    tierId?: StringFilter<"Subscription"> | string
+    communityId?: StringFilter<"Subscription"> | string
+    paymentTierId?: StringFilter<"Subscription"> | string
     stripeCustomerId?: StringNullableFilter<"Subscription"> | string | null
-    status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
+    status?: StringFilter<"Subscription"> | string
+    interval?: StringFilter<"Subscription"> | string
     currentPeriodStart?: DateTimeFilter<"Subscription"> | Date | string
     currentPeriodEnd?: DateTimeFilter<"Subscription"> | Date | string
-    cancelAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
-    canceledAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    cancelAtPeriodEnd?: BoolFilter<"Subscription"> | boolean
+    trialEndsAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    tier?: XOR<PaymentTierScalarRelationFilter, PaymentTierWhereInput>
-    payments?: PaymentListRelationFilter
-  }, "id" | "stripeSubscriptionId">
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    paymentTier?: XOR<PaymentTierScalarRelationFilter, PaymentTierWhereInput>
+  }, "id" | "stripeSubscriptionId" | "userId_communityId">
 
   export type SubscriptionOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    tierId?: SortOrder
-    stripeCustomerId?: SortOrderInput | SortOrder
+    communityId?: SortOrder
+    paymentTierId?: SortOrder
     stripeSubscriptionId?: SortOrderInput | SortOrder
+    stripeCustomerId?: SortOrderInput | SortOrder
     status?: SortOrder
+    interval?: SortOrder
     currentPeriodStart?: SortOrder
     currentPeriodEnd?: SortOrder
-    cancelAt?: SortOrderInput | SortOrder
-    canceledAt?: SortOrderInput | SortOrder
+    cancelAtPeriodEnd?: SortOrder
+    trialEndsAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -22050,89 +22087,112 @@ export namespace Prisma {
     NOT?: SubscriptionScalarWhereWithAggregatesInput | SubscriptionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Subscription"> | string
     userId?: StringWithAggregatesFilter<"Subscription"> | string
-    tierId?: StringWithAggregatesFilter<"Subscription"> | string
-    stripeCustomerId?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    communityId?: StringWithAggregatesFilter<"Subscription"> | string
+    paymentTierId?: StringWithAggregatesFilter<"Subscription"> | string
     stripeSubscriptionId?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
-    status?: EnumSubscriptionStatusWithAggregatesFilter<"Subscription"> | $Enums.SubscriptionStatus
+    stripeCustomerId?: StringNullableWithAggregatesFilter<"Subscription"> | string | null
+    status?: StringWithAggregatesFilter<"Subscription"> | string
+    interval?: StringWithAggregatesFilter<"Subscription"> | string
     currentPeriodStart?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     currentPeriodEnd?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
-    cancelAt?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
-    canceledAt?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
+    cancelAtPeriodEnd?: BoolWithAggregatesFilter<"Subscription"> | boolean
+    trialEndsAt?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Subscription"> | Date | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Subscription"> | Date | string | null
   }
 
-  export type PaymentWhereInput = {
-    AND?: PaymentWhereInput | PaymentWhereInput[]
-    OR?: PaymentWhereInput[]
-    NOT?: PaymentWhereInput | PaymentWhereInput[]
-    id?: StringFilter<"Payment"> | string
-    subscriptionId?: StringFilter<"Payment"> | string
-    stripePaymentId?: StringFilter<"Payment"> | string
-    amount?: IntFilter<"Payment"> | number
-    currency?: StringFilter<"Payment"> | string
-    status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
-    createdAt?: DateTimeFilter<"Payment"> | Date | string
-    updatedAt?: DateTimeFilter<"Payment"> | Date | string
-    subscription?: XOR<SubscriptionScalarRelationFilter, SubscriptionWhereInput>
+  export type CouponWhereInput = {
+    AND?: CouponWhereInput | CouponWhereInput[]
+    OR?: CouponWhereInput[]
+    NOT?: CouponWhereInput | CouponWhereInput[]
+    id?: StringFilter<"Coupon"> | string
+    communityId?: StringFilter<"Coupon"> | string
+    code?: StringFilter<"Coupon"> | string
+    discountType?: StringFilter<"Coupon"> | string
+    discountValue?: IntFilter<"Coupon"> | number
+    expiresAt?: DateTimeNullableFilter<"Coupon"> | Date | string | null
+    maxUses?: IntNullableFilter<"Coupon"> | number | null
+    usedCount?: IntFilter<"Coupon"> | number
+    isActive?: BoolFilter<"Coupon"> | boolean
+    createdAt?: DateTimeFilter<"Coupon"> | Date | string
+    updatedAt?: DateTimeFilter<"Coupon"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Coupon"> | Date | string | null
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
   }
 
-  export type PaymentOrderByWithRelationInput = {
+  export type CouponOrderByWithRelationInput = {
     id?: SortOrder
-    subscriptionId?: SortOrder
-    stripePaymentId?: SortOrder
-    amount?: SortOrder
-    currency?: SortOrder
-    status?: SortOrder
+    communityId?: SortOrder
+    code?: SortOrder
+    discountType?: SortOrder
+    discountValue?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    maxUses?: SortOrderInput | SortOrder
+    usedCount?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    subscription?: SubscriptionOrderByWithRelationInput
+    deletedAt?: SortOrderInput | SortOrder
+    community?: CommunityOrderByWithRelationInput
   }
 
-  export type PaymentWhereUniqueInput = Prisma.AtLeast<{
+  export type CouponWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    stripePaymentId?: string
-    AND?: PaymentWhereInput | PaymentWhereInput[]
-    OR?: PaymentWhereInput[]
-    NOT?: PaymentWhereInput | PaymentWhereInput[]
-    subscriptionId?: StringFilter<"Payment"> | string
-    amount?: IntFilter<"Payment"> | number
-    currency?: StringFilter<"Payment"> | string
-    status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
-    createdAt?: DateTimeFilter<"Payment"> | Date | string
-    updatedAt?: DateTimeFilter<"Payment"> | Date | string
-    subscription?: XOR<SubscriptionScalarRelationFilter, SubscriptionWhereInput>
-  }, "id" | "stripePaymentId">
+    communityId_code?: CouponCommunityIdCodeCompoundUniqueInput
+    AND?: CouponWhereInput | CouponWhereInput[]
+    OR?: CouponWhereInput[]
+    NOT?: CouponWhereInput | CouponWhereInput[]
+    communityId?: StringFilter<"Coupon"> | string
+    code?: StringFilter<"Coupon"> | string
+    discountType?: StringFilter<"Coupon"> | string
+    discountValue?: IntFilter<"Coupon"> | number
+    expiresAt?: DateTimeNullableFilter<"Coupon"> | Date | string | null
+    maxUses?: IntNullableFilter<"Coupon"> | number | null
+    usedCount?: IntFilter<"Coupon"> | number
+    isActive?: BoolFilter<"Coupon"> | boolean
+    createdAt?: DateTimeFilter<"Coupon"> | Date | string
+    updatedAt?: DateTimeFilter<"Coupon"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Coupon"> | Date | string | null
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+  }, "id" | "communityId_code">
 
-  export type PaymentOrderByWithAggregationInput = {
+  export type CouponOrderByWithAggregationInput = {
     id?: SortOrder
-    subscriptionId?: SortOrder
-    stripePaymentId?: SortOrder
-    amount?: SortOrder
-    currency?: SortOrder
-    status?: SortOrder
+    communityId?: SortOrder
+    code?: SortOrder
+    discountType?: SortOrder
+    discountValue?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    maxUses?: SortOrderInput | SortOrder
+    usedCount?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    _count?: PaymentCountOrderByAggregateInput
-    _avg?: PaymentAvgOrderByAggregateInput
-    _max?: PaymentMaxOrderByAggregateInput
-    _min?: PaymentMinOrderByAggregateInput
-    _sum?: PaymentSumOrderByAggregateInput
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: CouponCountOrderByAggregateInput
+    _avg?: CouponAvgOrderByAggregateInput
+    _max?: CouponMaxOrderByAggregateInput
+    _min?: CouponMinOrderByAggregateInput
+    _sum?: CouponSumOrderByAggregateInput
   }
 
-  export type PaymentScalarWhereWithAggregatesInput = {
-    AND?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
-    OR?: PaymentScalarWhereWithAggregatesInput[]
-    NOT?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Payment"> | string
-    subscriptionId?: StringWithAggregatesFilter<"Payment"> | string
-    stripePaymentId?: StringWithAggregatesFilter<"Payment"> | string
-    amount?: IntWithAggregatesFilter<"Payment"> | number
-    currency?: StringWithAggregatesFilter<"Payment"> | string
-    status?: EnumPaymentStatusWithAggregatesFilter<"Payment"> | $Enums.PaymentStatus
-    createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
+  export type CouponScalarWhereWithAggregatesInput = {
+    AND?: CouponScalarWhereWithAggregatesInput | CouponScalarWhereWithAggregatesInput[]
+    OR?: CouponScalarWhereWithAggregatesInput[]
+    NOT?: CouponScalarWhereWithAggregatesInput | CouponScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Coupon"> | string
+    communityId?: StringWithAggregatesFilter<"Coupon"> | string
+    code?: StringWithAggregatesFilter<"Coupon"> | string
+    discountType?: StringWithAggregatesFilter<"Coupon"> | string
+    discountValue?: IntWithAggregatesFilter<"Coupon"> | number
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"Coupon"> | Date | string | null
+    maxUses?: IntNullableWithAggregatesFilter<"Coupon"> | number | null
+    usedCount?: IntWithAggregatesFilter<"Coupon"> | number
+    isActive?: BoolWithAggregatesFilter<"Coupon"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Coupon"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Coupon"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Coupon"> | Date | string | null
   }
 
   export type UserCreateInput = {
@@ -22265,6 +22325,8 @@ export namespace Prisma {
     posts?: PostCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
+    coupons?: CouponCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
   }
 
@@ -22282,6 +22344,8 @@ export namespace Prisma {
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
+    coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
   }
 
@@ -22299,6 +22363,8 @@ export namespace Prisma {
     posts?: PostUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
   }
 
@@ -22316,6 +22382,8 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
@@ -23256,80 +23324,70 @@ export namespace Prisma {
   export type PaymentTierCreateInput = {
     id?: string
     name: string
-    description?: string | null
-    price?: number
-    interval?: string | null
-    stripeProductId?: string | null
-    stripePriceId?: string | null
+    description: string
+    priceMonthly?: number
+    priceAnnual?: number
     features?: PaymentTierCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     community: CommunityCreateNestedOneWithoutPaymentTiersInput
-    subscriptions?: SubscriptionCreateNestedManyWithoutTierInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutPaymentTierInput
   }
 
   export type PaymentTierUncheckedCreateInput = {
     id?: string
     communityId: string
     name: string
-    description?: string | null
-    price?: number
-    interval?: string | null
-    stripeProductId?: string | null
-    stripePriceId?: string | null
+    description: string
+    priceMonthly?: number
+    priceAnnual?: number
     features?: PaymentTierCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutTierInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutPaymentTierInput
   }
 
   export type PaymentTierUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: IntFieldUpdateOperationsInput | number
-    interval?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    priceMonthly?: IntFieldUpdateOperationsInput | number
+    priceAnnual?: IntFieldUpdateOperationsInput | number
     features?: PaymentTierUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     community?: CommunityUpdateOneRequiredWithoutPaymentTiersNestedInput
-    subscriptions?: SubscriptionUpdateManyWithoutTierNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutPaymentTierNestedInput
   }
 
   export type PaymentTierUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     communityId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: IntFieldUpdateOperationsInput | number
-    interval?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    priceMonthly?: IntFieldUpdateOperationsInput | number
+    priceAnnual?: IntFieldUpdateOperationsInput | number
     features?: PaymentTierUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    subscriptions?: SubscriptionUncheckedUpdateManyWithoutTierNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutPaymentTierNestedInput
   }
 
   export type PaymentTierCreateManyInput = {
     id?: string
     communityId: string
     name: string
-    description?: string | null
-    price?: number
-    interval?: string | null
-    stripeProductId?: string | null
-    stripePriceId?: string | null
+    description: string
+    priceMonthly?: number
+    priceAnnual?: number
     features?: PaymentTierCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
@@ -23340,11 +23398,9 @@ export namespace Prisma {
   export type PaymentTierUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: IntFieldUpdateOperationsInput | number
-    interval?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    priceMonthly?: IntFieldUpdateOperationsInput | number
+    priceAnnual?: IntFieldUpdateOperationsInput | number
     features?: PaymentTierUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23356,11 +23412,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     communityId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: IntFieldUpdateOperationsInput | number
-    interval?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    priceMonthly?: IntFieldUpdateOperationsInput | number
+    priceAnnual?: IntFieldUpdateOperationsInput | number
     features?: PaymentTierUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -23370,83 +23424,89 @@ export namespace Prisma {
 
   export type SubscriptionCreateInput = {
     id?: string
-    stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
-    status?: $Enums.SubscriptionStatus
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
     currentPeriodStart: Date | string
     currentPeriodEnd: Date | string
-    cancelAt?: Date | string | null
-    canceledAt?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     user: UserCreateNestedOneWithoutSubscriptionsInput
-    tier: PaymentTierCreateNestedOneWithoutSubscriptionsInput
-    payments?: PaymentCreateNestedManyWithoutSubscriptionInput
+    community: CommunityCreateNestedOneWithoutSubscriptionsInput
+    paymentTier: PaymentTierCreateNestedOneWithoutSubscriptionsInput
   }
 
   export type SubscriptionUncheckedCreateInput = {
     id?: string
     userId: string
-    tierId: string
-    stripeCustomerId?: string | null
+    communityId: string
+    paymentTierId: string
     stripeSubscriptionId?: string | null
-    status?: $Enums.SubscriptionStatus
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
     currentPeriodStart: Date | string
     currentPeriodEnd: Date | string
-    cancelAt?: Date | string | null
-    canceledAt?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    payments?: PaymentUncheckedCreateNestedManyWithoutSubscriptionInput
   }
 
   export type SubscriptionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
     currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
     currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
-    tier?: PaymentTierUpdateOneRequiredWithoutSubscriptionsNestedInput
-    payments?: PaymentUpdateManyWithoutSubscriptionNestedInput
+    community?: CommunityUpdateOneRequiredWithoutSubscriptionsNestedInput
+    paymentTier?: PaymentTierUpdateOneRequiredWithoutSubscriptionsNestedInput
   }
 
   export type SubscriptionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    tierId?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    communityId?: StringFieldUpdateOperationsInput | string
+    paymentTierId?: StringFieldUpdateOperationsInput | string
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
     currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
     currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    payments?: PaymentUncheckedUpdateManyWithoutSubscriptionNestedInput
   }
 
   export type SubscriptionCreateManyInput = {
     id?: string
     userId: string
-    tierId: string
-    stripeCustomerId?: string | null
+    communityId: string
+    paymentTierId: string
     stripeSubscriptionId?: string | null
-    status?: $Enums.SubscriptionStatus
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
     currentPeriodStart: Date | string
     currentPeriodEnd: Date | string
-    cancelAt?: Date | string | null
-    canceledAt?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
@@ -23454,13 +23514,14 @@ export namespace Prisma {
 
   export type SubscriptionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
     currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
     currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -23469,93 +23530,123 @@ export namespace Prisma {
   export type SubscriptionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    tierId?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    communityId?: StringFieldUpdateOperationsInput | string
+    paymentTierId?: StringFieldUpdateOperationsInput | string
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
     currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
     currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PaymentCreateInput = {
+  export type CouponCreateInput = {
     id?: string
-    stripePaymentId: string
-    amount: number
-    currency?: string
-    status: $Enums.PaymentStatus
+    code: string
+    discountType: string
+    discountValue: number
+    expiresAt?: Date | string | null
+    maxUses?: number | null
+    usedCount?: number
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    subscription: SubscriptionCreateNestedOneWithoutPaymentsInput
+    deletedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutCouponsInput
   }
 
-  export type PaymentUncheckedCreateInput = {
+  export type CouponUncheckedCreateInput = {
     id?: string
-    subscriptionId: string
-    stripePaymentId: string
-    amount: number
-    currency?: string
-    status: $Enums.PaymentStatus
+    communityId: string
+    code: string
+    discountType: string
+    discountValue: number
+    expiresAt?: Date | string | null
+    maxUses?: number | null
+    usedCount?: number
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
-  export type PaymentUpdateInput = {
+  export type CouponUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    stripePaymentId?: StringFieldUpdateOperationsInput | string
-    amount?: IntFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    code?: StringFieldUpdateOperationsInput | string
+    discountType?: StringFieldUpdateOperationsInput | string
+    discountValue?: IntFieldUpdateOperationsInput | number
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxUses?: NullableIntFieldUpdateOperationsInput | number | null
+    usedCount?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subscription?: SubscriptionUpdateOneRequiredWithoutPaymentsNestedInput
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutCouponsNestedInput
   }
 
-  export type PaymentUncheckedUpdateInput = {
+  export type CouponUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    subscriptionId?: StringFieldUpdateOperationsInput | string
-    stripePaymentId?: StringFieldUpdateOperationsInput | string
-    amount?: IntFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    communityId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    discountType?: StringFieldUpdateOperationsInput | string
+    discountValue?: IntFieldUpdateOperationsInput | number
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxUses?: NullableIntFieldUpdateOperationsInput | number | null
+    usedCount?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PaymentCreateManyInput = {
+  export type CouponCreateManyInput = {
     id?: string
-    subscriptionId: string
-    stripePaymentId: string
-    amount: number
-    currency?: string
-    status: $Enums.PaymentStatus
+    communityId: string
+    code: string
+    discountType: string
+    discountValue: number
+    expiresAt?: Date | string | null
+    maxUses?: number | null
+    usedCount?: number
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
-  export type PaymentUpdateManyMutationInput = {
+  export type CouponUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    stripePaymentId?: StringFieldUpdateOperationsInput | string
-    amount?: IntFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    code?: StringFieldUpdateOperationsInput | string
+    discountType?: StringFieldUpdateOperationsInput | string
+    discountValue?: IntFieldUpdateOperationsInput | number
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxUses?: NullableIntFieldUpdateOperationsInput | number | null
+    usedCount?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PaymentUncheckedUpdateManyInput = {
+  export type CouponUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    subscriptionId?: StringFieldUpdateOperationsInput | string
-    stripePaymentId?: StringFieldUpdateOperationsInput | string
-    amount?: IntFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    communityId?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    discountType?: StringFieldUpdateOperationsInput | string
+    discountValue?: IntFieldUpdateOperationsInput | number
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxUses?: NullableIntFieldUpdateOperationsInput | number | null
+    usedCount?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -23806,7 +23897,17 @@ export namespace Prisma {
     none?: PaymentTierWhereInput
   }
 
+  export type CouponListRelationFilter = {
+    every?: CouponWhereInput
+    some?: CouponWhereInput
+    none?: CouponWhereInput
+  }
+
   export type PaymentTierOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CouponOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -24449,10 +24550,8 @@ export namespace Prisma {
     communityId?: SortOrder
     name?: SortOrder
     description?: SortOrder
-    price?: SortOrder
-    interval?: SortOrder
-    stripeProductId?: SortOrder
-    stripePriceId?: SortOrder
+    priceMonthly?: SortOrder
+    priceAnnual?: SortOrder
     features?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -24461,7 +24560,8 @@ export namespace Prisma {
   }
 
   export type PaymentTierAvgOrderByAggregateInput = {
-    price?: SortOrder
+    priceMonthly?: SortOrder
+    priceAnnual?: SortOrder
   }
 
   export type PaymentTierMaxOrderByAggregateInput = {
@@ -24469,10 +24569,8 @@ export namespace Prisma {
     communityId?: SortOrder
     name?: SortOrder
     description?: SortOrder
-    price?: SortOrder
-    interval?: SortOrder
-    stripeProductId?: SortOrder
-    stripePriceId?: SortOrder
+    priceMonthly?: SortOrder
+    priceAnnual?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24484,10 +24582,8 @@ export namespace Prisma {
     communityId?: SortOrder
     name?: SortOrder
     description?: SortOrder
-    price?: SortOrder
-    interval?: SortOrder
-    stripeProductId?: SortOrder
-    stripePriceId?: SortOrder
+    priceMonthly?: SortOrder
+    priceAnnual?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24495,14 +24591,8 @@ export namespace Prisma {
   }
 
   export type PaymentTierSumOrderByAggregateInput = {
-    price?: SortOrder
-  }
-
-  export type EnumSubscriptionStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumSubscriptionStatusFilter<$PrismaModel> | $Enums.SubscriptionStatus
+    priceMonthly?: SortOrder
+    priceAnnual?: SortOrder
   }
 
   export type PaymentTierScalarRelationFilter = {
@@ -24510,27 +24600,24 @@ export namespace Prisma {
     isNot?: PaymentTierWhereInput
   }
 
-  export type PaymentListRelationFilter = {
-    every?: PaymentWhereInput
-    some?: PaymentWhereInput
-    none?: PaymentWhereInput
-  }
-
-  export type PaymentOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type SubscriptionUserIdCommunityIdCompoundUniqueInput = {
+    userId: string
+    communityId: string
   }
 
   export type SubscriptionCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    tierId?: SortOrder
-    stripeCustomerId?: SortOrder
+    communityId?: SortOrder
+    paymentTierId?: SortOrder
     stripeSubscriptionId?: SortOrder
+    stripeCustomerId?: SortOrder
     status?: SortOrder
+    interval?: SortOrder
     currentPeriodStart?: SortOrder
     currentPeriodEnd?: SortOrder
-    cancelAt?: SortOrder
-    canceledAt?: SortOrder
+    cancelAtPeriodEnd?: SortOrder
+    trialEndsAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -24539,14 +24626,16 @@ export namespace Prisma {
   export type SubscriptionMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    tierId?: SortOrder
-    stripeCustomerId?: SortOrder
+    communityId?: SortOrder
+    paymentTierId?: SortOrder
     stripeSubscriptionId?: SortOrder
+    stripeCustomerId?: SortOrder
     status?: SortOrder
+    interval?: SortOrder
     currentPeriodStart?: SortOrder
     currentPeriodEnd?: SortOrder
-    cancelAt?: SortOrder
-    canceledAt?: SortOrder
+    cancelAtPeriodEnd?: SortOrder
+    trialEndsAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -24555,90 +24644,108 @@ export namespace Prisma {
   export type SubscriptionMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
-    tierId?: SortOrder
-    stripeCustomerId?: SortOrder
+    communityId?: SortOrder
+    paymentTierId?: SortOrder
     stripeSubscriptionId?: SortOrder
+    stripeCustomerId?: SortOrder
     status?: SortOrder
+    interval?: SortOrder
     currentPeriodStart?: SortOrder
     currentPeriodEnd?: SortOrder
-    cancelAt?: SortOrder
-    canceledAt?: SortOrder
+    cancelAtPeriodEnd?: SortOrder
+    trialEndsAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
   }
 
-  export type EnumSubscriptionStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumSubscriptionStatusWithAggregatesFilter<$PrismaModel> | $Enums.SubscriptionStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
-    _max?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type EnumPaymentStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
+  export type CouponCommunityIdCodeCompoundUniqueInput = {
+    communityId: string
+    code: string
   }
 
-  export type SubscriptionScalarRelationFilter = {
-    is?: SubscriptionWhereInput
-    isNot?: SubscriptionWhereInput
-  }
-
-  export type PaymentCountOrderByAggregateInput = {
+  export type CouponCountOrderByAggregateInput = {
     id?: SortOrder
-    subscriptionId?: SortOrder
-    stripePaymentId?: SortOrder
-    amount?: SortOrder
-    currency?: SortOrder
-    status?: SortOrder
+    communityId?: SortOrder
+    code?: SortOrder
+    discountType?: SortOrder
+    discountValue?: SortOrder
+    expiresAt?: SortOrder
+    maxUses?: SortOrder
+    usedCount?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
-  export type PaymentAvgOrderByAggregateInput = {
-    amount?: SortOrder
+  export type CouponAvgOrderByAggregateInput = {
+    discountValue?: SortOrder
+    maxUses?: SortOrder
+    usedCount?: SortOrder
   }
 
-  export type PaymentMaxOrderByAggregateInput = {
+  export type CouponMaxOrderByAggregateInput = {
     id?: SortOrder
-    subscriptionId?: SortOrder
-    stripePaymentId?: SortOrder
-    amount?: SortOrder
-    currency?: SortOrder
-    status?: SortOrder
+    communityId?: SortOrder
+    code?: SortOrder
+    discountType?: SortOrder
+    discountValue?: SortOrder
+    expiresAt?: SortOrder
+    maxUses?: SortOrder
+    usedCount?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
-  export type PaymentMinOrderByAggregateInput = {
+  export type CouponMinOrderByAggregateInput = {
     id?: SortOrder
-    subscriptionId?: SortOrder
-    stripePaymentId?: SortOrder
-    amount?: SortOrder
-    currency?: SortOrder
-    status?: SortOrder
+    communityId?: SortOrder
+    code?: SortOrder
+    discountType?: SortOrder
+    discountValue?: SortOrder
+    expiresAt?: SortOrder
+    maxUses?: SortOrder
+    usedCount?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    deletedAt?: SortOrder
   }
 
-  export type PaymentSumOrderByAggregateInput = {
-    amount?: SortOrder
+  export type CouponSumOrderByAggregateInput = {
+    discountValue?: SortOrder
+    maxUses?: SortOrder
+    usedCount?: SortOrder
   }
 
-  export type EnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
-    _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type CommunityMemberCreateNestedManyWithoutUserInput = {
@@ -25021,6 +25128,20 @@ export namespace Prisma {
     connect?: PaymentTierWhereUniqueInput | PaymentTierWhereUniqueInput[]
   }
 
+  export type SubscriptionCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<SubscriptionCreateWithoutCommunityInput, SubscriptionUncheckedCreateWithoutCommunityInput> | SubscriptionCreateWithoutCommunityInput[] | SubscriptionUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutCommunityInput | SubscriptionCreateOrConnectWithoutCommunityInput[]
+    createMany?: SubscriptionCreateManyCommunityInputEnvelope
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+  }
+
+  export type CouponCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<CouponCreateWithoutCommunityInput, CouponUncheckedCreateWithoutCommunityInput> | CouponCreateWithoutCommunityInput[] | CouponUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutCommunityInput | CouponCreateOrConnectWithoutCommunityInput[]
+    createMany?: CouponCreateManyCommunityInputEnvelope
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+  }
+
   export type NotificationCreateNestedManyWithoutCommunityInput = {
     create?: XOR<NotificationCreateWithoutCommunityInput, NotificationUncheckedCreateWithoutCommunityInput> | NotificationCreateWithoutCommunityInput[] | NotificationUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutCommunityInput | NotificationCreateOrConnectWithoutCommunityInput[]
@@ -25054,6 +25175,20 @@ export namespace Prisma {
     connectOrCreate?: PaymentTierCreateOrConnectWithoutCommunityInput | PaymentTierCreateOrConnectWithoutCommunityInput[]
     createMany?: PaymentTierCreateManyCommunityInputEnvelope
     connect?: PaymentTierWhereUniqueInput | PaymentTierWhereUniqueInput[]
+  }
+
+  export type SubscriptionUncheckedCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<SubscriptionCreateWithoutCommunityInput, SubscriptionUncheckedCreateWithoutCommunityInput> | SubscriptionCreateWithoutCommunityInput[] | SubscriptionUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutCommunityInput | SubscriptionCreateOrConnectWithoutCommunityInput[]
+    createMany?: SubscriptionCreateManyCommunityInputEnvelope
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+  }
+
+  export type CouponUncheckedCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<CouponCreateWithoutCommunityInput, CouponUncheckedCreateWithoutCommunityInput> | CouponCreateWithoutCommunityInput[] | CouponUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutCommunityInput | CouponCreateOrConnectWithoutCommunityInput[]
+    createMany?: CouponCreateManyCommunityInputEnvelope
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
   }
 
   export type NotificationUncheckedCreateNestedManyWithoutCommunityInput = {
@@ -25121,6 +25256,34 @@ export namespace Prisma {
     update?: PaymentTierUpdateWithWhereUniqueWithoutCommunityInput | PaymentTierUpdateWithWhereUniqueWithoutCommunityInput[]
     updateMany?: PaymentTierUpdateManyWithWhereWithoutCommunityInput | PaymentTierUpdateManyWithWhereWithoutCommunityInput[]
     deleteMany?: PaymentTierScalarWhereInput | PaymentTierScalarWhereInput[]
+  }
+
+  export type SubscriptionUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutCommunityInput, SubscriptionUncheckedCreateWithoutCommunityInput> | SubscriptionCreateWithoutCommunityInput[] | SubscriptionUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutCommunityInput | SubscriptionCreateOrConnectWithoutCommunityInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutCommunityInput | SubscriptionUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: SubscriptionCreateManyCommunityInputEnvelope
+    set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutCommunityInput | SubscriptionUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutCommunityInput | SubscriptionUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+  }
+
+  export type CouponUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<CouponCreateWithoutCommunityInput, CouponUncheckedCreateWithoutCommunityInput> | CouponCreateWithoutCommunityInput[] | CouponUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutCommunityInput | CouponCreateOrConnectWithoutCommunityInput[]
+    upsert?: CouponUpsertWithWhereUniqueWithoutCommunityInput | CouponUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: CouponCreateManyCommunityInputEnvelope
+    set?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    disconnect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    delete?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    update?: CouponUpdateWithWhereUniqueWithoutCommunityInput | CouponUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: CouponUpdateManyWithWhereWithoutCommunityInput | CouponUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: CouponScalarWhereInput | CouponScalarWhereInput[]
   }
 
   export type NotificationUpdateManyWithoutCommunityNestedInput = {
@@ -25191,6 +25354,34 @@ export namespace Prisma {
     update?: PaymentTierUpdateWithWhereUniqueWithoutCommunityInput | PaymentTierUpdateWithWhereUniqueWithoutCommunityInput[]
     updateMany?: PaymentTierUpdateManyWithWhereWithoutCommunityInput | PaymentTierUpdateManyWithWhereWithoutCommunityInput[]
     deleteMany?: PaymentTierScalarWhereInput | PaymentTierScalarWhereInput[]
+  }
+
+  export type SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutCommunityInput, SubscriptionUncheckedCreateWithoutCommunityInput> | SubscriptionCreateWithoutCommunityInput[] | SubscriptionUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutCommunityInput | SubscriptionCreateOrConnectWithoutCommunityInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutCommunityInput | SubscriptionUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: SubscriptionCreateManyCommunityInputEnvelope
+    set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutCommunityInput | SubscriptionUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutCommunityInput | SubscriptionUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+  }
+
+  export type CouponUncheckedUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<CouponCreateWithoutCommunityInput, CouponUncheckedCreateWithoutCommunityInput> | CouponCreateWithoutCommunityInput[] | CouponUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: CouponCreateOrConnectWithoutCommunityInput | CouponCreateOrConnectWithoutCommunityInput[]
+    upsert?: CouponUpsertWithWhereUniqueWithoutCommunityInput | CouponUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: CouponCreateManyCommunityInputEnvelope
+    set?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    disconnect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    delete?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    connect?: CouponWhereUniqueInput | CouponWhereUniqueInput[]
+    update?: CouponUpdateWithWhereUniqueWithoutCommunityInput | CouponUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: CouponUpdateManyWithWhereWithoutCommunityInput | CouponUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: CouponScalarWhereInput | CouponScalarWhereInput[]
   }
 
   export type NotificationUncheckedUpdateManyWithoutCommunityNestedInput = {
@@ -25854,17 +26045,17 @@ export namespace Prisma {
     connect?: CommunityWhereUniqueInput
   }
 
-  export type SubscriptionCreateNestedManyWithoutTierInput = {
-    create?: XOR<SubscriptionCreateWithoutTierInput, SubscriptionUncheckedCreateWithoutTierInput> | SubscriptionCreateWithoutTierInput[] | SubscriptionUncheckedCreateWithoutTierInput[]
-    connectOrCreate?: SubscriptionCreateOrConnectWithoutTierInput | SubscriptionCreateOrConnectWithoutTierInput[]
-    createMany?: SubscriptionCreateManyTierInputEnvelope
+  export type SubscriptionCreateNestedManyWithoutPaymentTierInput = {
+    create?: XOR<SubscriptionCreateWithoutPaymentTierInput, SubscriptionUncheckedCreateWithoutPaymentTierInput> | SubscriptionCreateWithoutPaymentTierInput[] | SubscriptionUncheckedCreateWithoutPaymentTierInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentTierInput | SubscriptionCreateOrConnectWithoutPaymentTierInput[]
+    createMany?: SubscriptionCreateManyPaymentTierInputEnvelope
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
   }
 
-  export type SubscriptionUncheckedCreateNestedManyWithoutTierInput = {
-    create?: XOR<SubscriptionCreateWithoutTierInput, SubscriptionUncheckedCreateWithoutTierInput> | SubscriptionCreateWithoutTierInput[] | SubscriptionUncheckedCreateWithoutTierInput[]
-    connectOrCreate?: SubscriptionCreateOrConnectWithoutTierInput | SubscriptionCreateOrConnectWithoutTierInput[]
-    createMany?: SubscriptionCreateManyTierInputEnvelope
+  export type SubscriptionUncheckedCreateNestedManyWithoutPaymentTierInput = {
+    create?: XOR<SubscriptionCreateWithoutPaymentTierInput, SubscriptionUncheckedCreateWithoutPaymentTierInput> | SubscriptionCreateWithoutPaymentTierInput[] | SubscriptionUncheckedCreateWithoutPaymentTierInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentTierInput | SubscriptionCreateOrConnectWithoutPaymentTierInput[]
+    createMany?: SubscriptionCreateManyPaymentTierInputEnvelope
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
   }
 
@@ -25881,31 +26072,31 @@ export namespace Prisma {
     update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutPaymentTiersInput, CommunityUpdateWithoutPaymentTiersInput>, CommunityUncheckedUpdateWithoutPaymentTiersInput>
   }
 
-  export type SubscriptionUpdateManyWithoutTierNestedInput = {
-    create?: XOR<SubscriptionCreateWithoutTierInput, SubscriptionUncheckedCreateWithoutTierInput> | SubscriptionCreateWithoutTierInput[] | SubscriptionUncheckedCreateWithoutTierInput[]
-    connectOrCreate?: SubscriptionCreateOrConnectWithoutTierInput | SubscriptionCreateOrConnectWithoutTierInput[]
-    upsert?: SubscriptionUpsertWithWhereUniqueWithoutTierInput | SubscriptionUpsertWithWhereUniqueWithoutTierInput[]
-    createMany?: SubscriptionCreateManyTierInputEnvelope
+  export type SubscriptionUpdateManyWithoutPaymentTierNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutPaymentTierInput, SubscriptionUncheckedCreateWithoutPaymentTierInput> | SubscriptionCreateWithoutPaymentTierInput[] | SubscriptionUncheckedCreateWithoutPaymentTierInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentTierInput | SubscriptionCreateOrConnectWithoutPaymentTierInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutPaymentTierInput | SubscriptionUpsertWithWhereUniqueWithoutPaymentTierInput[]
+    createMany?: SubscriptionCreateManyPaymentTierInputEnvelope
     set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
     disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
     delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
-    update?: SubscriptionUpdateWithWhereUniqueWithoutTierInput | SubscriptionUpdateWithWhereUniqueWithoutTierInput[]
-    updateMany?: SubscriptionUpdateManyWithWhereWithoutTierInput | SubscriptionUpdateManyWithWhereWithoutTierInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutPaymentTierInput | SubscriptionUpdateWithWhereUniqueWithoutPaymentTierInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutPaymentTierInput | SubscriptionUpdateManyWithWhereWithoutPaymentTierInput[]
     deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
   }
 
-  export type SubscriptionUncheckedUpdateManyWithoutTierNestedInput = {
-    create?: XOR<SubscriptionCreateWithoutTierInput, SubscriptionUncheckedCreateWithoutTierInput> | SubscriptionCreateWithoutTierInput[] | SubscriptionUncheckedCreateWithoutTierInput[]
-    connectOrCreate?: SubscriptionCreateOrConnectWithoutTierInput | SubscriptionCreateOrConnectWithoutTierInput[]
-    upsert?: SubscriptionUpsertWithWhereUniqueWithoutTierInput | SubscriptionUpsertWithWhereUniqueWithoutTierInput[]
-    createMany?: SubscriptionCreateManyTierInputEnvelope
+  export type SubscriptionUncheckedUpdateManyWithoutPaymentTierNestedInput = {
+    create?: XOR<SubscriptionCreateWithoutPaymentTierInput, SubscriptionUncheckedCreateWithoutPaymentTierInput> | SubscriptionCreateWithoutPaymentTierInput[] | SubscriptionUncheckedCreateWithoutPaymentTierInput[]
+    connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentTierInput | SubscriptionCreateOrConnectWithoutPaymentTierInput[]
+    upsert?: SubscriptionUpsertWithWhereUniqueWithoutPaymentTierInput | SubscriptionUpsertWithWhereUniqueWithoutPaymentTierInput[]
+    createMany?: SubscriptionCreateManyPaymentTierInputEnvelope
     set?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
     disconnect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
     delete?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
-    update?: SubscriptionUpdateWithWhereUniqueWithoutTierInput | SubscriptionUpdateWithWhereUniqueWithoutTierInput[]
-    updateMany?: SubscriptionUpdateManyWithWhereWithoutTierInput | SubscriptionUpdateManyWithWhereWithoutTierInput[]
+    update?: SubscriptionUpdateWithWhereUniqueWithoutPaymentTierInput | SubscriptionUpdateWithWhereUniqueWithoutPaymentTierInput[]
+    updateMany?: SubscriptionUpdateManyWithWhereWithoutPaymentTierInput | SubscriptionUpdateManyWithWhereWithoutPaymentTierInput[]
     deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
   }
 
@@ -25915,28 +26106,16 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type CommunityCreateNestedOneWithoutSubscriptionsInput = {
+    create?: XOR<CommunityCreateWithoutSubscriptionsInput, CommunityUncheckedCreateWithoutSubscriptionsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutSubscriptionsInput
+    connect?: CommunityWhereUniqueInput
+  }
+
   export type PaymentTierCreateNestedOneWithoutSubscriptionsInput = {
     create?: XOR<PaymentTierCreateWithoutSubscriptionsInput, PaymentTierUncheckedCreateWithoutSubscriptionsInput>
     connectOrCreate?: PaymentTierCreateOrConnectWithoutSubscriptionsInput
     connect?: PaymentTierWhereUniqueInput
-  }
-
-  export type PaymentCreateNestedManyWithoutSubscriptionInput = {
-    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
-    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
-    createMany?: PaymentCreateManySubscriptionInputEnvelope
-    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-  }
-
-  export type PaymentUncheckedCreateNestedManyWithoutSubscriptionInput = {
-    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
-    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
-    createMany?: PaymentCreateManySubscriptionInputEnvelope
-    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-  }
-
-  export type EnumSubscriptionStatusFieldUpdateOperationsInput = {
-    set?: $Enums.SubscriptionStatus
   }
 
   export type UserUpdateOneRequiredWithoutSubscriptionsNestedInput = {
@@ -25947,6 +26126,14 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSubscriptionsInput, UserUpdateWithoutSubscriptionsInput>, UserUncheckedUpdateWithoutSubscriptionsInput>
   }
 
+  export type CommunityUpdateOneRequiredWithoutSubscriptionsNestedInput = {
+    create?: XOR<CommunityCreateWithoutSubscriptionsInput, CommunityUncheckedCreateWithoutSubscriptionsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutSubscriptionsInput
+    upsert?: CommunityUpsertWithoutSubscriptionsInput
+    connect?: CommunityWhereUniqueInput
+    update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutSubscriptionsInput, CommunityUpdateWithoutSubscriptionsInput>, CommunityUncheckedUpdateWithoutSubscriptionsInput>
+  }
+
   export type PaymentTierUpdateOneRequiredWithoutSubscriptionsNestedInput = {
     create?: XOR<PaymentTierCreateWithoutSubscriptionsInput, PaymentTierUncheckedCreateWithoutSubscriptionsInput>
     connectOrCreate?: PaymentTierCreateOrConnectWithoutSubscriptionsInput
@@ -25955,50 +26142,26 @@ export namespace Prisma {
     update?: XOR<XOR<PaymentTierUpdateToOneWithWhereWithoutSubscriptionsInput, PaymentTierUpdateWithoutSubscriptionsInput>, PaymentTierUncheckedUpdateWithoutSubscriptionsInput>
   }
 
-  export type PaymentUpdateManyWithoutSubscriptionNestedInput = {
-    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
-    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
-    upsert?: PaymentUpsertWithWhereUniqueWithoutSubscriptionInput | PaymentUpsertWithWhereUniqueWithoutSubscriptionInput[]
-    createMany?: PaymentCreateManySubscriptionInputEnvelope
-    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    update?: PaymentUpdateWithWhereUniqueWithoutSubscriptionInput | PaymentUpdateWithWhereUniqueWithoutSubscriptionInput[]
-    updateMany?: PaymentUpdateManyWithWhereWithoutSubscriptionInput | PaymentUpdateManyWithWhereWithoutSubscriptionInput[]
-    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  export type CommunityCreateNestedOneWithoutCouponsInput = {
+    create?: XOR<CommunityCreateWithoutCouponsInput, CommunityUncheckedCreateWithoutCouponsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutCouponsInput
+    connect?: CommunityWhereUniqueInput
   }
 
-  export type PaymentUncheckedUpdateManyWithoutSubscriptionNestedInput = {
-    create?: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput> | PaymentCreateWithoutSubscriptionInput[] | PaymentUncheckedCreateWithoutSubscriptionInput[]
-    connectOrCreate?: PaymentCreateOrConnectWithoutSubscriptionInput | PaymentCreateOrConnectWithoutSubscriptionInput[]
-    upsert?: PaymentUpsertWithWhereUniqueWithoutSubscriptionInput | PaymentUpsertWithWhereUniqueWithoutSubscriptionInput[]
-    createMany?: PaymentCreateManySubscriptionInputEnvelope
-    set?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    disconnect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    delete?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    connect?: PaymentWhereUniqueInput | PaymentWhereUniqueInput[]
-    update?: PaymentUpdateWithWhereUniqueWithoutSubscriptionInput | PaymentUpdateWithWhereUniqueWithoutSubscriptionInput[]
-    updateMany?: PaymentUpdateManyWithWhereWithoutSubscriptionInput | PaymentUpdateManyWithWhereWithoutSubscriptionInput[]
-    deleteMany?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
-  export type SubscriptionCreateNestedOneWithoutPaymentsInput = {
-    create?: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
-    connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentsInput
-    connect?: SubscriptionWhereUniqueInput
-  }
-
-  export type EnumPaymentStatusFieldUpdateOperationsInput = {
-    set?: $Enums.PaymentStatus
-  }
-
-  export type SubscriptionUpdateOneRequiredWithoutPaymentsNestedInput = {
-    create?: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
-    connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentsInput
-    upsert?: SubscriptionUpsertWithoutPaymentsInput
-    connect?: SubscriptionWhereUniqueInput
-    update?: XOR<XOR<SubscriptionUpdateToOneWithWhereWithoutPaymentsInput, SubscriptionUpdateWithoutPaymentsInput>, SubscriptionUncheckedUpdateWithoutPaymentsInput>
+  export type CommunityUpdateOneRequiredWithoutCouponsNestedInput = {
+    create?: XOR<CommunityCreateWithoutCouponsInput, CommunityUncheckedCreateWithoutCouponsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutCouponsInput
+    upsert?: CommunityUpsertWithoutCouponsInput
+    connect?: CommunityWhereUniqueInput
+    update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutCouponsInput, CommunityUpdateWithoutCouponsInput>, CommunityUncheckedUpdateWithoutCouponsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -26226,38 +26389,31 @@ export namespace Prisma {
     _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumSubscriptionStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumSubscriptionStatusFilter<$PrismaModel> | $Enums.SubscriptionStatus
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type NestedEnumSubscriptionStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.SubscriptionStatus | EnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.SubscriptionStatus[] | ListEnumSubscriptionStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumSubscriptionStatusWithAggregatesFilter<$PrismaModel> | $Enums.SubscriptionStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
-    _max?: NestedEnumSubscriptionStatusFilter<$PrismaModel>
-  }
-
-  export type NestedEnumPaymentStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentStatusFilter<$PrismaModel> | $Enums.PaymentStatus
-  }
-
-  export type NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PaymentStatus | EnumPaymentStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PaymentStatus[] | ListEnumPaymentStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumPaymentStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPaymentStatusFilter<$PrismaModel>
-    _max?: NestedEnumPaymentStatusFilter<$PrismaModel>
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type CommunityMemberCreateWithoutUserInput = {
@@ -26514,34 +26670,36 @@ export namespace Prisma {
 
   export type SubscriptionCreateWithoutUserInput = {
     id?: string
-    stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
-    status?: $Enums.SubscriptionStatus
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
     currentPeriodStart: Date | string
     currentPeriodEnd: Date | string
-    cancelAt?: Date | string | null
-    canceledAt?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    tier: PaymentTierCreateNestedOneWithoutSubscriptionsInput
-    payments?: PaymentCreateNestedManyWithoutSubscriptionInput
+    community: CommunityCreateNestedOneWithoutSubscriptionsInput
+    paymentTier: PaymentTierCreateNestedOneWithoutSubscriptionsInput
   }
 
   export type SubscriptionUncheckedCreateWithoutUserInput = {
     id?: string
-    tierId: string
-    stripeCustomerId?: string | null
+    communityId: string
+    paymentTierId: string
     stripeSubscriptionId?: string | null
-    status?: $Enums.SubscriptionStatus
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
     currentPeriodStart: Date | string
     currentPeriodEnd: Date | string
-    cancelAt?: Date | string | null
-    canceledAt?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    payments?: PaymentUncheckedCreateNestedManyWithoutSubscriptionInput
   }
 
   export type SubscriptionCreateOrConnectWithoutUserInput = {
@@ -26799,14 +26957,16 @@ export namespace Prisma {
     NOT?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
     id?: StringFilter<"Subscription"> | string
     userId?: StringFilter<"Subscription"> | string
-    tierId?: StringFilter<"Subscription"> | string
-    stripeCustomerId?: StringNullableFilter<"Subscription"> | string | null
+    communityId?: StringFilter<"Subscription"> | string
+    paymentTierId?: StringFilter<"Subscription"> | string
     stripeSubscriptionId?: StringNullableFilter<"Subscription"> | string | null
-    status?: EnumSubscriptionStatusFilter<"Subscription"> | $Enums.SubscriptionStatus
+    stripeCustomerId?: StringNullableFilter<"Subscription"> | string | null
+    status?: StringFilter<"Subscription"> | string
+    interval?: StringFilter<"Subscription"> | string
     currentPeriodStart?: DateTimeFilter<"Subscription"> | Date | string
     currentPeriodEnd?: DateTimeFilter<"Subscription"> | Date | string
-    cancelAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
-    canceledAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
+    cancelAtPeriodEnd?: BoolFilter<"Subscription"> | boolean
+    trialEndsAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
     createdAt?: DateTimeFilter<"Subscription"> | Date | string
     updatedAt?: DateTimeFilter<"Subscription"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Subscription"> | Date | string | null
@@ -26931,33 +27091,29 @@ export namespace Prisma {
   export type PaymentTierCreateWithoutCommunityInput = {
     id?: string
     name: string
-    description?: string | null
-    price?: number
-    interval?: string | null
-    stripeProductId?: string | null
-    stripePriceId?: string | null
+    description: string
+    priceMonthly?: number
+    priceAnnual?: number
     features?: PaymentTierCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    subscriptions?: SubscriptionCreateNestedManyWithoutTierInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutPaymentTierInput
   }
 
   export type PaymentTierUncheckedCreateWithoutCommunityInput = {
     id?: string
     name: string
-    description?: string | null
-    price?: number
-    interval?: string | null
-    stripeProductId?: string | null
-    stripePriceId?: string | null
+    description: string
+    priceMonthly?: number
+    priceAnnual?: number
     features?: PaymentTierCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutTierInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutPaymentTierInput
   }
 
   export type PaymentTierCreateOrConnectWithoutCommunityInput = {
@@ -26967,6 +27123,88 @@ export namespace Prisma {
 
   export type PaymentTierCreateManyCommunityInputEnvelope = {
     data: PaymentTierCreateManyCommunityInput | PaymentTierCreateManyCommunityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SubscriptionCreateWithoutCommunityInput = {
+    id?: string
+    stripeSubscriptionId?: string | null
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
+    currentPeriodStart: Date | string
+    currentPeriodEnd: Date | string
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    user: UserCreateNestedOneWithoutSubscriptionsInput
+    paymentTier: PaymentTierCreateNestedOneWithoutSubscriptionsInput
+  }
+
+  export type SubscriptionUncheckedCreateWithoutCommunityInput = {
+    id?: string
+    userId: string
+    paymentTierId: string
+    stripeSubscriptionId?: string | null
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
+    currentPeriodStart: Date | string
+    currentPeriodEnd: Date | string
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type SubscriptionCreateOrConnectWithoutCommunityInput = {
+    where: SubscriptionWhereUniqueInput
+    create: XOR<SubscriptionCreateWithoutCommunityInput, SubscriptionUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type SubscriptionCreateManyCommunityInputEnvelope = {
+    data: SubscriptionCreateManyCommunityInput | SubscriptionCreateManyCommunityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CouponCreateWithoutCommunityInput = {
+    id?: string
+    code: string
+    discountType: string
+    discountValue: number
+    expiresAt?: Date | string | null
+    maxUses?: number | null
+    usedCount?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type CouponUncheckedCreateWithoutCommunityInput = {
+    id?: string
+    code: string
+    discountType: string
+    discountValue: number
+    expiresAt?: Date | string | null
+    maxUses?: number | null
+    usedCount?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type CouponCreateOrConnectWithoutCommunityInput = {
+    where: CouponWhereUniqueInput
+    create: XOR<CouponCreateWithoutCommunityInput, CouponUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type CouponCreateManyCommunityInputEnvelope = {
+    data: CouponCreateManyCommunityInput | CouponCreateManyCommunityInput[]
     skipDuplicates?: boolean
   }
 
@@ -27075,16 +27313,64 @@ export namespace Prisma {
     id?: StringFilter<"PaymentTier"> | string
     communityId?: StringFilter<"PaymentTier"> | string
     name?: StringFilter<"PaymentTier"> | string
-    description?: StringNullableFilter<"PaymentTier"> | string | null
-    price?: IntFilter<"PaymentTier"> | number
-    interval?: StringNullableFilter<"PaymentTier"> | string | null
-    stripeProductId?: StringNullableFilter<"PaymentTier"> | string | null
-    stripePriceId?: StringNullableFilter<"PaymentTier"> | string | null
+    description?: StringFilter<"PaymentTier"> | string
+    priceMonthly?: IntFilter<"PaymentTier"> | number
+    priceAnnual?: IntFilter<"PaymentTier"> | number
     features?: StringNullableListFilter<"PaymentTier">
     isActive?: BoolFilter<"PaymentTier"> | boolean
     createdAt?: DateTimeFilter<"PaymentTier"> | Date | string
     updatedAt?: DateTimeFilter<"PaymentTier"> | Date | string
     deletedAt?: DateTimeNullableFilter<"PaymentTier"> | Date | string | null
+  }
+
+  export type SubscriptionUpsertWithWhereUniqueWithoutCommunityInput = {
+    where: SubscriptionWhereUniqueInput
+    update: XOR<SubscriptionUpdateWithoutCommunityInput, SubscriptionUncheckedUpdateWithoutCommunityInput>
+    create: XOR<SubscriptionCreateWithoutCommunityInput, SubscriptionUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type SubscriptionUpdateWithWhereUniqueWithoutCommunityInput = {
+    where: SubscriptionWhereUniqueInput
+    data: XOR<SubscriptionUpdateWithoutCommunityInput, SubscriptionUncheckedUpdateWithoutCommunityInput>
+  }
+
+  export type SubscriptionUpdateManyWithWhereWithoutCommunityInput = {
+    where: SubscriptionScalarWhereInput
+    data: XOR<SubscriptionUpdateManyMutationInput, SubscriptionUncheckedUpdateManyWithoutCommunityInput>
+  }
+
+  export type CouponUpsertWithWhereUniqueWithoutCommunityInput = {
+    where: CouponWhereUniqueInput
+    update: XOR<CouponUpdateWithoutCommunityInput, CouponUncheckedUpdateWithoutCommunityInput>
+    create: XOR<CouponCreateWithoutCommunityInput, CouponUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type CouponUpdateWithWhereUniqueWithoutCommunityInput = {
+    where: CouponWhereUniqueInput
+    data: XOR<CouponUpdateWithoutCommunityInput, CouponUncheckedUpdateWithoutCommunityInput>
+  }
+
+  export type CouponUpdateManyWithWhereWithoutCommunityInput = {
+    where: CouponScalarWhereInput
+    data: XOR<CouponUpdateManyMutationInput, CouponUncheckedUpdateManyWithoutCommunityInput>
+  }
+
+  export type CouponScalarWhereInput = {
+    AND?: CouponScalarWhereInput | CouponScalarWhereInput[]
+    OR?: CouponScalarWhereInput[]
+    NOT?: CouponScalarWhereInput | CouponScalarWhereInput[]
+    id?: StringFilter<"Coupon"> | string
+    communityId?: StringFilter<"Coupon"> | string
+    code?: StringFilter<"Coupon"> | string
+    discountType?: StringFilter<"Coupon"> | string
+    discountValue?: IntFilter<"Coupon"> | number
+    expiresAt?: DateTimeNullableFilter<"Coupon"> | Date | string | null
+    maxUses?: IntNullableFilter<"Coupon"> | number | null
+    usedCount?: IntFilter<"Coupon"> | number
+    isActive?: BoolFilter<"Coupon"> | boolean
+    createdAt?: DateTimeFilter<"Coupon"> | Date | string
+    updatedAt?: DateTimeFilter<"Coupon"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Coupon"> | Date | string | null
   }
 
   export type NotificationUpsertWithWhereUniqueWithoutCommunityInput = {
@@ -27159,6 +27445,8 @@ export namespace Prisma {
     posts?: PostCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
+    coupons?: CouponCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
   }
 
@@ -27175,6 +27463,8 @@ export namespace Prisma {
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
+    coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
   }
 
@@ -27256,6 +27546,8 @@ export namespace Prisma {
     posts?: PostUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
   }
 
@@ -27272,6 +27564,8 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
@@ -27288,6 +27582,8 @@ export namespace Prisma {
     members?: CommunityMemberCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
+    coupons?: CouponCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
   }
 
@@ -27304,6 +27600,8 @@ export namespace Prisma {
     members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
+    coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
   }
 
@@ -27474,6 +27772,8 @@ export namespace Prisma {
     members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
   }
 
@@ -27490,6 +27790,8 @@ export namespace Prisma {
     members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
@@ -28294,6 +28596,8 @@ export namespace Prisma {
     posts?: PostCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
+    coupons?: CouponCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutNotificationsInput = {
@@ -28310,6 +28614,8 @@ export namespace Prisma {
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
+    coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutNotificationsInput = {
@@ -28391,6 +28697,8 @@ export namespace Prisma {
     posts?: PostUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutNotificationsInput = {
@@ -28407,6 +28715,8 @@ export namespace Prisma {
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityCreateWithoutCoursesInput = {
@@ -28422,6 +28732,8 @@ export namespace Prisma {
     members?: CommunityMemberCreateNestedManyWithoutCommunityInput
     posts?: PostCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
+    coupons?: CouponCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
   }
 
@@ -28438,6 +28750,8 @@ export namespace Prisma {
     members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
+    coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
   }
 
@@ -28617,6 +28931,8 @@ export namespace Prisma {
     members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
     posts?: PostUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
   }
 
@@ -28633,6 +28949,8 @@ export namespace Prisma {
     members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
@@ -29177,6 +29495,8 @@ export namespace Prisma {
     members?: CommunityMemberCreateNestedManyWithoutCommunityInput
     posts?: PostCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
+    coupons?: CouponCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
   }
 
@@ -29193,6 +29513,8 @@ export namespace Prisma {
     members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
+    coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
   }
 
@@ -29201,45 +29523,47 @@ export namespace Prisma {
     create: XOR<CommunityCreateWithoutPaymentTiersInput, CommunityUncheckedCreateWithoutPaymentTiersInput>
   }
 
-  export type SubscriptionCreateWithoutTierInput = {
+  export type SubscriptionCreateWithoutPaymentTierInput = {
     id?: string
-    stripeCustomerId?: string | null
     stripeSubscriptionId?: string | null
-    status?: $Enums.SubscriptionStatus
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
     currentPeriodStart: Date | string
     currentPeriodEnd: Date | string
-    cancelAt?: Date | string | null
-    canceledAt?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     user: UserCreateNestedOneWithoutSubscriptionsInput
-    payments?: PaymentCreateNestedManyWithoutSubscriptionInput
+    community: CommunityCreateNestedOneWithoutSubscriptionsInput
   }
 
-  export type SubscriptionUncheckedCreateWithoutTierInput = {
+  export type SubscriptionUncheckedCreateWithoutPaymentTierInput = {
     id?: string
     userId: string
-    stripeCustomerId?: string | null
+    communityId: string
     stripeSubscriptionId?: string | null
-    status?: $Enums.SubscriptionStatus
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
     currentPeriodStart: Date | string
     currentPeriodEnd: Date | string
-    cancelAt?: Date | string | null
-    canceledAt?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    payments?: PaymentUncheckedCreateNestedManyWithoutSubscriptionInput
   }
 
-  export type SubscriptionCreateOrConnectWithoutTierInput = {
+  export type SubscriptionCreateOrConnectWithoutPaymentTierInput = {
     where: SubscriptionWhereUniqueInput
-    create: XOR<SubscriptionCreateWithoutTierInput, SubscriptionUncheckedCreateWithoutTierInput>
+    create: XOR<SubscriptionCreateWithoutPaymentTierInput, SubscriptionUncheckedCreateWithoutPaymentTierInput>
   }
 
-  export type SubscriptionCreateManyTierInputEnvelope = {
-    data: SubscriptionCreateManyTierInput | SubscriptionCreateManyTierInput[]
+  export type SubscriptionCreateManyPaymentTierInputEnvelope = {
+    data: SubscriptionCreateManyPaymentTierInput | SubscriptionCreateManyPaymentTierInput[]
     skipDuplicates?: boolean
   }
 
@@ -29267,6 +29591,8 @@ export namespace Prisma {
     members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
     posts?: PostUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
   }
 
@@ -29283,23 +29609,25 @@ export namespace Prisma {
     members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
-  export type SubscriptionUpsertWithWhereUniqueWithoutTierInput = {
+  export type SubscriptionUpsertWithWhereUniqueWithoutPaymentTierInput = {
     where: SubscriptionWhereUniqueInput
-    update: XOR<SubscriptionUpdateWithoutTierInput, SubscriptionUncheckedUpdateWithoutTierInput>
-    create: XOR<SubscriptionCreateWithoutTierInput, SubscriptionUncheckedCreateWithoutTierInput>
+    update: XOR<SubscriptionUpdateWithoutPaymentTierInput, SubscriptionUncheckedUpdateWithoutPaymentTierInput>
+    create: XOR<SubscriptionCreateWithoutPaymentTierInput, SubscriptionUncheckedCreateWithoutPaymentTierInput>
   }
 
-  export type SubscriptionUpdateWithWhereUniqueWithoutTierInput = {
+  export type SubscriptionUpdateWithWhereUniqueWithoutPaymentTierInput = {
     where: SubscriptionWhereUniqueInput
-    data: XOR<SubscriptionUpdateWithoutTierInput, SubscriptionUncheckedUpdateWithoutTierInput>
+    data: XOR<SubscriptionUpdateWithoutPaymentTierInput, SubscriptionUncheckedUpdateWithoutPaymentTierInput>
   }
 
-  export type SubscriptionUpdateManyWithWhereWithoutTierInput = {
+  export type SubscriptionUpdateManyWithWhereWithoutPaymentTierInput = {
     where: SubscriptionScalarWhereInput
-    data: XOR<SubscriptionUpdateManyMutationInput, SubscriptionUncheckedUpdateManyWithoutTierInput>
+    data: XOR<SubscriptionUpdateManyMutationInput, SubscriptionUncheckedUpdateManyWithoutPaymentTierInput>
   }
 
   export type UserCreateWithoutSubscriptionsInput = {
@@ -29345,14 +29673,53 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutSubscriptionsInput, UserUncheckedCreateWithoutSubscriptionsInput>
   }
 
+  export type CommunityCreateWithoutSubscriptionsInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    darkMode?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    members?: CommunityMemberCreateNestedManyWithoutCommunityInput
+    posts?: PostCreateNestedManyWithoutCommunityInput
+    courses?: CourseCreateNestedManyWithoutCommunityInput
+    paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
+    coupons?: CouponCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityUncheckedCreateWithoutSubscriptionsInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    darkMode?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
+    posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
+    paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
+    coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityCreateOrConnectWithoutSubscriptionsInput = {
+    where: CommunityWhereUniqueInput
+    create: XOR<CommunityCreateWithoutSubscriptionsInput, CommunityUncheckedCreateWithoutSubscriptionsInput>
+  }
+
   export type PaymentTierCreateWithoutSubscriptionsInput = {
     id?: string
     name: string
-    description?: string | null
-    price?: number
-    interval?: string | null
-    stripeProductId?: string | null
-    stripePriceId?: string | null
+    description: string
+    priceMonthly?: number
+    priceAnnual?: number
     features?: PaymentTierCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
@@ -29365,11 +29732,9 @@ export namespace Prisma {
     id?: string
     communityId: string
     name: string
-    description?: string | null
-    price?: number
-    interval?: string | null
-    stripeProductId?: string | null
-    stripePriceId?: string | null
+    description: string
+    priceMonthly?: number
+    priceAnnual?: number
     features?: PaymentTierCreatefeaturesInput | string[]
     isActive?: boolean
     createdAt?: Date | string
@@ -29380,36 +29745,6 @@ export namespace Prisma {
   export type PaymentTierCreateOrConnectWithoutSubscriptionsInput = {
     where: PaymentTierWhereUniqueInput
     create: XOR<PaymentTierCreateWithoutSubscriptionsInput, PaymentTierUncheckedCreateWithoutSubscriptionsInput>
-  }
-
-  export type PaymentCreateWithoutSubscriptionInput = {
-    id?: string
-    stripePaymentId: string
-    amount: number
-    currency?: string
-    status: $Enums.PaymentStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type PaymentUncheckedCreateWithoutSubscriptionInput = {
-    id?: string
-    stripePaymentId: string
-    amount: number
-    currency?: string
-    status: $Enums.PaymentStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type PaymentCreateOrConnectWithoutSubscriptionInput = {
-    where: PaymentWhereUniqueInput
-    create: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput>
-  }
-
-  export type PaymentCreateManySubscriptionInputEnvelope = {
-    data: PaymentCreateManySubscriptionInput | PaymentCreateManySubscriptionInput[]
-    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutSubscriptionsInput = {
@@ -29461,6 +29796,53 @@ export namespace Prisma {
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type CommunityUpsertWithoutSubscriptionsInput = {
+    update: XOR<CommunityUpdateWithoutSubscriptionsInput, CommunityUncheckedUpdateWithoutSubscriptionsInput>
+    create: XOR<CommunityCreateWithoutSubscriptionsInput, CommunityUncheckedCreateWithoutSubscriptionsInput>
+    where?: CommunityWhereInput
+  }
+
+  export type CommunityUpdateToOneWithWhereWithoutSubscriptionsInput = {
+    where?: CommunityWhereInput
+    data: XOR<CommunityUpdateWithoutSubscriptionsInput, CommunityUncheckedUpdateWithoutSubscriptionsInput>
+  }
+
+  export type CommunityUpdateWithoutSubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    darkMode?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
+    posts?: PostUpdateManyWithoutCommunityNestedInput
+    courses?: CourseUpdateManyWithoutCommunityNestedInput
+    paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityUncheckedUpdateWithoutSubscriptionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    darkMode?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
+    paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+  }
+
   export type PaymentTierUpsertWithoutSubscriptionsInput = {
     update: XOR<PaymentTierUpdateWithoutSubscriptionsInput, PaymentTierUncheckedUpdateWithoutSubscriptionsInput>
     create: XOR<PaymentTierCreateWithoutSubscriptionsInput, PaymentTierUncheckedCreateWithoutSubscriptionsInput>
@@ -29475,11 +29857,9 @@ export namespace Prisma {
   export type PaymentTierUpdateWithoutSubscriptionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: IntFieldUpdateOperationsInput | number
-    interval?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    priceMonthly?: IntFieldUpdateOperationsInput | number
+    priceAnnual?: IntFieldUpdateOperationsInput | number
     features?: PaymentTierUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29492,11 +29872,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     communityId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: IntFieldUpdateOperationsInput | number
-    interval?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    priceMonthly?: IntFieldUpdateOperationsInput | number
+    priceAnnual?: IntFieldUpdateOperationsInput | number
     features?: PaymentTierUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29504,114 +29882,92 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PaymentUpsertWithWhereUniqueWithoutSubscriptionInput = {
-    where: PaymentWhereUniqueInput
-    update: XOR<PaymentUpdateWithoutSubscriptionInput, PaymentUncheckedUpdateWithoutSubscriptionInput>
-    create: XOR<PaymentCreateWithoutSubscriptionInput, PaymentUncheckedCreateWithoutSubscriptionInput>
-  }
-
-  export type PaymentUpdateWithWhereUniqueWithoutSubscriptionInput = {
-    where: PaymentWhereUniqueInput
-    data: XOR<PaymentUpdateWithoutSubscriptionInput, PaymentUncheckedUpdateWithoutSubscriptionInput>
-  }
-
-  export type PaymentUpdateManyWithWhereWithoutSubscriptionInput = {
-    where: PaymentScalarWhereInput
-    data: XOR<PaymentUpdateManyMutationInput, PaymentUncheckedUpdateManyWithoutSubscriptionInput>
-  }
-
-  export type PaymentScalarWhereInput = {
-    AND?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
-    OR?: PaymentScalarWhereInput[]
-    NOT?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
-    id?: StringFilter<"Payment"> | string
-    subscriptionId?: StringFilter<"Payment"> | string
-    stripePaymentId?: StringFilter<"Payment"> | string
-    amount?: IntFilter<"Payment"> | number
-    currency?: StringFilter<"Payment"> | string
-    status?: EnumPaymentStatusFilter<"Payment"> | $Enums.PaymentStatus
-    createdAt?: DateTimeFilter<"Payment"> | Date | string
-    updatedAt?: DateTimeFilter<"Payment"> | Date | string
-  }
-
-  export type SubscriptionCreateWithoutPaymentsInput = {
+  export type CommunityCreateWithoutCouponsInput = {
     id?: string
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    status?: $Enums.SubscriptionStatus
-    currentPeriodStart: Date | string
-    currentPeriodEnd: Date | string
-    cancelAt?: Date | string | null
-    canceledAt?: Date | string | null
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    darkMode?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    user: UserCreateNestedOneWithoutSubscriptionsInput
-    tier: PaymentTierCreateNestedOneWithoutSubscriptionsInput
+    members?: CommunityMemberCreateNestedManyWithoutCommunityInput
+    posts?: PostCreateNestedManyWithoutCommunityInput
+    courses?: CourseCreateNestedManyWithoutCommunityInput
+    paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationCreateNestedManyWithoutCommunityInput
   }
 
-  export type SubscriptionUncheckedCreateWithoutPaymentsInput = {
+  export type CommunityUncheckedCreateWithoutCouponsInput = {
     id?: string
-    userId: string
-    tierId: string
-    stripeCustomerId?: string | null
-    stripeSubscriptionId?: string | null
-    status?: $Enums.SubscriptionStatus
-    currentPeriodStart: Date | string
-    currentPeriodEnd: Date | string
-    cancelAt?: Date | string | null
-    canceledAt?: Date | string | null
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    darkMode?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
+    members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
+    posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
+    paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
   }
 
-  export type SubscriptionCreateOrConnectWithoutPaymentsInput = {
-    where: SubscriptionWhereUniqueInput
-    create: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
+  export type CommunityCreateOrConnectWithoutCouponsInput = {
+    where: CommunityWhereUniqueInput
+    create: XOR<CommunityCreateWithoutCouponsInput, CommunityUncheckedCreateWithoutCouponsInput>
   }
 
-  export type SubscriptionUpsertWithoutPaymentsInput = {
-    update: XOR<SubscriptionUpdateWithoutPaymentsInput, SubscriptionUncheckedUpdateWithoutPaymentsInput>
-    create: XOR<SubscriptionCreateWithoutPaymentsInput, SubscriptionUncheckedCreateWithoutPaymentsInput>
-    where?: SubscriptionWhereInput
+  export type CommunityUpsertWithoutCouponsInput = {
+    update: XOR<CommunityUpdateWithoutCouponsInput, CommunityUncheckedUpdateWithoutCouponsInput>
+    create: XOR<CommunityCreateWithoutCouponsInput, CommunityUncheckedCreateWithoutCouponsInput>
+    where?: CommunityWhereInput
   }
 
-  export type SubscriptionUpdateToOneWithWhereWithoutPaymentsInput = {
-    where?: SubscriptionWhereInput
-    data: XOR<SubscriptionUpdateWithoutPaymentsInput, SubscriptionUncheckedUpdateWithoutPaymentsInput>
+  export type CommunityUpdateToOneWithWhereWithoutCouponsInput = {
+    where?: CommunityWhereInput
+    data: XOR<CommunityUpdateWithoutCouponsInput, CommunityUncheckedUpdateWithoutCouponsInput>
   }
 
-  export type SubscriptionUpdateWithoutPaymentsInput = {
+  export type CommunityUpdateWithoutCouponsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
-    currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    darkMode?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
-    tier?: PaymentTierUpdateOneRequiredWithoutSubscriptionsNestedInput
+    members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
+    posts?: PostUpdateManyWithoutCommunityNestedInput
+    courses?: CourseUpdateManyWithoutCommunityNestedInput
+    paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUpdateManyWithoutCommunityNestedInput
   }
 
-  export type SubscriptionUncheckedUpdateWithoutPaymentsInput = {
+  export type CommunityUncheckedUpdateWithoutCouponsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    tierId?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
-    currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    darkMode?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
+    paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityMemberCreateManyUserInput = {
@@ -29699,14 +30055,16 @@ export namespace Prisma {
 
   export type SubscriptionCreateManyUserInput = {
     id?: string
-    tierId: string
-    stripeCustomerId?: string | null
+    communityId: string
+    paymentTierId: string
     stripeSubscriptionId?: string | null
-    status?: $Enums.SubscriptionStatus
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
     currentPeriodStart: Date | string
     currentPeriodEnd: Date | string
-    cancelAt?: Date | string | null
-    canceledAt?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
@@ -29979,46 +30337,50 @@ export namespace Prisma {
 
   export type SubscriptionUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
     currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
     currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    tier?: PaymentTierUpdateOneRequiredWithoutSubscriptionsNestedInput
-    payments?: PaymentUpdateManyWithoutSubscriptionNestedInput
+    community?: CommunityUpdateOneRequiredWithoutSubscriptionsNestedInput
+    paymentTier?: PaymentTierUpdateOneRequiredWithoutSubscriptionsNestedInput
   }
 
   export type SubscriptionUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    tierId?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    communityId?: StringFieldUpdateOperationsInput | string
+    paymentTierId?: StringFieldUpdateOperationsInput | string
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
     currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
     currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    payments?: PaymentUncheckedUpdateManyWithoutSubscriptionNestedInput
   }
 
   export type SubscriptionUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    tierId?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    communityId?: StringFieldUpdateOperationsInput | string
+    paymentTierId?: StringFieldUpdateOperationsInput | string
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
     currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
     currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30064,12 +30426,41 @@ export namespace Prisma {
   export type PaymentTierCreateManyCommunityInput = {
     id?: string
     name: string
-    description?: string | null
-    price?: number
-    interval?: string | null
-    stripeProductId?: string | null
-    stripePriceId?: string | null
+    description: string
+    priceMonthly?: number
+    priceAnnual?: number
     features?: PaymentTierCreatefeaturesInput | string[]
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type SubscriptionCreateManyCommunityInput = {
+    id?: string
+    userId: string
+    paymentTierId: string
+    stripeSubscriptionId?: string | null
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
+    currentPeriodStart: Date | string
+    currentPeriodEnd: Date | string
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type CouponCreateManyCommunityInput = {
+    id?: string
+    code: string
+    discountType: string
+    discountValue: number
+    expiresAt?: Date | string | null
+    maxUses?: number | null
+    usedCount?: number
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30214,44 +30605,131 @@ export namespace Prisma {
   export type PaymentTierUpdateWithoutCommunityInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: IntFieldUpdateOperationsInput | number
-    interval?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    priceMonthly?: IntFieldUpdateOperationsInput | number
+    priceAnnual?: IntFieldUpdateOperationsInput | number
     features?: PaymentTierUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    subscriptions?: SubscriptionUpdateManyWithoutTierNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutPaymentTierNestedInput
   }
 
   export type PaymentTierUncheckedUpdateWithoutCommunityInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: IntFieldUpdateOperationsInput | number
-    interval?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    priceMonthly?: IntFieldUpdateOperationsInput | number
+    priceAnnual?: IntFieldUpdateOperationsInput | number
     features?: PaymentTierUpdatefeaturesInput | string[]
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    subscriptions?: SubscriptionUncheckedUpdateManyWithoutTierNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutPaymentTierNestedInput
   }
 
   export type PaymentTierUncheckedUpdateManyWithoutCommunityInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    price?: IntFieldUpdateOperationsInput | number
-    interval?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeProductId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripePriceId?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: StringFieldUpdateOperationsInput | string
+    priceMonthly?: IntFieldUpdateOperationsInput | number
+    priceAnnual?: IntFieldUpdateOperationsInput | number
     features?: PaymentTierUpdatefeaturesInput | string[]
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SubscriptionUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
+    currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
+    paymentTier?: PaymentTierUpdateOneRequiredWithoutSubscriptionsNestedInput
+  }
+
+  export type SubscriptionUncheckedUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    paymentTierId?: StringFieldUpdateOperationsInput | string
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
+    currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SubscriptionUncheckedUpdateManyWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    paymentTierId?: StringFieldUpdateOperationsInput | string
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
+    currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CouponUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    discountType?: StringFieldUpdateOperationsInput | string
+    discountValue?: IntFieldUpdateOperationsInput | number
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxUses?: NullableIntFieldUpdateOperationsInput | number | null
+    usedCount?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CouponUncheckedUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    discountType?: StringFieldUpdateOperationsInput | string
+    discountValue?: IntFieldUpdateOperationsInput | number
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxUses?: NullableIntFieldUpdateOperationsInput | number | null
+    usedCount?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CouponUncheckedUpdateManyWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    discountType?: StringFieldUpdateOperationsInput | string
+    discountValue?: IntFieldUpdateOperationsInput | number
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    maxUses?: NullableIntFieldUpdateOperationsInput | number | null
+    usedCount?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30652,106 +31130,72 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SubscriptionCreateManyTierInput = {
+  export type SubscriptionCreateManyPaymentTierInput = {
     id?: string
     userId: string
-    stripeCustomerId?: string | null
+    communityId: string
     stripeSubscriptionId?: string | null
-    status?: $Enums.SubscriptionStatus
+    stripeCustomerId?: string | null
+    status: string
+    interval: string
     currentPeriodStart: Date | string
     currentPeriodEnd: Date | string
-    cancelAt?: Date | string | null
-    canceledAt?: Date | string | null
+    cancelAtPeriodEnd?: boolean
+    trialEndsAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
   }
 
-  export type SubscriptionUpdateWithoutTierInput = {
+  export type SubscriptionUpdateWithoutPaymentTierInput = {
     id?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
     currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
     currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     user?: UserUpdateOneRequiredWithoutSubscriptionsNestedInput
-    payments?: PaymentUpdateManyWithoutSubscriptionNestedInput
+    community?: CommunityUpdateOneRequiredWithoutSubscriptionsNestedInput
   }
 
-  export type SubscriptionUncheckedUpdateWithoutTierInput = {
+  export type SubscriptionUncheckedUpdateWithoutPaymentTierInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    communityId?: StringFieldUpdateOperationsInput | string
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
     currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
     currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    payments?: PaymentUncheckedUpdateManyWithoutSubscriptionNestedInput
-  }
-
-  export type SubscriptionUncheckedUpdateManyWithoutTierInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
-    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumSubscriptionStatusFieldUpdateOperationsInput | $Enums.SubscriptionStatus
-    currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
-    currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
-    cancelAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    canceledAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PaymentCreateManySubscriptionInput = {
-    id?: string
-    stripePaymentId: string
-    amount: number
-    currency?: string
-    status: $Enums.PaymentStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type PaymentUpdateWithoutSubscriptionInput = {
+  export type SubscriptionUncheckedUpdateManyWithoutPaymentTierInput = {
     id?: StringFieldUpdateOperationsInput | string
-    stripePaymentId?: StringFieldUpdateOperationsInput | string
-    amount?: IntFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
+    userId?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    interval?: StringFieldUpdateOperationsInput | string
+    currentPeriodStart?: DateTimeFieldUpdateOperationsInput | Date | string
+    currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
+    cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
+    trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PaymentUncheckedUpdateWithoutSubscriptionInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    stripePaymentId?: StringFieldUpdateOperationsInput | string
-    amount?: IntFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type PaymentUncheckedUpdateManyWithoutSubscriptionInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    stripePaymentId?: StringFieldUpdateOperationsInput | string
-    amount?: IntFieldUpdateOperationsInput | number
-    currency?: StringFieldUpdateOperationsInput | string
-    status?: EnumPaymentStatusFieldUpdateOperationsInput | $Enums.PaymentStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

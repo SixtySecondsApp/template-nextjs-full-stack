@@ -3,8 +3,8 @@
   "generatedAt": "2025-11-03T19:00:00Z",
   "overallTimeline": "March 2026 - December 2027 (21 months)",
   "totalPhases": 20,
-  "completedPhases": 5,
-  "currentPhase": 6,
+  "completedPhases": 6,
+  "currentPhase": 7,
   "currentVersion": "V1",
   "teamSize": {
     "V1": "9 people (4 months)",
@@ -518,52 +518,53 @@
       "id": 6,
       "name": "Monetization: Stripe + Content Gating (V1 MVP)",
       "version": "V1",
-      "status": "pending",
+      "status": "completed",
       "estimatedHours": 70,
       "estimatedWeeks": "2",
       "priority": "high",
       "dependencies": [1, 5],
+      "completedAt": "2025-11-03T22:00:00Z",
       "tasks": [
         {
           "id": "6.1",
           "layer": "domain",
           "description": "Create PaymentTier entity (V1: Free + Single Paid tier only)",
-          "status": "pending",
+          "status": "completed",
           "files": ["src/domain/payment/payment-tier.entity.ts"]
         },
         {
           "id": "6.2",
           "layer": "domain",
           "description": "Create Subscription entity (monthly or annual)",
-          "status": "pending",
+          "status": "completed",
           "files": ["src/domain/payment/subscription.entity.ts"]
         },
         {
           "id": "6.3",
           "layer": "domain",
           "description": "Create Coupon entity (percentage or fixed discount, expiry date)",
-          "status": "pending",
+          "status": "completed",
           "files": ["src/domain/payment/coupon.entity.ts"]
         },
         {
           "id": "6.4",
           "layer": "prisma",
           "description": "Add PaymentTier, Subscription, Coupon models",
-          "status": "pending",
+          "status": "completed",
           "files": ["prisma/schema.prisma"]
         },
         {
           "id": "6.5",
           "layer": "infrastructure",
           "description": "Integrate Stripe SDK (subscriptions, one-time, 7-day trial) - use existing .env keys",
-          "status": "pending",
+          "status": "completed",
           "files": ["src/infrastructure/payment/stripe-adapter.ts"]
         },
         {
           "id": "6.6",
           "layer": "application",
           "description": "Create Use Cases: CreateSubscription, ProcessPayment, GrantAccess, ApplyCoupon",
-          "status": "pending",
+          "status": "completed",
           "files": [
             "src/application/use-cases/create-subscription.usecase.ts",
             "src/application/use-cases/apply-coupon.usecase.ts"
@@ -573,28 +574,28 @@
           "id": "6.7",
           "layer": "presentation",
           "description": "Build Stripe Checkout UI (no PayPal in V1)",
-          "status": "pending",
+          "status": "completed",
           "files": ["src/app/components/payment/StripeCheckout.tsx"]
         },
         {
           "id": "6.8",
           "layer": "presentation",
           "description": "Implement content gating (Free vs Paid tier with upgrade CTAs)",
-          "status": "pending",
+          "status": "completed",
           "files": ["src/app/components/payment/ContentGate.tsx"]
         },
         {
           "id": "6.9",
           "layer": "infrastructure",
           "description": "Implement Stripe webhook handler for auto-entitlement",
-          "status": "pending",
+          "status": "completed",
           "files": ["src/app/api/webhooks/stripe/route.ts"]
         },
         {
           "id": "6.10",
           "layer": "presentation",
           "description": "Build Admin Analytics: Member count, MRR, trial-to-paid conversion",
-          "status": "pending",
+          "status": "completed",
           "files": ["src/app/components/admin/AnalyticsDashboard.tsx"]
         }
       ]

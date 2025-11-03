@@ -275,10 +275,8 @@ exports.Prisma.PaymentTierScalarFieldEnum = {
   communityId: 'communityId',
   name: 'name',
   description: 'description',
-  price: 'price',
-  interval: 'interval',
-  stripeProductId: 'stripeProductId',
-  stripePriceId: 'stripePriceId',
+  priceMonthly: 'priceMonthly',
+  priceAnnual: 'priceAnnual',
   features: 'features',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -289,28 +287,34 @@ exports.Prisma.PaymentTierScalarFieldEnum = {
 exports.Prisma.SubscriptionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
-  tierId: 'tierId',
-  stripeCustomerId: 'stripeCustomerId',
+  communityId: 'communityId',
+  paymentTierId: 'paymentTierId',
   stripeSubscriptionId: 'stripeSubscriptionId',
+  stripeCustomerId: 'stripeCustomerId',
   status: 'status',
+  interval: 'interval',
   currentPeriodStart: 'currentPeriodStart',
   currentPeriodEnd: 'currentPeriodEnd',
-  cancelAt: 'cancelAt',
-  canceledAt: 'canceledAt',
+  cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+  trialEndsAt: 'trialEndsAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
 };
 
-exports.Prisma.PaymentScalarFieldEnum = {
+exports.Prisma.CouponScalarFieldEnum = {
   id: 'id',
-  subscriptionId: 'subscriptionId',
-  stripePaymentId: 'stripePaymentId',
-  amount: 'amount',
-  currency: 'currency',
-  status: 'status',
+  communityId: 'communityId',
+  code: 'code',
+  discountType: 'discountType',
+  discountValue: 'discountValue',
+  expiresAt: 'expiresAt',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
+  isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -349,21 +353,6 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   SUBSCRIPTION_CANCELLED: 'SUBSCRIPTION_CANCELLED'
 };
 
-exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
-  ACTIVE: 'ACTIVE',
-  TRIALING: 'TRIALING',
-  PAST_DUE: 'PAST_DUE',
-  CANCELED: 'CANCELED',
-  UNPAID: 'UNPAID'
-};
-
-exports.PaymentStatus = exports.$Enums.PaymentStatus = {
-  SUCCEEDED: 'SUCCEEDED',
-  PENDING: 'PENDING',
-  FAILED: 'FAILED',
-  REFUNDED: 'REFUNDED'
-};
-
 exports.Prisma.ModelName = {
   User: 'User',
   Community: 'Community',
@@ -379,7 +368,7 @@ exports.Prisma.ModelName = {
   Certificate: 'Certificate',
   PaymentTier: 'PaymentTier',
   Subscription: 'Subscription',
-  Payment: 'Payment'
+  Coupon: 'Coupon'
 };
 
 /**

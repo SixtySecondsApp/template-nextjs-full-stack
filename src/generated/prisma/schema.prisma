@@ -68,6 +68,8 @@ model Community {
   posts         Post[]
   courses       Course[]
   paymentTiers  PaymentTier[]
+  subscriptions Subscription[]
+  coupons       Coupon[]
   notifications Notification[]
 
   @@index([slug])
@@ -345,19 +347,17 @@ model Certificate {
 // ----------------------------------------------------------------------------
 
 model PaymentTier {
-  id              String    @id @default(cuid())
-  communityId     String
-  name            String // e.g., "Free", "Premium"
-  description     String?   @db.Text
-  price           Int       @default(0) // Cents (0 = Free tier)
-  interval        String? // "month", "year", null for free
-  stripeProductId String?
-  stripePriceId   String?
-  features        String[] // Array of feature descriptions
-  isActive        Boolean   @default(true)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  deletedAt       DateTime? // Soft delete
+  id           String    @id @default(cuid())
+  communityId  String
+  name         String // e.g., "Free", "Premium", "Enterprise"
+  description  String    @db.Text
+  priceMonthly Int       @default(0) // Cents (0 = Free tier)
+  priceAnnual  Int       @default(0) // Cents (0 = Free tier)
+  features     String[] // Array of feature descriptions
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  deletedAt    DateTime? // Soft delete
 
   // Relationships
   community     Community      @relation(fields: [communityId], references: [id], onDelete: Cascade)
@@ -365,66 +365,63 @@ model PaymentTier {
 
   @@index([communityId])
   @@index([isActive])
+  @@index([deletedAt])
   @@map("payment_tiers")
 }
 
-enum SubscriptionStatus {
-  ACTIVE
-  TRIALING
-  PAST_DUE
-  CANCELED
-  UNPAID
-}
-
 model Subscription {
-  id                   String             @id @default(cuid())
+  id                   String    @id @default(cuid())
   userId               String
-  tierId               String
+  communityId          String
+  paymentTierId        String
+  stripeSubscriptionId String?   @unique
   stripeCustomerId     String?
-  stripeSubscriptionId String?            @unique
-  status               SubscriptionStatus @default(ACTIVE)
+  status               String // ACTIVE, CANCELLED, PAST_DUE, TRIALING
+  interval             String // MONTHLY, ANNUAL
   currentPeriodStart   DateTime
   currentPeriodEnd     DateTime
-  cancelAt             DateTime?
-  canceledAt           DateTime?
-  createdAt            DateTime           @default(now())
-  updatedAt            DateTime           @updatedAt
+  cancelAtPeriodEnd    Boolean   @default(false)
+  trialEndsAt          DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
   deletedAt            DateTime? // Soft delete
 
   // Relationships
-  user     User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tier     PaymentTier @relation(fields: [tierId], references: [id], onDelete: Cascade)
-  payments Payment[]
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  community   Community   @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  paymentTier PaymentTier @relation(fields: [paymentTierId], references: [id], onDelete: Cascade)
 
+  @@unique([userId, communityId]) // One subscription per user per community
   @@index([userId])
-  @@index([tierId])
-  @@index([stripeSubscriptionId])
+  @@index([communityId])
+  @@index([stripeCustomerId])
   @@index([status])
+  @@index([deletedAt])
   @@map("subscriptions")
 }
 
-enum PaymentStatus {
-  SUCCEEDED
-  PENDING
-  FAILED
-  REFUNDED
-}
-
-model Payment {
-  id              String        @id @default(cuid())
-  subscriptionId  String
-  stripePaymentId String        @unique
-  amount          Int // Cents
-  currency        String        @default("usd")
-  status          PaymentStatus
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
+model Coupon {
+  id            String    @id @default(cuid())
+  communityId   String
+  code          String // Uppercase, e.g., "SAVE20"
+  discountType  String // PERCENTAGE, FIXED_AMOUNT
+  discountValue Int // Percentage (0-100) or cents
+  expiresAt     DateTime?
+  maxUses       Int? // Null = unlimited
+  usedCount     Int       @default(0)
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime? // Soft delete
 
   // Relationships
-  subscription Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
 
-  @@index([subscriptionId])
-  @@index([stripePaymentId])
-  @@index([status])
-  @@map("payments")
+  @@unique([communityId, code]) // Unique code per community
+  @@index([communityId])
+  @@index([code])
+  @@index([isActive])
+  @@index([expiresAt])
+  @@index([deletedAt])
+  @@map("coupons")
 }

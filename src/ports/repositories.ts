@@ -374,3 +374,4 @@ export interface ICertificateRepository {
 export * from "../infrastructure/search/search.port";
 export * from "../infrastructure/email/email.port";
 export * from "../infrastructure/pdf/pdf.port";
+export * from "../infrastructure/payment/stripe.port";
