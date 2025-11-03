@@ -1,23 +1,101 @@
 {
-  "projectName": "Community OS - V1 MVP",
-  "generatedAt": "2025-11-03T18:30:00Z",
-  "mvpLaunchTarget": "March 2026 (4 months from Dec 2025)",
-  "totalPhases": 6,
+  "projectName": "Community OS - Complete Roadmap (V1-V5)",
+  "generatedAt": "2025-11-03T19:00:00Z",
+  "overallTimeline": "March 2026 - December 2027 (21 months)",
+  "totalPhases": 20,
   "completedPhases": 0,
   "currentPhase": 1,
-  "estimatedWeeks": "12-16 weeks",
-  "teamSize": "9 people (as per V1-MVP.md)",
-  "versionScope": "V1 MVP - Core reliability + Forums + Basic Courses + Stripe only",
+  "currentVersion": "V1",
+  "teamSize": {
+    "V1": "9 people (4 months)",
+    "V2": "9-12 people (4 months)",
+    "V3": "12-14 people (5 months)",
+    "V4": "14-16 people (4 months)",
+    "V5": "16-18 people (4 months)"
+  },
+  "versions": [
+    {
+      "version": "V1",
+      "name": "Core Reliability + Forums + Basic Courses",
+      "launchTarget": "March 2026",
+      "duration": "4 months (Dec 2025 - Mar 2026)",
+      "estimatedWeeks": "12-16 weeks",
+      "teamSize": "9 people",
+      "phases": [1, 2, 3, 4, 5, 6],
+      "successMetrics": {
+        "activation": "50% Day 1 Activation Rate",
+        "engagement": "25% Weekly Active Members",
+        "reliability": "99.5% Uptime, 0 Draft Loss Incidents",
+        "monetization": "15% Trial-to-Paid Conversion"
+      }
+    },
+    {
+      "version": "V2",
+      "name": "Engagement & Structure",
+      "launchTarget": "July 2026",
+      "duration": "4 months (Apr 2026 - Jul 2026)",
+      "estimatedWeeks": "16 weeks",
+      "teamSize": "9-12 people",
+      "phases": [7, 8, 9, 10, 11, 12],
+      "successMetrics": {
+        "engagement": "35% WAM, 3.5 comments/post, 20% communities use chat actively",
+        "monetization": "500 paying communities (5x growth), 18% trial-to-paid",
+        "retention": "<6% monthly churn"
+      }
+    },
+    {
+      "version": "V3",
+      "name": "AI-Powered Community",
+      "launchTarget": "December 2026",
+      "duration": "5 months (Aug 2026 - Dec 2026)",
+      "estimatedWeeks": "20 weeks",
+      "teamSize": "12-14 people",
+      "phases": [13, 14, 15, 16],
+      "successMetrics": {
+        "aiAdoption": "40% communities use AI Moderation, 30% use @Assistant",
+        "moderation": "80% spam auto-detected, <2% false positives",
+        "engagement": "45% WAM, 4.0 comments/post"
+      }
+    },
+    {
+      "version": "V4",
+      "name": "Enterprise & Scale",
+      "launchTarget": "April 2027",
+      "duration": "4 months (Jan 2027 - Apr 2027)",
+      "estimatedWeeks": "16 weeks",
+      "teamSize": "14-16 people",
+      "phases": [17, 18],
+      "successMetrics": {
+        "enterprise": "50 enterprise customers (500+ members each)",
+        "whiteLabel": "10 white-label deployments",
+        "api": "100+ integrations via API"
+      }
+    },
+    {
+      "version": "V5",
+      "name": "Global & Advanced",
+      "launchTarget": "August 2027",
+      "duration": "4 months (May 2027 - Aug 2027)",
+      "estimatedWeeks": "16 weeks",
+      "teamSize": "16-18 people",
+      "phases": [19, 20],
+      "successMetrics": {
+        "global": "Support for 20+ languages",
+        "marketplace": "50+ community templates available",
+        "scale": "1000+ paying communities"
+      }
+    }
+  ],
   "phases": [
     {
       "id": 1,
       "name": "Foundation: Auth (Clerk), User Roles, Dark Mode",
+      "version": "V1",
       "status": "pending",
       "estimatedHours": 60,
       "estimatedWeeks": "1-2",
       "priority": "critical",
       "dependencies": [],
-      "versionTag": "V1",
       "tasks": [
         {
           "id": "1.1",
@@ -100,12 +178,12 @@
     {
       "id": 2,
       "name": "Forums: Posts, Comments, Rich Text (V1 MVP Core)",
+      "version": "V1",
       "status": "pending",
       "estimatedHours": 100,
       "estimatedWeeks": "2-3",
       "priority": "critical",
       "dependencies": [1],
-      "versionTag": "V1",
       "tasks": [
         {
           "id": "2.1",
@@ -123,20 +201,13 @@
         },
         {
           "id": "2.3",
-          "layer": "domain",
-          "description": "Create Category/Tag entity for organization (V1: single-feed with tags)",
-          "status": "pending",
-          "files": ["src/domain/category/category.entity.ts"]
-        },
-        {
-          "id": "2.4",
           "layer": "prisma",
-          "description": "Design Prisma schema for Post, Comment, Category with soft delete",
+          "description": "Design Prisma schema for Post, Comment with soft delete",
           "status": "pending",
           "files": ["prisma/schema.prisma"]
         },
         {
-          "id": "2.5",
+          "id": "2.4",
           "layer": "infrastructure",
           "description": "Implement Post, Comment repositories with filtering (All, New, Top - no Trending yet)",
           "status": "pending",
@@ -146,7 +217,7 @@
           ]
         },
         {
-          "id": "2.6",
+          "id": "2.5",
           "layer": "application",
           "description": "Create Use Cases: CreatePost, ListPosts, GetPost, UpdatePost, DeletePost",
           "status": "pending",
@@ -156,56 +227,56 @@
           ]
         },
         {
-          "id": "2.7",
+          "id": "2.6",
           "layer": "application",
           "description": "Create Use Cases: AddComment, GetComments (2-level threading), DeleteComment",
           "status": "pending",
           "files": ["src/application/use-cases/add-comment.usecase.ts"]
         },
         {
-          "id": "2.8",
+          "id": "2.7",
           "layer": "presentation",
           "description": "Build Post Composer with rich text editor (based on react-design.md)",
           "status": "pending",
           "files": ["src/app/components/posts/PostComposer.tsx"]
         },
         {
-          "id": "2.9",
+          "id": "2.8",
           "layer": "presentation",
           "description": "Implement Autosave (5s intervals) with 'Draft saved ✓' indicator",
           "status": "pending",
           "files": ["src/app/components/posts/AutosaveIndicator.tsx"]
         },
         {
-          "id": "2.10",
+          "id": "2.9",
           "layer": "presentation",
           "description": "Build Post Card component (per design_system.md specs)",
           "status": "pending",
           "files": ["src/app/components/posts/PostCard.tsx"]
         },
         {
-          "id": "2.11",
+          "id": "2.10",
           "layer": "presentation",
           "description": "Build Comment Thread component (2-level nesting)",
           "status": "pending",
           "files": ["src/app/components/comments/CommentThread.tsx"]
         },
         {
-          "id": "2.12",
+          "id": "2.11",
           "layer": "presentation",
           "description": "Build Filter Bar (All, New, Top - no Trending/Solved yet)",
           "status": "pending",
           "files": ["src/app/components/posts/FilterBar.tsx"]
         },
         {
-          "id": "2.13",
+          "id": "2.12",
           "layer": "infrastructure",
           "description": "Implement file upload to AWS S3 (images up to 5x10MB, files up to 25MB)",
           "status": "pending",
           "files": ["src/infrastructure/storage/s3-adapter.ts"]
         },
         {
-          "id": "2.14",
+          "id": "2.13",
           "layer": "presentation",
           "description": "Build API routes for posts and comments",
           "status": "pending",
@@ -216,12 +287,12 @@
     {
       "id": 3,
       "name": "Version History & Undelete (V1 Reliability Core)",
+      "version": "V1",
       "status": "pending",
       "estimatedHours": 40,
       "estimatedWeeks": "1",
       "priority": "high",
       "dependencies": [2],
-      "versionTag": "V1",
       "tasks": [
         {
           "id": "3.1",
@@ -270,12 +341,12 @@
     {
       "id": 4,
       "name": "Search, @Mentions, Notifications (V1 MVP)",
+      "version": "V1",
       "status": "pending",
       "estimatedHours": 60,
       "estimatedWeeks": "1-2",
       "priority": "high",
       "dependencies": [2],
-      "versionTag": "V1",
       "tasks": [
         {
           "id": "4.1",
@@ -331,12 +402,12 @@
     {
       "id": 5,
       "name": "Basic Courses: Lessons, Progress, Simple Certificates",
+      "version": "V1",
       "status": "pending",
       "estimatedHours": 80,
       "estimatedWeeks": "2",
       "priority": "critical",
       "dependencies": [1],
-      "versionTag": "V1",
       "tasks": [
         {
           "id": "5.1",
@@ -441,12 +512,12 @@
     {
       "id": 6,
       "name": "Monetization: Stripe + Content Gating (V1 MVP)",
+      "version": "V1",
       "status": "pending",
       "estimatedHours": 70,
       "estimatedWeeks": "2",
       "priority": "high",
       "dependencies": [1, 5],
-      "versionTag": "V1",
       "tasks": [
         {
           "id": "6.1",
@@ -522,22 +593,762 @@
           "files": ["src/app/components/admin/AnalyticsDashboard.tsx"]
         }
       ]
+    },
+    {
+      "id": 7,
+      "name": "Multi-Space Layout & Organization (V2)",
+      "version": "V2",
+      "status": "pending",
+      "estimatedHours": 80,
+      "estimatedWeeks": "2",
+      "priority": "high",
+      "dependencies": [6],
+      "tasks": [
+        {
+          "id": "7.1",
+          "layer": "domain",
+          "description": "Create Space entity with nested structure (Space > Channels, 2 levels max)",
+          "status": "pending",
+          "files": ["src/domain/space/space.entity.ts"]
+        },
+        {
+          "id": "7.2",
+          "layer": "domain",
+          "description": "Create Channel entity with per-channel permissions (public, members-only, tier-gated)",
+          "status": "pending",
+          "files": ["src/domain/channel/channel.entity.ts"]
+        },
+        {
+          "id": "7.3",
+          "layer": "prisma",
+          "description": "Add Space, Channel models with permission system",
+          "status": "pending",
+          "files": ["prisma/schema.prisma"]
+        },
+        {
+          "id": "7.4",
+          "layer": "presentation",
+          "description": "Build Space Switcher UI (toggle between single-feed and multi-space layouts)",
+          "status": "pending",
+          "files": ["src/app/components/spaces/SpaceSwitcher.tsx"]
+        },
+        {
+          "id": "7.5",
+          "layer": "presentation",
+          "description": "Build Migration Tool (preview before switching layouts)",
+          "status": "pending",
+          "files": ["src/app/components/spaces/MigrationTool.tsx"]
+        },
+        {
+          "id": "7.6",
+          "layer": "application",
+          "description": "Create Use Cases: CreateSpace, CreateChannel, ManagePermissions",
+          "status": "pending",
+          "files": ["src/application/use-cases/create-space.usecase.ts"]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Real-Time Chat (Channels, DMs, Group DMs) (V2)",
+      "version": "V2",
+      "status": "pending",
+      "estimatedHours": 120,
+      "estimatedWeeks": "3",
+      "priority": "critical",
+      "dependencies": [7],
+      "tasks": [
+        {
+          "id": "8.1",
+          "layer": "domain",
+          "description": "Create ChatMessage entity with reactions, thread replies",
+          "status": "pending",
+          "files": ["src/domain/chat/chat-message.entity.ts"]
+        },
+        {
+          "id": "8.2",
+          "layer": "domain",
+          "description": "Create DirectMessage entity (1:1 and group DMs up to 10 people)",
+          "status": "pending",
+          "files": ["src/domain/chat/direct-message.entity.ts"]
+        },
+        {
+          "id": "8.3",
+          "layer": "infrastructure",
+          "description": "Implement WebSocket adapter for real-time messaging",
+          "status": "pending",
+          "files": ["src/infrastructure/websocket/websocket-adapter.ts"]
+        },
+        {
+          "id": "8.4",
+          "layer": "presentation",
+          "description": "Build Chat UI with typing indicators, read receipts",
+          "status": "pending",
+          "files": ["src/app/components/chat/ChatWindow.tsx"]
+        },
+        {
+          "id": "8.5",
+          "layer": "presentation",
+          "description": "Build Chat-to-Forum integration (expand message to post)",
+          "status": "pending",
+          "files": ["src/app/components/chat/ExpandToPostButton.tsx"]
+        },
+        {
+          "id": "8.6",
+          "layer": "infrastructure",
+          "description": "Implement file sharing in chat with S3 upload",
+          "status": "pending",
+          "files": ["src/infrastructure/chat/chat-file-upload.ts"]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Calendar & Events with RSVP (V2)",
+      "version": "V2",
+      "status": "pending",
+      "estimatedHours": 100,
+      "estimatedWeeks": "2.5",
+      "priority": "high",
+      "dependencies": [1],
+      "tasks": [
+        {
+          "id": "9.1",
+          "layer": "domain",
+          "description": "Create Event entity (title, description, date/time, timezone, capacity, waitlist)",
+          "status": "pending",
+          "files": ["src/domain/event/event.entity.ts"]
+        },
+        {
+          "id": "9.2",
+          "layer": "domain",
+          "description": "Create RSVP entity with waitlist auto-promotion logic",
+          "status": "pending",
+          "files": ["src/domain/event/rsvp.entity.ts"]
+        },
+        {
+          "id": "9.3",
+          "layer": "prisma",
+          "description": "Add Event, RSVP models with recurring event support",
+          "status": "pending",
+          "files": ["prisma/schema.prisma"]
+        },
+        {
+          "id": "9.4",
+          "layer": "presentation",
+          "description": "Build Calendar UI (monthly, weekly, daily views)",
+          "status": "pending",
+          "files": ["src/app/components/calendar/CalendarView.tsx"]
+        },
+        {
+          "id": "9.5",
+          "layer": "presentation",
+          "description": "Build Event Creation UI with external link support (Zoom, Google Meet)",
+          "status": "pending",
+          "files": ["src/app/components/events/EventForm.tsx"]
+        },
+        {
+          "id": "9.6",
+          "layer": "infrastructure",
+          "description": "Implement email reminders (1 day, 1 hour before event)",
+          "status": "pending",
+          "files": ["src/infrastructure/email/event-reminders.ts"]
+        },
+        {
+          "id": "9.7",
+          "layer": "presentation",
+          "description": "Build iCal/Google Calendar export functionality",
+          "status": "pending",
+          "files": ["src/app/components/events/ExportCalendar.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Enhanced Courses (Quizzes, Assignments, Custom Certificates) (V2)",
+      "version": "V2",
+      "status": "pending",
+      "estimatedHours": 90,
+      "estimatedWeeks": "2",
+      "priority": "high",
+      "dependencies": [5],
+      "tasks": [
+        {
+          "id": "10.1",
+          "layer": "domain",
+          "description": "Create Quiz entity (MCQ, true/false, short answer with pass marks)",
+          "status": "pending",
+          "files": ["src/domain/quiz/quiz.entity.ts"]
+        },
+        {
+          "id": "10.2",
+          "layer": "domain",
+          "description": "Create Assignment entity with file upload requirement",
+          "status": "pending",
+          "files": ["src/domain/assignment/assignment.entity.ts"]
+        },
+        {
+          "id": "10.3",
+          "layer": "domain",
+          "description": "Enhance Certificate entity with customization (logo, colors, signature)",
+          "status": "pending",
+          "files": ["src/domain/certificate/certificate.entity.ts"]
+        },
+        {
+          "id": "10.4",
+          "layer": "infrastructure",
+          "description": "Implement native video upload (up to 2GB per video) with encoding",
+          "status": "pending",
+          "files": ["src/infrastructure/video/video-upload.ts"]
+        },
+        {
+          "id": "10.5",
+          "layer": "presentation",
+          "description": "Build Quiz Builder UI with question types and auto-grading",
+          "status": "pending",
+          "files": ["src/app/components/courses/QuizBuilder.tsx"]
+        },
+        {
+          "id": "10.6",
+          "layer": "presentation",
+          "description": "Build timestamped comments on video lessons",
+          "status": "pending",
+          "files": ["src/app/components/courses/VideoComments.tsx"]
+        },
+        {
+          "id": "10.7",
+          "layer": "presentation",
+          "description": "Build Certificate Customization UI",
+          "status": "pending",
+          "files": ["src/app/components/courses/CertificateCustomizer.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Gamification: Points, Badges, Leaderboards (V2)",
+      "version": "V2",
+      "status": "pending",
+      "estimatedHours": 70,
+      "estimatedWeeks": "1.5",
+      "priority": "medium",
+      "dependencies": [2, 5],
+      "tasks": [
+        {
+          "id": "11.1",
+          "layer": "domain",
+          "description": "Create Points entity with configurable scoring rules",
+          "status": "pending",
+          "files": ["src/domain/gamification/points.entity.ts"]
+        },
+        {
+          "id": "11.2",
+          "layer": "domain",
+          "description": "Create Badge entity (system badges: New Member, Week Streak, Course Completer)",
+          "status": "pending",
+          "files": ["src/domain/gamification/badge.entity.ts"]
+        },
+        {
+          "id": "11.3",
+          "layer": "domain",
+          "description": "Create Leaderboard entity with seasonal resets (weekly, monthly)",
+          "status": "pending",
+          "files": ["src/domain/gamification/leaderboard.entity.ts"]
+        },
+        {
+          "id": "11.4",
+          "layer": "prisma",
+          "description": "Add Points, Badge, Leaderboard models",
+          "status": "pending",
+          "files": ["prisma/schema.prisma"]
+        },
+        {
+          "id": "11.5",
+          "layer": "presentation",
+          "description": "Build Leaderboard Widget (top 5 in sidebar)",
+          "status": "pending",
+          "files": ["src/app/components/gamification/LeaderboardWidget.tsx"]
+        },
+        {
+          "id": "11.6",
+          "layer": "presentation",
+          "description": "Build Points Notifications UI",
+          "status": "pending",
+          "files": ["src/app/components/gamification/PointsNotification.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Additional Payment Gateways & Branding (V2)",
+      "version": "V2",
+      "status": "pending",
+      "estimatedHours": 80,
+      "estimatedWeeks": "2",
+      "priority": "medium",
+      "dependencies": [6],
+      "tasks": [
+        {
+          "id": "12.1",
+          "layer": "infrastructure",
+          "description": "Integrate PayPal SDK for subscriptions and one-time payments",
+          "status": "pending",
+          "files": ["src/infrastructure/payment/paypal-adapter.ts"]
+        },
+        {
+          "id": "12.2",
+          "layer": "infrastructure",
+          "description": "Integrate Razorpay SDK (India market)",
+          "status": "pending",
+          "files": ["src/infrastructure/payment/razorpay-adapter.ts"]
+        },
+        {
+          "id": "12.3",
+          "layer": "domain",
+          "description": "Support up to 5 pricing tiers (expanded from 2 in V1)",
+          "status": "pending",
+          "files": ["src/domain/payment/payment-tier.entity.ts"]
+        },
+        {
+          "id": "12.4",
+          "layer": "domain",
+          "description": "Add one-off purchase model (lifetime access)",
+          "status": "pending",
+          "files": ["src/domain/payment/one-off-purchase.entity.ts"]
+        },
+        {
+          "id": "12.5",
+          "layer": "infrastructure",
+          "description": "Implement custom domain with SSL auto-provisioning",
+          "status": "pending",
+          "files": ["src/infrastructure/dns/custom-domain.ts"]
+        },
+        {
+          "id": "12.6",
+          "layer": "presentation",
+          "description": "Build Branding UI (typography selector, favicon upload, OG image)",
+          "status": "pending",
+          "files": ["src/app/components/admin/BrandingSettings.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "AI Moderation Assist (V3)",
+      "version": "V3",
+      "status": "pending",
+      "estimatedHours": 100,
+      "estimatedWeeks": "2.5",
+      "priority": "high",
+      "dependencies": [2],
+      "tasks": [
+        {
+          "id": "13.1",
+          "layer": "domain",
+          "description": "Create ModerationFlag entity with confidence scores (High, Medium, Low)",
+          "status": "pending",
+          "files": ["src/domain/moderation/moderation-flag.entity.ts"]
+        },
+        {
+          "id": "13.2",
+          "layer": "infrastructure",
+          "description": "Integrate AI moderation API (OpenAI Moderation or similar) for spam/toxicity detection",
+          "status": "pending",
+          "files": ["src/infrastructure/ai/moderation-adapter.ts"]
+        },
+        {
+          "id": "13.3",
+          "layer": "application",
+          "description": "Create Use Cases: FlagContent, ReviewFlags, ApproveContent, DeleteContent",
+          "status": "pending",
+          "files": ["src/application/use-cases/flag-content.usecase.ts"]
+        },
+        {
+          "id": "13.4",
+          "layer": "presentation",
+          "description": "Build Moderation Queue UI with suggested actions (Approve, Delete, Hide, Warn, Ban)",
+          "status": "pending",
+          "files": ["src/app/components/moderation/ModerationQueue.tsx"]
+        },
+        {
+          "id": "13.5",
+          "layer": "presentation",
+          "description": "Build Sensitivity Settings UI (Strict, Balanced, Lenient)",
+          "status": "pending",
+          "files": ["src/app/components/admin/ModerationSettings.tsx"]
+        },
+        {
+          "id": "13.6",
+          "layer": "infrastructure",
+          "description": "Implement false positive feedback loop for model improvement",
+          "status": "pending",
+          "files": ["src/infrastructure/ai/feedback-loop.ts"]
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "@Assistant (FAQ Bot) (V3)",
+      "version": "V3",
+      "status": "pending",
+      "estimatedHours": 90,
+      "estimatedWeeks": "2",
+      "priority": "high",
+      "dependencies": [2, 5],
+      "tasks": [
+        {
+          "id": "14.1",
+          "layer": "domain",
+          "description": "Create AssistantKnowledgeBase entity (trained on pinned posts, courses, FAQs)",
+          "status": "pending",
+          "files": ["src/domain/assistant/knowledge-base.entity.ts"]
+        },
+        {
+          "id": "14.2",
+          "layer": "infrastructure",
+          "description": "Implement RAG pipeline with vector embeddings for content retrieval",
+          "status": "pending",
+          "files": ["src/infrastructure/ai/rag-pipeline.ts"]
+        },
+        {
+          "id": "14.3",
+          "layer": "application",
+          "description": "Create Use Cases: QueryAssistant, UpdateKnowledgeBase, EditAnswer",
+          "status": "pending",
+          "files": ["src/application/use-cases/query-assistant.usecase.ts"]
+        },
+        {
+          "id": "14.4",
+          "layer": "presentation",
+          "description": "Build @Assistant mention UI with cited sources",
+          "status": "pending",
+          "files": ["src/app/components/assistant/AssistantMention.tsx"]
+        },
+        {
+          "id": "14.5",
+          "layer": "presentation",
+          "description": "Build Admin Q&A Management UI (edit/disable answers, add custom pairs)",
+          "status": "pending",
+          "files": ["src/app/components/admin/AssistantManagement.tsx"]
+        },
+        {
+          "id": "14.6",
+          "layer": "presentation",
+          "description": "Build Accuracy Dashboard with thumbs up/down feedback",
+          "status": "pending",
+          "files": ["src/app/components/admin/AssistantAccuracy.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "AI Summaries & Engagement Insights (V3)",
+      "version": "V3",
+      "status": "pending",
+      "estimatedHours": 80,
+      "estimatedWeeks": "2",
+      "priority": "medium",
+      "dependencies": [2],
+      "tasks": [
+        {
+          "id": "15.1",
+          "layer": "domain",
+          "description": "Create ThreadSummary entity (auto-generated for 20+ comment threads)",
+          "status": "pending",
+          "files": ["src/domain/summary/thread-summary.entity.ts"]
+        },
+        {
+          "id": "15.2",
+          "layer": "infrastructure",
+          "description": "Implement AI summarization (3-5 bullet points, highlights consensus/disagreements)",
+          "status": "pending",
+          "files": ["src/infrastructure/ai/summarization.ts"]
+        },
+        {
+          "id": "15.3",
+          "layer": "domain",
+          "description": "Create EngagementAnomaly entity (drop in activity, spike in negativity)",
+          "status": "pending",
+          "files": ["src/domain/analytics/engagement-anomaly.entity.ts"]
+        },
+        {
+          "id": "15.4",
+          "layer": "presentation",
+          "description": "Build Thread Summary UI (editable before publishing)",
+          "status": "pending",
+          "files": ["src/app/components/summaries/ThreadSummary.tsx"]
+        },
+        {
+          "id": "15.5",
+          "layer": "presentation",
+          "description": "Build Engagement Insights Dashboard (anomaly detection, viral posts, churn signals)",
+          "status": "pending",
+          "files": ["src/app/components/analytics/EngagementInsights.tsx"]
+        },
+        {
+          "id": "15.6",
+          "layer": "presentation",
+          "description": "Build Content Recommendations ('You might also like...')",
+          "status": "pending",
+          "files": ["src/app/components/recommendations/ContentRecommendations.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "name": "Advanced Gamification & Analytics (V3)",
+      "version": "V3",
+      "status": "pending",
+      "estimatedHours": 90,
+      "estimatedWeeks": "2",
+      "priority": "medium",
+      "dependencies": [11],
+      "tasks": [
+        {
+          "id": "16.1",
+          "layer": "domain",
+          "description": "Create CustomBadge entity (admin-created with icon upload)",
+          "status": "pending",
+          "files": ["src/domain/gamification/custom-badge.entity.ts"]
+        },
+        {
+          "id": "16.2",
+          "layer": "domain",
+          "description": "Create Challenge entity (7-day challenges, team competitions)",
+          "status": "pending",
+          "files": ["src/domain/gamification/challenge.entity.ts"]
+        },
+        {
+          "id": "16.3",
+          "layer": "presentation",
+          "description": "Build Challenge UI with automated winner announcements",
+          "status": "pending",
+          "files": ["src/app/components/gamification/ChallengeBoard.tsx"]
+        },
+        {
+          "id": "16.4",
+          "layer": "presentation",
+          "description": "Build Cohort Analysis Dashboard (retention curves by signup cohort)",
+          "status": "pending",
+          "files": ["src/app/components/analytics/CohortAnalysis.tsx"]
+        },
+        {
+          "id": "16.5",
+          "layer": "presentation",
+          "description": "Build Trending Topics UI (keyword extraction from posts)",
+          "status": "pending",
+          "files": ["src/app/components/analytics/TrendingTopics.tsx"]
+        },
+        {
+          "id": "16.6",
+          "layer": "presentation",
+          "description": "Build Revenue by Cohort Analytics",
+          "status": "pending",
+          "files": ["src/app/components/analytics/RevenueCohort.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "name": "Enterprise Features: SSO, White-Label, API (V4)",
+      "version": "V4",
+      "status": "pending",
+      "estimatedHours": 120,
+      "estimatedWeeks": "3",
+      "priority": "high",
+      "dependencies": [6],
+      "tasks": [
+        {
+          "id": "17.1",
+          "layer": "infrastructure",
+          "description": "Implement SAML-based SSO for enterprise authentication",
+          "status": "pending",
+          "files": ["src/infrastructure/auth/saml-adapter.ts"]
+        },
+        {
+          "id": "17.2",
+          "layer": "domain",
+          "description": "Create WhiteLabelConfig entity (custom branding, domain, logo, emails)",
+          "status": "pending",
+          "files": ["src/domain/white-label/white-label-config.entity.ts"]
+        },
+        {
+          "id": "17.3",
+          "layer": "infrastructure",
+          "description": "Build REST API with OAuth2 authentication",
+          "status": "pending",
+          "files": ["src/infrastructure/api/rest-api.ts"]
+        },
+        {
+          "id": "17.4",
+          "layer": "infrastructure",
+          "description": "Implement Webhooks system for external integrations",
+          "status": "pending",
+          "files": ["src/infrastructure/webhooks/webhook-dispatcher.ts"]
+        },
+        {
+          "id": "17.5",
+          "layer": "presentation",
+          "description": "Build API Documentation Portal",
+          "status": "pending",
+          "files": ["src/app/api-docs/page.tsx"]
+        },
+        {
+          "id": "17.6",
+          "layer": "presentation",
+          "description": "Build White-Label Admin UI",
+          "status": "pending",
+          "files": ["src/app/components/admin/WhiteLabelSettings.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Mobile Apps & Advanced Integrations (V4)",
+      "version": "V4",
+      "status": "pending",
+      "estimatedHours": 100,
+      "estimatedWeeks": "2.5",
+      "priority": "high",
+      "dependencies": [17],
+      "tasks": [
+        {
+          "id": "18.1",
+          "layer": "infrastructure",
+          "description": "Build React Native mobile app foundation (iOS + Android)",
+          "status": "pending",
+          "files": ["mobile/App.tsx"]
+        },
+        {
+          "id": "18.2",
+          "layer": "infrastructure",
+          "description": "Implement push notifications for mobile (Firebase Cloud Messaging)",
+          "status": "pending",
+          "files": ["src/infrastructure/notifications/fcm-adapter.ts"]
+        },
+        {
+          "id": "18.3",
+          "layer": "infrastructure",
+          "description": "Integrate Zapier/Make for third-party automation",
+          "status": "pending",
+          "files": ["src/infrastructure/integrations/zapier-adapter.ts"]
+        },
+        {
+          "id": "18.4",
+          "layer": "presentation",
+          "description": "Build mobile navigation and offline support",
+          "status": "pending",
+          "files": ["mobile/components/Navigation.tsx"]
+        },
+        {
+          "id": "18.5",
+          "layer": "infrastructure",
+          "description": "Implement live streaming (native webinars with Mux or similar)",
+          "status": "pending",
+          "files": ["src/infrastructure/streaming/live-stream.ts"]
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "name": "Multi-Language Support & Localization (V5)",
+      "version": "V5",
+      "status": "pending",
+      "estimatedHours": 90,
+      "estimatedWeeks": "2",
+      "priority": "high",
+      "dependencies": [1],
+      "tasks": [
+        {
+          "id": "19.1",
+          "layer": "infrastructure",
+          "description": "Implement i18n framework (next-intl or similar) for 20+ languages",
+          "status": "pending",
+          "files": ["src/infrastructure/i18n/i18n-config.ts"]
+        },
+        {
+          "id": "19.2",
+          "layer": "infrastructure",
+          "description": "Integrate AI-powered translation service (DeepL or Google Translate API)",
+          "status": "pending",
+          "files": ["src/infrastructure/translation/translation-adapter.ts"]
+        },
+        {
+          "id": "19.3",
+          "layer": "presentation",
+          "description": "Build Language Selector UI with auto-detection",
+          "status": "pending",
+          "files": ["src/app/components/i18n/LanguageSelector.tsx"]
+        },
+        {
+          "id": "19.4",
+          "layer": "presentation",
+          "description": "Build Translation Management UI for admins",
+          "status": "pending",
+          "files": ["src/app/components/admin/TranslationManager.tsx"]
+        },
+        {
+          "id": "19.5",
+          "layer": "infrastructure",
+          "description": "Implement RTL language support (Arabic, Hebrew)",
+          "status": "pending",
+          "files": ["src/infrastructure/i18n/rtl-support.ts"]
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "name": "Community Marketplace & Templates (V5)",
+      "version": "V5",
+      "status": "pending",
+      "estimatedHours": 80,
+      "estimatedWeeks": "2",
+      "priority": "medium",
+      "dependencies": [1, 5],
+      "tasks": [
+        {
+          "id": "20.1",
+          "layer": "domain",
+          "description": "Create CommunityTemplate entity (pre-built community configs)",
+          "status": "pending",
+          "files": ["src/domain/marketplace/community-template.entity.ts"]
+        },
+        {
+          "id": "20.2",
+          "layer": "domain",
+          "description": "Create CourseTemplate entity (shareable course structures)",
+          "status": "pending",
+          "files": ["src/domain/marketplace/course-template.entity.ts"]
+        },
+        {
+          "id": "20.3",
+          "layer": "presentation",
+          "description": "Build Marketplace UI (browse, preview, install templates)",
+          "status": "pending",
+          "files": ["src/app/marketplace/page.tsx"]
+        },
+        {
+          "id": "20.4",
+          "layer": "infrastructure",
+          "description": "Implement template import/export with data validation",
+          "status": "pending",
+          "files": ["src/infrastructure/templates/template-importer.ts"]
+        },
+        {
+          "id": "20.5",
+          "layer": "presentation",
+          "description": "Build Template Creator UI (save community as template)",
+          "status": "pending",
+          "files": ["src/app/components/templates/TemplateCreator.tsx"]
+        },
+        {
+          "id": "20.6",
+          "layer": "presentation",
+          "description": "Build Advanced Analytics Dashboard (1000+ communities scale)",
+          "status": "pending",
+          "files": ["src/app/components/analytics/AdvancedAnalytics.tsx"]
+        }
+      ]
     }
-  ],
-  "deferredToV2": [
-    "Real-time Chat (channels, DMs)",
-    "Calendar & Events with RSVP",
-    "Multi-space layout",
-    "PayPal & Razorpay payment gateways",
-    "Gamification (points, badges, leaderboards)",
-    "Advanced course features (quizzes, assignments, customizable certificates)",
-    "Custom domain",
-    "Advanced search (fuzzy matching, autocomplete)"
-  ],
-  "deferredToV3": [
-    "AI Moderation",
-    "@Assistant FAQ bot",
-    "AI Summaries",
-    "Engagement anomaly detection"
   ]
 }
