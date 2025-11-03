@@ -10,8 +10,8 @@ export default async function DashboardPage() {
     redirect("/sign-in");
   }
 
-  // Get user from database
-  const dbUser = await prisma.user.findUnique({
+  // Get or create user from database
+  let dbUser = await prisma.user.findUnique({
     where: { clerkId: clerkUser.id },
     include: {
       memberships: {
@@ -21,16 +21,23 @@ export default async function DashboardPage() {
     },
   });
 
+  // If user doesn't exist in database, create it from Clerk data
   if (!dbUser) {
-    return (
-      <div className="p-8">
-        <div className="bg-red-50 border border-red-200 p-4 rounded-lg">
-          <p className="text-red-800">
-            User profile not found. Please refresh the page or contact support.
-          </p>
-        </div>
-      </div>
-    );
+    dbUser = await prisma.user.create({
+      data: {
+        clerkId: clerkUser.id,
+        email: clerkUser.emailAddresses[0]?.emailAddress || "",
+        firstName: clerkUser.firstName,
+        lastName: clerkUser.lastName,
+        imageUrl: clerkUser.imageUrl,
+      },
+      include: {
+        memberships: {
+          where: { deletedAt: null },
+          include: { community: true },
+        },
+      },
+    });
   }
 
   return (
