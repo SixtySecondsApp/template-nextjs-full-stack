@@ -133,7 +133,6 @@ model Post {
   @@index([createdAt])
   @@index([publishedAt])
   @@index([deletedAt])
-  @@fulltext([title, content]) // Full-text search (PostgreSQL)
   @@map("posts")
 }
 
@@ -199,8 +198,8 @@ model ContentVersion {
   createdAt   DateTime    @default(now())
 
   // Relationships (polymorphic via contentId + contentType)
-  post    Post?    @relation(fields: [contentId], references: [id], onDelete: Cascade)
-  comment Comment? @relation(fields: [contentId], references: [id], onDelete: Cascade)
+  post    Post?    @relation(fields: [contentId], references: [id], onDelete: Cascade, map: "content_versions_post_id_fkey")
+  comment Comment? @relation(fields: [contentId], references: [id], onDelete: Cascade, map: "content_versions_comment_id_fkey")
 
   @@unique([contentId, versionNumber])
   @@index([contentId, contentType])
