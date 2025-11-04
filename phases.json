@@ -2,9 +2,9 @@
   "projectName": "Community OS - Complete Roadmap (V1-V5)",
   "generatedAt": "2025-11-03T19:00:00Z",
   "overallTimeline": "March 2026 - December 2027 (21 months)",
-  "totalPhases": 20,
-  "completedPhases": 6,
-  "currentPhase": 7,
+  "totalPhases": 24,
+  "completedPhases": 7,
+  "currentPhase": 6.2,
   "currentVersion": "V1",
   "teamSize": {
     "V1": "9 people (4 months)",
@@ -21,7 +21,7 @@
       "duration": "4 months (Dec 2025 - Mar 2026)",
       "estimatedWeeks": "12-16 weeks",
       "teamSize": "9 people",
-      "phases": [1, 2, 3, 4, 5, 6],
+      "phases": [1, 2, 3, 4, 5, 6, "6.1", "6.2", "6.3", "6.4"],
       "successMetrics": {
         "activation": "50% Day 1 Activation Rate",
         "engagement": "25% Weekly Active Members",
@@ -597,6 +597,401 @@
           "description": "Build Admin Analytics: Member count, MRR, trial-to-paid conversion",
           "status": "completed",
           "files": ["src/app/components/admin/AnalyticsDashboard.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 6.1,
+      "name": "Admin Dashboard: Foundation & Design System (V1)",
+      "version": "V1",
+      "status": "completed",
+      "estimatedHours": 50,
+      "estimatedWeeks": "1-1.5",
+      "priority": "high",
+      "dependencies": [6],
+      "startedAt": "2025-11-04T01:00:00Z",
+      "completedAt": "2025-11-04T05:30:00Z",
+      "actualHours": 4.5,
+      "tasks": [
+        {
+          "id": "6.1.1",
+          "layer": "infrastructure",
+          "description": "Set up Tailwind CSS v4 with design tokens (colours, spacing, typography, shadows)",
+          "status": "completed",
+          "completedAt": "2025-11-04T02:00:00Z",
+          "files": ["tailwind.config.ts", "src/app/globals.css"]
+        },
+        {
+          "id": "6.1.2",
+          "layer": "infrastructure",
+          "description": "Configure Zustand for client state management (theme, navigation)",
+          "status": "completed",
+          "completedAt": "2025-11-04T02:30:00Z",
+          "files": ["src/lib/stores/theme-store.ts", "src/lib/stores/navigation-store.ts"]
+        },
+        {
+          "id": "6.1.3",
+          "layer": "infrastructure",
+          "description": "Set up TanStack Query for server state management with React Query DevTools",
+          "status": "completed",
+          "completedAt": "2025-11-04T03:00:00Z",
+          "files": ["src/lib/api-client.ts", "src/app/providers.tsx"]
+        },
+        {
+          "id": "6.1.4",
+          "layer": "presentation",
+          "description": "Create base UI components: Card, Button, Skeleton, Badge (shadcn/ui pattern)",
+          "status": "completed",
+          "completedAt": "2025-11-04T04:00:00Z",
+          "files": [
+            "src/components/ui/card.tsx",
+            "src/components/ui/button.tsx",
+            "src/components/ui/skeleton.tsx",
+            "src/components/ui/badge.tsx"
+          ]
+        },
+        {
+          "id": "6.1.5",
+          "layer": "presentation",
+          "description": "Implement dark mode with system detection, manual toggle, and localStorage persistence",
+          "status": "completed",
+          "completedAt": "2025-11-04T04:30:00Z",
+          "files": ["src/components/theme-provider.tsx", "src/components/theme-toggle.tsx"]
+        },
+        {
+          "id": "6.1.6",
+          "layer": "domain",
+          "description": "Define dashboard DTOs and TypeScript interfaces (metrics, activities, members)",
+          "status": "completed",
+          "completedAt": "2025-11-04T02:15:00Z",
+          "files": ["src/types/dashboard.ts", "src/application/dto/dashboard.dto.ts"]
+        },
+        {
+          "id": "6.1.7",
+          "layer": "application",
+          "description": "Create Zod validation schemas for dashboard API requests/responses",
+          "status": "completed",
+          "completedAt": "2025-11-04T02:45:00Z",
+          "files": ["src/application/dto/dashboard.schema.ts"]
+        }
+      ]
+    },
+    {
+      "id": 6.2,
+      "name": "Admin Dashboard: Layout & Navigation (V1)",
+      "version": "V1",
+      "status": "pending",
+      "estimatedHours": 70,
+      "estimatedWeeks": "1.5-2",
+      "priority": "high",
+      "dependencies": [6.1],
+      "tasks": [
+        {
+          "id": "6.2.1",
+          "layer": "presentation",
+          "description": "Build Dashboard Layout Shell (Server Component) with Sidebar and TopBar slots",
+          "status": "pending",
+          "files": ["src/app/(dashboard)/layout.tsx"]
+        },
+        {
+          "id": "6.2.2",
+          "layer": "presentation",
+          "description": "Build DashboardSidebar with Community Switcher, Navigation Sections, and Footer",
+          "status": "pending",
+          "files": [
+            "src/components/dashboard/sidebar/DashboardSidebar.tsx",
+            "src/components/dashboard/sidebar/CommunitySwitcher.tsx",
+            "src/components/dashboard/sidebar/NavSection.tsx",
+            "src/components/dashboard/sidebar/NavItem.tsx",
+            "src/components/dashboard/sidebar/SidebarFooter.tsx"
+          ]
+        },
+        {
+          "id": "6.2.3",
+          "layer": "presentation",
+          "description": "Implement responsive mobile sidebar (off-canvas pattern with overlay)",
+          "status": "pending",
+          "files": ["src/components/dashboard/sidebar/MobileSidebar.tsx"]
+        },
+        {
+          "id": "6.2.4",
+          "layer": "presentation",
+          "description": "Build TopBar with page header, theme toggle, and action buttons",
+          "status": "pending",
+          "files": [
+            "src/components/dashboard/top-bar/TopBar.tsx",
+            "src/components/dashboard/top-bar/TopBarActions.tsx"
+          ]
+        },
+        {
+          "id": "6.2.5",
+          "layer": "presentation",
+          "description": "Implement navigation state management with active tab highlighting and URL sync",
+          "status": "pending",
+          "files": ["src/lib/hooks/useNavigation.ts"]
+        },
+        {
+          "id": "6.2.6",
+          "layer": "presentation",
+          "description": "Add keyboard navigation support (Tab, Shift+Tab, Arrow keys) with focus management",
+          "status": "pending",
+          "files": ["src/lib/hooks/useKeyboardNavigation.ts"]
+        },
+        {
+          "id": "6.2.7",
+          "layer": "presentation",
+          "description": "Implement ARIA labels and semantic HTML for screen reader accessibility (WCAG 2.1 AA)",
+          "status": "pending",
+          "files": ["src/components/dashboard/sidebar/NavItem.tsx", "src/components/dashboard/top-bar/TopBar.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 6.3,
+      "name": "Admin Dashboard: Home Tab & Metrics (V1)",
+      "version": "V1",
+      "status": "pending",
+      "estimatedHours": 90,
+      "estimatedWeeks": "2-2.5",
+      "priority": "critical",
+      "dependencies": [6.2],
+      "tasks": [
+        {
+          "id": "6.3.1",
+          "layer": "domain",
+          "description": "Create DashboardMetrics entity with member, post, comment, and MRR aggregation logic",
+          "status": "pending",
+          "files": ["src/domain/dashboard/dashboard-metrics.entity.ts"]
+        },
+        {
+          "id": "6.3.2",
+          "layer": "application",
+          "description": "Implement GetDashboardMetricsUseCase with time period filtering (7d, 30d, 90d, 1y)",
+          "status": "pending",
+          "files": ["src/application/use-cases/dashboard/get-dashboard-metrics.usecase.ts"]
+        },
+        {
+          "id": "6.3.3",
+          "layer": "infrastructure",
+          "description": "Create DashboardRepository with Prisma aggregation queries for metrics calculation",
+          "status": "pending",
+          "files": ["src/infrastructure/repositories/dashboard.repository.prisma.ts"]
+        },
+        {
+          "id": "6.3.4",
+          "layer": "presentation",
+          "description": "Build API route: GET /api/dashboard/metrics with caching (30s revalidation)",
+          "status": "pending",
+          "files": ["src/app/api/dashboard/metrics/route.ts"]
+        },
+        {
+          "id": "6.3.5",
+          "layer": "presentation",
+          "description": "Build WelcomeBanner with setup checklist and dismissible state (localStorage)",
+          "status": "pending",
+          "files": ["src/components/dashboard/home/WelcomeBanner.tsx"]
+        },
+        {
+          "id": "6.3.6",
+          "layer": "presentation",
+          "description": "Build MetricCard component with hover animations and trend indicators",
+          "status": "pending",
+          "files": ["src/components/dashboard/home/MetricCard.tsx"]
+        },
+        {
+          "id": "6.3.7",
+          "layer": "presentation",
+          "description": "Build MetricsGrid (Server Component) with TanStack Query integration for real-time updates",
+          "status": "pending",
+          "files": ["src/components/dashboard/home/MetricsGrid.tsx"]
+        },
+        {
+          "id": "6.3.8",
+          "layer": "presentation",
+          "description": "Build ActivityGraph with time filter state and Chart.js integration (code-split)",
+          "status": "pending",
+          "files": ["src/components/dashboard/home/ActivityGraph.tsx"]
+        },
+        {
+          "id": "6.3.9",
+          "layer": "presentation",
+          "description": "Build RecentActivity feed with activity icons and time formatting (date-fns)",
+          "status": "pending",
+          "files": ["src/components/dashboard/home/RecentActivity.tsx", "src/components/dashboard/home/ActivityFeed.tsx"]
+        },
+        {
+          "id": "6.3.10",
+          "layer": "presentation",
+          "description": "Build PendingTasks component with checkbox state and urgent highlighting",
+          "status": "pending",
+          "files": ["src/components/dashboard/home/PendingTasks.tsx"]
+        },
+        {
+          "id": "6.3.11",
+          "layer": "presentation",
+          "description": "Build QuickActions grid with icon buttons and navigation",
+          "status": "pending",
+          "files": ["src/components/dashboard/home/QuickActions.tsx"]
+        },
+        {
+          "id": "6.3.12",
+          "layer": "presentation",
+          "description": "Build RecommendedResources list with resource cards",
+          "status": "pending",
+          "files": ["src/components/dashboard/home/RecommendedResources.tsx"]
+        },
+        {
+          "id": "6.3.13",
+          "layer": "presentation",
+          "description": "Implement skeleton loading states for all dashboard components",
+          "status": "pending",
+          "files": [
+            "src/components/dashboard/home/MetricCardSkeleton.tsx",
+            "src/components/dashboard/home/ActivityGraphSkeleton.tsx",
+            "src/components/dashboard/home/ActivityFeedSkeleton.tsx"
+          ]
+        },
+        {
+          "id": "6.3.14",
+          "layer": "presentation",
+          "description": "Build Home Tab page (/dashboard) with Suspense boundaries for progressive loading",
+          "status": "pending",
+          "files": ["src/app/(dashboard)/page.tsx"]
+        }
+      ]
+    },
+    {
+      "id": 6.4,
+      "name": "Admin Dashboard: Members, Content, Analytics Tabs (V1)",
+      "version": "V1",
+      "status": "pending",
+      "estimatedHours": 80,
+      "estimatedWeeks": "2",
+      "priority": "high",
+      "dependencies": [6.3],
+      "tasks": [
+        {
+          "id": "6.4.1",
+          "layer": "application",
+          "description": "Create GetMembersUseCase with pagination, filtering, and sorting",
+          "status": "pending",
+          "files": ["src/application/use-cases/members/get-members.usecase.ts"]
+        },
+        {
+          "id": "6.4.2",
+          "layer": "presentation",
+          "description": "Build API route: GET /api/members with pagination parameters",
+          "status": "pending",
+          "files": ["src/app/api/members/route.ts"]
+        },
+        {
+          "id": "6.4.3",
+          "layer": "presentation",
+          "description": "Build MembersTable with responsive design (table → cards on mobile)",
+          "status": "pending",
+          "files": [
+            "src/components/dashboard/members/MembersTable.tsx",
+            "src/components/dashboard/members/MemberRow.tsx",
+            "src/components/dashboard/members/MemberAvatar.tsx"
+          ]
+        },
+        {
+          "id": "6.4.4",
+          "layer": "presentation",
+          "description": "Implement members pagination with TanStack Query infinite scroll",
+          "status": "pending",
+          "files": ["src/lib/hooks/useMembers.ts"]
+        },
+        {
+          "id": "6.4.5",
+          "layer": "presentation",
+          "description": "Build Members Tab page (/dashboard/members) with search and filters",
+          "status": "pending",
+          "files": ["src/app/(dashboard)/members/page.tsx"]
+        },
+        {
+          "id": "6.4.6",
+          "layer": "application",
+          "description": "Create GetContentPostsUseCase with filtering by space and status",
+          "status": "pending",
+          "files": ["src/application/use-cases/content/get-content-posts.usecase.ts"]
+        },
+        {
+          "id": "6.4.7",
+          "layer": "presentation",
+          "description": "Build API route: GET /api/content/posts with filtering",
+          "status": "pending",
+          "files": ["src/app/api/content/posts/route.ts"]
+        },
+        {
+          "id": "6.4.8",
+          "layer": "presentation",
+          "description": "Build ContentList with ContentCard components showing likes, comments, views",
+          "status": "pending",
+          "files": [
+            "src/components/dashboard/content/ContentList.tsx",
+            "src/components/dashboard/content/ContentCard.tsx"
+          ]
+        },
+        {
+          "id": "6.4.9",
+          "layer": "presentation",
+          "description": "Build Content Tab page (/dashboard/content) with 'New Post' action",
+          "status": "pending",
+          "files": ["src/app/(dashboard)/content/page.tsx"]
+        },
+        {
+          "id": "6.4.10",
+          "layer": "presentation",
+          "description": "Build Analytics Tab placeholder with 'Coming Soon' state",
+          "status": "pending",
+          "files": [
+            "src/app/(dashboard)/analytics/page.tsx",
+            "src/components/dashboard/analytics/AnalyticsPlaceholder.tsx"
+          ]
+        },
+        {
+          "id": "6.4.11",
+          "layer": "infrastructure",
+          "description": "Implement error boundaries for graceful error handling across all tabs",
+          "status": "pending",
+          "files": ["src/app/(dashboard)/error.tsx", "src/components/dashboard/ErrorFallback.tsx"]
+        },
+        {
+          "id": "6.4.12",
+          "layer": "infrastructure",
+          "description": "Add performance monitoring with Next.js Analytics and Web Vitals tracking",
+          "status": "pending",
+          "files": ["src/lib/analytics.ts", "src/app/layout.tsx"]
+        },
+        {
+          "id": "6.4.13",
+          "layer": "testing",
+          "description": "Write E2E tests for dashboard navigation, theme toggle, and tab switching (Playwright)",
+          "status": "pending",
+          "files": ["e2e/dashboard/navigation.spec.ts", "e2e/dashboard/theme.spec.ts"]
+        },
+        {
+          "id": "6.4.14",
+          "layer": "testing",
+          "description": "Write component tests for dashboard components (React Testing Library)",
+          "status": "pending",
+          "files": [
+            "__tests__/components/dashboard/MetricCard.test.tsx",
+            "__tests__/components/dashboard/MembersTable.test.tsx",
+            "__tests__/components/dashboard/ActivityGraph.test.tsx"
+          ]
+        },
+        {
+          "id": "6.4.15",
+          "layer": "testing",
+          "description": "Write integration tests for dashboard API routes with MSW mocking",
+          "status": "pending",
+          "files": [
+            "__tests__/api/dashboard/metrics.test.ts",
+            "__tests__/api/members.test.ts",
+            "__tests__/integration/dashboard-metrics.test.tsx"
+          ]
         }
       ]
     },

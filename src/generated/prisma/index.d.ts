@@ -34,15 +34,30 @@ export type CommunityMember = $Result.DefaultSelection<Prisma.$CommunityMemberPa
  */
 export type Post = $Result.DefaultSelection<Prisma.$PostPayload>
 /**
- * Model PostAttachment
+ * Model PostDraft
  * 
  */
-export type PostAttachment = $Result.DefaultSelection<Prisma.$PostAttachmentPayload>
+export type PostDraft = $Result.DefaultSelection<Prisma.$PostDraftPayload>
+/**
+ * Model Attachment
+ * 
+ */
+export type Attachment = $Result.DefaultSelection<Prisma.$AttachmentPayload>
 /**
  * Model Comment
  * 
  */
 export type Comment = $Result.DefaultSelection<Prisma.$CommentPayload>
+/**
+ * Model Like
+ * 
+ */
+export type Like = $Result.DefaultSelection<Prisma.$LikePayload>
+/**
+ * Model CommunityBanner
+ * 
+ */
+export type CommunityBanner = $Result.DefaultSelection<Prisma.$CommunityBannerPayload>
 /**
  * Model ContentVersion
  * 
@@ -88,6 +103,16 @@ export type Subscription = $Result.DefaultSelection<Prisma.$SubscriptionPayload>
  * 
  */
 export type Coupon = $Result.DefaultSelection<Prisma.$CouponPayload>
+/**
+ * Model Space
+ * 
+ */
+export type Space = $Result.DefaultSelection<Prisma.$SpacePayload>
+/**
+ * Model Channel
+ * 
+ */
+export type Channel = $Result.DefaultSelection<Prisma.$ChannelPayload>
 
 /**
  * Enums
@@ -303,14 +328,24 @@ export class PrismaClient<
   get post(): Prisma.PostDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.postAttachment`: Exposes CRUD operations for the **PostAttachment** model.
+   * `prisma.postDraft`: Exposes CRUD operations for the **PostDraft** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more PostAttachments
-    * const postAttachments = await prisma.postAttachment.findMany()
+    * // Fetch zero or more PostDrafts
+    * const postDrafts = await prisma.postDraft.findMany()
     * ```
     */
-  get postAttachment(): Prisma.PostAttachmentDelegate<ExtArgs, ClientOptions>;
+  get postDraft(): Prisma.PostDraftDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.attachment`: Exposes CRUD operations for the **Attachment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Attachments
+    * const attachments = await prisma.attachment.findMany()
+    * ```
+    */
+  get attachment(): Prisma.AttachmentDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.comment`: Exposes CRUD operations for the **Comment** model.
@@ -321,6 +356,26 @@ export class PrismaClient<
     * ```
     */
   get comment(): Prisma.CommentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.like`: Exposes CRUD operations for the **Like** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Likes
+    * const likes = await prisma.like.findMany()
+    * ```
+    */
+  get like(): Prisma.LikeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.communityBanner`: Exposes CRUD operations for the **CommunityBanner** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CommunityBanners
+    * const communityBanners = await prisma.communityBanner.findMany()
+    * ```
+    */
+  get communityBanner(): Prisma.CommunityBannerDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.contentVersion`: Exposes CRUD operations for the **ContentVersion** model.
@@ -411,6 +466,26 @@ export class PrismaClient<
     * ```
     */
   get coupon(): Prisma.CouponDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.space`: Exposes CRUD operations for the **Space** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Spaces
+    * const spaces = await prisma.space.findMany()
+    * ```
+    */
+  get space(): Prisma.SpaceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.channel`: Exposes CRUD operations for the **Channel** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Channels
+    * const channels = await prisma.channel.findMany()
+    * ```
+    */
+  get channel(): Prisma.ChannelDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -855,8 +930,11 @@ export namespace Prisma {
     Community: 'Community',
     CommunityMember: 'CommunityMember',
     Post: 'Post',
-    PostAttachment: 'PostAttachment',
+    PostDraft: 'PostDraft',
+    Attachment: 'Attachment',
     Comment: 'Comment',
+    Like: 'Like',
+    CommunityBanner: 'CommunityBanner',
     ContentVersion: 'ContentVersion',
     Notification: 'Notification',
     Course: 'Course',
@@ -865,7 +943,9 @@ export namespace Prisma {
     Certificate: 'Certificate',
     PaymentTier: 'PaymentTier',
     Subscription: 'Subscription',
-    Coupon: 'Coupon'
+    Coupon: 'Coupon',
+    Space: 'Space',
+    Channel: 'Channel'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -884,7 +964,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "community" | "communityMember" | "post" | "postAttachment" | "comment" | "contentVersion" | "notification" | "course" | "lesson" | "courseProgress" | "certificate" | "paymentTier" | "subscription" | "coupon"
+      modelProps: "user" | "community" | "communityMember" | "post" | "postDraft" | "attachment" | "comment" | "like" | "communityBanner" | "contentVersion" | "notification" | "course" | "lesson" | "courseProgress" | "certificate" | "paymentTier" | "subscription" | "coupon" | "space" | "channel"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1184,77 +1264,151 @@ export namespace Prisma {
           }
         }
       }
-      PostAttachment: {
-        payload: Prisma.$PostAttachmentPayload<ExtArgs>
-        fields: Prisma.PostAttachmentFieldRefs
+      PostDraft: {
+        payload: Prisma.$PostDraftPayload<ExtArgs>
+        fields: Prisma.PostDraftFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.PostAttachmentFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PostAttachmentPayload> | null
+            args: Prisma.PostDraftFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostDraftPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.PostAttachmentFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PostAttachmentPayload>
+            args: Prisma.PostDraftFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostDraftPayload>
           }
           findFirst: {
-            args: Prisma.PostAttachmentFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PostAttachmentPayload> | null
+            args: Prisma.PostDraftFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostDraftPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.PostAttachmentFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PostAttachmentPayload>
+            args: Prisma.PostDraftFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostDraftPayload>
           }
           findMany: {
-            args: Prisma.PostAttachmentFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PostAttachmentPayload>[]
+            args: Prisma.PostDraftFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostDraftPayload>[]
           }
           create: {
-            args: Prisma.PostAttachmentCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PostAttachmentPayload>
+            args: Prisma.PostDraftCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostDraftPayload>
           }
           createMany: {
-            args: Prisma.PostAttachmentCreateManyArgs<ExtArgs>
+            args: Prisma.PostDraftCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.PostAttachmentCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PostAttachmentPayload>[]
+            args: Prisma.PostDraftCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostDraftPayload>[]
           }
           delete: {
-            args: Prisma.PostAttachmentDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PostAttachmentPayload>
+            args: Prisma.PostDraftDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostDraftPayload>
           }
           update: {
-            args: Prisma.PostAttachmentUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PostAttachmentPayload>
+            args: Prisma.PostDraftUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostDraftPayload>
           }
           deleteMany: {
-            args: Prisma.PostAttachmentDeleteManyArgs<ExtArgs>
+            args: Prisma.PostDraftDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.PostAttachmentUpdateManyArgs<ExtArgs>
+            args: Prisma.PostDraftUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.PostAttachmentUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PostAttachmentPayload>[]
+            args: Prisma.PostDraftUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostDraftPayload>[]
           }
           upsert: {
-            args: Prisma.PostAttachmentUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$PostAttachmentPayload>
+            args: Prisma.PostDraftUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PostDraftPayload>
           }
           aggregate: {
-            args: Prisma.PostAttachmentAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregatePostAttachment>
+            args: Prisma.PostDraftAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePostDraft>
           }
           groupBy: {
-            args: Prisma.PostAttachmentGroupByArgs<ExtArgs>
-            result: $Utils.Optional<PostAttachmentGroupByOutputType>[]
+            args: Prisma.PostDraftGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PostDraftGroupByOutputType>[]
           }
           count: {
-            args: Prisma.PostAttachmentCountArgs<ExtArgs>
-            result: $Utils.Optional<PostAttachmentCountAggregateOutputType> | number
+            args: Prisma.PostDraftCountArgs<ExtArgs>
+            result: $Utils.Optional<PostDraftCountAggregateOutputType> | number
+          }
+        }
+      }
+      Attachment: {
+        payload: Prisma.$AttachmentPayload<ExtArgs>
+        fields: Prisma.AttachmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AttachmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AttachmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          findFirst: {
+            args: Prisma.AttachmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AttachmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          findMany: {
+            args: Prisma.AttachmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+          }
+          create: {
+            args: Prisma.AttachmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          createMany: {
+            args: Prisma.AttachmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AttachmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+          }
+          delete: {
+            args: Prisma.AttachmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          update: {
+            args: Prisma.AttachmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.AttachmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AttachmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AttachmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.AttachmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AttachmentPayload>
+          }
+          aggregate: {
+            args: Prisma.AttachmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAttachment>
+          }
+          groupBy: {
+            args: Prisma.AttachmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AttachmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AttachmentCountArgs<ExtArgs>
+            result: $Utils.Optional<AttachmentCountAggregateOutputType> | number
           }
         }
       }
@@ -1329,6 +1483,154 @@ export namespace Prisma {
           count: {
             args: Prisma.CommentCountArgs<ExtArgs>
             result: $Utils.Optional<CommentCountAggregateOutputType> | number
+          }
+        }
+      }
+      Like: {
+        payload: Prisma.$LikePayload<ExtArgs>
+        fields: Prisma.LikeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LikeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LikePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LikeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LikePayload>
+          }
+          findFirst: {
+            args: Prisma.LikeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LikePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LikeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LikePayload>
+          }
+          findMany: {
+            args: Prisma.LikeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LikePayload>[]
+          }
+          create: {
+            args: Prisma.LikeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LikePayload>
+          }
+          createMany: {
+            args: Prisma.LikeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LikeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LikePayload>[]
+          }
+          delete: {
+            args: Prisma.LikeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LikePayload>
+          }
+          update: {
+            args: Prisma.LikeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LikePayload>
+          }
+          deleteMany: {
+            args: Prisma.LikeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LikeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LikeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LikePayload>[]
+          }
+          upsert: {
+            args: Prisma.LikeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LikePayload>
+          }
+          aggregate: {
+            args: Prisma.LikeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLike>
+          }
+          groupBy: {
+            args: Prisma.LikeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LikeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LikeCountArgs<ExtArgs>
+            result: $Utils.Optional<LikeCountAggregateOutputType> | number
+          }
+        }
+      }
+      CommunityBanner: {
+        payload: Prisma.$CommunityBannerPayload<ExtArgs>
+        fields: Prisma.CommunityBannerFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CommunityBannerFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityBannerPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CommunityBannerFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityBannerPayload>
+          }
+          findFirst: {
+            args: Prisma.CommunityBannerFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityBannerPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CommunityBannerFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityBannerPayload>
+          }
+          findMany: {
+            args: Prisma.CommunityBannerFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityBannerPayload>[]
+          }
+          create: {
+            args: Prisma.CommunityBannerCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityBannerPayload>
+          }
+          createMany: {
+            args: Prisma.CommunityBannerCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CommunityBannerCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityBannerPayload>[]
+          }
+          delete: {
+            args: Prisma.CommunityBannerDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityBannerPayload>
+          }
+          update: {
+            args: Prisma.CommunityBannerUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityBannerPayload>
+          }
+          deleteMany: {
+            args: Prisma.CommunityBannerDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CommunityBannerUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CommunityBannerUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityBannerPayload>[]
+          }
+          upsert: {
+            args: Prisma.CommunityBannerUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CommunityBannerPayload>
+          }
+          aggregate: {
+            args: Prisma.CommunityBannerAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCommunityBanner>
+          }
+          groupBy: {
+            args: Prisma.CommunityBannerGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CommunityBannerGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CommunityBannerCountArgs<ExtArgs>
+            result: $Utils.Optional<CommunityBannerCountAggregateOutputType> | number
           }
         }
       }
@@ -1998,6 +2300,154 @@ export namespace Prisma {
           }
         }
       }
+      Space: {
+        payload: Prisma.$SpacePayload<ExtArgs>
+        fields: Prisma.SpaceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SpaceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpacePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SpaceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpacePayload>
+          }
+          findFirst: {
+            args: Prisma.SpaceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpacePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SpaceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpacePayload>
+          }
+          findMany: {
+            args: Prisma.SpaceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpacePayload>[]
+          }
+          create: {
+            args: Prisma.SpaceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpacePayload>
+          }
+          createMany: {
+            args: Prisma.SpaceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SpaceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpacePayload>[]
+          }
+          delete: {
+            args: Prisma.SpaceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpacePayload>
+          }
+          update: {
+            args: Prisma.SpaceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpacePayload>
+          }
+          deleteMany: {
+            args: Prisma.SpaceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SpaceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SpaceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpacePayload>[]
+          }
+          upsert: {
+            args: Prisma.SpaceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SpacePayload>
+          }
+          aggregate: {
+            args: Prisma.SpaceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSpace>
+          }
+          groupBy: {
+            args: Prisma.SpaceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SpaceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SpaceCountArgs<ExtArgs>
+            result: $Utils.Optional<SpaceCountAggregateOutputType> | number
+          }
+        }
+      }
+      Channel: {
+        payload: Prisma.$ChannelPayload<ExtArgs>
+        fields: Prisma.ChannelFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ChannelFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChannelPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ChannelFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChannelPayload>
+          }
+          findFirst: {
+            args: Prisma.ChannelFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChannelPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ChannelFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChannelPayload>
+          }
+          findMany: {
+            args: Prisma.ChannelFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChannelPayload>[]
+          }
+          create: {
+            args: Prisma.ChannelCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChannelPayload>
+          }
+          createMany: {
+            args: Prisma.ChannelCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ChannelCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChannelPayload>[]
+          }
+          delete: {
+            args: Prisma.ChannelDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChannelPayload>
+          }
+          update: {
+            args: Prisma.ChannelUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChannelPayload>
+          }
+          deleteMany: {
+            args: Prisma.ChannelDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ChannelUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ChannelUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChannelPayload>[]
+          }
+          upsert: {
+            args: Prisma.ChannelUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ChannelPayload>
+          }
+          aggregate: {
+            args: Prisma.ChannelAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateChannel>
+          }
+          groupBy: {
+            args: Prisma.ChannelGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ChannelGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ChannelCountArgs<ExtArgs>
+            result: $Utils.Optional<ChannelCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2094,8 +2544,11 @@ export namespace Prisma {
     community?: CommunityOmit
     communityMember?: CommunityMemberOmit
     post?: PostOmit
-    postAttachment?: PostAttachmentOmit
+    postDraft?: PostDraftOmit
+    attachment?: AttachmentOmit
     comment?: CommentOmit
+    like?: LikeOmit
+    communityBanner?: CommunityBannerOmit
     contentVersion?: ContentVersionOmit
     notification?: NotificationOmit
     course?: CourseOmit
@@ -2105,6 +2558,8 @@ export namespace Prisma {
     paymentTier?: PaymentTierOmit
     subscription?: SubscriptionOmit
     coupon?: CouponOmit
+    space?: SpaceOmit
+    channel?: ChannelOmit
   }
 
   /* Types for Logging */
@@ -2207,6 +2662,9 @@ export namespace Prisma {
     memberships: number
     posts: number
     comments: number
+    likes: number
+    postDrafts: number
+    uploadedAttachments: number
     instructedCourses: number
     courseProgresses: number
     certificates: number
@@ -2218,6 +2676,9 @@ export namespace Prisma {
     memberships?: boolean | UserCountOutputTypeCountMembershipsArgs
     posts?: boolean | UserCountOutputTypeCountPostsArgs
     comments?: boolean | UserCountOutputTypeCountCommentsArgs
+    likes?: boolean | UserCountOutputTypeCountLikesArgs
+    postDrafts?: boolean | UserCountOutputTypeCountPostDraftsArgs
+    uploadedAttachments?: boolean | UserCountOutputTypeCountUploadedAttachmentsArgs
     instructedCourses?: boolean | UserCountOutputTypeCountInstructedCoursesArgs
     courseProgresses?: boolean | UserCountOutputTypeCountCourseProgressesArgs
     certificates?: boolean | UserCountOutputTypeCountCertificatesArgs
@@ -2255,6 +2716,27 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LikeWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPostDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostDraftWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUploadedAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttachmentWhereInput
   }
 
   /**
@@ -2300,21 +2782,27 @@ export namespace Prisma {
   export type CommunityCountOutputType = {
     members: number
     posts: number
+    banners: number
     courses: number
     paymentTiers: number
     subscriptions: number
     coupons: number
     notifications: number
+    spaces: number
+    channels: number
   }
 
   export type CommunityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | CommunityCountOutputTypeCountMembersArgs
     posts?: boolean | CommunityCountOutputTypeCountPostsArgs
+    banners?: boolean | CommunityCountOutputTypeCountBannersArgs
     courses?: boolean | CommunityCountOutputTypeCountCoursesArgs
     paymentTiers?: boolean | CommunityCountOutputTypeCountPaymentTiersArgs
     subscriptions?: boolean | CommunityCountOutputTypeCountSubscriptionsArgs
     coupons?: boolean | CommunityCountOutputTypeCountCouponsArgs
     notifications?: boolean | CommunityCountOutputTypeCountNotificationsArgs
+    spaces?: boolean | CommunityCountOutputTypeCountSpacesArgs
+    channels?: boolean | CommunityCountOutputTypeCountChannelsArgs
   }
 
   // Custom InputTypes
@@ -2340,6 +2828,13 @@ export namespace Prisma {
    */
   export type CommunityCountOutputTypeCountPostsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PostWhereInput
+  }
+
+  /**
+   * CommunityCountOutputType without action
+   */
+  export type CommunityCountOutputTypeCountBannersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityBannerWhereInput
   }
 
   /**
@@ -2377,6 +2872,20 @@ export namespace Prisma {
     where?: NotificationWhereInput
   }
 
+  /**
+   * CommunityCountOutputType without action
+   */
+  export type CommunityCountOutputTypeCountSpacesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SpaceWhereInput
+  }
+
+  /**
+   * CommunityCountOutputType without action
+   */
+  export type CommunityCountOutputTypeCountChannelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChannelWhereInput
+  }
+
 
   /**
    * Count Type PostCountOutputType
@@ -2384,13 +2893,17 @@ export namespace Prisma {
 
   export type PostCountOutputType = {
     comments: number
+    likes: number
     attachments: number
+    drafts: number
     versions: number
   }
 
   export type PostCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     comments?: boolean | PostCountOutputTypeCountCommentsArgs
+    likes?: boolean | PostCountOutputTypeCountLikesArgs
     attachments?: boolean | PostCountOutputTypeCountAttachmentsArgs
+    drafts?: boolean | PostCountOutputTypeCountDraftsArgs
     versions?: boolean | PostCountOutputTypeCountVersionsArgs
   }
 
@@ -2415,8 +2928,22 @@ export namespace Prisma {
   /**
    * PostCountOutputType without action
    */
+  export type PostCountOutputTypeCountLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LikeWhereInput
+  }
+
+  /**
+   * PostCountOutputType without action
+   */
   export type PostCountOutputTypeCountAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PostAttachmentWhereInput
+    where?: AttachmentWhereInput
+  }
+
+  /**
+   * PostCountOutputType without action
+   */
+  export type PostCountOutputTypeCountDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostDraftWhereInput
   }
 
   /**
@@ -2433,11 +2960,13 @@ export namespace Prisma {
 
   export type CommentCountOutputType = {
     replies: number
+    likes: number
     versions: number
   }
 
   export type CommentCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     replies?: boolean | CommentCountOutputTypeCountRepliesArgs
+    likes?: boolean | CommentCountOutputTypeCountLikesArgs
     versions?: boolean | CommentCountOutputTypeCountVersionsArgs
   }
 
@@ -2457,6 +2986,13 @@ export namespace Prisma {
    */
   export type CommentCountOutputTypeCountRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommentWhereInput
+  }
+
+  /**
+   * CommentCountOutputType without action
+   */
+  export type CommentCountOutputTypeCountLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LikeWhereInput
   }
 
   /**
@@ -2522,10 +3058,12 @@ export namespace Prisma {
 
   export type PaymentTierCountOutputType = {
     subscriptions: number
+    channels: number
   }
 
   export type PaymentTierCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subscriptions?: boolean | PaymentTierCountOutputTypeCountSubscriptionsArgs
+    channels?: boolean | PaymentTierCountOutputTypeCountChannelsArgs
   }
 
   // Custom InputTypes
@@ -2544,6 +3082,53 @@ export namespace Prisma {
    */
   export type PaymentTierCountOutputTypeCountSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SubscriptionWhereInput
+  }
+
+  /**
+   * PaymentTierCountOutputType without action
+   */
+  export type PaymentTierCountOutputTypeCountChannelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChannelWhereInput
+  }
+
+
+  /**
+   * Count Type SpaceCountOutputType
+   */
+
+  export type SpaceCountOutputType = {
+    childSpaces: number
+    channels: number
+  }
+
+  export type SpaceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    childSpaces?: boolean | SpaceCountOutputTypeCountChildSpacesArgs
+    channels?: boolean | SpaceCountOutputTypeCountChannelsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SpaceCountOutputType without action
+   */
+  export type SpaceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SpaceCountOutputType
+     */
+    select?: SpaceCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SpaceCountOutputType without action
+   */
+  export type SpaceCountOutputTypeCountChildSpacesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SpaceWhereInput
+  }
+
+  /**
+   * SpaceCountOutputType without action
+   */
+  export type SpaceCountOutputTypeCountChannelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChannelWhereInput
   }
 
 
@@ -2750,6 +3335,9 @@ export namespace Prisma {
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
+    likes?: boolean | User$likesArgs<ExtArgs>
+    postDrafts?: boolean | User$postDraftsArgs<ExtArgs>
+    uploadedAttachments?: boolean | User$uploadedAttachmentsArgs<ExtArgs>
     instructedCourses?: boolean | User$instructedCoursesArgs<ExtArgs>
     courseProgresses?: boolean | User$courseProgressesArgs<ExtArgs>
     certificates?: boolean | User$certificatesArgs<ExtArgs>
@@ -2799,6 +3387,9 @@ export namespace Prisma {
     memberships?: boolean | User$membershipsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
+    likes?: boolean | User$likesArgs<ExtArgs>
+    postDrafts?: boolean | User$postDraftsArgs<ExtArgs>
+    uploadedAttachments?: boolean | User$uploadedAttachmentsArgs<ExtArgs>
     instructedCourses?: boolean | User$instructedCoursesArgs<ExtArgs>
     courseProgresses?: boolean | User$courseProgressesArgs<ExtArgs>
     certificates?: boolean | User$certificatesArgs<ExtArgs>
@@ -2815,6 +3406,9 @@ export namespace Prisma {
       memberships: Prisma.$CommunityMemberPayload<ExtArgs>[]
       posts: Prisma.$PostPayload<ExtArgs>[]
       comments: Prisma.$CommentPayload<ExtArgs>[]
+      likes: Prisma.$LikePayload<ExtArgs>[]
+      postDrafts: Prisma.$PostDraftPayload<ExtArgs>[]
+      uploadedAttachments: Prisma.$AttachmentPayload<ExtArgs>[]
       instructedCourses: Prisma.$CoursePayload<ExtArgs>[]
       courseProgresses: Prisma.$CourseProgressPayload<ExtArgs>[]
       certificates: Prisma.$CertificatePayload<ExtArgs>[]
@@ -3228,6 +3822,9 @@ export namespace Prisma {
     memberships<T extends User$membershipsArgs<ExtArgs> = {}>(args?: Subset<T, User$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    likes<T extends User$likesArgs<ExtArgs> = {}>(args?: Subset<T, User$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    postDrafts<T extends User$postDraftsArgs<ExtArgs> = {}>(args?: Subset<T, User$postDraftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    uploadedAttachments<T extends User$uploadedAttachmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedAttachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     instructedCourses<T extends User$instructedCoursesArgs<ExtArgs> = {}>(args?: Subset<T, User$instructedCoursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     courseProgresses<T extends User$courseProgressesArgs<ExtArgs> = {}>(args?: Subset<T, User$courseProgressesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CourseProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     certificates<T extends User$certificatesArgs<ExtArgs> = {}>(args?: Subset<T, User$certificatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CertificatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -3731,6 +4328,78 @@ export namespace Prisma {
   }
 
   /**
+   * User.likes
+   */
+  export type User$likesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    where?: LikeWhereInput
+    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[]
+    cursor?: LikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[]
+  }
+
+  /**
+   * User.postDrafts
+   */
+  export type User$postDraftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostDraft
+     */
+    select?: PostDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostDraft
+     */
+    omit?: PostDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostDraftInclude<ExtArgs> | null
+    where?: PostDraftWhereInput
+    orderBy?: PostDraftOrderByWithRelationInput | PostDraftOrderByWithRelationInput[]
+    cursor?: PostDraftWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostDraftScalarFieldEnum | PostDraftScalarFieldEnum[]
+  }
+
+  /**
+   * User.uploadedAttachments
+   */
+  export type User$uploadedAttachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    cursor?: AttachmentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
    * User.instructedCourses
    */
   export type User$instructedCoursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4067,11 +4736,14 @@ export namespace Prisma {
     deletedAt?: boolean
     members?: boolean | Community$membersArgs<ExtArgs>
     posts?: boolean | Community$postsArgs<ExtArgs>
+    banners?: boolean | Community$bannersArgs<ExtArgs>
     courses?: boolean | Community$coursesArgs<ExtArgs>
     paymentTiers?: boolean | Community$paymentTiersArgs<ExtArgs>
     subscriptions?: boolean | Community$subscriptionsArgs<ExtArgs>
     coupons?: boolean | Community$couponsArgs<ExtArgs>
     notifications?: boolean | Community$notificationsArgs<ExtArgs>
+    spaces?: boolean | Community$spacesArgs<ExtArgs>
+    channels?: boolean | Community$channelsArgs<ExtArgs>
     _count?: boolean | CommunityCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["community"]>
 
@@ -4115,11 +4787,14 @@ export namespace Prisma {
   export type CommunityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | Community$membersArgs<ExtArgs>
     posts?: boolean | Community$postsArgs<ExtArgs>
+    banners?: boolean | Community$bannersArgs<ExtArgs>
     courses?: boolean | Community$coursesArgs<ExtArgs>
     paymentTiers?: boolean | Community$paymentTiersArgs<ExtArgs>
     subscriptions?: boolean | Community$subscriptionsArgs<ExtArgs>
     coupons?: boolean | Community$couponsArgs<ExtArgs>
     notifications?: boolean | Community$notificationsArgs<ExtArgs>
+    spaces?: boolean | Community$spacesArgs<ExtArgs>
+    channels?: boolean | Community$channelsArgs<ExtArgs>
     _count?: boolean | CommunityCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CommunityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4130,11 +4805,14 @@ export namespace Prisma {
     objects: {
       members: Prisma.$CommunityMemberPayload<ExtArgs>[]
       posts: Prisma.$PostPayload<ExtArgs>[]
+      banners: Prisma.$CommunityBannerPayload<ExtArgs>[]
       courses: Prisma.$CoursePayload<ExtArgs>[]
       paymentTiers: Prisma.$PaymentTierPayload<ExtArgs>[]
       subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
       coupons: Prisma.$CouponPayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      spaces: Prisma.$SpacePayload<ExtArgs>[]
+      channels: Prisma.$ChannelPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4542,11 +5220,14 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     members<T extends Community$membersArgs<ExtArgs> = {}>(args?: Subset<T, Community$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends Community$postsArgs<ExtArgs> = {}>(args?: Subset<T, Community$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    banners<T extends Community$bannersArgs<ExtArgs> = {}>(args?: Subset<T, Community$bannersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     courses<T extends Community$coursesArgs<ExtArgs> = {}>(args?: Subset<T, Community$coursesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CoursePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     paymentTiers<T extends Community$paymentTiersArgs<ExtArgs> = {}>(args?: Subset<T, Community$paymentTiersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentTierPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     subscriptions<T extends Community$subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, Community$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     coupons<T extends Community$couponsArgs<ExtArgs> = {}>(args?: Subset<T, Community$couponsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CouponPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends Community$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Community$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    spaces<T extends Community$spacesArgs<ExtArgs> = {}>(args?: Subset<T, Community$spacesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    channels<T extends Community$channelsArgs<ExtArgs> = {}>(args?: Subset<T, Community$channelsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5021,6 +5702,30 @@ export namespace Prisma {
   }
 
   /**
+   * Community.banners
+   */
+  export type Community$bannersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerInclude<ExtArgs> | null
+    where?: CommunityBannerWhereInput
+    orderBy?: CommunityBannerOrderByWithRelationInput | CommunityBannerOrderByWithRelationInput[]
+    cursor?: CommunityBannerWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommunityBannerScalarFieldEnum | CommunityBannerScalarFieldEnum[]
+  }
+
+  /**
    * Community.courses
    */
   export type Community$coursesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5138,6 +5843,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * Community.spaces
+   */
+  export type Community$spacesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    where?: SpaceWhereInput
+    orderBy?: SpaceOrderByWithRelationInput | SpaceOrderByWithRelationInput[]
+    cursor?: SpaceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SpaceScalarFieldEnum | SpaceScalarFieldEnum[]
+  }
+
+  /**
+   * Community.channels
+   */
+  export type Community$channelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    where?: ChannelWhereInput
+    orderBy?: ChannelOrderByWithRelationInput | ChannelOrderByWithRelationInput[]
+    cursor?: ChannelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChannelScalarFieldEnum | ChannelScalarFieldEnum[]
   }
 
   /**
@@ -6251,17 +7004,15 @@ export namespace Prisma {
   }
 
   export type PostAvgAggregateOutputType = {
-    likeCount: number | null
-    helpfulCount: number | null
-    commentCount: number | null
     viewCount: number | null
+    likeCount: number | null
+    commentCount: number | null
   }
 
   export type PostSumAggregateOutputType = {
-    likeCount: number | null
-    helpfulCount: number | null
-    commentCount: number | null
     viewCount: number | null
+    likeCount: number | null
+    commentCount: number | null
   }
 
   export type PostMinAggregateOutputType = {
@@ -6269,13 +7020,13 @@ export namespace Prisma {
     communityId: string | null
     authorId: string | null
     title: string | null
-    content: string | null
+    body: string | null
+    isDraft: boolean | null
+    category: string | null
     isPinned: boolean | null
-    isSolved: boolean | null
-    likeCount: number | null
-    helpfulCount: number | null
-    commentCount: number | null
     viewCount: number | null
+    likeCount: number | null
+    commentCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
     publishedAt: Date | null
@@ -6287,13 +7038,13 @@ export namespace Prisma {
     communityId: string | null
     authorId: string | null
     title: string | null
-    content: string | null
+    body: string | null
+    isDraft: boolean | null
+    category: string | null
     isPinned: boolean | null
-    isSolved: boolean | null
-    likeCount: number | null
-    helpfulCount: number | null
-    commentCount: number | null
     viewCount: number | null
+    likeCount: number | null
+    commentCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
     publishedAt: Date | null
@@ -6305,13 +7056,13 @@ export namespace Prisma {
     communityId: number
     authorId: number
     title: number
-    content: number
+    body: number
+    isDraft: number
+    category: number
     isPinned: number
-    isSolved: number
-    likeCount: number
-    helpfulCount: number
-    commentCount: number
     viewCount: number
+    likeCount: number
+    commentCount: number
     createdAt: number
     updatedAt: number
     publishedAt: number
@@ -6321,17 +7072,15 @@ export namespace Prisma {
 
 
   export type PostAvgAggregateInputType = {
-    likeCount?: true
-    helpfulCount?: true
-    commentCount?: true
     viewCount?: true
+    likeCount?: true
+    commentCount?: true
   }
 
   export type PostSumAggregateInputType = {
-    likeCount?: true
-    helpfulCount?: true
-    commentCount?: true
     viewCount?: true
+    likeCount?: true
+    commentCount?: true
   }
 
   export type PostMinAggregateInputType = {
@@ -6339,13 +7088,13 @@ export namespace Prisma {
     communityId?: true
     authorId?: true
     title?: true
-    content?: true
+    body?: true
+    isDraft?: true
+    category?: true
     isPinned?: true
-    isSolved?: true
-    likeCount?: true
-    helpfulCount?: true
-    commentCount?: true
     viewCount?: true
+    likeCount?: true
+    commentCount?: true
     createdAt?: true
     updatedAt?: true
     publishedAt?: true
@@ -6357,13 +7106,13 @@ export namespace Prisma {
     communityId?: true
     authorId?: true
     title?: true
-    content?: true
+    body?: true
+    isDraft?: true
+    category?: true
     isPinned?: true
-    isSolved?: true
-    likeCount?: true
-    helpfulCount?: true
-    commentCount?: true
     viewCount?: true
+    likeCount?: true
+    commentCount?: true
     createdAt?: true
     updatedAt?: true
     publishedAt?: true
@@ -6375,13 +7124,13 @@ export namespace Prisma {
     communityId?: true
     authorId?: true
     title?: true
-    content?: true
+    body?: true
+    isDraft?: true
+    category?: true
     isPinned?: true
-    isSolved?: true
-    likeCount?: true
-    helpfulCount?: true
-    commentCount?: true
     viewCount?: true
+    likeCount?: true
+    commentCount?: true
     createdAt?: true
     updatedAt?: true
     publishedAt?: true
@@ -6480,13 +7229,13 @@ export namespace Prisma {
     communityId: string
     authorId: string
     title: string
-    content: string
+    body: string
+    isDraft: boolean
+    category: string | null
     isPinned: boolean
-    isSolved: boolean
-    likeCount: number
-    helpfulCount: number
-    commentCount: number
     viewCount: number
+    likeCount: number
+    commentCount: number
     createdAt: Date
     updatedAt: Date
     publishedAt: Date | null
@@ -6517,13 +7266,13 @@ export namespace Prisma {
     communityId?: boolean
     authorId?: boolean
     title?: boolean
-    content?: boolean
+    body?: boolean
+    isDraft?: boolean
+    category?: boolean
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: boolean
-    helpfulCount?: boolean
-    commentCount?: boolean
     viewCount?: boolean
+    likeCount?: boolean
+    commentCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     publishedAt?: boolean
@@ -6531,7 +7280,9 @@ export namespace Prisma {
     community?: boolean | CommunityDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     comments?: boolean | Post$commentsArgs<ExtArgs>
+    likes?: boolean | Post$likesArgs<ExtArgs>
     attachments?: boolean | Post$attachmentsArgs<ExtArgs>
+    drafts?: boolean | Post$draftsArgs<ExtArgs>
     versions?: boolean | Post$versionsArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
@@ -6541,13 +7292,13 @@ export namespace Prisma {
     communityId?: boolean
     authorId?: boolean
     title?: boolean
-    content?: boolean
+    body?: boolean
+    isDraft?: boolean
+    category?: boolean
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: boolean
-    helpfulCount?: boolean
-    commentCount?: boolean
     viewCount?: boolean
+    likeCount?: boolean
+    commentCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     publishedAt?: boolean
@@ -6561,13 +7312,13 @@ export namespace Prisma {
     communityId?: boolean
     authorId?: boolean
     title?: boolean
-    content?: boolean
+    body?: boolean
+    isDraft?: boolean
+    category?: boolean
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: boolean
-    helpfulCount?: boolean
-    commentCount?: boolean
     viewCount?: boolean
+    likeCount?: boolean
+    commentCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     publishedAt?: boolean
@@ -6581,25 +7332,27 @@ export namespace Prisma {
     communityId?: boolean
     authorId?: boolean
     title?: boolean
-    content?: boolean
+    body?: boolean
+    isDraft?: boolean
+    category?: boolean
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: boolean
-    helpfulCount?: boolean
-    commentCount?: boolean
     viewCount?: boolean
+    likeCount?: boolean
+    commentCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     publishedAt?: boolean
     deletedAt?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "authorId" | "title" | "content" | "isPinned" | "isSolved" | "likeCount" | "helpfulCount" | "commentCount" | "viewCount" | "createdAt" | "updatedAt" | "publishedAt" | "deletedAt", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "authorId" | "title" | "body" | "isDraft" | "category" | "isPinned" | "viewCount" | "likeCount" | "commentCount" | "createdAt" | "updatedAt" | "publishedAt" | "deletedAt", ExtArgs["result"]["post"]>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     community?: boolean | CommunityDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     comments?: boolean | Post$commentsArgs<ExtArgs>
+    likes?: boolean | Post$likesArgs<ExtArgs>
     attachments?: boolean | Post$attachmentsArgs<ExtArgs>
+    drafts?: boolean | Post$draftsArgs<ExtArgs>
     versions?: boolean | Post$versionsArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -6618,7 +7371,9 @@ export namespace Prisma {
       community: Prisma.$CommunityPayload<ExtArgs>
       author: Prisma.$UserPayload<ExtArgs>
       comments: Prisma.$CommentPayload<ExtArgs>[]
-      attachments: Prisma.$PostAttachmentPayload<ExtArgs>[]
+      likes: Prisma.$LikePayload<ExtArgs>[]
+      attachments: Prisma.$AttachmentPayload<ExtArgs>[]
+      drafts: Prisma.$PostDraftPayload<ExtArgs>[]
       versions: Prisma.$ContentVersionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6626,13 +7381,13 @@ export namespace Prisma {
       communityId: string
       authorId: string
       title: string
-      content: string
+      body: string
+      isDraft: boolean
+      category: string | null
       isPinned: boolean
-      isSolved: boolean
-      likeCount: number
-      helpfulCount: number
-      commentCount: number
       viewCount: number
+      likeCount: number
+      commentCount: number
       createdAt: Date
       updatedAt: Date
       publishedAt: Date | null
@@ -7034,7 +7789,9 @@ export namespace Prisma {
     community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     comments<T extends Post$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Post$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    attachments<T extends Post$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Post$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    likes<T extends Post$likesArgs<ExtArgs> = {}>(args?: Subset<T, Post$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    attachments<T extends Post$attachmentsArgs<ExtArgs> = {}>(args?: Subset<T, Post$attachmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    drafts<T extends Post$draftsArgs<ExtArgs> = {}>(args?: Subset<T, Post$draftsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     versions<T extends Post$versionsArgs<ExtArgs> = {}>(args?: Subset<T, Post$versionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -7069,13 +7826,13 @@ export namespace Prisma {
     readonly communityId: FieldRef<"Post", 'String'>
     readonly authorId: FieldRef<"Post", 'String'>
     readonly title: FieldRef<"Post", 'String'>
-    readonly content: FieldRef<"Post", 'String'>
+    readonly body: FieldRef<"Post", 'String'>
+    readonly isDraft: FieldRef<"Post", 'Boolean'>
+    readonly category: FieldRef<"Post", 'String'>
     readonly isPinned: FieldRef<"Post", 'Boolean'>
-    readonly isSolved: FieldRef<"Post", 'Boolean'>
-    readonly likeCount: FieldRef<"Post", 'Int'>
-    readonly helpfulCount: FieldRef<"Post", 'Int'>
-    readonly commentCount: FieldRef<"Post", 'Int'>
     readonly viewCount: FieldRef<"Post", 'Int'>
+    readonly likeCount: FieldRef<"Post", 'Int'>
+    readonly commentCount: FieldRef<"Post", 'Int'>
     readonly createdAt: FieldRef<"Post", 'DateTime'>
     readonly updatedAt: FieldRef<"Post", 'DateTime'>
     readonly publishedAt: FieldRef<"Post", 'DateTime'>
@@ -7500,27 +8257,75 @@ export namespace Prisma {
   }
 
   /**
+   * Post.likes
+   */
+  export type Post$likesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    where?: LikeWhereInput
+    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[]
+    cursor?: LikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[]
+  }
+
+  /**
    * Post.attachments
    */
   export type Post$attachmentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the Attachment
      */
-    select?: PostAttachmentSelect<ExtArgs> | null
+    select?: AttachmentSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the Attachment
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: AttachmentOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentInclude<ExtArgs> | null
-    where?: PostAttachmentWhereInput
-    orderBy?: PostAttachmentOrderByWithRelationInput | PostAttachmentOrderByWithRelationInput[]
-    cursor?: PostAttachmentWhereUniqueInput
+    include?: AttachmentInclude<ExtArgs> | null
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    cursor?: AttachmentWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: PostAttachmentScalarFieldEnum | PostAttachmentScalarFieldEnum[]
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Post.drafts
+   */
+  export type Post$draftsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostDraft
+     */
+    select?: PostDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostDraft
+     */
+    omit?: PostDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostDraftInclude<ExtArgs> | null
+    where?: PostDraftWhereInput
+    orderBy?: PostDraftOrderByWithRelationInput | PostDraftOrderByWithRelationInput[]
+    cursor?: PostDraftWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PostDraftScalarFieldEnum | PostDraftScalarFieldEnum[]
   }
 
   /**
@@ -7567,420 +8372,365 @@ export namespace Prisma {
 
 
   /**
-   * Model PostAttachment
+   * Model PostDraft
    */
 
-  export type AggregatePostAttachment = {
-    _count: PostAttachmentCountAggregateOutputType | null
-    _avg: PostAttachmentAvgAggregateOutputType | null
-    _sum: PostAttachmentSumAggregateOutputType | null
-    _min: PostAttachmentMinAggregateOutputType | null
-    _max: PostAttachmentMaxAggregateOutputType | null
+  export type AggregatePostDraft = {
+    _count: PostDraftCountAggregateOutputType | null
+    _min: PostDraftMinAggregateOutputType | null
+    _max: PostDraftMaxAggregateOutputType | null
   }
 
-  export type PostAttachmentAvgAggregateOutputType = {
-    fileSize: number | null
-  }
-
-  export type PostAttachmentSumAggregateOutputType = {
-    fileSize: number | null
-  }
-
-  export type PostAttachmentMinAggregateOutputType = {
+  export type PostDraftMinAggregateOutputType = {
     id: string | null
     postId: string | null
-    fileName: string | null
-    fileUrl: string | null
-    fileSize: number | null
-    mimeType: string | null
-    createdAt: Date | null
-    deletedAt: Date | null
+    userId: string | null
+    savedAt: Date | null
+    expiresAt: Date | null
   }
 
-  export type PostAttachmentMaxAggregateOutputType = {
+  export type PostDraftMaxAggregateOutputType = {
     id: string | null
     postId: string | null
-    fileName: string | null
-    fileUrl: string | null
-    fileSize: number | null
-    mimeType: string | null
-    createdAt: Date | null
-    deletedAt: Date | null
+    userId: string | null
+    savedAt: Date | null
+    expiresAt: Date | null
   }
 
-  export type PostAttachmentCountAggregateOutputType = {
+  export type PostDraftCountAggregateOutputType = {
     id: number
     postId: number
-    fileName: number
-    fileUrl: number
-    fileSize: number
-    mimeType: number
-    createdAt: number
-    deletedAt: number
+    userId: number
+    content: number
+    savedAt: number
+    expiresAt: number
     _all: number
   }
 
 
-  export type PostAttachmentAvgAggregateInputType = {
-    fileSize?: true
-  }
-
-  export type PostAttachmentSumAggregateInputType = {
-    fileSize?: true
-  }
-
-  export type PostAttachmentMinAggregateInputType = {
+  export type PostDraftMinAggregateInputType = {
     id?: true
     postId?: true
-    fileName?: true
-    fileUrl?: true
-    fileSize?: true
-    mimeType?: true
-    createdAt?: true
-    deletedAt?: true
+    userId?: true
+    savedAt?: true
+    expiresAt?: true
   }
 
-  export type PostAttachmentMaxAggregateInputType = {
+  export type PostDraftMaxAggregateInputType = {
     id?: true
     postId?: true
-    fileName?: true
-    fileUrl?: true
-    fileSize?: true
-    mimeType?: true
-    createdAt?: true
-    deletedAt?: true
+    userId?: true
+    savedAt?: true
+    expiresAt?: true
   }
 
-  export type PostAttachmentCountAggregateInputType = {
+  export type PostDraftCountAggregateInputType = {
     id?: true
     postId?: true
-    fileName?: true
-    fileUrl?: true
-    fileSize?: true
-    mimeType?: true
-    createdAt?: true
-    deletedAt?: true
+    userId?: true
+    content?: true
+    savedAt?: true
+    expiresAt?: true
     _all?: true
   }
 
-  export type PostAttachmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which PostAttachment to aggregate.
+     * Filter which PostDraft to aggregate.
      */
-    where?: PostAttachmentWhereInput
+    where?: PostDraftWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of PostAttachments to fetch.
+     * Determine the order of PostDrafts to fetch.
      */
-    orderBy?: PostAttachmentOrderByWithRelationInput | PostAttachmentOrderByWithRelationInput[]
+    orderBy?: PostDraftOrderByWithRelationInput | PostDraftOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: PostAttachmentWhereUniqueInput
+    cursor?: PostDraftWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` PostAttachments from the position of the cursor.
+     * Take `±n` PostDrafts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` PostAttachments.
+     * Skip the first `n` PostDrafts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned PostAttachments
+     * Count returned PostDrafts
     **/
-    _count?: true | PostAttachmentCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: PostAttachmentAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: PostAttachmentSumAggregateInputType
+    _count?: true | PostDraftCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: PostAttachmentMinAggregateInputType
+    _min?: PostDraftMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: PostAttachmentMaxAggregateInputType
+    _max?: PostDraftMaxAggregateInputType
   }
 
-  export type GetPostAttachmentAggregateType<T extends PostAttachmentAggregateArgs> = {
-        [P in keyof T & keyof AggregatePostAttachment]: P extends '_count' | 'count'
+  export type GetPostDraftAggregateType<T extends PostDraftAggregateArgs> = {
+        [P in keyof T & keyof AggregatePostDraft]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregatePostAttachment[P]>
-      : GetScalarType<T[P], AggregatePostAttachment[P]>
+        : GetScalarType<T[P], AggregatePostDraft[P]>
+      : GetScalarType<T[P], AggregatePostDraft[P]>
   }
 
 
 
 
-  export type PostAttachmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: PostAttachmentWhereInput
-    orderBy?: PostAttachmentOrderByWithAggregationInput | PostAttachmentOrderByWithAggregationInput[]
-    by: PostAttachmentScalarFieldEnum[] | PostAttachmentScalarFieldEnum
-    having?: PostAttachmentScalarWhereWithAggregatesInput
+  export type PostDraftGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PostDraftWhereInput
+    orderBy?: PostDraftOrderByWithAggregationInput | PostDraftOrderByWithAggregationInput[]
+    by: PostDraftScalarFieldEnum[] | PostDraftScalarFieldEnum
+    having?: PostDraftScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: PostAttachmentCountAggregateInputType | true
-    _avg?: PostAttachmentAvgAggregateInputType
-    _sum?: PostAttachmentSumAggregateInputType
-    _min?: PostAttachmentMinAggregateInputType
-    _max?: PostAttachmentMaxAggregateInputType
+    _count?: PostDraftCountAggregateInputType | true
+    _min?: PostDraftMinAggregateInputType
+    _max?: PostDraftMaxAggregateInputType
   }
 
-  export type PostAttachmentGroupByOutputType = {
+  export type PostDraftGroupByOutputType = {
     id: string
-    postId: string
-    fileName: string
-    fileUrl: string
-    fileSize: number
-    mimeType: string
-    createdAt: Date
-    deletedAt: Date | null
-    _count: PostAttachmentCountAggregateOutputType | null
-    _avg: PostAttachmentAvgAggregateOutputType | null
-    _sum: PostAttachmentSumAggregateOutputType | null
-    _min: PostAttachmentMinAggregateOutputType | null
-    _max: PostAttachmentMaxAggregateOutputType | null
+    postId: string | null
+    userId: string
+    content: JsonValue
+    savedAt: Date
+    expiresAt: Date
+    _count: PostDraftCountAggregateOutputType | null
+    _min: PostDraftMinAggregateOutputType | null
+    _max: PostDraftMaxAggregateOutputType | null
   }
 
-  type GetPostAttachmentGroupByPayload<T extends PostAttachmentGroupByArgs> = Prisma.PrismaPromise<
+  type GetPostDraftGroupByPayload<T extends PostDraftGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<PostAttachmentGroupByOutputType, T['by']> &
+      PickEnumerable<PostDraftGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof PostAttachmentGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof PostDraftGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], PostAttachmentGroupByOutputType[P]>
-            : GetScalarType<T[P], PostAttachmentGroupByOutputType[P]>
+              : GetScalarType<T[P], PostDraftGroupByOutputType[P]>
+            : GetScalarType<T[P], PostDraftGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type PostAttachmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type PostDraftSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     postId?: boolean
-    fileName?: boolean
-    fileUrl?: boolean
-    fileSize?: boolean
-    mimeType?: boolean
-    createdAt?: boolean
-    deletedAt?: boolean
-    post?: boolean | PostDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["postAttachment"]>
+    userId?: boolean
+    content?: boolean
+    savedAt?: boolean
+    expiresAt?: boolean
+    post?: boolean | PostDraft$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postDraft"]>
 
-  export type PostAttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type PostDraftSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     postId?: boolean
-    fileName?: boolean
-    fileUrl?: boolean
-    fileSize?: boolean
-    mimeType?: boolean
-    createdAt?: boolean
-    deletedAt?: boolean
-    post?: boolean | PostDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["postAttachment"]>
+    userId?: boolean
+    content?: boolean
+    savedAt?: boolean
+    expiresAt?: boolean
+    post?: boolean | PostDraft$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postDraft"]>
 
-  export type PostAttachmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type PostDraftSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     postId?: boolean
-    fileName?: boolean
-    fileUrl?: boolean
-    fileSize?: boolean
-    mimeType?: boolean
-    createdAt?: boolean
-    deletedAt?: boolean
-    post?: boolean | PostDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["postAttachment"]>
+    userId?: boolean
+    content?: boolean
+    savedAt?: boolean
+    expiresAt?: boolean
+    post?: boolean | PostDraft$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["postDraft"]>
 
-  export type PostAttachmentSelectScalar = {
+  export type PostDraftSelectScalar = {
     id?: boolean
     postId?: boolean
-    fileName?: boolean
-    fileUrl?: boolean
-    fileSize?: boolean
-    mimeType?: boolean
-    createdAt?: boolean
-    deletedAt?: boolean
+    userId?: boolean
+    content?: boolean
+    savedAt?: boolean
+    expiresAt?: boolean
   }
 
-  export type PostAttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "fileName" | "fileUrl" | "fileSize" | "mimeType" | "createdAt" | "deletedAt", ExtArgs["result"]["postAttachment"]>
-  export type PostAttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs>
+  export type PostDraftOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "userId" | "content" | "savedAt" | "expiresAt", ExtArgs["result"]["postDraft"]>
+  export type PostDraftInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDraft$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
-  export type PostAttachmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs>
+  export type PostDraftIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDraft$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
-  export type PostAttachmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    post?: boolean | PostDefaultArgs<ExtArgs>
+  export type PostDraftIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDraft$postArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
-  export type $PostAttachmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "PostAttachment"
+  export type $PostDraftPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PostDraft"
     objects: {
-      post: Prisma.$PostPayload<ExtArgs>
+      post: Prisma.$PostPayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      postId: string
-      fileName: string
-      fileUrl: string
-      fileSize: number
-      mimeType: string
-      createdAt: Date
-      deletedAt: Date | null
-    }, ExtArgs["result"]["postAttachment"]>
+      postId: string | null
+      userId: string
+      content: Prisma.JsonValue
+      savedAt: Date
+      expiresAt: Date
+    }, ExtArgs["result"]["postDraft"]>
     composites: {}
   }
 
-  type PostAttachmentGetPayload<S extends boolean | null | undefined | PostAttachmentDefaultArgs> = $Result.GetResult<Prisma.$PostAttachmentPayload, S>
+  type PostDraftGetPayload<S extends boolean | null | undefined | PostDraftDefaultArgs> = $Result.GetResult<Prisma.$PostDraftPayload, S>
 
-  type PostAttachmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<PostAttachmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: PostAttachmentCountAggregateInputType | true
+  type PostDraftCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PostDraftFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PostDraftCountAggregateInputType | true
     }
 
-  export interface PostAttachmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PostAttachment'], meta: { name: 'PostAttachment' } }
+  export interface PostDraftDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PostDraft'], meta: { name: 'PostDraft' } }
     /**
-     * Find zero or one PostAttachment that matches the filter.
-     * @param {PostAttachmentFindUniqueArgs} args - Arguments to find a PostAttachment
+     * Find zero or one PostDraft that matches the filter.
+     * @param {PostDraftFindUniqueArgs} args - Arguments to find a PostDraft
      * @example
-     * // Get one PostAttachment
-     * const postAttachment = await prisma.postAttachment.findUnique({
+     * // Get one PostDraft
+     * const postDraft = await prisma.postDraft.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends PostAttachmentFindUniqueArgs>(args: SelectSubset<T, PostAttachmentFindUniqueArgs<ExtArgs>>): Prisma__PostAttachmentClient<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends PostDraftFindUniqueArgs>(args: SelectSubset<T, PostDraftFindUniqueArgs<ExtArgs>>): Prisma__PostDraftClient<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one PostAttachment that matches the filter or throw an error with `error.code='P2025'`
+     * Find one PostDraft that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {PostAttachmentFindUniqueOrThrowArgs} args - Arguments to find a PostAttachment
+     * @param {PostDraftFindUniqueOrThrowArgs} args - Arguments to find a PostDraft
      * @example
-     * // Get one PostAttachment
-     * const postAttachment = await prisma.postAttachment.findUniqueOrThrow({
+     * // Get one PostDraft
+     * const postDraft = await prisma.postDraft.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends PostAttachmentFindUniqueOrThrowArgs>(args: SelectSubset<T, PostAttachmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PostAttachmentClient<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends PostDraftFindUniqueOrThrowArgs>(args: SelectSubset<T, PostDraftFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PostDraftClient<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first PostAttachment that matches the filter.
+     * Find the first PostDraft that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PostAttachmentFindFirstArgs} args - Arguments to find a PostAttachment
+     * @param {PostDraftFindFirstArgs} args - Arguments to find a PostDraft
      * @example
-     * // Get one PostAttachment
-     * const postAttachment = await prisma.postAttachment.findFirst({
+     * // Get one PostDraft
+     * const postDraft = await prisma.postDraft.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends PostAttachmentFindFirstArgs>(args?: SelectSubset<T, PostAttachmentFindFirstArgs<ExtArgs>>): Prisma__PostAttachmentClient<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends PostDraftFindFirstArgs>(args?: SelectSubset<T, PostDraftFindFirstArgs<ExtArgs>>): Prisma__PostDraftClient<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first PostAttachment that matches the filter or
+     * Find the first PostDraft that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PostAttachmentFindFirstOrThrowArgs} args - Arguments to find a PostAttachment
+     * @param {PostDraftFindFirstOrThrowArgs} args - Arguments to find a PostDraft
      * @example
-     * // Get one PostAttachment
-     * const postAttachment = await prisma.postAttachment.findFirstOrThrow({
+     * // Get one PostDraft
+     * const postDraft = await prisma.postDraft.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends PostAttachmentFindFirstOrThrowArgs>(args?: SelectSubset<T, PostAttachmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__PostAttachmentClient<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends PostDraftFindFirstOrThrowArgs>(args?: SelectSubset<T, PostDraftFindFirstOrThrowArgs<ExtArgs>>): Prisma__PostDraftClient<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more PostAttachments that matches the filter.
+     * Find zero or more PostDrafts that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PostAttachmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {PostDraftFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all PostAttachments
-     * const postAttachments = await prisma.postAttachment.findMany()
+     * // Get all PostDrafts
+     * const postDrafts = await prisma.postDraft.findMany()
      * 
-     * // Get first 10 PostAttachments
-     * const postAttachments = await prisma.postAttachment.findMany({ take: 10 })
+     * // Get first 10 PostDrafts
+     * const postDrafts = await prisma.postDraft.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const postAttachmentWithIdOnly = await prisma.postAttachment.findMany({ select: { id: true } })
+     * const postDraftWithIdOnly = await prisma.postDraft.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends PostAttachmentFindManyArgs>(args?: SelectSubset<T, PostAttachmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends PostDraftFindManyArgs>(args?: SelectSubset<T, PostDraftFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a PostAttachment.
-     * @param {PostAttachmentCreateArgs} args - Arguments to create a PostAttachment.
+     * Create a PostDraft.
+     * @param {PostDraftCreateArgs} args - Arguments to create a PostDraft.
      * @example
-     * // Create one PostAttachment
-     * const PostAttachment = await prisma.postAttachment.create({
+     * // Create one PostDraft
+     * const PostDraft = await prisma.postDraft.create({
      *   data: {
-     *     // ... data to create a PostAttachment
+     *     // ... data to create a PostDraft
      *   }
      * })
      * 
      */
-    create<T extends PostAttachmentCreateArgs>(args: SelectSubset<T, PostAttachmentCreateArgs<ExtArgs>>): Prisma__PostAttachmentClient<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends PostDraftCreateArgs>(args: SelectSubset<T, PostDraftCreateArgs<ExtArgs>>): Prisma__PostDraftClient<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many PostAttachments.
-     * @param {PostAttachmentCreateManyArgs} args - Arguments to create many PostAttachments.
+     * Create many PostDrafts.
+     * @param {PostDraftCreateManyArgs} args - Arguments to create many PostDrafts.
      * @example
-     * // Create many PostAttachments
-     * const postAttachment = await prisma.postAttachment.createMany({
+     * // Create many PostDrafts
+     * const postDraft = await prisma.postDraft.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends PostAttachmentCreateManyArgs>(args?: SelectSubset<T, PostAttachmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends PostDraftCreateManyArgs>(args?: SelectSubset<T, PostDraftCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many PostAttachments and returns the data saved in the database.
-     * @param {PostAttachmentCreateManyAndReturnArgs} args - Arguments to create many PostAttachments.
+     * Create many PostDrafts and returns the data saved in the database.
+     * @param {PostDraftCreateManyAndReturnArgs} args - Arguments to create many PostDrafts.
      * @example
-     * // Create many PostAttachments
-     * const postAttachment = await prisma.postAttachment.createManyAndReturn({
+     * // Create many PostDrafts
+     * const postDraft = await prisma.postDraft.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many PostAttachments and only return the `id`
-     * const postAttachmentWithIdOnly = await prisma.postAttachment.createManyAndReturn({
+     * // Create many PostDrafts and only return the `id`
+     * const postDraftWithIdOnly = await prisma.postDraft.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -7990,28 +8740,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends PostAttachmentCreateManyAndReturnArgs>(args?: SelectSubset<T, PostAttachmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends PostDraftCreateManyAndReturnArgs>(args?: SelectSubset<T, PostDraftCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a PostAttachment.
-     * @param {PostAttachmentDeleteArgs} args - Arguments to delete one PostAttachment.
+     * Delete a PostDraft.
+     * @param {PostDraftDeleteArgs} args - Arguments to delete one PostDraft.
      * @example
-     * // Delete one PostAttachment
-     * const PostAttachment = await prisma.postAttachment.delete({
+     * // Delete one PostDraft
+     * const PostDraft = await prisma.postDraft.delete({
      *   where: {
-     *     // ... filter to delete one PostAttachment
+     *     // ... filter to delete one PostDraft
      *   }
      * })
      * 
      */
-    delete<T extends PostAttachmentDeleteArgs>(args: SelectSubset<T, PostAttachmentDeleteArgs<ExtArgs>>): Prisma__PostAttachmentClient<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends PostDraftDeleteArgs>(args: SelectSubset<T, PostDraftDeleteArgs<ExtArgs>>): Prisma__PostDraftClient<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one PostAttachment.
-     * @param {PostAttachmentUpdateArgs} args - Arguments to update one PostAttachment.
+     * Update one PostDraft.
+     * @param {PostDraftUpdateArgs} args - Arguments to update one PostDraft.
      * @example
-     * // Update one PostAttachment
-     * const postAttachment = await prisma.postAttachment.update({
+     * // Update one PostDraft
+     * const postDraft = await prisma.postDraft.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -8021,30 +8771,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends PostAttachmentUpdateArgs>(args: SelectSubset<T, PostAttachmentUpdateArgs<ExtArgs>>): Prisma__PostAttachmentClient<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends PostDraftUpdateArgs>(args: SelectSubset<T, PostDraftUpdateArgs<ExtArgs>>): Prisma__PostDraftClient<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more PostAttachments.
-     * @param {PostAttachmentDeleteManyArgs} args - Arguments to filter PostAttachments to delete.
+     * Delete zero or more PostDrafts.
+     * @param {PostDraftDeleteManyArgs} args - Arguments to filter PostDrafts to delete.
      * @example
-     * // Delete a few PostAttachments
-     * const { count } = await prisma.postAttachment.deleteMany({
+     * // Delete a few PostDrafts
+     * const { count } = await prisma.postDraft.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends PostAttachmentDeleteManyArgs>(args?: SelectSubset<T, PostAttachmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends PostDraftDeleteManyArgs>(args?: SelectSubset<T, PostDraftDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more PostAttachments.
+     * Update zero or more PostDrafts.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PostAttachmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {PostDraftUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many PostAttachments
-     * const postAttachment = await prisma.postAttachment.updateMany({
+     * // Update many PostDrafts
+     * const postDraft = await prisma.postDraft.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -8054,14 +8804,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends PostAttachmentUpdateManyArgs>(args: SelectSubset<T, PostAttachmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends PostDraftUpdateManyArgs>(args: SelectSubset<T, PostDraftUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more PostAttachments and returns the data updated in the database.
-     * @param {PostAttachmentUpdateManyAndReturnArgs} args - Arguments to update many PostAttachments.
+     * Update zero or more PostDrafts and returns the data updated in the database.
+     * @param {PostDraftUpdateManyAndReturnArgs} args - Arguments to update many PostDrafts.
      * @example
-     * // Update many PostAttachments
-     * const postAttachment = await prisma.postAttachment.updateManyAndReturn({
+     * // Update many PostDrafts
+     * const postDraft = await prisma.postDraft.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -8070,8 +8820,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more PostAttachments and only return the `id`
-     * const postAttachmentWithIdOnly = await prisma.postAttachment.updateManyAndReturn({
+     * // Update zero or more PostDrafts and only return the `id`
+     * const postDraftWithIdOnly = await prisma.postDraft.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -8084,56 +8834,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends PostAttachmentUpdateManyAndReturnArgs>(args: SelectSubset<T, PostAttachmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends PostDraftUpdateManyAndReturnArgs>(args: SelectSubset<T, PostDraftUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one PostAttachment.
-     * @param {PostAttachmentUpsertArgs} args - Arguments to update or create a PostAttachment.
+     * Create or update one PostDraft.
+     * @param {PostDraftUpsertArgs} args - Arguments to update or create a PostDraft.
      * @example
-     * // Update or create a PostAttachment
-     * const postAttachment = await prisma.postAttachment.upsert({
+     * // Update or create a PostDraft
+     * const postDraft = await prisma.postDraft.upsert({
      *   create: {
-     *     // ... data to create a PostAttachment
+     *     // ... data to create a PostDraft
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the PostAttachment we want to update
+     *     // ... the filter for the PostDraft we want to update
      *   }
      * })
      */
-    upsert<T extends PostAttachmentUpsertArgs>(args: SelectSubset<T, PostAttachmentUpsertArgs<ExtArgs>>): Prisma__PostAttachmentClient<$Result.GetResult<Prisma.$PostAttachmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends PostDraftUpsertArgs>(args: SelectSubset<T, PostDraftUpsertArgs<ExtArgs>>): Prisma__PostDraftClient<$Result.GetResult<Prisma.$PostDraftPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of PostAttachments.
+     * Count the number of PostDrafts.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PostAttachmentCountArgs} args - Arguments to filter PostAttachments to count.
+     * @param {PostDraftCountArgs} args - Arguments to filter PostDrafts to count.
      * @example
-     * // Count the number of PostAttachments
-     * const count = await prisma.postAttachment.count({
+     * // Count the number of PostDrafts
+     * const count = await prisma.postDraft.count({
      *   where: {
-     *     // ... the filter for the PostAttachments we want to count
+     *     // ... the filter for the PostDrafts we want to count
      *   }
      * })
     **/
-    count<T extends PostAttachmentCountArgs>(
-      args?: Subset<T, PostAttachmentCountArgs>,
+    count<T extends PostDraftCountArgs>(
+      args?: Subset<T, PostDraftCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], PostAttachmentCountAggregateOutputType>
+          : GetScalarType<T['select'], PostDraftCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a PostAttachment.
+     * Allows you to perform aggregations operations on a PostDraft.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PostAttachmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {PostDraftAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -8153,13 +8903,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends PostAttachmentAggregateArgs>(args: Subset<T, PostAttachmentAggregateArgs>): Prisma.PrismaPromise<GetPostAttachmentAggregateType<T>>
+    aggregate<T extends PostDraftAggregateArgs>(args: Subset<T, PostDraftAggregateArgs>): Prisma.PrismaPromise<GetPostDraftAggregateType<T>>
 
     /**
-     * Group by PostAttachment.
+     * Group by PostDraft.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {PostAttachmentGroupByArgs} args - Group by arguments.
+     * @param {PostDraftGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -8174,14 +8924,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends PostAttachmentGroupByArgs,
+      T extends PostDraftGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: PostAttachmentGroupByArgs['orderBy'] }
-        : { orderBy?: PostAttachmentGroupByArgs['orderBy'] },
+        ? { orderBy: PostDraftGroupByArgs['orderBy'] }
+        : { orderBy?: PostDraftGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -8230,22 +8980,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, PostAttachmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostAttachmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, PostDraftGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPostDraftGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the PostAttachment model
+   * Fields of the PostDraft model
    */
-  readonly fields: PostAttachmentFieldRefs;
+  readonly fields: PostDraftFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for PostAttachment.
+   * The delegate class that acts as a "Promise-like" for PostDraft.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__PostAttachmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__PostDraftClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    post<T extends PostDraft$postArgs<ExtArgs> = {}>(args?: Subset<T, PostDraft$postArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8272,428 +9023,1597 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the PostAttachment model
+   * Fields of the PostDraft model
    */
-  interface PostAttachmentFieldRefs {
-    readonly id: FieldRef<"PostAttachment", 'String'>
-    readonly postId: FieldRef<"PostAttachment", 'String'>
-    readonly fileName: FieldRef<"PostAttachment", 'String'>
-    readonly fileUrl: FieldRef<"PostAttachment", 'String'>
-    readonly fileSize: FieldRef<"PostAttachment", 'Int'>
-    readonly mimeType: FieldRef<"PostAttachment", 'String'>
-    readonly createdAt: FieldRef<"PostAttachment", 'DateTime'>
-    readonly deletedAt: FieldRef<"PostAttachment", 'DateTime'>
+  interface PostDraftFieldRefs {
+    readonly id: FieldRef<"PostDraft", 'String'>
+    readonly postId: FieldRef<"PostDraft", 'String'>
+    readonly userId: FieldRef<"PostDraft", 'String'>
+    readonly content: FieldRef<"PostDraft", 'Json'>
+    readonly savedAt: FieldRef<"PostDraft", 'DateTime'>
+    readonly expiresAt: FieldRef<"PostDraft", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * PostAttachment findUnique
+   * PostDraft findUnique
    */
-  export type PostAttachmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the PostDraft
      */
-    select?: PostAttachmentSelect<ExtArgs> | null
+    select?: PostDraftSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the PostDraft
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostDraftOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentInclude<ExtArgs> | null
+    include?: PostDraftInclude<ExtArgs> | null
     /**
-     * Filter, which PostAttachment to fetch.
+     * Filter, which PostDraft to fetch.
      */
-    where: PostAttachmentWhereUniqueInput
+    where: PostDraftWhereUniqueInput
   }
 
   /**
-   * PostAttachment findUniqueOrThrow
+   * PostDraft findUniqueOrThrow
    */
-  export type PostAttachmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the PostDraft
      */
-    select?: PostAttachmentSelect<ExtArgs> | null
+    select?: PostDraftSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the PostDraft
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostDraftOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentInclude<ExtArgs> | null
+    include?: PostDraftInclude<ExtArgs> | null
     /**
-     * Filter, which PostAttachment to fetch.
+     * Filter, which PostDraft to fetch.
      */
-    where: PostAttachmentWhereUniqueInput
+    where: PostDraftWhereUniqueInput
   }
 
   /**
-   * PostAttachment findFirst
+   * PostDraft findFirst
    */
-  export type PostAttachmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the PostDraft
      */
-    select?: PostAttachmentSelect<ExtArgs> | null
+    select?: PostDraftSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the PostDraft
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostDraftOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentInclude<ExtArgs> | null
+    include?: PostDraftInclude<ExtArgs> | null
     /**
-     * Filter, which PostAttachment to fetch.
+     * Filter, which PostDraft to fetch.
      */
-    where?: PostAttachmentWhereInput
+    where?: PostDraftWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of PostAttachments to fetch.
+     * Determine the order of PostDrafts to fetch.
      */
-    orderBy?: PostAttachmentOrderByWithRelationInput | PostAttachmentOrderByWithRelationInput[]
+    orderBy?: PostDraftOrderByWithRelationInput | PostDraftOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for PostAttachments.
+     * Sets the position for searching for PostDrafts.
      */
-    cursor?: PostAttachmentWhereUniqueInput
+    cursor?: PostDraftWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` PostAttachments from the position of the cursor.
+     * Take `±n` PostDrafts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` PostAttachments.
+     * Skip the first `n` PostDrafts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of PostAttachments.
+     * Filter by unique combinations of PostDrafts.
      */
-    distinct?: PostAttachmentScalarFieldEnum | PostAttachmentScalarFieldEnum[]
+    distinct?: PostDraftScalarFieldEnum | PostDraftScalarFieldEnum[]
   }
 
   /**
-   * PostAttachment findFirstOrThrow
+   * PostDraft findFirstOrThrow
    */
-  export type PostAttachmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the PostDraft
      */
-    select?: PostAttachmentSelect<ExtArgs> | null
+    select?: PostDraftSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the PostDraft
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostDraftOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentInclude<ExtArgs> | null
+    include?: PostDraftInclude<ExtArgs> | null
     /**
-     * Filter, which PostAttachment to fetch.
+     * Filter, which PostDraft to fetch.
      */
-    where?: PostAttachmentWhereInput
+    where?: PostDraftWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of PostAttachments to fetch.
+     * Determine the order of PostDrafts to fetch.
      */
-    orderBy?: PostAttachmentOrderByWithRelationInput | PostAttachmentOrderByWithRelationInput[]
+    orderBy?: PostDraftOrderByWithRelationInput | PostDraftOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for PostAttachments.
+     * Sets the position for searching for PostDrafts.
      */
-    cursor?: PostAttachmentWhereUniqueInput
+    cursor?: PostDraftWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` PostAttachments from the position of the cursor.
+     * Take `±n` PostDrafts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` PostAttachments.
+     * Skip the first `n` PostDrafts.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of PostAttachments.
+     * Filter by unique combinations of PostDrafts.
      */
-    distinct?: PostAttachmentScalarFieldEnum | PostAttachmentScalarFieldEnum[]
+    distinct?: PostDraftScalarFieldEnum | PostDraftScalarFieldEnum[]
   }
 
   /**
-   * PostAttachment findMany
+   * PostDraft findMany
    */
-  export type PostAttachmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the PostDraft
      */
-    select?: PostAttachmentSelect<ExtArgs> | null
+    select?: PostDraftSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the PostDraft
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostDraftOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentInclude<ExtArgs> | null
+    include?: PostDraftInclude<ExtArgs> | null
     /**
-     * Filter, which PostAttachments to fetch.
+     * Filter, which PostDrafts to fetch.
      */
-    where?: PostAttachmentWhereInput
+    where?: PostDraftWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of PostAttachments to fetch.
+     * Determine the order of PostDrafts to fetch.
      */
-    orderBy?: PostAttachmentOrderByWithRelationInput | PostAttachmentOrderByWithRelationInput[]
+    orderBy?: PostDraftOrderByWithRelationInput | PostDraftOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing PostAttachments.
+     * Sets the position for listing PostDrafts.
      */
-    cursor?: PostAttachmentWhereUniqueInput
+    cursor?: PostDraftWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` PostAttachments from the position of the cursor.
+     * Take `±n` PostDrafts from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` PostAttachments.
+     * Skip the first `n` PostDrafts.
      */
     skip?: number
-    distinct?: PostAttachmentScalarFieldEnum | PostAttachmentScalarFieldEnum[]
+    distinct?: PostDraftScalarFieldEnum | PostDraftScalarFieldEnum[]
   }
 
   /**
-   * PostAttachment create
+   * PostDraft create
    */
-  export type PostAttachmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the PostDraft
      */
-    select?: PostAttachmentSelect<ExtArgs> | null
+    select?: PostDraftSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the PostDraft
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostDraftOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentInclude<ExtArgs> | null
+    include?: PostDraftInclude<ExtArgs> | null
     /**
-     * The data needed to create a PostAttachment.
+     * The data needed to create a PostDraft.
      */
-    data: XOR<PostAttachmentCreateInput, PostAttachmentUncheckedCreateInput>
+    data: XOR<PostDraftCreateInput, PostDraftUncheckedCreateInput>
   }
 
   /**
-   * PostAttachment createMany
+   * PostDraft createMany
    */
-  export type PostAttachmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many PostAttachments.
+     * The data used to create many PostDrafts.
      */
-    data: PostAttachmentCreateManyInput | PostAttachmentCreateManyInput[]
+    data: PostDraftCreateManyInput | PostDraftCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * PostAttachment createManyAndReturn
+   * PostDraft createManyAndReturn
    */
-  export type PostAttachmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the PostDraft
      */
-    select?: PostAttachmentSelectCreateManyAndReturn<ExtArgs> | null
+    select?: PostDraftSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the PostDraft
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostDraftOmit<ExtArgs> | null
     /**
-     * The data used to create many PostAttachments.
+     * The data used to create many PostDrafts.
      */
-    data: PostAttachmentCreateManyInput | PostAttachmentCreateManyInput[]
+    data: PostDraftCreateManyInput | PostDraftCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: PostDraftIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * PostAttachment update
+   * PostDraft update
    */
-  export type PostAttachmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the PostDraft
      */
-    select?: PostAttachmentSelect<ExtArgs> | null
+    select?: PostDraftSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the PostDraft
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostDraftOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentInclude<ExtArgs> | null
+    include?: PostDraftInclude<ExtArgs> | null
     /**
-     * The data needed to update a PostAttachment.
+     * The data needed to update a PostDraft.
      */
-    data: XOR<PostAttachmentUpdateInput, PostAttachmentUncheckedUpdateInput>
+    data: XOR<PostDraftUpdateInput, PostDraftUncheckedUpdateInput>
     /**
-     * Choose, which PostAttachment to update.
+     * Choose, which PostDraft to update.
      */
-    where: PostAttachmentWhereUniqueInput
+    where: PostDraftWhereUniqueInput
   }
 
   /**
-   * PostAttachment updateMany
+   * PostDraft updateMany
    */
-  export type PostAttachmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update PostAttachments.
+     * The data used to update PostDrafts.
      */
-    data: XOR<PostAttachmentUpdateManyMutationInput, PostAttachmentUncheckedUpdateManyInput>
+    data: XOR<PostDraftUpdateManyMutationInput, PostDraftUncheckedUpdateManyInput>
     /**
-     * Filter which PostAttachments to update
+     * Filter which PostDrafts to update
      */
-    where?: PostAttachmentWhereInput
+    where?: PostDraftWhereInput
     /**
-     * Limit how many PostAttachments to update.
+     * Limit how many PostDrafts to update.
      */
     limit?: number
   }
 
   /**
-   * PostAttachment updateManyAndReturn
+   * PostDraft updateManyAndReturn
    */
-  export type PostAttachmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the PostDraft
      */
-    select?: PostAttachmentSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: PostDraftSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the PostDraft
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostDraftOmit<ExtArgs> | null
     /**
-     * The data used to update PostAttachments.
+     * The data used to update PostDrafts.
      */
-    data: XOR<PostAttachmentUpdateManyMutationInput, PostAttachmentUncheckedUpdateManyInput>
+    data: XOR<PostDraftUpdateManyMutationInput, PostDraftUncheckedUpdateManyInput>
     /**
-     * Filter which PostAttachments to update
+     * Filter which PostDrafts to update
      */
-    where?: PostAttachmentWhereInput
+    where?: PostDraftWhereInput
     /**
-     * Limit how many PostAttachments to update.
+     * Limit how many PostDrafts to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: PostDraftIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * PostAttachment upsert
+   * PostDraft upsert
    */
-  export type PostAttachmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the PostDraft
      */
-    select?: PostAttachmentSelect<ExtArgs> | null
+    select?: PostDraftSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the PostDraft
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostDraftOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentInclude<ExtArgs> | null
+    include?: PostDraftInclude<ExtArgs> | null
     /**
-     * The filter to search for the PostAttachment to update in case it exists.
+     * The filter to search for the PostDraft to update in case it exists.
      */
-    where: PostAttachmentWhereUniqueInput
+    where: PostDraftWhereUniqueInput
     /**
-     * In case the PostAttachment found by the `where` argument doesn't exist, create a new PostAttachment with this data.
+     * In case the PostDraft found by the `where` argument doesn't exist, create a new PostDraft with this data.
      */
-    create: XOR<PostAttachmentCreateInput, PostAttachmentUncheckedCreateInput>
+    create: XOR<PostDraftCreateInput, PostDraftUncheckedCreateInput>
     /**
-     * In case the PostAttachment was found with the provided `where` argument, update it with this data.
+     * In case the PostDraft was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<PostAttachmentUpdateInput, PostAttachmentUncheckedUpdateInput>
+    update: XOR<PostDraftUpdateInput, PostDraftUncheckedUpdateInput>
   }
 
   /**
-   * PostAttachment delete
+   * PostDraft delete
    */
-  export type PostAttachmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the PostDraft
      */
-    select?: PostAttachmentSelect<ExtArgs> | null
+    select?: PostDraftSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the PostDraft
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostDraftOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentInclude<ExtArgs> | null
+    include?: PostDraftInclude<ExtArgs> | null
     /**
-     * Filter which PostAttachment to delete.
+     * Filter which PostDraft to delete.
      */
-    where: PostAttachmentWhereUniqueInput
+    where: PostDraftWhereUniqueInput
   }
 
   /**
-   * PostAttachment deleteMany
+   * PostDraft deleteMany
    */
-  export type PostAttachmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraftDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which PostAttachments to delete
+     * Filter which PostDrafts to delete
      */
-    where?: PostAttachmentWhereInput
+    where?: PostDraftWhereInput
     /**
-     * Limit how many PostAttachments to delete.
+     * Limit how many PostDrafts to delete.
      */
     limit?: number
   }
 
   /**
-   * PostAttachment without action
+   * PostDraft.post
    */
-  export type PostAttachmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PostDraft$postArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the PostAttachment
+     * Select specific fields to fetch from the Post
      */
-    select?: PostAttachmentSelect<ExtArgs> | null
+    select?: PostSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the PostAttachment
+     * Omit specific fields from the Post
      */
-    omit?: PostAttachmentOmit<ExtArgs> | null
+    omit?: PostOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: PostAttachmentInclude<ExtArgs> | null
+    include?: PostInclude<ExtArgs> | null
+    where?: PostWhereInput
+  }
+
+  /**
+   * PostDraft without action
+   */
+  export type PostDraftDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PostDraft
+     */
+    select?: PostDraftSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PostDraft
+     */
+    omit?: PostDraftOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostDraftInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Attachment
+   */
+
+  export type AggregateAttachment = {
+    _count: AttachmentCountAggregateOutputType | null
+    _avg: AttachmentAvgAggregateOutputType | null
+    _sum: AttachmentSumAggregateOutputType | null
+    _min: AttachmentMinAggregateOutputType | null
+    _max: AttachmentMaxAggregateOutputType | null
+  }
+
+  export type AttachmentAvgAggregateOutputType = {
+    size: number | null
+  }
+
+  export type AttachmentSumAggregateOutputType = {
+    size: number | null
+  }
+
+  export type AttachmentMinAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    url: string | null
+    filename: string | null
+    mimeType: string | null
+    size: number | null
+    uploadedBy: string | null
+    createdAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type AttachmentMaxAggregateOutputType = {
+    id: string | null
+    postId: string | null
+    url: string | null
+    filename: string | null
+    mimeType: string | null
+    size: number | null
+    uploadedBy: string | null
+    createdAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type AttachmentCountAggregateOutputType = {
+    id: number
+    postId: number
+    url: number
+    filename: number
+    mimeType: number
+    size: number
+    uploadedBy: number
+    createdAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type AttachmentAvgAggregateInputType = {
+    size?: true
+  }
+
+  export type AttachmentSumAggregateInputType = {
+    size?: true
+  }
+
+  export type AttachmentMinAggregateInputType = {
+    id?: true
+    postId?: true
+    url?: true
+    filename?: true
+    mimeType?: true
+    size?: true
+    uploadedBy?: true
+    createdAt?: true
+    deletedAt?: true
+  }
+
+  export type AttachmentMaxAggregateInputType = {
+    id?: true
+    postId?: true
+    url?: true
+    filename?: true
+    mimeType?: true
+    size?: true
+    uploadedBy?: true
+    createdAt?: true
+    deletedAt?: true
+  }
+
+  export type AttachmentCountAggregateInputType = {
+    id?: true
+    postId?: true
+    url?: true
+    filename?: true
+    mimeType?: true
+    size?: true
+    uploadedBy?: true
+    createdAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type AttachmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Attachment to aggregate.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Attachments
+    **/
+    _count?: true | AttachmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AttachmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AttachmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AttachmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AttachmentMaxAggregateInputType
+  }
+
+  export type GetAttachmentAggregateType<T extends AttachmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateAttachment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAttachment[P]>
+      : GetScalarType<T[P], AggregateAttachment[P]>
+  }
+
+
+
+
+  export type AttachmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AttachmentWhereInput
+    orderBy?: AttachmentOrderByWithAggregationInput | AttachmentOrderByWithAggregationInput[]
+    by: AttachmentScalarFieldEnum[] | AttachmentScalarFieldEnum
+    having?: AttachmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AttachmentCountAggregateInputType | true
+    _avg?: AttachmentAvgAggregateInputType
+    _sum?: AttachmentSumAggregateInputType
+    _min?: AttachmentMinAggregateInputType
+    _max?: AttachmentMaxAggregateInputType
+  }
+
+  export type AttachmentGroupByOutputType = {
+    id: string
+    postId: string
+    url: string
+    filename: string
+    mimeType: string
+    size: number
+    uploadedBy: string
+    createdAt: Date
+    deletedAt: Date | null
+    _count: AttachmentCountAggregateOutputType | null
+    _avg: AttachmentAvgAggregateOutputType | null
+    _sum: AttachmentSumAggregateOutputType | null
+    _min: AttachmentMinAggregateOutputType | null
+    _max: AttachmentMaxAggregateOutputType | null
+  }
+
+  type GetAttachmentGroupByPayload<T extends AttachmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AttachmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AttachmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AttachmentGroupByOutputType[P]>
+            : GetScalarType<T[P], AttachmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AttachmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    url?: boolean
+    filename?: boolean
+    mimeType?: boolean
+    size?: boolean
+    uploadedBy?: boolean
+    createdAt?: boolean
+    deletedAt?: boolean
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
+
+  export type AttachmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    url?: boolean
+    filename?: boolean
+    mimeType?: boolean
+    size?: boolean
+    uploadedBy?: boolean
+    createdAt?: boolean
+    deletedAt?: boolean
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
+
+  export type AttachmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    postId?: boolean
+    url?: boolean
+    filename?: boolean
+    mimeType?: boolean
+    size?: boolean
+    uploadedBy?: boolean
+    createdAt?: boolean
+    deletedAt?: boolean
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["attachment"]>
+
+  export type AttachmentSelectScalar = {
+    id?: boolean
+    postId?: boolean
+    url?: boolean
+    filename?: boolean
+    mimeType?: boolean
+    size?: boolean
+    uploadedBy?: boolean
+    createdAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type AttachmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "url" | "filename" | "mimeType" | "size" | "uploadedBy" | "createdAt" | "deletedAt", ExtArgs["result"]["attachment"]>
+  export type AttachmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AttachmentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type AttachmentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    post?: boolean | PostDefaultArgs<ExtArgs>
+    uploader?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $AttachmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Attachment"
+    objects: {
+      post: Prisma.$PostPayload<ExtArgs>
+      uploader: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      postId: string
+      url: string
+      filename: string
+      mimeType: string
+      size: number
+      uploadedBy: string
+      createdAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["attachment"]>
+    composites: {}
+  }
+
+  type AttachmentGetPayload<S extends boolean | null | undefined | AttachmentDefaultArgs> = $Result.GetResult<Prisma.$AttachmentPayload, S>
+
+  type AttachmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AttachmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AttachmentCountAggregateInputType | true
+    }
+
+  export interface AttachmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Attachment'], meta: { name: 'Attachment' } }
+    /**
+     * Find zero or one Attachment that matches the filter.
+     * @param {AttachmentFindUniqueArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AttachmentFindUniqueArgs>(args: SelectSubset<T, AttachmentFindUniqueArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Attachment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AttachmentFindUniqueOrThrowArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AttachmentFindUniqueOrThrowArgs>(args: SelectSubset<T, AttachmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Attachment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentFindFirstArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AttachmentFindFirstArgs>(args?: SelectSubset<T, AttachmentFindFirstArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Attachment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentFindFirstOrThrowArgs} args - Arguments to find a Attachment
+     * @example
+     * // Get one Attachment
+     * const attachment = await prisma.attachment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AttachmentFindFirstOrThrowArgs>(args?: SelectSubset<T, AttachmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Attachments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Attachments
+     * const attachments = await prisma.attachment.findMany()
+     * 
+     * // Get first 10 Attachments
+     * const attachments = await prisma.attachment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const attachmentWithIdOnly = await prisma.attachment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AttachmentFindManyArgs>(args?: SelectSubset<T, AttachmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Attachment.
+     * @param {AttachmentCreateArgs} args - Arguments to create a Attachment.
+     * @example
+     * // Create one Attachment
+     * const Attachment = await prisma.attachment.create({
+     *   data: {
+     *     // ... data to create a Attachment
+     *   }
+     * })
+     * 
+     */
+    create<T extends AttachmentCreateArgs>(args: SelectSubset<T, AttachmentCreateArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Attachments.
+     * @param {AttachmentCreateManyArgs} args - Arguments to create many Attachments.
+     * @example
+     * // Create many Attachments
+     * const attachment = await prisma.attachment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AttachmentCreateManyArgs>(args?: SelectSubset<T, AttachmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Attachments and returns the data saved in the database.
+     * @param {AttachmentCreateManyAndReturnArgs} args - Arguments to create many Attachments.
+     * @example
+     * // Create many Attachments
+     * const attachment = await prisma.attachment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Attachments and only return the `id`
+     * const attachmentWithIdOnly = await prisma.attachment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AttachmentCreateManyAndReturnArgs>(args?: SelectSubset<T, AttachmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Attachment.
+     * @param {AttachmentDeleteArgs} args - Arguments to delete one Attachment.
+     * @example
+     * // Delete one Attachment
+     * const Attachment = await prisma.attachment.delete({
+     *   where: {
+     *     // ... filter to delete one Attachment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AttachmentDeleteArgs>(args: SelectSubset<T, AttachmentDeleteArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Attachment.
+     * @param {AttachmentUpdateArgs} args - Arguments to update one Attachment.
+     * @example
+     * // Update one Attachment
+     * const attachment = await prisma.attachment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AttachmentUpdateArgs>(args: SelectSubset<T, AttachmentUpdateArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Attachments.
+     * @param {AttachmentDeleteManyArgs} args - Arguments to filter Attachments to delete.
+     * @example
+     * // Delete a few Attachments
+     * const { count } = await prisma.attachment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AttachmentDeleteManyArgs>(args?: SelectSubset<T, AttachmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Attachments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Attachments
+     * const attachment = await prisma.attachment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AttachmentUpdateManyArgs>(args: SelectSubset<T, AttachmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Attachments and returns the data updated in the database.
+     * @param {AttachmentUpdateManyAndReturnArgs} args - Arguments to update many Attachments.
+     * @example
+     * // Update many Attachments
+     * const attachment = await prisma.attachment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Attachments and only return the `id`
+     * const attachmentWithIdOnly = await prisma.attachment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AttachmentUpdateManyAndReturnArgs>(args: SelectSubset<T, AttachmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Attachment.
+     * @param {AttachmentUpsertArgs} args - Arguments to update or create a Attachment.
+     * @example
+     * // Update or create a Attachment
+     * const attachment = await prisma.attachment.upsert({
+     *   create: {
+     *     // ... data to create a Attachment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Attachment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AttachmentUpsertArgs>(args: SelectSubset<T, AttachmentUpsertArgs<ExtArgs>>): Prisma__AttachmentClient<$Result.GetResult<Prisma.$AttachmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Attachments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentCountArgs} args - Arguments to filter Attachments to count.
+     * @example
+     * // Count the number of Attachments
+     * const count = await prisma.attachment.count({
+     *   where: {
+     *     // ... the filter for the Attachments we want to count
+     *   }
+     * })
+    **/
+    count<T extends AttachmentCountArgs>(
+      args?: Subset<T, AttachmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AttachmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Attachment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AttachmentAggregateArgs>(args: Subset<T, AttachmentAggregateArgs>): Prisma.PrismaPromise<GetAttachmentAggregateType<T>>
+
+    /**
+     * Group by Attachment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AttachmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AttachmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AttachmentGroupByArgs['orderBy'] }
+        : { orderBy?: AttachmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AttachmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAttachmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Attachment model
+   */
+  readonly fields: AttachmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Attachment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AttachmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    post<T extends PostDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PostDefaultArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    uploader<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Attachment model
+   */
+  interface AttachmentFieldRefs {
+    readonly id: FieldRef<"Attachment", 'String'>
+    readonly postId: FieldRef<"Attachment", 'String'>
+    readonly url: FieldRef<"Attachment", 'String'>
+    readonly filename: FieldRef<"Attachment", 'String'>
+    readonly mimeType: FieldRef<"Attachment", 'String'>
+    readonly size: FieldRef<"Attachment", 'Int'>
+    readonly uploadedBy: FieldRef<"Attachment", 'String'>
+    readonly createdAt: FieldRef<"Attachment", 'DateTime'>
+    readonly deletedAt: FieldRef<"Attachment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Attachment findUnique
+   */
+  export type AttachmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment findUniqueOrThrow
+   */
+  export type AttachmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment findFirst
+   */
+  export type AttachmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Attachments.
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attachments.
+     */
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Attachment findFirstOrThrow
+   */
+  export type AttachmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachment to fetch.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Attachments.
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attachments.
+     */
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Attachment findMany
+   */
+  export type AttachmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter, which Attachments to fetch.
+     */
+    where?: AttachmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Attachments to fetch.
+     */
+    orderBy?: AttachmentOrderByWithRelationInput | AttachmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Attachments.
+     */
+    cursor?: AttachmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Attachments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Attachments.
+     */
+    skip?: number
+    distinct?: AttachmentScalarFieldEnum | AttachmentScalarFieldEnum[]
+  }
+
+  /**
+   * Attachment create
+   */
+  export type AttachmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Attachment.
+     */
+    data: XOR<AttachmentCreateInput, AttachmentUncheckedCreateInput>
+  }
+
+  /**
+   * Attachment createMany
+   */
+  export type AttachmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Attachments.
+     */
+    data: AttachmentCreateManyInput | AttachmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Attachment createManyAndReturn
+   */
+  export type AttachmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many Attachments.
+     */
+    data: AttachmentCreateManyInput | AttachmentCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Attachment update
+   */
+  export type AttachmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Attachment.
+     */
+    data: XOR<AttachmentUpdateInput, AttachmentUncheckedUpdateInput>
+    /**
+     * Choose, which Attachment to update.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment updateMany
+   */
+  export type AttachmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Attachments.
+     */
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Attachments to update
+     */
+    where?: AttachmentWhereInput
+    /**
+     * Limit how many Attachments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Attachment updateManyAndReturn
+   */
+  export type AttachmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * The data used to update Attachments.
+     */
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyInput>
+    /**
+     * Filter which Attachments to update
+     */
+    where?: AttachmentWhereInput
+    /**
+     * Limit how many Attachments to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Attachment upsert
+   */
+  export type AttachmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Attachment to update in case it exists.
+     */
+    where: AttachmentWhereUniqueInput
+    /**
+     * In case the Attachment found by the `where` argument doesn't exist, create a new Attachment with this data.
+     */
+    create: XOR<AttachmentCreateInput, AttachmentUncheckedCreateInput>
+    /**
+     * In case the Attachment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AttachmentUpdateInput, AttachmentUncheckedUpdateInput>
+  }
+
+  /**
+   * Attachment delete
+   */
+  export type AttachmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
+    /**
+     * Filter which Attachment to delete.
+     */
+    where: AttachmentWhereUniqueInput
+  }
+
+  /**
+   * Attachment deleteMany
+   */
+  export type AttachmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Attachments to delete
+     */
+    where?: AttachmentWhereInput
+    /**
+     * Limit how many Attachments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Attachment without action
+   */
+  export type AttachmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Attachment
+     */
+    select?: AttachmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Attachment
+     */
+    omit?: AttachmentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AttachmentInclude<ExtArgs> | null
   }
 
 
@@ -8711,12 +10631,10 @@ export namespace Prisma {
 
   export type CommentAvgAggregateOutputType = {
     likeCount: number | null
-    helpfulCount: number | null
   }
 
   export type CommentSumAggregateOutputType = {
     likeCount: number | null
-    helpfulCount: number | null
   }
 
   export type CommentMinAggregateOutputType = {
@@ -8724,9 +10642,8 @@ export namespace Prisma {
     postId: string | null
     authorId: string | null
     parentId: string | null
-    content: string | null
+    body: string | null
     likeCount: number | null
-    helpfulCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -8737,9 +10654,8 @@ export namespace Prisma {
     postId: string | null
     authorId: string | null
     parentId: string | null
-    content: string | null
+    body: string | null
     likeCount: number | null
-    helpfulCount: number | null
     createdAt: Date | null
     updatedAt: Date | null
     deletedAt: Date | null
@@ -8750,9 +10666,8 @@ export namespace Prisma {
     postId: number
     authorId: number
     parentId: number
-    content: number
+    body: number
     likeCount: number
-    helpfulCount: number
     createdAt: number
     updatedAt: number
     deletedAt: number
@@ -8762,12 +10677,10 @@ export namespace Prisma {
 
   export type CommentAvgAggregateInputType = {
     likeCount?: true
-    helpfulCount?: true
   }
 
   export type CommentSumAggregateInputType = {
     likeCount?: true
-    helpfulCount?: true
   }
 
   export type CommentMinAggregateInputType = {
@@ -8775,9 +10688,8 @@ export namespace Prisma {
     postId?: true
     authorId?: true
     parentId?: true
-    content?: true
+    body?: true
     likeCount?: true
-    helpfulCount?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -8788,9 +10700,8 @@ export namespace Prisma {
     postId?: true
     authorId?: true
     parentId?: true
-    content?: true
+    body?: true
     likeCount?: true
-    helpfulCount?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -8801,9 +10712,8 @@ export namespace Prisma {
     postId?: true
     authorId?: true
     parentId?: true
-    content?: true
+    body?: true
     likeCount?: true
-    helpfulCount?: true
     createdAt?: true
     updatedAt?: true
     deletedAt?: true
@@ -8901,9 +10811,8 @@ export namespace Prisma {
     postId: string
     authorId: string
     parentId: string | null
-    content: string
+    body: string
     likeCount: number
-    helpfulCount: number
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
@@ -8933,9 +10842,8 @@ export namespace Prisma {
     postId?: boolean
     authorId?: boolean
     parentId?: boolean
-    content?: boolean
+    body?: boolean
     likeCount?: boolean
-    helpfulCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
@@ -8943,6 +10851,7 @@ export namespace Prisma {
     author?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
     replies?: boolean | Comment$repliesArgs<ExtArgs>
+    likes?: boolean | Comment$likesArgs<ExtArgs>
     versions?: boolean | Comment$versionsArgs<ExtArgs>
     _count?: boolean | CommentCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
@@ -8952,9 +10861,8 @@ export namespace Prisma {
     postId?: boolean
     authorId?: boolean
     parentId?: boolean
-    content?: boolean
+    body?: boolean
     likeCount?: boolean
-    helpfulCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
@@ -8968,9 +10876,8 @@ export namespace Prisma {
     postId?: boolean
     authorId?: boolean
     parentId?: boolean
-    content?: boolean
+    body?: boolean
     likeCount?: boolean
-    helpfulCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
@@ -8984,20 +10891,20 @@ export namespace Prisma {
     postId?: boolean
     authorId?: boolean
     parentId?: boolean
-    content?: boolean
+    body?: boolean
     likeCount?: boolean
-    helpfulCount?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     deletedAt?: boolean
   }
 
-  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "authorId" | "parentId" | "content" | "likeCount" | "helpfulCount" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["comment"]>
+  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "postId" | "authorId" | "parentId" | "body" | "likeCount" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["comment"]>
   export type CommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     post?: boolean | PostDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
     replies?: boolean | Comment$repliesArgs<ExtArgs>
+    likes?: boolean | Comment$likesArgs<ExtArgs>
     versions?: boolean | Comment$versionsArgs<ExtArgs>
     _count?: boolean | CommentCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -9019,6 +10926,7 @@ export namespace Prisma {
       author: Prisma.$UserPayload<ExtArgs>
       parent: Prisma.$CommentPayload<ExtArgs> | null
       replies: Prisma.$CommentPayload<ExtArgs>[]
+      likes: Prisma.$LikePayload<ExtArgs>[]
       versions: Prisma.$ContentVersionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -9026,9 +10934,8 @@ export namespace Prisma {
       postId: string
       authorId: string
       parentId: string | null
-      content: string
+      body: string
       likeCount: number
-      helpfulCount: number
       createdAt: Date
       updatedAt: Date
       deletedAt: Date | null
@@ -9430,6 +11337,7 @@ export namespace Prisma {
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     parent<T extends Comment$parentArgs<ExtArgs> = {}>(args?: Subset<T, Comment$parentArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     replies<T extends Comment$repliesArgs<ExtArgs> = {}>(args?: Subset<T, Comment$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    likes<T extends Comment$likesArgs<ExtArgs> = {}>(args?: Subset<T, Comment$likesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     versions<T extends Comment$versionsArgs<ExtArgs> = {}>(args?: Subset<T, Comment$versionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContentVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -9464,9 +11372,8 @@ export namespace Prisma {
     readonly postId: FieldRef<"Comment", 'String'>
     readonly authorId: FieldRef<"Comment", 'String'>
     readonly parentId: FieldRef<"Comment", 'String'>
-    readonly content: FieldRef<"Comment", 'String'>
+    readonly body: FieldRef<"Comment", 'String'>
     readonly likeCount: FieldRef<"Comment", 'Int'>
-    readonly helpfulCount: FieldRef<"Comment", 'Int'>
     readonly createdAt: FieldRef<"Comment", 'DateTime'>
     readonly updatedAt: FieldRef<"Comment", 'DateTime'>
     readonly deletedAt: FieldRef<"Comment", 'DateTime'>
@@ -9909,6 +11816,30 @@ export namespace Prisma {
   }
 
   /**
+   * Comment.likes
+   */
+  export type Comment$likesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    where?: LikeWhereInput
+    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[]
+    cursor?: LikeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[]
+  }
+
+  /**
    * Comment.versions
    */
   export type Comment$versionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9948,6 +11879,2250 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: CommentInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Like
+   */
+
+  export type AggregateLike = {
+    _count: LikeCountAggregateOutputType | null
+    _min: LikeMinAggregateOutputType | null
+    _max: LikeMaxAggregateOutputType | null
+  }
+
+  export type LikeMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    postId: string | null
+    commentId: string | null
+    createdAt: Date | null
+  }
+
+  export type LikeMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    postId: string | null
+    commentId: string | null
+    createdAt: Date | null
+  }
+
+  export type LikeCountAggregateOutputType = {
+    id: number
+    userId: number
+    postId: number
+    commentId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type LikeMinAggregateInputType = {
+    id?: true
+    userId?: true
+    postId?: true
+    commentId?: true
+    createdAt?: true
+  }
+
+  export type LikeMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    postId?: true
+    commentId?: true
+    createdAt?: true
+  }
+
+  export type LikeCountAggregateInputType = {
+    id?: true
+    userId?: true
+    postId?: true
+    commentId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type LikeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Like to aggregate.
+     */
+    where?: LikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Likes to fetch.
+     */
+    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Likes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Likes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Likes
+    **/
+    _count?: true | LikeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LikeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LikeMaxAggregateInputType
+  }
+
+  export type GetLikeAggregateType<T extends LikeAggregateArgs> = {
+        [P in keyof T & keyof AggregateLike]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLike[P]>
+      : GetScalarType<T[P], AggregateLike[P]>
+  }
+
+
+
+
+  export type LikeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LikeWhereInput
+    orderBy?: LikeOrderByWithAggregationInput | LikeOrderByWithAggregationInput[]
+    by: LikeScalarFieldEnum[] | LikeScalarFieldEnum
+    having?: LikeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LikeCountAggregateInputType | true
+    _min?: LikeMinAggregateInputType
+    _max?: LikeMaxAggregateInputType
+  }
+
+  export type LikeGroupByOutputType = {
+    id: string
+    userId: string
+    postId: string | null
+    commentId: string | null
+    createdAt: Date
+    _count: LikeCountAggregateOutputType | null
+    _min: LikeMinAggregateOutputType | null
+    _max: LikeMaxAggregateOutputType | null
+  }
+
+  type GetLikeGroupByPayload<T extends LikeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LikeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LikeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LikeGroupByOutputType[P]>
+            : GetScalarType<T[P], LikeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LikeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    postId?: boolean
+    commentId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | Like$postArgs<ExtArgs>
+    comment?: boolean | Like$commentArgs<ExtArgs>
+  }, ExtArgs["result"]["like"]>
+
+  export type LikeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    postId?: boolean
+    commentId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | Like$postArgs<ExtArgs>
+    comment?: boolean | Like$commentArgs<ExtArgs>
+  }, ExtArgs["result"]["like"]>
+
+  export type LikeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    postId?: boolean
+    commentId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | Like$postArgs<ExtArgs>
+    comment?: boolean | Like$commentArgs<ExtArgs>
+  }, ExtArgs["result"]["like"]>
+
+  export type LikeSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    postId?: boolean
+    commentId?: boolean
+    createdAt?: boolean
+  }
+
+  export type LikeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "postId" | "commentId" | "createdAt", ExtArgs["result"]["like"]>
+  export type LikeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | Like$postArgs<ExtArgs>
+    comment?: boolean | Like$commentArgs<ExtArgs>
+  }
+  export type LikeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | Like$postArgs<ExtArgs>
+    comment?: boolean | Like$commentArgs<ExtArgs>
+  }
+  export type LikeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | Like$postArgs<ExtArgs>
+    comment?: boolean | Like$commentArgs<ExtArgs>
+  }
+
+  export type $LikePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Like"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      post: Prisma.$PostPayload<ExtArgs> | null
+      comment: Prisma.$CommentPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      postId: string | null
+      commentId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["like"]>
+    composites: {}
+  }
+
+  type LikeGetPayload<S extends boolean | null | undefined | LikeDefaultArgs> = $Result.GetResult<Prisma.$LikePayload, S>
+
+  type LikeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LikeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LikeCountAggregateInputType | true
+    }
+
+  export interface LikeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Like'], meta: { name: 'Like' } }
+    /**
+     * Find zero or one Like that matches the filter.
+     * @param {LikeFindUniqueArgs} args - Arguments to find a Like
+     * @example
+     * // Get one Like
+     * const like = await prisma.like.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LikeFindUniqueArgs>(args: SelectSubset<T, LikeFindUniqueArgs<ExtArgs>>): Prisma__LikeClient<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Like that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LikeFindUniqueOrThrowArgs} args - Arguments to find a Like
+     * @example
+     * // Get one Like
+     * const like = await prisma.like.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LikeFindUniqueOrThrowArgs>(args: SelectSubset<T, LikeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LikeClient<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Like that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LikeFindFirstArgs} args - Arguments to find a Like
+     * @example
+     * // Get one Like
+     * const like = await prisma.like.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LikeFindFirstArgs>(args?: SelectSubset<T, LikeFindFirstArgs<ExtArgs>>): Prisma__LikeClient<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Like that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LikeFindFirstOrThrowArgs} args - Arguments to find a Like
+     * @example
+     * // Get one Like
+     * const like = await prisma.like.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LikeFindFirstOrThrowArgs>(args?: SelectSubset<T, LikeFindFirstOrThrowArgs<ExtArgs>>): Prisma__LikeClient<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Likes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LikeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Likes
+     * const likes = await prisma.like.findMany()
+     * 
+     * // Get first 10 Likes
+     * const likes = await prisma.like.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const likeWithIdOnly = await prisma.like.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LikeFindManyArgs>(args?: SelectSubset<T, LikeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Like.
+     * @param {LikeCreateArgs} args - Arguments to create a Like.
+     * @example
+     * // Create one Like
+     * const Like = await prisma.like.create({
+     *   data: {
+     *     // ... data to create a Like
+     *   }
+     * })
+     * 
+     */
+    create<T extends LikeCreateArgs>(args: SelectSubset<T, LikeCreateArgs<ExtArgs>>): Prisma__LikeClient<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Likes.
+     * @param {LikeCreateManyArgs} args - Arguments to create many Likes.
+     * @example
+     * // Create many Likes
+     * const like = await prisma.like.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LikeCreateManyArgs>(args?: SelectSubset<T, LikeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Likes and returns the data saved in the database.
+     * @param {LikeCreateManyAndReturnArgs} args - Arguments to create many Likes.
+     * @example
+     * // Create many Likes
+     * const like = await prisma.like.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Likes and only return the `id`
+     * const likeWithIdOnly = await prisma.like.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LikeCreateManyAndReturnArgs>(args?: SelectSubset<T, LikeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Like.
+     * @param {LikeDeleteArgs} args - Arguments to delete one Like.
+     * @example
+     * // Delete one Like
+     * const Like = await prisma.like.delete({
+     *   where: {
+     *     // ... filter to delete one Like
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LikeDeleteArgs>(args: SelectSubset<T, LikeDeleteArgs<ExtArgs>>): Prisma__LikeClient<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Like.
+     * @param {LikeUpdateArgs} args - Arguments to update one Like.
+     * @example
+     * // Update one Like
+     * const like = await prisma.like.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LikeUpdateArgs>(args: SelectSubset<T, LikeUpdateArgs<ExtArgs>>): Prisma__LikeClient<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Likes.
+     * @param {LikeDeleteManyArgs} args - Arguments to filter Likes to delete.
+     * @example
+     * // Delete a few Likes
+     * const { count } = await prisma.like.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LikeDeleteManyArgs>(args?: SelectSubset<T, LikeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Likes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LikeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Likes
+     * const like = await prisma.like.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LikeUpdateManyArgs>(args: SelectSubset<T, LikeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Likes and returns the data updated in the database.
+     * @param {LikeUpdateManyAndReturnArgs} args - Arguments to update many Likes.
+     * @example
+     * // Update many Likes
+     * const like = await prisma.like.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Likes and only return the `id`
+     * const likeWithIdOnly = await prisma.like.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LikeUpdateManyAndReturnArgs>(args: SelectSubset<T, LikeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Like.
+     * @param {LikeUpsertArgs} args - Arguments to update or create a Like.
+     * @example
+     * // Update or create a Like
+     * const like = await prisma.like.upsert({
+     *   create: {
+     *     // ... data to create a Like
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Like we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LikeUpsertArgs>(args: SelectSubset<T, LikeUpsertArgs<ExtArgs>>): Prisma__LikeClient<$Result.GetResult<Prisma.$LikePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Likes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LikeCountArgs} args - Arguments to filter Likes to count.
+     * @example
+     * // Count the number of Likes
+     * const count = await prisma.like.count({
+     *   where: {
+     *     // ... the filter for the Likes we want to count
+     *   }
+     * })
+    **/
+    count<T extends LikeCountArgs>(
+      args?: Subset<T, LikeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LikeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Like.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LikeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LikeAggregateArgs>(args: Subset<T, LikeAggregateArgs>): Prisma.PrismaPromise<GetLikeAggregateType<T>>
+
+    /**
+     * Group by Like.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LikeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LikeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LikeGroupByArgs['orderBy'] }
+        : { orderBy?: LikeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LikeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLikeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Like model
+   */
+  readonly fields: LikeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Like.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LikeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    post<T extends Like$postArgs<ExtArgs> = {}>(args?: Subset<T, Like$postArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    comment<T extends Like$commentArgs<ExtArgs> = {}>(args?: Subset<T, Like$commentArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Like model
+   */
+  interface LikeFieldRefs {
+    readonly id: FieldRef<"Like", 'String'>
+    readonly userId: FieldRef<"Like", 'String'>
+    readonly postId: FieldRef<"Like", 'String'>
+    readonly commentId: FieldRef<"Like", 'String'>
+    readonly createdAt: FieldRef<"Like", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Like findUnique
+   */
+  export type LikeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    /**
+     * Filter, which Like to fetch.
+     */
+    where: LikeWhereUniqueInput
+  }
+
+  /**
+   * Like findUniqueOrThrow
+   */
+  export type LikeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    /**
+     * Filter, which Like to fetch.
+     */
+    where: LikeWhereUniqueInput
+  }
+
+  /**
+   * Like findFirst
+   */
+  export type LikeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    /**
+     * Filter, which Like to fetch.
+     */
+    where?: LikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Likes to fetch.
+     */
+    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Likes.
+     */
+    cursor?: LikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Likes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Likes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Likes.
+     */
+    distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[]
+  }
+
+  /**
+   * Like findFirstOrThrow
+   */
+  export type LikeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    /**
+     * Filter, which Like to fetch.
+     */
+    where?: LikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Likes to fetch.
+     */
+    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Likes.
+     */
+    cursor?: LikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Likes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Likes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Likes.
+     */
+    distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[]
+  }
+
+  /**
+   * Like findMany
+   */
+  export type LikeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    /**
+     * Filter, which Likes to fetch.
+     */
+    where?: LikeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Likes to fetch.
+     */
+    orderBy?: LikeOrderByWithRelationInput | LikeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Likes.
+     */
+    cursor?: LikeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Likes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Likes.
+     */
+    skip?: number
+    distinct?: LikeScalarFieldEnum | LikeScalarFieldEnum[]
+  }
+
+  /**
+   * Like create
+   */
+  export type LikeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Like.
+     */
+    data: XOR<LikeCreateInput, LikeUncheckedCreateInput>
+  }
+
+  /**
+   * Like createMany
+   */
+  export type LikeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Likes.
+     */
+    data: LikeCreateManyInput | LikeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Like createManyAndReturn
+   */
+  export type LikeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * The data used to create many Likes.
+     */
+    data: LikeCreateManyInput | LikeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Like update
+   */
+  export type LikeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Like.
+     */
+    data: XOR<LikeUpdateInput, LikeUncheckedUpdateInput>
+    /**
+     * Choose, which Like to update.
+     */
+    where: LikeWhereUniqueInput
+  }
+
+  /**
+   * Like updateMany
+   */
+  export type LikeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Likes.
+     */
+    data: XOR<LikeUpdateManyMutationInput, LikeUncheckedUpdateManyInput>
+    /**
+     * Filter which Likes to update
+     */
+    where?: LikeWhereInput
+    /**
+     * Limit how many Likes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Like updateManyAndReturn
+   */
+  export type LikeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * The data used to update Likes.
+     */
+    data: XOR<LikeUpdateManyMutationInput, LikeUncheckedUpdateManyInput>
+    /**
+     * Filter which Likes to update
+     */
+    where?: LikeWhereInput
+    /**
+     * Limit how many Likes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Like upsert
+   */
+  export type LikeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Like to update in case it exists.
+     */
+    where: LikeWhereUniqueInput
+    /**
+     * In case the Like found by the `where` argument doesn't exist, create a new Like with this data.
+     */
+    create: XOR<LikeCreateInput, LikeUncheckedCreateInput>
+    /**
+     * In case the Like was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LikeUpdateInput, LikeUncheckedUpdateInput>
+  }
+
+  /**
+   * Like delete
+   */
+  export type LikeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+    /**
+     * Filter which Like to delete.
+     */
+    where: LikeWhereUniqueInput
+  }
+
+  /**
+   * Like deleteMany
+   */
+  export type LikeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Likes to delete
+     */
+    where?: LikeWhereInput
+    /**
+     * Limit how many Likes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Like.post
+   */
+  export type Like$postArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Post
+     */
+    omit?: PostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostInclude<ExtArgs> | null
+    where?: PostWhereInput
+  }
+
+  /**
+   * Like.comment
+   */
+  export type Like$commentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    where?: CommentWhereInput
+  }
+
+  /**
+   * Like without action
+   */
+  export type LikeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Like
+     */
+    select?: LikeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Like
+     */
+    omit?: LikeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LikeInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CommunityBanner
+   */
+
+  export type AggregateCommunityBanner = {
+    _count: CommunityBannerCountAggregateOutputType | null
+    _min: CommunityBannerMinAggregateOutputType | null
+    _max: CommunityBannerMaxAggregateOutputType | null
+  }
+
+  export type CommunityBannerMinAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    title: string | null
+    subtitle: string | null
+    ctaText: string | null
+    ctaLink: string | null
+    backgroundImageUrl: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CommunityBannerMaxAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    title: string | null
+    subtitle: string | null
+    ctaText: string | null
+    ctaLink: string | null
+    backgroundImageUrl: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CommunityBannerCountAggregateOutputType = {
+    id: number
+    communityId: number
+    title: number
+    subtitle: number
+    ctaText: number
+    ctaLink: number
+    backgroundGradient: number
+    backgroundImageUrl: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CommunityBannerMinAggregateInputType = {
+    id?: true
+    communityId?: true
+    title?: true
+    subtitle?: true
+    ctaText?: true
+    ctaLink?: true
+    backgroundImageUrl?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CommunityBannerMaxAggregateInputType = {
+    id?: true
+    communityId?: true
+    title?: true
+    subtitle?: true
+    ctaText?: true
+    ctaLink?: true
+    backgroundImageUrl?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CommunityBannerCountAggregateInputType = {
+    id?: true
+    communityId?: true
+    title?: true
+    subtitle?: true
+    ctaText?: true
+    ctaLink?: true
+    backgroundGradient?: true
+    backgroundImageUrl?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CommunityBannerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommunityBanner to aggregate.
+     */
+    where?: CommunityBannerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityBanners to fetch.
+     */
+    orderBy?: CommunityBannerOrderByWithRelationInput | CommunityBannerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CommunityBannerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityBanners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityBanners.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CommunityBanners
+    **/
+    _count?: true | CommunityBannerCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CommunityBannerMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CommunityBannerMaxAggregateInputType
+  }
+
+  export type GetCommunityBannerAggregateType<T extends CommunityBannerAggregateArgs> = {
+        [P in keyof T & keyof AggregateCommunityBanner]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCommunityBanner[P]>
+      : GetScalarType<T[P], AggregateCommunityBanner[P]>
+  }
+
+
+
+
+  export type CommunityBannerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommunityBannerWhereInput
+    orderBy?: CommunityBannerOrderByWithAggregationInput | CommunityBannerOrderByWithAggregationInput[]
+    by: CommunityBannerScalarFieldEnum[] | CommunityBannerScalarFieldEnum
+    having?: CommunityBannerScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CommunityBannerCountAggregateInputType | true
+    _min?: CommunityBannerMinAggregateInputType
+    _max?: CommunityBannerMaxAggregateInputType
+  }
+
+  export type CommunityBannerGroupByOutputType = {
+    id: string
+    communityId: string
+    title: string
+    subtitle: string | null
+    ctaText: string | null
+    ctaLink: string | null
+    backgroundGradient: JsonValue | null
+    backgroundImageUrl: string | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: CommunityBannerCountAggregateOutputType | null
+    _min: CommunityBannerMinAggregateOutputType | null
+    _max: CommunityBannerMaxAggregateOutputType | null
+  }
+
+  type GetCommunityBannerGroupByPayload<T extends CommunityBannerGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CommunityBannerGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CommunityBannerGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CommunityBannerGroupByOutputType[P]>
+            : GetScalarType<T[P], CommunityBannerGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CommunityBannerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    title?: boolean
+    subtitle?: boolean
+    ctaText?: boolean
+    ctaLink?: boolean
+    backgroundGradient?: boolean
+    backgroundImageUrl?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityBanner"]>
+
+  export type CommunityBannerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    title?: boolean
+    subtitle?: boolean
+    ctaText?: boolean
+    ctaLink?: boolean
+    backgroundGradient?: boolean
+    backgroundImageUrl?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityBanner"]>
+
+  export type CommunityBannerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    title?: boolean
+    subtitle?: boolean
+    ctaText?: boolean
+    ctaLink?: boolean
+    backgroundGradient?: boolean
+    backgroundImageUrl?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["communityBanner"]>
+
+  export type CommunityBannerSelectScalar = {
+    id?: boolean
+    communityId?: boolean
+    title?: boolean
+    subtitle?: boolean
+    ctaText?: boolean
+    ctaLink?: boolean
+    backgroundGradient?: boolean
+    backgroundImageUrl?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type CommunityBannerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "title" | "subtitle" | "ctaText" | "ctaLink" | "backgroundGradient" | "backgroundImageUrl" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["communityBanner"]>
+  export type CommunityBannerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }
+  export type CommunityBannerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }
+  export type CommunityBannerIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+  }
+
+  export type $CommunityBannerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CommunityBanner"
+    objects: {
+      community: Prisma.$CommunityPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      communityId: string
+      title: string
+      subtitle: string | null
+      ctaText: string | null
+      ctaLink: string | null
+      backgroundGradient: Prisma.JsonValue | null
+      backgroundImageUrl: string | null
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["communityBanner"]>
+    composites: {}
+  }
+
+  type CommunityBannerGetPayload<S extends boolean | null | undefined | CommunityBannerDefaultArgs> = $Result.GetResult<Prisma.$CommunityBannerPayload, S>
+
+  type CommunityBannerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CommunityBannerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CommunityBannerCountAggregateInputType | true
+    }
+
+  export interface CommunityBannerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CommunityBanner'], meta: { name: 'CommunityBanner' } }
+    /**
+     * Find zero or one CommunityBanner that matches the filter.
+     * @param {CommunityBannerFindUniqueArgs} args - Arguments to find a CommunityBanner
+     * @example
+     * // Get one CommunityBanner
+     * const communityBanner = await prisma.communityBanner.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CommunityBannerFindUniqueArgs>(args: SelectSubset<T, CommunityBannerFindUniqueArgs<ExtArgs>>): Prisma__CommunityBannerClient<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CommunityBanner that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CommunityBannerFindUniqueOrThrowArgs} args - Arguments to find a CommunityBanner
+     * @example
+     * // Get one CommunityBanner
+     * const communityBanner = await prisma.communityBanner.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CommunityBannerFindUniqueOrThrowArgs>(args: SelectSubset<T, CommunityBannerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CommunityBannerClient<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommunityBanner that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityBannerFindFirstArgs} args - Arguments to find a CommunityBanner
+     * @example
+     * // Get one CommunityBanner
+     * const communityBanner = await prisma.communityBanner.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CommunityBannerFindFirstArgs>(args?: SelectSubset<T, CommunityBannerFindFirstArgs<ExtArgs>>): Prisma__CommunityBannerClient<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CommunityBanner that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityBannerFindFirstOrThrowArgs} args - Arguments to find a CommunityBanner
+     * @example
+     * // Get one CommunityBanner
+     * const communityBanner = await prisma.communityBanner.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CommunityBannerFindFirstOrThrowArgs>(args?: SelectSubset<T, CommunityBannerFindFirstOrThrowArgs<ExtArgs>>): Prisma__CommunityBannerClient<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CommunityBanners that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityBannerFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CommunityBanners
+     * const communityBanners = await prisma.communityBanner.findMany()
+     * 
+     * // Get first 10 CommunityBanners
+     * const communityBanners = await prisma.communityBanner.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const communityBannerWithIdOnly = await prisma.communityBanner.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CommunityBannerFindManyArgs>(args?: SelectSubset<T, CommunityBannerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CommunityBanner.
+     * @param {CommunityBannerCreateArgs} args - Arguments to create a CommunityBanner.
+     * @example
+     * // Create one CommunityBanner
+     * const CommunityBanner = await prisma.communityBanner.create({
+     *   data: {
+     *     // ... data to create a CommunityBanner
+     *   }
+     * })
+     * 
+     */
+    create<T extends CommunityBannerCreateArgs>(args: SelectSubset<T, CommunityBannerCreateArgs<ExtArgs>>): Prisma__CommunityBannerClient<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CommunityBanners.
+     * @param {CommunityBannerCreateManyArgs} args - Arguments to create many CommunityBanners.
+     * @example
+     * // Create many CommunityBanners
+     * const communityBanner = await prisma.communityBanner.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CommunityBannerCreateManyArgs>(args?: SelectSubset<T, CommunityBannerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CommunityBanners and returns the data saved in the database.
+     * @param {CommunityBannerCreateManyAndReturnArgs} args - Arguments to create many CommunityBanners.
+     * @example
+     * // Create many CommunityBanners
+     * const communityBanner = await prisma.communityBanner.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CommunityBanners and only return the `id`
+     * const communityBannerWithIdOnly = await prisma.communityBanner.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CommunityBannerCreateManyAndReturnArgs>(args?: SelectSubset<T, CommunityBannerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CommunityBanner.
+     * @param {CommunityBannerDeleteArgs} args - Arguments to delete one CommunityBanner.
+     * @example
+     * // Delete one CommunityBanner
+     * const CommunityBanner = await prisma.communityBanner.delete({
+     *   where: {
+     *     // ... filter to delete one CommunityBanner
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CommunityBannerDeleteArgs>(args: SelectSubset<T, CommunityBannerDeleteArgs<ExtArgs>>): Prisma__CommunityBannerClient<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CommunityBanner.
+     * @param {CommunityBannerUpdateArgs} args - Arguments to update one CommunityBanner.
+     * @example
+     * // Update one CommunityBanner
+     * const communityBanner = await prisma.communityBanner.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CommunityBannerUpdateArgs>(args: SelectSubset<T, CommunityBannerUpdateArgs<ExtArgs>>): Prisma__CommunityBannerClient<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CommunityBanners.
+     * @param {CommunityBannerDeleteManyArgs} args - Arguments to filter CommunityBanners to delete.
+     * @example
+     * // Delete a few CommunityBanners
+     * const { count } = await prisma.communityBanner.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CommunityBannerDeleteManyArgs>(args?: SelectSubset<T, CommunityBannerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CommunityBanners.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityBannerUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CommunityBanners
+     * const communityBanner = await prisma.communityBanner.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CommunityBannerUpdateManyArgs>(args: SelectSubset<T, CommunityBannerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CommunityBanners and returns the data updated in the database.
+     * @param {CommunityBannerUpdateManyAndReturnArgs} args - Arguments to update many CommunityBanners.
+     * @example
+     * // Update many CommunityBanners
+     * const communityBanner = await prisma.communityBanner.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CommunityBanners and only return the `id`
+     * const communityBannerWithIdOnly = await prisma.communityBanner.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CommunityBannerUpdateManyAndReturnArgs>(args: SelectSubset<T, CommunityBannerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CommunityBanner.
+     * @param {CommunityBannerUpsertArgs} args - Arguments to update or create a CommunityBanner.
+     * @example
+     * // Update or create a CommunityBanner
+     * const communityBanner = await prisma.communityBanner.upsert({
+     *   create: {
+     *     // ... data to create a CommunityBanner
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CommunityBanner we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CommunityBannerUpsertArgs>(args: SelectSubset<T, CommunityBannerUpsertArgs<ExtArgs>>): Prisma__CommunityBannerClient<$Result.GetResult<Prisma.$CommunityBannerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CommunityBanners.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityBannerCountArgs} args - Arguments to filter CommunityBanners to count.
+     * @example
+     * // Count the number of CommunityBanners
+     * const count = await prisma.communityBanner.count({
+     *   where: {
+     *     // ... the filter for the CommunityBanners we want to count
+     *   }
+     * })
+    **/
+    count<T extends CommunityBannerCountArgs>(
+      args?: Subset<T, CommunityBannerCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CommunityBannerCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CommunityBanner.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityBannerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CommunityBannerAggregateArgs>(args: Subset<T, CommunityBannerAggregateArgs>): Prisma.PrismaPromise<GetCommunityBannerAggregateType<T>>
+
+    /**
+     * Group by CommunityBanner.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CommunityBannerGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CommunityBannerGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CommunityBannerGroupByArgs['orderBy'] }
+        : { orderBy?: CommunityBannerGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CommunityBannerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCommunityBannerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CommunityBanner model
+   */
+  readonly fields: CommunityBannerFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CommunityBanner.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CommunityBannerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CommunityBanner model
+   */
+  interface CommunityBannerFieldRefs {
+    readonly id: FieldRef<"CommunityBanner", 'String'>
+    readonly communityId: FieldRef<"CommunityBanner", 'String'>
+    readonly title: FieldRef<"CommunityBanner", 'String'>
+    readonly subtitle: FieldRef<"CommunityBanner", 'String'>
+    readonly ctaText: FieldRef<"CommunityBanner", 'String'>
+    readonly ctaLink: FieldRef<"CommunityBanner", 'String'>
+    readonly backgroundGradient: FieldRef<"CommunityBanner", 'Json'>
+    readonly backgroundImageUrl: FieldRef<"CommunityBanner", 'String'>
+    readonly isActive: FieldRef<"CommunityBanner", 'Boolean'>
+    readonly createdAt: FieldRef<"CommunityBanner", 'DateTime'>
+    readonly updatedAt: FieldRef<"CommunityBanner", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CommunityBanner findUnique
+   */
+  export type CommunityBannerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityBanner to fetch.
+     */
+    where: CommunityBannerWhereUniqueInput
+  }
+
+  /**
+   * CommunityBanner findUniqueOrThrow
+   */
+  export type CommunityBannerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityBanner to fetch.
+     */
+    where: CommunityBannerWhereUniqueInput
+  }
+
+  /**
+   * CommunityBanner findFirst
+   */
+  export type CommunityBannerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityBanner to fetch.
+     */
+    where?: CommunityBannerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityBanners to fetch.
+     */
+    orderBy?: CommunityBannerOrderByWithRelationInput | CommunityBannerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommunityBanners.
+     */
+    cursor?: CommunityBannerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityBanners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityBanners.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommunityBanners.
+     */
+    distinct?: CommunityBannerScalarFieldEnum | CommunityBannerScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityBanner findFirstOrThrow
+   */
+  export type CommunityBannerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityBanner to fetch.
+     */
+    where?: CommunityBannerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityBanners to fetch.
+     */
+    orderBy?: CommunityBannerOrderByWithRelationInput | CommunityBannerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CommunityBanners.
+     */
+    cursor?: CommunityBannerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityBanners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityBanners.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CommunityBanners.
+     */
+    distinct?: CommunityBannerScalarFieldEnum | CommunityBannerScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityBanner findMany
+   */
+  export type CommunityBannerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerInclude<ExtArgs> | null
+    /**
+     * Filter, which CommunityBanners to fetch.
+     */
+    where?: CommunityBannerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CommunityBanners to fetch.
+     */
+    orderBy?: CommunityBannerOrderByWithRelationInput | CommunityBannerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CommunityBanners.
+     */
+    cursor?: CommunityBannerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CommunityBanners from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CommunityBanners.
+     */
+    skip?: number
+    distinct?: CommunityBannerScalarFieldEnum | CommunityBannerScalarFieldEnum[]
+  }
+
+  /**
+   * CommunityBanner create
+   */
+  export type CommunityBannerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CommunityBanner.
+     */
+    data: XOR<CommunityBannerCreateInput, CommunityBannerUncheckedCreateInput>
+  }
+
+  /**
+   * CommunityBanner createMany
+   */
+  export type CommunityBannerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CommunityBanners.
+     */
+    data: CommunityBannerCreateManyInput | CommunityBannerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CommunityBanner createManyAndReturn
+   */
+  export type CommunityBannerCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * The data used to create many CommunityBanners.
+     */
+    data: CommunityBannerCreateManyInput | CommunityBannerCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CommunityBanner update
+   */
+  export type CommunityBannerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CommunityBanner.
+     */
+    data: XOR<CommunityBannerUpdateInput, CommunityBannerUncheckedUpdateInput>
+    /**
+     * Choose, which CommunityBanner to update.
+     */
+    where: CommunityBannerWhereUniqueInput
+  }
+
+  /**
+   * CommunityBanner updateMany
+   */
+  export type CommunityBannerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CommunityBanners.
+     */
+    data: XOR<CommunityBannerUpdateManyMutationInput, CommunityBannerUncheckedUpdateManyInput>
+    /**
+     * Filter which CommunityBanners to update
+     */
+    where?: CommunityBannerWhereInput
+    /**
+     * Limit how many CommunityBanners to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommunityBanner updateManyAndReturn
+   */
+  export type CommunityBannerUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * The data used to update CommunityBanners.
+     */
+    data: XOR<CommunityBannerUpdateManyMutationInput, CommunityBannerUncheckedUpdateManyInput>
+    /**
+     * Filter which CommunityBanners to update
+     */
+    where?: CommunityBannerWhereInput
+    /**
+     * Limit how many CommunityBanners to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CommunityBanner upsert
+   */
+  export type CommunityBannerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CommunityBanner to update in case it exists.
+     */
+    where: CommunityBannerWhereUniqueInput
+    /**
+     * In case the CommunityBanner found by the `where` argument doesn't exist, create a new CommunityBanner with this data.
+     */
+    create: XOR<CommunityBannerCreateInput, CommunityBannerUncheckedCreateInput>
+    /**
+     * In case the CommunityBanner was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CommunityBannerUpdateInput, CommunityBannerUncheckedUpdateInput>
+  }
+
+  /**
+   * CommunityBanner delete
+   */
+  export type CommunityBannerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerInclude<ExtArgs> | null
+    /**
+     * Filter which CommunityBanner to delete.
+     */
+    where: CommunityBannerWhereUniqueInput
+  }
+
+  /**
+   * CommunityBanner deleteMany
+   */
+  export type CommunityBannerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CommunityBanners to delete
+     */
+    where?: CommunityBannerWhereInput
+    /**
+     * Limit how many CommunityBanners to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CommunityBanner without action
+   */
+  export type CommunityBannerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CommunityBanner
+     */
+    select?: CommunityBannerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CommunityBanner
+     */
+    omit?: CommunityBannerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommunityBannerInclude<ExtArgs> | null
   }
 
 
@@ -17126,6 +21301,7 @@ export namespace Prisma {
     deletedAt?: boolean
     community?: boolean | CommunityDefaultArgs<ExtArgs>
     subscriptions?: boolean | PaymentTier$subscriptionsArgs<ExtArgs>
+    channels?: boolean | PaymentTier$channelsArgs<ExtArgs>
     _count?: boolean | PaymentTierCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["paymentTier"]>
 
@@ -17177,6 +21353,7 @@ export namespace Prisma {
   export type PaymentTierInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     community?: boolean | CommunityDefaultArgs<ExtArgs>
     subscriptions?: boolean | PaymentTier$subscriptionsArgs<ExtArgs>
+    channels?: boolean | PaymentTier$channelsArgs<ExtArgs>
     _count?: boolean | PaymentTierCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PaymentTierIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17191,6 +21368,7 @@ export namespace Prisma {
     objects: {
       community: Prisma.$CommunityPayload<ExtArgs>
       subscriptions: Prisma.$SubscriptionPayload<ExtArgs>[]
+      channels: Prisma.$ChannelPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17600,6 +21778,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     subscriptions<T extends PaymentTier$subscriptionsArgs<ExtArgs> = {}>(args?: Subset<T, PaymentTier$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    channels<T extends PaymentTier$channelsArgs<ExtArgs> = {}>(args?: Subset<T, PaymentTier$channelsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18057,6 +22236,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SubscriptionScalarFieldEnum | SubscriptionScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentTier.channels
+   */
+  export type PaymentTier$channelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    where?: ChannelWhereInput
+    orderBy?: ChannelOrderByWithRelationInput | ChannelOrderByWithRelationInput[]
+    cursor?: ChannelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChannelScalarFieldEnum | ChannelScalarFieldEnum[]
   }
 
   /**
@@ -20474,6 +24677,2524 @@ export namespace Prisma {
 
 
   /**
+   * Model Space
+   */
+
+  export type AggregateSpace = {
+    _count: SpaceCountAggregateOutputType | null
+    _avg: SpaceAvgAggregateOutputType | null
+    _sum: SpaceSumAggregateOutputType | null
+    _min: SpaceMinAggregateOutputType | null
+    _max: SpaceMaxAggregateOutputType | null
+  }
+
+  export type SpaceAvgAggregateOutputType = {
+    position: number | null
+  }
+
+  export type SpaceSumAggregateOutputType = {
+    position: number | null
+  }
+
+  export type SpaceMinAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    parentSpaceId: string | null
+    name: string | null
+    description: string | null
+    icon: string | null
+    color: string | null
+    position: number | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type SpaceMaxAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    parentSpaceId: string | null
+    name: string | null
+    description: string | null
+    icon: string | null
+    color: string | null
+    position: number | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type SpaceCountAggregateOutputType = {
+    id: number
+    communityId: number
+    parentSpaceId: number
+    name: number
+    description: number
+    icon: number
+    color: number
+    position: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type SpaceAvgAggregateInputType = {
+    position?: true
+  }
+
+  export type SpaceSumAggregateInputType = {
+    position?: true
+  }
+
+  export type SpaceMinAggregateInputType = {
+    id?: true
+    communityId?: true
+    parentSpaceId?: true
+    name?: true
+    description?: true
+    icon?: true
+    color?: true
+    position?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type SpaceMaxAggregateInputType = {
+    id?: true
+    communityId?: true
+    parentSpaceId?: true
+    name?: true
+    description?: true
+    icon?: true
+    color?: true
+    position?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type SpaceCountAggregateInputType = {
+    id?: true
+    communityId?: true
+    parentSpaceId?: true
+    name?: true
+    description?: true
+    icon?: true
+    color?: true
+    position?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type SpaceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Space to aggregate.
+     */
+    where?: SpaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Spaces to fetch.
+     */
+    orderBy?: SpaceOrderByWithRelationInput | SpaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SpaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Spaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Spaces.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Spaces
+    **/
+    _count?: true | SpaceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SpaceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SpaceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SpaceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SpaceMaxAggregateInputType
+  }
+
+  export type GetSpaceAggregateType<T extends SpaceAggregateArgs> = {
+        [P in keyof T & keyof AggregateSpace]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSpace[P]>
+      : GetScalarType<T[P], AggregateSpace[P]>
+  }
+
+
+
+
+  export type SpaceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SpaceWhereInput
+    orderBy?: SpaceOrderByWithAggregationInput | SpaceOrderByWithAggregationInput[]
+    by: SpaceScalarFieldEnum[] | SpaceScalarFieldEnum
+    having?: SpaceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SpaceCountAggregateInputType | true
+    _avg?: SpaceAvgAggregateInputType
+    _sum?: SpaceSumAggregateInputType
+    _min?: SpaceMinAggregateInputType
+    _max?: SpaceMaxAggregateInputType
+  }
+
+  export type SpaceGroupByOutputType = {
+    id: string
+    communityId: string
+    parentSpaceId: string | null
+    name: string
+    description: string
+    icon: string | null
+    color: string | null
+    position: number
+    createdBy: string
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    _count: SpaceCountAggregateOutputType | null
+    _avg: SpaceAvgAggregateOutputType | null
+    _sum: SpaceSumAggregateOutputType | null
+    _min: SpaceMinAggregateOutputType | null
+    _max: SpaceMaxAggregateOutputType | null
+  }
+
+  type GetSpaceGroupByPayload<T extends SpaceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SpaceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SpaceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SpaceGroupByOutputType[P]>
+            : GetScalarType<T[P], SpaceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SpaceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    parentSpaceId?: boolean
+    name?: boolean
+    description?: boolean
+    icon?: boolean
+    color?: boolean
+    position?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    parentSpace?: boolean | Space$parentSpaceArgs<ExtArgs>
+    childSpaces?: boolean | Space$childSpacesArgs<ExtArgs>
+    channels?: boolean | Space$channelsArgs<ExtArgs>
+    _count?: boolean | SpaceCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["space"]>
+
+  export type SpaceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    parentSpaceId?: boolean
+    name?: boolean
+    description?: boolean
+    icon?: boolean
+    color?: boolean
+    position?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    parentSpace?: boolean | Space$parentSpaceArgs<ExtArgs>
+  }, ExtArgs["result"]["space"]>
+
+  export type SpaceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    parentSpaceId?: boolean
+    name?: boolean
+    description?: boolean
+    icon?: boolean
+    color?: boolean
+    position?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    parentSpace?: boolean | Space$parentSpaceArgs<ExtArgs>
+  }, ExtArgs["result"]["space"]>
+
+  export type SpaceSelectScalar = {
+    id?: boolean
+    communityId?: boolean
+    parentSpaceId?: boolean
+    name?: boolean
+    description?: boolean
+    icon?: boolean
+    color?: boolean
+    position?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type SpaceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "parentSpaceId" | "name" | "description" | "icon" | "color" | "position" | "createdBy" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["space"]>
+  export type SpaceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    parentSpace?: boolean | Space$parentSpaceArgs<ExtArgs>
+    childSpaces?: boolean | Space$childSpacesArgs<ExtArgs>
+    channels?: boolean | Space$channelsArgs<ExtArgs>
+    _count?: boolean | SpaceCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SpaceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    parentSpace?: boolean | Space$parentSpaceArgs<ExtArgs>
+  }
+  export type SpaceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    parentSpace?: boolean | Space$parentSpaceArgs<ExtArgs>
+  }
+
+  export type $SpacePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Space"
+    objects: {
+      community: Prisma.$CommunityPayload<ExtArgs>
+      parentSpace: Prisma.$SpacePayload<ExtArgs> | null
+      childSpaces: Prisma.$SpacePayload<ExtArgs>[]
+      channels: Prisma.$ChannelPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      communityId: string
+      parentSpaceId: string | null
+      name: string
+      description: string
+      icon: string | null
+      color: string | null
+      position: number
+      createdBy: string
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["space"]>
+    composites: {}
+  }
+
+  type SpaceGetPayload<S extends boolean | null | undefined | SpaceDefaultArgs> = $Result.GetResult<Prisma.$SpacePayload, S>
+
+  type SpaceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SpaceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SpaceCountAggregateInputType | true
+    }
+
+  export interface SpaceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Space'], meta: { name: 'Space' } }
+    /**
+     * Find zero or one Space that matches the filter.
+     * @param {SpaceFindUniqueArgs} args - Arguments to find a Space
+     * @example
+     * // Get one Space
+     * const space = await prisma.space.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SpaceFindUniqueArgs>(args: SelectSubset<T, SpaceFindUniqueArgs<ExtArgs>>): Prisma__SpaceClient<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Space that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SpaceFindUniqueOrThrowArgs} args - Arguments to find a Space
+     * @example
+     * // Get one Space
+     * const space = await prisma.space.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SpaceFindUniqueOrThrowArgs>(args: SelectSubset<T, SpaceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SpaceClient<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Space that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpaceFindFirstArgs} args - Arguments to find a Space
+     * @example
+     * // Get one Space
+     * const space = await prisma.space.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SpaceFindFirstArgs>(args?: SelectSubset<T, SpaceFindFirstArgs<ExtArgs>>): Prisma__SpaceClient<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Space that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpaceFindFirstOrThrowArgs} args - Arguments to find a Space
+     * @example
+     * // Get one Space
+     * const space = await prisma.space.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SpaceFindFirstOrThrowArgs>(args?: SelectSubset<T, SpaceFindFirstOrThrowArgs<ExtArgs>>): Prisma__SpaceClient<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Spaces that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpaceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Spaces
+     * const spaces = await prisma.space.findMany()
+     * 
+     * // Get first 10 Spaces
+     * const spaces = await prisma.space.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const spaceWithIdOnly = await prisma.space.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SpaceFindManyArgs>(args?: SelectSubset<T, SpaceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Space.
+     * @param {SpaceCreateArgs} args - Arguments to create a Space.
+     * @example
+     * // Create one Space
+     * const Space = await prisma.space.create({
+     *   data: {
+     *     // ... data to create a Space
+     *   }
+     * })
+     * 
+     */
+    create<T extends SpaceCreateArgs>(args: SelectSubset<T, SpaceCreateArgs<ExtArgs>>): Prisma__SpaceClient<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Spaces.
+     * @param {SpaceCreateManyArgs} args - Arguments to create many Spaces.
+     * @example
+     * // Create many Spaces
+     * const space = await prisma.space.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SpaceCreateManyArgs>(args?: SelectSubset<T, SpaceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Spaces and returns the data saved in the database.
+     * @param {SpaceCreateManyAndReturnArgs} args - Arguments to create many Spaces.
+     * @example
+     * // Create many Spaces
+     * const space = await prisma.space.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Spaces and only return the `id`
+     * const spaceWithIdOnly = await prisma.space.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SpaceCreateManyAndReturnArgs>(args?: SelectSubset<T, SpaceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Space.
+     * @param {SpaceDeleteArgs} args - Arguments to delete one Space.
+     * @example
+     * // Delete one Space
+     * const Space = await prisma.space.delete({
+     *   where: {
+     *     // ... filter to delete one Space
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SpaceDeleteArgs>(args: SelectSubset<T, SpaceDeleteArgs<ExtArgs>>): Prisma__SpaceClient<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Space.
+     * @param {SpaceUpdateArgs} args - Arguments to update one Space.
+     * @example
+     * // Update one Space
+     * const space = await prisma.space.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SpaceUpdateArgs>(args: SelectSubset<T, SpaceUpdateArgs<ExtArgs>>): Prisma__SpaceClient<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Spaces.
+     * @param {SpaceDeleteManyArgs} args - Arguments to filter Spaces to delete.
+     * @example
+     * // Delete a few Spaces
+     * const { count } = await prisma.space.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SpaceDeleteManyArgs>(args?: SelectSubset<T, SpaceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Spaces.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpaceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Spaces
+     * const space = await prisma.space.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SpaceUpdateManyArgs>(args: SelectSubset<T, SpaceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Spaces and returns the data updated in the database.
+     * @param {SpaceUpdateManyAndReturnArgs} args - Arguments to update many Spaces.
+     * @example
+     * // Update many Spaces
+     * const space = await prisma.space.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Spaces and only return the `id`
+     * const spaceWithIdOnly = await prisma.space.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SpaceUpdateManyAndReturnArgs>(args: SelectSubset<T, SpaceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Space.
+     * @param {SpaceUpsertArgs} args - Arguments to update or create a Space.
+     * @example
+     * // Update or create a Space
+     * const space = await prisma.space.upsert({
+     *   create: {
+     *     // ... data to create a Space
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Space we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SpaceUpsertArgs>(args: SelectSubset<T, SpaceUpsertArgs<ExtArgs>>): Prisma__SpaceClient<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Spaces.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpaceCountArgs} args - Arguments to filter Spaces to count.
+     * @example
+     * // Count the number of Spaces
+     * const count = await prisma.space.count({
+     *   where: {
+     *     // ... the filter for the Spaces we want to count
+     *   }
+     * })
+    **/
+    count<T extends SpaceCountArgs>(
+      args?: Subset<T, SpaceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SpaceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Space.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpaceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SpaceAggregateArgs>(args: Subset<T, SpaceAggregateArgs>): Prisma.PrismaPromise<GetSpaceAggregateType<T>>
+
+    /**
+     * Group by Space.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SpaceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SpaceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SpaceGroupByArgs['orderBy'] }
+        : { orderBy?: SpaceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SpaceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSpaceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Space model
+   */
+  readonly fields: SpaceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Space.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SpaceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    parentSpace<T extends Space$parentSpaceArgs<ExtArgs> = {}>(args?: Subset<T, Space$parentSpaceArgs<ExtArgs>>): Prisma__SpaceClient<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    childSpaces<T extends Space$childSpacesArgs<ExtArgs> = {}>(args?: Subset<T, Space$childSpacesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    channels<T extends Space$channelsArgs<ExtArgs> = {}>(args?: Subset<T, Space$channelsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Space model
+   */
+  interface SpaceFieldRefs {
+    readonly id: FieldRef<"Space", 'String'>
+    readonly communityId: FieldRef<"Space", 'String'>
+    readonly parentSpaceId: FieldRef<"Space", 'String'>
+    readonly name: FieldRef<"Space", 'String'>
+    readonly description: FieldRef<"Space", 'String'>
+    readonly icon: FieldRef<"Space", 'String'>
+    readonly color: FieldRef<"Space", 'String'>
+    readonly position: FieldRef<"Space", 'Int'>
+    readonly createdBy: FieldRef<"Space", 'String'>
+    readonly createdAt: FieldRef<"Space", 'DateTime'>
+    readonly updatedAt: FieldRef<"Space", 'DateTime'>
+    readonly deletedAt: FieldRef<"Space", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Space findUnique
+   */
+  export type SpaceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    /**
+     * Filter, which Space to fetch.
+     */
+    where: SpaceWhereUniqueInput
+  }
+
+  /**
+   * Space findUniqueOrThrow
+   */
+  export type SpaceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    /**
+     * Filter, which Space to fetch.
+     */
+    where: SpaceWhereUniqueInput
+  }
+
+  /**
+   * Space findFirst
+   */
+  export type SpaceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    /**
+     * Filter, which Space to fetch.
+     */
+    where?: SpaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Spaces to fetch.
+     */
+    orderBy?: SpaceOrderByWithRelationInput | SpaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Spaces.
+     */
+    cursor?: SpaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Spaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Spaces.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Spaces.
+     */
+    distinct?: SpaceScalarFieldEnum | SpaceScalarFieldEnum[]
+  }
+
+  /**
+   * Space findFirstOrThrow
+   */
+  export type SpaceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    /**
+     * Filter, which Space to fetch.
+     */
+    where?: SpaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Spaces to fetch.
+     */
+    orderBy?: SpaceOrderByWithRelationInput | SpaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Spaces.
+     */
+    cursor?: SpaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Spaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Spaces.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Spaces.
+     */
+    distinct?: SpaceScalarFieldEnum | SpaceScalarFieldEnum[]
+  }
+
+  /**
+   * Space findMany
+   */
+  export type SpaceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    /**
+     * Filter, which Spaces to fetch.
+     */
+    where?: SpaceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Spaces to fetch.
+     */
+    orderBy?: SpaceOrderByWithRelationInput | SpaceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Spaces.
+     */
+    cursor?: SpaceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Spaces from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Spaces.
+     */
+    skip?: number
+    distinct?: SpaceScalarFieldEnum | SpaceScalarFieldEnum[]
+  }
+
+  /**
+   * Space create
+   */
+  export type SpaceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Space.
+     */
+    data: XOR<SpaceCreateInput, SpaceUncheckedCreateInput>
+  }
+
+  /**
+   * Space createMany
+   */
+  export type SpaceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Spaces.
+     */
+    data: SpaceCreateManyInput | SpaceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Space createManyAndReturn
+   */
+  export type SpaceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * The data used to create many Spaces.
+     */
+    data: SpaceCreateManyInput | SpaceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Space update
+   */
+  export type SpaceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Space.
+     */
+    data: XOR<SpaceUpdateInput, SpaceUncheckedUpdateInput>
+    /**
+     * Choose, which Space to update.
+     */
+    where: SpaceWhereUniqueInput
+  }
+
+  /**
+   * Space updateMany
+   */
+  export type SpaceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Spaces.
+     */
+    data: XOR<SpaceUpdateManyMutationInput, SpaceUncheckedUpdateManyInput>
+    /**
+     * Filter which Spaces to update
+     */
+    where?: SpaceWhereInput
+    /**
+     * Limit how many Spaces to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Space updateManyAndReturn
+   */
+  export type SpaceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * The data used to update Spaces.
+     */
+    data: XOR<SpaceUpdateManyMutationInput, SpaceUncheckedUpdateManyInput>
+    /**
+     * Filter which Spaces to update
+     */
+    where?: SpaceWhereInput
+    /**
+     * Limit how many Spaces to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Space upsert
+   */
+  export type SpaceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Space to update in case it exists.
+     */
+    where: SpaceWhereUniqueInput
+    /**
+     * In case the Space found by the `where` argument doesn't exist, create a new Space with this data.
+     */
+    create: XOR<SpaceCreateInput, SpaceUncheckedCreateInput>
+    /**
+     * In case the Space was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SpaceUpdateInput, SpaceUncheckedUpdateInput>
+  }
+
+  /**
+   * Space delete
+   */
+  export type SpaceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    /**
+     * Filter which Space to delete.
+     */
+    where: SpaceWhereUniqueInput
+  }
+
+  /**
+   * Space deleteMany
+   */
+  export type SpaceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Spaces to delete
+     */
+    where?: SpaceWhereInput
+    /**
+     * Limit how many Spaces to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Space.parentSpace
+   */
+  export type Space$parentSpaceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    where?: SpaceWhereInput
+  }
+
+  /**
+   * Space.childSpaces
+   */
+  export type Space$childSpacesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    where?: SpaceWhereInput
+    orderBy?: SpaceOrderByWithRelationInput | SpaceOrderByWithRelationInput[]
+    cursor?: SpaceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SpaceScalarFieldEnum | SpaceScalarFieldEnum[]
+  }
+
+  /**
+   * Space.channels
+   */
+  export type Space$channelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    where?: ChannelWhereInput
+    orderBy?: ChannelOrderByWithRelationInput | ChannelOrderByWithRelationInput[]
+    cursor?: ChannelWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ChannelScalarFieldEnum | ChannelScalarFieldEnum[]
+  }
+
+  /**
+   * Space without action
+   */
+  export type SpaceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Channel
+   */
+
+  export type AggregateChannel = {
+    _count: ChannelCountAggregateOutputType | null
+    _avg: ChannelAvgAggregateOutputType | null
+    _sum: ChannelSumAggregateOutputType | null
+    _min: ChannelMinAggregateOutputType | null
+    _max: ChannelMaxAggregateOutputType | null
+  }
+
+  export type ChannelAvgAggregateOutputType = {
+    position: number | null
+  }
+
+  export type ChannelSumAggregateOutputType = {
+    position: number | null
+  }
+
+  export type ChannelMinAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    spaceId: string | null
+    name: string | null
+    description: string | null
+    permission: string | null
+    requiredTierId: string | null
+    icon: string | null
+    position: number | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type ChannelMaxAggregateOutputType = {
+    id: string | null
+    communityId: string | null
+    spaceId: string | null
+    name: string | null
+    description: string | null
+    permission: string | null
+    requiredTierId: string | null
+    icon: string | null
+    position: number | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type ChannelCountAggregateOutputType = {
+    id: number
+    communityId: number
+    spaceId: number
+    name: number
+    description: number
+    permission: number
+    requiredTierId: number
+    icon: number
+    position: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type ChannelAvgAggregateInputType = {
+    position?: true
+  }
+
+  export type ChannelSumAggregateInputType = {
+    position?: true
+  }
+
+  export type ChannelMinAggregateInputType = {
+    id?: true
+    communityId?: true
+    spaceId?: true
+    name?: true
+    description?: true
+    permission?: true
+    requiredTierId?: true
+    icon?: true
+    position?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type ChannelMaxAggregateInputType = {
+    id?: true
+    communityId?: true
+    spaceId?: true
+    name?: true
+    description?: true
+    permission?: true
+    requiredTierId?: true
+    icon?: true
+    position?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type ChannelCountAggregateInputType = {
+    id?: true
+    communityId?: true
+    spaceId?: true
+    name?: true
+    description?: true
+    permission?: true
+    requiredTierId?: true
+    icon?: true
+    position?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type ChannelAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Channel to aggregate.
+     */
+    where?: ChannelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Channels to fetch.
+     */
+    orderBy?: ChannelOrderByWithRelationInput | ChannelOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ChannelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Channels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Channels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Channels
+    **/
+    _count?: true | ChannelCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ChannelAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ChannelSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ChannelMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ChannelMaxAggregateInputType
+  }
+
+  export type GetChannelAggregateType<T extends ChannelAggregateArgs> = {
+        [P in keyof T & keyof AggregateChannel]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateChannel[P]>
+      : GetScalarType<T[P], AggregateChannel[P]>
+  }
+
+
+
+
+  export type ChannelGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ChannelWhereInput
+    orderBy?: ChannelOrderByWithAggregationInput | ChannelOrderByWithAggregationInput[]
+    by: ChannelScalarFieldEnum[] | ChannelScalarFieldEnum
+    having?: ChannelScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ChannelCountAggregateInputType | true
+    _avg?: ChannelAvgAggregateInputType
+    _sum?: ChannelSumAggregateInputType
+    _min?: ChannelMinAggregateInputType
+    _max?: ChannelMaxAggregateInputType
+  }
+
+  export type ChannelGroupByOutputType = {
+    id: string
+    communityId: string
+    spaceId: string | null
+    name: string
+    description: string
+    permission: string
+    requiredTierId: string | null
+    icon: string | null
+    position: number
+    createdBy: string
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    _count: ChannelCountAggregateOutputType | null
+    _avg: ChannelAvgAggregateOutputType | null
+    _sum: ChannelSumAggregateOutputType | null
+    _min: ChannelMinAggregateOutputType | null
+    _max: ChannelMaxAggregateOutputType | null
+  }
+
+  type GetChannelGroupByPayload<T extends ChannelGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ChannelGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ChannelGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ChannelGroupByOutputType[P]>
+            : GetScalarType<T[P], ChannelGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ChannelSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    spaceId?: boolean
+    name?: boolean
+    description?: boolean
+    permission?: boolean
+    requiredTierId?: boolean
+    icon?: boolean
+    position?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    space?: boolean | Channel$spaceArgs<ExtArgs>
+    requiredTier?: boolean | Channel$requiredTierArgs<ExtArgs>
+  }, ExtArgs["result"]["channel"]>
+
+  export type ChannelSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    spaceId?: boolean
+    name?: boolean
+    description?: boolean
+    permission?: boolean
+    requiredTierId?: boolean
+    icon?: boolean
+    position?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    space?: boolean | Channel$spaceArgs<ExtArgs>
+    requiredTier?: boolean | Channel$requiredTierArgs<ExtArgs>
+  }, ExtArgs["result"]["channel"]>
+
+  export type ChannelSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    communityId?: boolean
+    spaceId?: boolean
+    name?: boolean
+    description?: boolean
+    permission?: boolean
+    requiredTierId?: boolean
+    icon?: boolean
+    position?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    space?: boolean | Channel$spaceArgs<ExtArgs>
+    requiredTier?: boolean | Channel$requiredTierArgs<ExtArgs>
+  }, ExtArgs["result"]["channel"]>
+
+  export type ChannelSelectScalar = {
+    id?: boolean
+    communityId?: boolean
+    spaceId?: boolean
+    name?: boolean
+    description?: boolean
+    permission?: boolean
+    requiredTierId?: boolean
+    icon?: boolean
+    position?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type ChannelOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "communityId" | "spaceId" | "name" | "description" | "permission" | "requiredTierId" | "icon" | "position" | "createdBy" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["channel"]>
+  export type ChannelInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    space?: boolean | Channel$spaceArgs<ExtArgs>
+    requiredTier?: boolean | Channel$requiredTierArgs<ExtArgs>
+  }
+  export type ChannelIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    space?: boolean | Channel$spaceArgs<ExtArgs>
+    requiredTier?: boolean | Channel$requiredTierArgs<ExtArgs>
+  }
+  export type ChannelIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    community?: boolean | CommunityDefaultArgs<ExtArgs>
+    space?: boolean | Channel$spaceArgs<ExtArgs>
+    requiredTier?: boolean | Channel$requiredTierArgs<ExtArgs>
+  }
+
+  export type $ChannelPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Channel"
+    objects: {
+      community: Prisma.$CommunityPayload<ExtArgs>
+      space: Prisma.$SpacePayload<ExtArgs> | null
+      requiredTier: Prisma.$PaymentTierPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      communityId: string
+      spaceId: string | null
+      name: string
+      description: string
+      permission: string
+      requiredTierId: string | null
+      icon: string | null
+      position: number
+      createdBy: string
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["channel"]>
+    composites: {}
+  }
+
+  type ChannelGetPayload<S extends boolean | null | undefined | ChannelDefaultArgs> = $Result.GetResult<Prisma.$ChannelPayload, S>
+
+  type ChannelCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ChannelFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ChannelCountAggregateInputType | true
+    }
+
+  export interface ChannelDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Channel'], meta: { name: 'Channel' } }
+    /**
+     * Find zero or one Channel that matches the filter.
+     * @param {ChannelFindUniqueArgs} args - Arguments to find a Channel
+     * @example
+     * // Get one Channel
+     * const channel = await prisma.channel.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ChannelFindUniqueArgs>(args: SelectSubset<T, ChannelFindUniqueArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Channel that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ChannelFindUniqueOrThrowArgs} args - Arguments to find a Channel
+     * @example
+     * // Get one Channel
+     * const channel = await prisma.channel.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ChannelFindUniqueOrThrowArgs>(args: SelectSubset<T, ChannelFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Channel that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChannelFindFirstArgs} args - Arguments to find a Channel
+     * @example
+     * // Get one Channel
+     * const channel = await prisma.channel.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ChannelFindFirstArgs>(args?: SelectSubset<T, ChannelFindFirstArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Channel that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChannelFindFirstOrThrowArgs} args - Arguments to find a Channel
+     * @example
+     * // Get one Channel
+     * const channel = await prisma.channel.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ChannelFindFirstOrThrowArgs>(args?: SelectSubset<T, ChannelFindFirstOrThrowArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Channels that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChannelFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Channels
+     * const channels = await prisma.channel.findMany()
+     * 
+     * // Get first 10 Channels
+     * const channels = await prisma.channel.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const channelWithIdOnly = await prisma.channel.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ChannelFindManyArgs>(args?: SelectSubset<T, ChannelFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Channel.
+     * @param {ChannelCreateArgs} args - Arguments to create a Channel.
+     * @example
+     * // Create one Channel
+     * const Channel = await prisma.channel.create({
+     *   data: {
+     *     // ... data to create a Channel
+     *   }
+     * })
+     * 
+     */
+    create<T extends ChannelCreateArgs>(args: SelectSubset<T, ChannelCreateArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Channels.
+     * @param {ChannelCreateManyArgs} args - Arguments to create many Channels.
+     * @example
+     * // Create many Channels
+     * const channel = await prisma.channel.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ChannelCreateManyArgs>(args?: SelectSubset<T, ChannelCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Channels and returns the data saved in the database.
+     * @param {ChannelCreateManyAndReturnArgs} args - Arguments to create many Channels.
+     * @example
+     * // Create many Channels
+     * const channel = await prisma.channel.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Channels and only return the `id`
+     * const channelWithIdOnly = await prisma.channel.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ChannelCreateManyAndReturnArgs>(args?: SelectSubset<T, ChannelCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Channel.
+     * @param {ChannelDeleteArgs} args - Arguments to delete one Channel.
+     * @example
+     * // Delete one Channel
+     * const Channel = await prisma.channel.delete({
+     *   where: {
+     *     // ... filter to delete one Channel
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ChannelDeleteArgs>(args: SelectSubset<T, ChannelDeleteArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Channel.
+     * @param {ChannelUpdateArgs} args - Arguments to update one Channel.
+     * @example
+     * // Update one Channel
+     * const channel = await prisma.channel.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ChannelUpdateArgs>(args: SelectSubset<T, ChannelUpdateArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Channels.
+     * @param {ChannelDeleteManyArgs} args - Arguments to filter Channels to delete.
+     * @example
+     * // Delete a few Channels
+     * const { count } = await prisma.channel.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ChannelDeleteManyArgs>(args?: SelectSubset<T, ChannelDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Channels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChannelUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Channels
+     * const channel = await prisma.channel.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ChannelUpdateManyArgs>(args: SelectSubset<T, ChannelUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Channels and returns the data updated in the database.
+     * @param {ChannelUpdateManyAndReturnArgs} args - Arguments to update many Channels.
+     * @example
+     * // Update many Channels
+     * const channel = await prisma.channel.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Channels and only return the `id`
+     * const channelWithIdOnly = await prisma.channel.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ChannelUpdateManyAndReturnArgs>(args: SelectSubset<T, ChannelUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Channel.
+     * @param {ChannelUpsertArgs} args - Arguments to update or create a Channel.
+     * @example
+     * // Update or create a Channel
+     * const channel = await prisma.channel.upsert({
+     *   create: {
+     *     // ... data to create a Channel
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Channel we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ChannelUpsertArgs>(args: SelectSubset<T, ChannelUpsertArgs<ExtArgs>>): Prisma__ChannelClient<$Result.GetResult<Prisma.$ChannelPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Channels.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChannelCountArgs} args - Arguments to filter Channels to count.
+     * @example
+     * // Count the number of Channels
+     * const count = await prisma.channel.count({
+     *   where: {
+     *     // ... the filter for the Channels we want to count
+     *   }
+     * })
+    **/
+    count<T extends ChannelCountArgs>(
+      args?: Subset<T, ChannelCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ChannelCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Channel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChannelAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ChannelAggregateArgs>(args: Subset<T, ChannelAggregateArgs>): Prisma.PrismaPromise<GetChannelAggregateType<T>>
+
+    /**
+     * Group by Channel.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ChannelGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ChannelGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ChannelGroupByArgs['orderBy'] }
+        : { orderBy?: ChannelGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ChannelGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetChannelGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Channel model
+   */
+  readonly fields: ChannelFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Channel.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ChannelClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    community<T extends CommunityDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CommunityDefaultArgs<ExtArgs>>): Prisma__CommunityClient<$Result.GetResult<Prisma.$CommunityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    space<T extends Channel$spaceArgs<ExtArgs> = {}>(args?: Subset<T, Channel$spaceArgs<ExtArgs>>): Prisma__SpaceClient<$Result.GetResult<Prisma.$SpacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    requiredTier<T extends Channel$requiredTierArgs<ExtArgs> = {}>(args?: Subset<T, Channel$requiredTierArgs<ExtArgs>>): Prisma__PaymentTierClient<$Result.GetResult<Prisma.$PaymentTierPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Channel model
+   */
+  interface ChannelFieldRefs {
+    readonly id: FieldRef<"Channel", 'String'>
+    readonly communityId: FieldRef<"Channel", 'String'>
+    readonly spaceId: FieldRef<"Channel", 'String'>
+    readonly name: FieldRef<"Channel", 'String'>
+    readonly description: FieldRef<"Channel", 'String'>
+    readonly permission: FieldRef<"Channel", 'String'>
+    readonly requiredTierId: FieldRef<"Channel", 'String'>
+    readonly icon: FieldRef<"Channel", 'String'>
+    readonly position: FieldRef<"Channel", 'Int'>
+    readonly createdBy: FieldRef<"Channel", 'String'>
+    readonly createdAt: FieldRef<"Channel", 'DateTime'>
+    readonly updatedAt: FieldRef<"Channel", 'DateTime'>
+    readonly deletedAt: FieldRef<"Channel", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Channel findUnique
+   */
+  export type ChannelFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    /**
+     * Filter, which Channel to fetch.
+     */
+    where: ChannelWhereUniqueInput
+  }
+
+  /**
+   * Channel findUniqueOrThrow
+   */
+  export type ChannelFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    /**
+     * Filter, which Channel to fetch.
+     */
+    where: ChannelWhereUniqueInput
+  }
+
+  /**
+   * Channel findFirst
+   */
+  export type ChannelFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    /**
+     * Filter, which Channel to fetch.
+     */
+    where?: ChannelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Channels to fetch.
+     */
+    orderBy?: ChannelOrderByWithRelationInput | ChannelOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Channels.
+     */
+    cursor?: ChannelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Channels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Channels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Channels.
+     */
+    distinct?: ChannelScalarFieldEnum | ChannelScalarFieldEnum[]
+  }
+
+  /**
+   * Channel findFirstOrThrow
+   */
+  export type ChannelFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    /**
+     * Filter, which Channel to fetch.
+     */
+    where?: ChannelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Channels to fetch.
+     */
+    orderBy?: ChannelOrderByWithRelationInput | ChannelOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Channels.
+     */
+    cursor?: ChannelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Channels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Channels.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Channels.
+     */
+    distinct?: ChannelScalarFieldEnum | ChannelScalarFieldEnum[]
+  }
+
+  /**
+   * Channel findMany
+   */
+  export type ChannelFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    /**
+     * Filter, which Channels to fetch.
+     */
+    where?: ChannelWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Channels to fetch.
+     */
+    orderBy?: ChannelOrderByWithRelationInput | ChannelOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Channels.
+     */
+    cursor?: ChannelWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Channels from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Channels.
+     */
+    skip?: number
+    distinct?: ChannelScalarFieldEnum | ChannelScalarFieldEnum[]
+  }
+
+  /**
+   * Channel create
+   */
+  export type ChannelCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Channel.
+     */
+    data: XOR<ChannelCreateInput, ChannelUncheckedCreateInput>
+  }
+
+  /**
+   * Channel createMany
+   */
+  export type ChannelCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Channels.
+     */
+    data: ChannelCreateManyInput | ChannelCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Channel createManyAndReturn
+   */
+  export type ChannelCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * The data used to create many Channels.
+     */
+    data: ChannelCreateManyInput | ChannelCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Channel update
+   */
+  export type ChannelUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Channel.
+     */
+    data: XOR<ChannelUpdateInput, ChannelUncheckedUpdateInput>
+    /**
+     * Choose, which Channel to update.
+     */
+    where: ChannelWhereUniqueInput
+  }
+
+  /**
+   * Channel updateMany
+   */
+  export type ChannelUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Channels.
+     */
+    data: XOR<ChannelUpdateManyMutationInput, ChannelUncheckedUpdateManyInput>
+    /**
+     * Filter which Channels to update
+     */
+    where?: ChannelWhereInput
+    /**
+     * Limit how many Channels to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Channel updateManyAndReturn
+   */
+  export type ChannelUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * The data used to update Channels.
+     */
+    data: XOR<ChannelUpdateManyMutationInput, ChannelUncheckedUpdateManyInput>
+    /**
+     * Filter which Channels to update
+     */
+    where?: ChannelWhereInput
+    /**
+     * Limit how many Channels to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Channel upsert
+   */
+  export type ChannelUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Channel to update in case it exists.
+     */
+    where: ChannelWhereUniqueInput
+    /**
+     * In case the Channel found by the `where` argument doesn't exist, create a new Channel with this data.
+     */
+    create: XOR<ChannelCreateInput, ChannelUncheckedCreateInput>
+    /**
+     * In case the Channel was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ChannelUpdateInput, ChannelUncheckedUpdateInput>
+  }
+
+  /**
+   * Channel delete
+   */
+  export type ChannelDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+    /**
+     * Filter which Channel to delete.
+     */
+    where: ChannelWhereUniqueInput
+  }
+
+  /**
+   * Channel deleteMany
+   */
+  export type ChannelDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Channels to delete
+     */
+    where?: ChannelWhereInput
+    /**
+     * Limit how many Channels to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Channel.space
+   */
+  export type Channel$spaceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Space
+     */
+    select?: SpaceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Space
+     */
+    omit?: SpaceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SpaceInclude<ExtArgs> | null
+    where?: SpaceWhereInput
+  }
+
+  /**
+   * Channel.requiredTier
+   */
+  export type Channel$requiredTierArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentTier
+     */
+    select?: PaymentTierSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PaymentTier
+     */
+    omit?: PaymentTierOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentTierInclude<ExtArgs> | null
+    where?: PaymentTierWhereInput
+  }
+
+  /**
+   * Channel without action
+   */
+  export type ChannelDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Channel
+     */
+    select?: ChannelSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Channel
+     */
+    omit?: ChannelOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ChannelInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -20534,13 +27255,13 @@ export namespace Prisma {
     communityId: 'communityId',
     authorId: 'authorId',
     title: 'title',
-    content: 'content',
+    body: 'body',
+    isDraft: 'isDraft',
+    category: 'category',
     isPinned: 'isPinned',
-    isSolved: 'isSolved',
-    likeCount: 'likeCount',
-    helpfulCount: 'helpfulCount',
-    commentCount: 'commentCount',
     viewCount: 'viewCount',
+    likeCount: 'likeCount',
+    commentCount: 'commentCount',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     publishedAt: 'publishedAt',
@@ -20550,18 +27271,31 @@ export namespace Prisma {
   export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
 
 
-  export const PostAttachmentScalarFieldEnum: {
+  export const PostDraftScalarFieldEnum: {
     id: 'id',
     postId: 'postId',
-    fileName: 'fileName',
-    fileUrl: 'fileUrl',
-    fileSize: 'fileSize',
+    userId: 'userId',
+    content: 'content',
+    savedAt: 'savedAt',
+    expiresAt: 'expiresAt'
+  };
+
+  export type PostDraftScalarFieldEnum = (typeof PostDraftScalarFieldEnum)[keyof typeof PostDraftScalarFieldEnum]
+
+
+  export const AttachmentScalarFieldEnum: {
+    id: 'id',
+    postId: 'postId',
+    url: 'url',
+    filename: 'filename',
     mimeType: 'mimeType',
+    size: 'size',
+    uploadedBy: 'uploadedBy',
     createdAt: 'createdAt',
     deletedAt: 'deletedAt'
   };
 
-  export type PostAttachmentScalarFieldEnum = (typeof PostAttachmentScalarFieldEnum)[keyof typeof PostAttachmentScalarFieldEnum]
+  export type AttachmentScalarFieldEnum = (typeof AttachmentScalarFieldEnum)[keyof typeof AttachmentScalarFieldEnum]
 
 
   export const CommentScalarFieldEnum: {
@@ -20569,15 +27303,42 @@ export namespace Prisma {
     postId: 'postId',
     authorId: 'authorId',
     parentId: 'parentId',
-    content: 'content',
+    body: 'body',
     likeCount: 'likeCount',
-    helpfulCount: 'helpfulCount',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt'
   };
 
   export type CommentScalarFieldEnum = (typeof CommentScalarFieldEnum)[keyof typeof CommentScalarFieldEnum]
+
+
+  export const LikeScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    postId: 'postId',
+    commentId: 'commentId',
+    createdAt: 'createdAt'
+  };
+
+  export type LikeScalarFieldEnum = (typeof LikeScalarFieldEnum)[keyof typeof LikeScalarFieldEnum]
+
+
+  export const CommunityBannerScalarFieldEnum: {
+    id: 'id',
+    communityId: 'communityId',
+    title: 'title',
+    subtitle: 'subtitle',
+    ctaText: 'ctaText',
+    ctaLink: 'ctaLink',
+    backgroundGradient: 'backgroundGradient',
+    backgroundImageUrl: 'backgroundImageUrl',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CommunityBannerScalarFieldEnum = (typeof CommunityBannerScalarFieldEnum)[keyof typeof CommunityBannerScalarFieldEnum]
 
 
   export const ContentVersionScalarFieldEnum: {
@@ -20729,12 +27490,64 @@ export namespace Prisma {
   export type CouponScalarFieldEnum = (typeof CouponScalarFieldEnum)[keyof typeof CouponScalarFieldEnum]
 
 
+  export const SpaceScalarFieldEnum: {
+    id: 'id',
+    communityId: 'communityId',
+    parentSpaceId: 'parentSpaceId',
+    name: 'name',
+    description: 'description',
+    icon: 'icon',
+    color: 'color',
+    position: 'position',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type SpaceScalarFieldEnum = (typeof SpaceScalarFieldEnum)[keyof typeof SpaceScalarFieldEnum]
+
+
+  export const ChannelScalarFieldEnum: {
+    id: 'id',
+    communityId: 'communityId',
+    spaceId: 'spaceId',
+    name: 'name',
+    description: 'description',
+    permission: 'permission',
+    requiredTierId: 'requiredTierId',
+    icon: 'icon',
+    position: 'position',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type ChannelScalarFieldEnum = (typeof ChannelScalarFieldEnum)[keyof typeof ChannelScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -20751,6 +27564,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -20822,6 +27644,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
    * Reference to a field of type 'ContentType'
    */
   export type EnumContentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContentType'>
@@ -20882,6 +27718,9 @@ export namespace Prisma {
     memberships?: CommunityMemberListRelationFilter
     posts?: PostListRelationFilter
     comments?: CommentListRelationFilter
+    likes?: LikeListRelationFilter
+    postDrafts?: PostDraftListRelationFilter
+    uploadedAttachments?: AttachmentListRelationFilter
     instructedCourses?: CourseListRelationFilter
     courseProgresses?: CourseProgressListRelationFilter
     certificates?: CertificateListRelationFilter
@@ -20902,6 +27741,9 @@ export namespace Prisma {
     memberships?: CommunityMemberOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
+    likes?: LikeOrderByRelationAggregateInput
+    postDrafts?: PostDraftOrderByRelationAggregateInput
+    uploadedAttachments?: AttachmentOrderByRelationAggregateInput
     instructedCourses?: CourseOrderByRelationAggregateInput
     courseProgresses?: CourseProgressOrderByRelationAggregateInput
     certificates?: CertificateOrderByRelationAggregateInput
@@ -20925,6 +27767,9 @@ export namespace Prisma {
     memberships?: CommunityMemberListRelationFilter
     posts?: PostListRelationFilter
     comments?: CommentListRelationFilter
+    likes?: LikeListRelationFilter
+    postDrafts?: PostDraftListRelationFilter
+    uploadedAttachments?: AttachmentListRelationFilter
     instructedCourses?: CourseListRelationFilter
     courseProgresses?: CourseProgressListRelationFilter
     certificates?: CertificateListRelationFilter
@@ -20977,11 +27822,14 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"Community"> | Date | string | null
     members?: CommunityMemberListRelationFilter
     posts?: PostListRelationFilter
+    banners?: CommunityBannerListRelationFilter
     courses?: CourseListRelationFilter
     paymentTiers?: PaymentTierListRelationFilter
     subscriptions?: SubscriptionListRelationFilter
     coupons?: CouponListRelationFilter
     notifications?: NotificationListRelationFilter
+    spaces?: SpaceListRelationFilter
+    channels?: ChannelListRelationFilter
   }
 
   export type CommunityOrderByWithRelationInput = {
@@ -20996,11 +27844,14 @@ export namespace Prisma {
     deletedAt?: SortOrderInput | SortOrder
     members?: CommunityMemberOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
+    banners?: CommunityBannerOrderByRelationAggregateInput
     courses?: CourseOrderByRelationAggregateInput
     paymentTiers?: PaymentTierOrderByRelationAggregateInput
     subscriptions?: SubscriptionOrderByRelationAggregateInput
     coupons?: CouponOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
+    spaces?: SpaceOrderByRelationAggregateInput
+    channels?: ChannelOrderByRelationAggregateInput
   }
 
   export type CommunityWhereUniqueInput = Prisma.AtLeast<{
@@ -21018,11 +27869,14 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"Community"> | Date | string | null
     members?: CommunityMemberListRelationFilter
     posts?: PostListRelationFilter
+    banners?: CommunityBannerListRelationFilter
     courses?: CourseListRelationFilter
     paymentTiers?: PaymentTierListRelationFilter
     subscriptions?: SubscriptionListRelationFilter
     coupons?: CouponListRelationFilter
     notifications?: NotificationListRelationFilter
+    spaces?: SpaceListRelationFilter
+    channels?: ChannelListRelationFilter
   }, "id" | "slug">
 
   export type CommunityOrderByWithAggregationInput = {
@@ -21127,13 +27981,13 @@ export namespace Prisma {
     communityId?: StringFilter<"Post"> | string
     authorId?: StringFilter<"Post"> | string
     title?: StringFilter<"Post"> | string
-    content?: StringFilter<"Post"> | string
+    body?: StringFilter<"Post"> | string
+    isDraft?: BoolFilter<"Post"> | boolean
+    category?: StringNullableFilter<"Post"> | string | null
     isPinned?: BoolFilter<"Post"> | boolean
-    isSolved?: BoolFilter<"Post"> | boolean
-    likeCount?: IntFilter<"Post"> | number
-    helpfulCount?: IntFilter<"Post"> | number
-    commentCount?: IntFilter<"Post"> | number
     viewCount?: IntFilter<"Post"> | number
+    likeCount?: IntFilter<"Post"> | number
+    commentCount?: IntFilter<"Post"> | number
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
     publishedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
@@ -21141,7 +27995,9 @@ export namespace Prisma {
     community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     comments?: CommentListRelationFilter
-    attachments?: PostAttachmentListRelationFilter
+    likes?: LikeListRelationFilter
+    attachments?: AttachmentListRelationFilter
+    drafts?: PostDraftListRelationFilter
     versions?: ContentVersionListRelationFilter
   }
 
@@ -21150,13 +28006,13 @@ export namespace Prisma {
     communityId?: SortOrder
     authorId?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    body?: SortOrder
+    isDraft?: SortOrder
+    category?: SortOrderInput | SortOrder
     isPinned?: SortOrder
-    isSolved?: SortOrder
-    likeCount?: SortOrder
-    helpfulCount?: SortOrder
-    commentCount?: SortOrder
     viewCount?: SortOrder
+    likeCount?: SortOrder
+    commentCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishedAt?: SortOrderInput | SortOrder
@@ -21164,7 +28020,9 @@ export namespace Prisma {
     community?: CommunityOrderByWithRelationInput
     author?: UserOrderByWithRelationInput
     comments?: CommentOrderByRelationAggregateInput
-    attachments?: PostAttachmentOrderByRelationAggregateInput
+    likes?: LikeOrderByRelationAggregateInput
+    attachments?: AttachmentOrderByRelationAggregateInput
+    drafts?: PostDraftOrderByRelationAggregateInput
     versions?: ContentVersionOrderByRelationAggregateInput
   }
 
@@ -21176,13 +28034,13 @@ export namespace Prisma {
     communityId?: StringFilter<"Post"> | string
     authorId?: StringFilter<"Post"> | string
     title?: StringFilter<"Post"> | string
-    content?: StringFilter<"Post"> | string
+    body?: StringFilter<"Post"> | string
+    isDraft?: BoolFilter<"Post"> | boolean
+    category?: StringNullableFilter<"Post"> | string | null
     isPinned?: BoolFilter<"Post"> | boolean
-    isSolved?: BoolFilter<"Post"> | boolean
-    likeCount?: IntFilter<"Post"> | number
-    helpfulCount?: IntFilter<"Post"> | number
-    commentCount?: IntFilter<"Post"> | number
     viewCount?: IntFilter<"Post"> | number
+    likeCount?: IntFilter<"Post"> | number
+    commentCount?: IntFilter<"Post"> | number
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
     publishedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
@@ -21190,7 +28048,9 @@ export namespace Prisma {
     community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     comments?: CommentListRelationFilter
-    attachments?: PostAttachmentListRelationFilter
+    likes?: LikeListRelationFilter
+    attachments?: AttachmentListRelationFilter
+    drafts?: PostDraftListRelationFilter
     versions?: ContentVersionListRelationFilter
   }, "id">
 
@@ -21199,13 +28059,13 @@ export namespace Prisma {
     communityId?: SortOrder
     authorId?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    body?: SortOrder
+    isDraft?: SortOrder
+    category?: SortOrderInput | SortOrder
     isPinned?: SortOrder
-    isSolved?: SortOrder
-    likeCount?: SortOrder
-    helpfulCount?: SortOrder
-    commentCount?: SortOrder
     viewCount?: SortOrder
+    likeCount?: SortOrder
+    commentCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishedAt?: SortOrderInput | SortOrder
@@ -21225,89 +28085,160 @@ export namespace Prisma {
     communityId?: StringWithAggregatesFilter<"Post"> | string
     authorId?: StringWithAggregatesFilter<"Post"> | string
     title?: StringWithAggregatesFilter<"Post"> | string
-    content?: StringWithAggregatesFilter<"Post"> | string
+    body?: StringWithAggregatesFilter<"Post"> | string
+    isDraft?: BoolWithAggregatesFilter<"Post"> | boolean
+    category?: StringNullableWithAggregatesFilter<"Post"> | string | null
     isPinned?: BoolWithAggregatesFilter<"Post"> | boolean
-    isSolved?: BoolWithAggregatesFilter<"Post"> | boolean
-    likeCount?: IntWithAggregatesFilter<"Post"> | number
-    helpfulCount?: IntWithAggregatesFilter<"Post"> | number
-    commentCount?: IntWithAggregatesFilter<"Post"> | number
     viewCount?: IntWithAggregatesFilter<"Post"> | number
+    likeCount?: IntWithAggregatesFilter<"Post"> | number
+    commentCount?: IntWithAggregatesFilter<"Post"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
     publishedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Post"> | Date | string | null
   }
 
-  export type PostAttachmentWhereInput = {
-    AND?: PostAttachmentWhereInput | PostAttachmentWhereInput[]
-    OR?: PostAttachmentWhereInput[]
-    NOT?: PostAttachmentWhereInput | PostAttachmentWhereInput[]
-    id?: StringFilter<"PostAttachment"> | string
-    postId?: StringFilter<"PostAttachment"> | string
-    fileName?: StringFilter<"PostAttachment"> | string
-    fileUrl?: StringFilter<"PostAttachment"> | string
-    fileSize?: IntFilter<"PostAttachment"> | number
-    mimeType?: StringFilter<"PostAttachment"> | string
-    createdAt?: DateTimeFilter<"PostAttachment"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"PostAttachment"> | Date | string | null
-    post?: XOR<PostScalarRelationFilter, PostWhereInput>
+  export type PostDraftWhereInput = {
+    AND?: PostDraftWhereInput | PostDraftWhereInput[]
+    OR?: PostDraftWhereInput[]
+    NOT?: PostDraftWhereInput | PostDraftWhereInput[]
+    id?: StringFilter<"PostDraft"> | string
+    postId?: StringNullableFilter<"PostDraft"> | string | null
+    userId?: StringFilter<"PostDraft"> | string
+    content?: JsonFilter<"PostDraft">
+    savedAt?: DateTimeFilter<"PostDraft"> | Date | string
+    expiresAt?: DateTimeFilter<"PostDraft"> | Date | string
+    post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
-  export type PostAttachmentOrderByWithRelationInput = {
+  export type PostDraftOrderByWithRelationInput = {
+    id?: SortOrder
+    postId?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    savedAt?: SortOrder
+    expiresAt?: SortOrder
+    post?: PostOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PostDraftWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PostDraftWhereInput | PostDraftWhereInput[]
+    OR?: PostDraftWhereInput[]
+    NOT?: PostDraftWhereInput | PostDraftWhereInput[]
+    postId?: StringNullableFilter<"PostDraft"> | string | null
+    userId?: StringFilter<"PostDraft"> | string
+    content?: JsonFilter<"PostDraft">
+    savedAt?: DateTimeFilter<"PostDraft"> | Date | string
+    expiresAt?: DateTimeFilter<"PostDraft"> | Date | string
+    post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type PostDraftOrderByWithAggregationInput = {
+    id?: SortOrder
+    postId?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    savedAt?: SortOrder
+    expiresAt?: SortOrder
+    _count?: PostDraftCountOrderByAggregateInput
+    _max?: PostDraftMaxOrderByAggregateInput
+    _min?: PostDraftMinOrderByAggregateInput
+  }
+
+  export type PostDraftScalarWhereWithAggregatesInput = {
+    AND?: PostDraftScalarWhereWithAggregatesInput | PostDraftScalarWhereWithAggregatesInput[]
+    OR?: PostDraftScalarWhereWithAggregatesInput[]
+    NOT?: PostDraftScalarWhereWithAggregatesInput | PostDraftScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PostDraft"> | string
+    postId?: StringNullableWithAggregatesFilter<"PostDraft"> | string | null
+    userId?: StringWithAggregatesFilter<"PostDraft"> | string
+    content?: JsonWithAggregatesFilter<"PostDraft">
+    savedAt?: DateTimeWithAggregatesFilter<"PostDraft"> | Date | string
+    expiresAt?: DateTimeWithAggregatesFilter<"PostDraft"> | Date | string
+  }
+
+  export type AttachmentWhereInput = {
+    AND?: AttachmentWhereInput | AttachmentWhereInput[]
+    OR?: AttachmentWhereInput[]
+    NOT?: AttachmentWhereInput | AttachmentWhereInput[]
+    id?: StringFilter<"Attachment"> | string
+    postId?: StringFilter<"Attachment"> | string
+    url?: StringFilter<"Attachment"> | string
+    filename?: StringFilter<"Attachment"> | string
+    mimeType?: StringFilter<"Attachment"> | string
+    size?: IntFilter<"Attachment"> | number
+    uploadedBy?: StringFilter<"Attachment"> | string
+    createdAt?: DateTimeFilter<"Attachment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Attachment"> | Date | string | null
+    post?: XOR<PostScalarRelationFilter, PostWhereInput>
+    uploader?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type AttachmentOrderByWithRelationInput = {
     id?: SortOrder
     postId?: SortOrder
-    fileName?: SortOrder
-    fileUrl?: SortOrder
-    fileSize?: SortOrder
+    url?: SortOrder
+    filename?: SortOrder
     mimeType?: SortOrder
+    size?: SortOrder
+    uploadedBy?: SortOrder
     createdAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     post?: PostOrderByWithRelationInput
+    uploader?: UserOrderByWithRelationInput
   }
 
-  export type PostAttachmentWhereUniqueInput = Prisma.AtLeast<{
+  export type AttachmentWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: PostAttachmentWhereInput | PostAttachmentWhereInput[]
-    OR?: PostAttachmentWhereInput[]
-    NOT?: PostAttachmentWhereInput | PostAttachmentWhereInput[]
-    postId?: StringFilter<"PostAttachment"> | string
-    fileName?: StringFilter<"PostAttachment"> | string
-    fileUrl?: StringFilter<"PostAttachment"> | string
-    fileSize?: IntFilter<"PostAttachment"> | number
-    mimeType?: StringFilter<"PostAttachment"> | string
-    createdAt?: DateTimeFilter<"PostAttachment"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"PostAttachment"> | Date | string | null
+    AND?: AttachmentWhereInput | AttachmentWhereInput[]
+    OR?: AttachmentWhereInput[]
+    NOT?: AttachmentWhereInput | AttachmentWhereInput[]
+    postId?: StringFilter<"Attachment"> | string
+    url?: StringFilter<"Attachment"> | string
+    filename?: StringFilter<"Attachment"> | string
+    mimeType?: StringFilter<"Attachment"> | string
+    size?: IntFilter<"Attachment"> | number
+    uploadedBy?: StringFilter<"Attachment"> | string
+    createdAt?: DateTimeFilter<"Attachment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Attachment"> | Date | string | null
     post?: XOR<PostScalarRelationFilter, PostWhereInput>
+    uploader?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
-  export type PostAttachmentOrderByWithAggregationInput = {
+  export type AttachmentOrderByWithAggregationInput = {
     id?: SortOrder
     postId?: SortOrder
-    fileName?: SortOrder
-    fileUrl?: SortOrder
-    fileSize?: SortOrder
+    url?: SortOrder
+    filename?: SortOrder
     mimeType?: SortOrder
+    size?: SortOrder
+    uploadedBy?: SortOrder
     createdAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
-    _count?: PostAttachmentCountOrderByAggregateInput
-    _avg?: PostAttachmentAvgOrderByAggregateInput
-    _max?: PostAttachmentMaxOrderByAggregateInput
-    _min?: PostAttachmentMinOrderByAggregateInput
-    _sum?: PostAttachmentSumOrderByAggregateInput
+    _count?: AttachmentCountOrderByAggregateInput
+    _avg?: AttachmentAvgOrderByAggregateInput
+    _max?: AttachmentMaxOrderByAggregateInput
+    _min?: AttachmentMinOrderByAggregateInput
+    _sum?: AttachmentSumOrderByAggregateInput
   }
 
-  export type PostAttachmentScalarWhereWithAggregatesInput = {
-    AND?: PostAttachmentScalarWhereWithAggregatesInput | PostAttachmentScalarWhereWithAggregatesInput[]
-    OR?: PostAttachmentScalarWhereWithAggregatesInput[]
-    NOT?: PostAttachmentScalarWhereWithAggregatesInput | PostAttachmentScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"PostAttachment"> | string
-    postId?: StringWithAggregatesFilter<"PostAttachment"> | string
-    fileName?: StringWithAggregatesFilter<"PostAttachment"> | string
-    fileUrl?: StringWithAggregatesFilter<"PostAttachment"> | string
-    fileSize?: IntWithAggregatesFilter<"PostAttachment"> | number
-    mimeType?: StringWithAggregatesFilter<"PostAttachment"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"PostAttachment"> | Date | string
-    deletedAt?: DateTimeNullableWithAggregatesFilter<"PostAttachment"> | Date | string | null
+  export type AttachmentScalarWhereWithAggregatesInput = {
+    AND?: AttachmentScalarWhereWithAggregatesInput | AttachmentScalarWhereWithAggregatesInput[]
+    OR?: AttachmentScalarWhereWithAggregatesInput[]
+    NOT?: AttachmentScalarWhereWithAggregatesInput | AttachmentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Attachment"> | string
+    postId?: StringWithAggregatesFilter<"Attachment"> | string
+    url?: StringWithAggregatesFilter<"Attachment"> | string
+    filename?: StringWithAggregatesFilter<"Attachment"> | string
+    mimeType?: StringWithAggregatesFilter<"Attachment"> | string
+    size?: IntWithAggregatesFilter<"Attachment"> | number
+    uploadedBy?: StringWithAggregatesFilter<"Attachment"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Attachment"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Attachment"> | Date | string | null
   }
 
   export type CommentWhereInput = {
@@ -21318,9 +28249,8 @@ export namespace Prisma {
     postId?: StringFilter<"Comment"> | string
     authorId?: StringFilter<"Comment"> | string
     parentId?: StringNullableFilter<"Comment"> | string | null
-    content?: StringFilter<"Comment"> | string
+    body?: StringFilter<"Comment"> | string
     likeCount?: IntFilter<"Comment"> | number
-    helpfulCount?: IntFilter<"Comment"> | number
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
@@ -21328,6 +28258,7 @@ export namespace Prisma {
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     parent?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
     replies?: CommentListRelationFilter
+    likes?: LikeListRelationFilter
     versions?: ContentVersionListRelationFilter
   }
 
@@ -21336,9 +28267,8 @@ export namespace Prisma {
     postId?: SortOrder
     authorId?: SortOrder
     parentId?: SortOrderInput | SortOrder
-    content?: SortOrder
+    body?: SortOrder
     likeCount?: SortOrder
-    helpfulCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -21346,6 +28276,7 @@ export namespace Prisma {
     author?: UserOrderByWithRelationInput
     parent?: CommentOrderByWithRelationInput
     replies?: CommentOrderByRelationAggregateInput
+    likes?: LikeOrderByRelationAggregateInput
     versions?: ContentVersionOrderByRelationAggregateInput
   }
 
@@ -21357,9 +28288,8 @@ export namespace Prisma {
     postId?: StringFilter<"Comment"> | string
     authorId?: StringFilter<"Comment"> | string
     parentId?: StringNullableFilter<"Comment"> | string | null
-    content?: StringFilter<"Comment"> | string
+    body?: StringFilter<"Comment"> | string
     likeCount?: IntFilter<"Comment"> | number
-    helpfulCount?: IntFilter<"Comment"> | number
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
@@ -21367,6 +28297,7 @@ export namespace Prisma {
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     parent?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
     replies?: CommentListRelationFilter
+    likes?: LikeListRelationFilter
     versions?: ContentVersionListRelationFilter
   }, "id">
 
@@ -21375,9 +28306,8 @@ export namespace Prisma {
     postId?: SortOrder
     authorId?: SortOrder
     parentId?: SortOrderInput | SortOrder
-    content?: SortOrder
+    body?: SortOrder
     likeCount?: SortOrder
-    helpfulCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
@@ -21396,12 +28326,159 @@ export namespace Prisma {
     postId?: StringWithAggregatesFilter<"Comment"> | string
     authorId?: StringWithAggregatesFilter<"Comment"> | string
     parentId?: StringNullableWithAggregatesFilter<"Comment"> | string | null
-    content?: StringWithAggregatesFilter<"Comment"> | string
+    body?: StringWithAggregatesFilter<"Comment"> | string
     likeCount?: IntWithAggregatesFilter<"Comment"> | number
-    helpfulCount?: IntWithAggregatesFilter<"Comment"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Comment"> | Date | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Comment"> | Date | string | null
+  }
+
+  export type LikeWhereInput = {
+    AND?: LikeWhereInput | LikeWhereInput[]
+    OR?: LikeWhereInput[]
+    NOT?: LikeWhereInput | LikeWhereInput[]
+    id?: StringFilter<"Like"> | string
+    userId?: StringFilter<"Like"> | string
+    postId?: StringNullableFilter<"Like"> | string | null
+    commentId?: StringNullableFilter<"Like"> | string | null
+    createdAt?: DateTimeFilter<"Like"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
+    comment?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
+  }
+
+  export type LikeOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    postId?: SortOrderInput | SortOrder
+    commentId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    post?: PostOrderByWithRelationInput
+    comment?: CommentOrderByWithRelationInput
+  }
+
+  export type LikeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_postId?: LikeUserIdPostIdCompoundUniqueInput
+    userId_commentId?: LikeUserIdCommentIdCompoundUniqueInput
+    AND?: LikeWhereInput | LikeWhereInput[]
+    OR?: LikeWhereInput[]
+    NOT?: LikeWhereInput | LikeWhereInput[]
+    userId?: StringFilter<"Like"> | string
+    postId?: StringNullableFilter<"Like"> | string | null
+    commentId?: StringNullableFilter<"Like"> | string | null
+    createdAt?: DateTimeFilter<"Like"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
+    comment?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
+  }, "id" | "userId_postId" | "userId_commentId">
+
+  export type LikeOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    postId?: SortOrderInput | SortOrder
+    commentId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: LikeCountOrderByAggregateInput
+    _max?: LikeMaxOrderByAggregateInput
+    _min?: LikeMinOrderByAggregateInput
+  }
+
+  export type LikeScalarWhereWithAggregatesInput = {
+    AND?: LikeScalarWhereWithAggregatesInput | LikeScalarWhereWithAggregatesInput[]
+    OR?: LikeScalarWhereWithAggregatesInput[]
+    NOT?: LikeScalarWhereWithAggregatesInput | LikeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Like"> | string
+    userId?: StringWithAggregatesFilter<"Like"> | string
+    postId?: StringNullableWithAggregatesFilter<"Like"> | string | null
+    commentId?: StringNullableWithAggregatesFilter<"Like"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Like"> | Date | string
+  }
+
+  export type CommunityBannerWhereInput = {
+    AND?: CommunityBannerWhereInput | CommunityBannerWhereInput[]
+    OR?: CommunityBannerWhereInput[]
+    NOT?: CommunityBannerWhereInput | CommunityBannerWhereInput[]
+    id?: StringFilter<"CommunityBanner"> | string
+    communityId?: StringFilter<"CommunityBanner"> | string
+    title?: StringFilter<"CommunityBanner"> | string
+    subtitle?: StringNullableFilter<"CommunityBanner"> | string | null
+    ctaText?: StringNullableFilter<"CommunityBanner"> | string | null
+    ctaLink?: StringNullableFilter<"CommunityBanner"> | string | null
+    backgroundGradient?: JsonNullableFilter<"CommunityBanner">
+    backgroundImageUrl?: StringNullableFilter<"CommunityBanner"> | string | null
+    isActive?: BoolFilter<"CommunityBanner"> | boolean
+    createdAt?: DateTimeFilter<"CommunityBanner"> | Date | string
+    updatedAt?: DateTimeFilter<"CommunityBanner"> | Date | string
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+  }
+
+  export type CommunityBannerOrderByWithRelationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrderInput | SortOrder
+    ctaText?: SortOrderInput | SortOrder
+    ctaLink?: SortOrderInput | SortOrder
+    backgroundGradient?: SortOrderInput | SortOrder
+    backgroundImageUrl?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    community?: CommunityOrderByWithRelationInput
+  }
+
+  export type CommunityBannerWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: CommunityBannerWhereInput | CommunityBannerWhereInput[]
+    OR?: CommunityBannerWhereInput[]
+    NOT?: CommunityBannerWhereInput | CommunityBannerWhereInput[]
+    communityId?: StringFilter<"CommunityBanner"> | string
+    title?: StringFilter<"CommunityBanner"> | string
+    subtitle?: StringNullableFilter<"CommunityBanner"> | string | null
+    ctaText?: StringNullableFilter<"CommunityBanner"> | string | null
+    ctaLink?: StringNullableFilter<"CommunityBanner"> | string | null
+    backgroundGradient?: JsonNullableFilter<"CommunityBanner">
+    backgroundImageUrl?: StringNullableFilter<"CommunityBanner"> | string | null
+    isActive?: BoolFilter<"CommunityBanner"> | boolean
+    createdAt?: DateTimeFilter<"CommunityBanner"> | Date | string
+    updatedAt?: DateTimeFilter<"CommunityBanner"> | Date | string
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+  }, "id">
+
+  export type CommunityBannerOrderByWithAggregationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrderInput | SortOrder
+    ctaText?: SortOrderInput | SortOrder
+    ctaLink?: SortOrderInput | SortOrder
+    backgroundGradient?: SortOrderInput | SortOrder
+    backgroundImageUrl?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CommunityBannerCountOrderByAggregateInput
+    _max?: CommunityBannerMaxOrderByAggregateInput
+    _min?: CommunityBannerMinOrderByAggregateInput
+  }
+
+  export type CommunityBannerScalarWhereWithAggregatesInput = {
+    AND?: CommunityBannerScalarWhereWithAggregatesInput | CommunityBannerScalarWhereWithAggregatesInput[]
+    OR?: CommunityBannerScalarWhereWithAggregatesInput[]
+    NOT?: CommunityBannerScalarWhereWithAggregatesInput | CommunityBannerScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CommunityBanner"> | string
+    communityId?: StringWithAggregatesFilter<"CommunityBanner"> | string
+    title?: StringWithAggregatesFilter<"CommunityBanner"> | string
+    subtitle?: StringNullableWithAggregatesFilter<"CommunityBanner"> | string | null
+    ctaText?: StringNullableWithAggregatesFilter<"CommunityBanner"> | string | null
+    ctaLink?: StringNullableWithAggregatesFilter<"CommunityBanner"> | string | null
+    backgroundGradient?: JsonNullableWithAggregatesFilter<"CommunityBanner">
+    backgroundImageUrl?: StringNullableWithAggregatesFilter<"CommunityBanner"> | string | null
+    isActive?: BoolWithAggregatesFilter<"CommunityBanner"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"CommunityBanner"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CommunityBanner"> | Date | string
   }
 
   export type ContentVersionWhereInput = {
@@ -21917,6 +28994,7 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"PaymentTier"> | Date | string | null
     community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
     subscriptions?: SubscriptionListRelationFilter
+    channels?: ChannelListRelationFilter
   }
 
   export type PaymentTierOrderByWithRelationInput = {
@@ -21933,6 +29011,7 @@ export namespace Prisma {
     deletedAt?: SortOrderInput | SortOrder
     community?: CommunityOrderByWithRelationInput
     subscriptions?: SubscriptionOrderByRelationAggregateInput
+    channels?: ChannelOrderByRelationAggregateInput
   }
 
   export type PaymentTierWhereUniqueInput = Prisma.AtLeast<{
@@ -21952,6 +29031,7 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"PaymentTier"> | Date | string | null
     community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
     subscriptions?: SubscriptionListRelationFilter
+    channels?: ChannelListRelationFilter
   }, "id">
 
   export type PaymentTierOrderByWithAggregationInput = {
@@ -22195,6 +29275,210 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableWithAggregatesFilter<"Coupon"> | Date | string | null
   }
 
+  export type SpaceWhereInput = {
+    AND?: SpaceWhereInput | SpaceWhereInput[]
+    OR?: SpaceWhereInput[]
+    NOT?: SpaceWhereInput | SpaceWhereInput[]
+    id?: StringFilter<"Space"> | string
+    communityId?: StringFilter<"Space"> | string
+    parentSpaceId?: StringNullableFilter<"Space"> | string | null
+    name?: StringFilter<"Space"> | string
+    description?: StringFilter<"Space"> | string
+    icon?: StringNullableFilter<"Space"> | string | null
+    color?: StringNullableFilter<"Space"> | string | null
+    position?: IntFilter<"Space"> | number
+    createdBy?: StringFilter<"Space"> | string
+    createdAt?: DateTimeFilter<"Space"> | Date | string
+    updatedAt?: DateTimeFilter<"Space"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Space"> | Date | string | null
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    parentSpace?: XOR<SpaceNullableScalarRelationFilter, SpaceWhereInput> | null
+    childSpaces?: SpaceListRelationFilter
+    channels?: ChannelListRelationFilter
+  }
+
+  export type SpaceOrderByWithRelationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    parentSpaceId?: SortOrderInput | SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    icon?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    position?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    community?: CommunityOrderByWithRelationInput
+    parentSpace?: SpaceOrderByWithRelationInput
+    childSpaces?: SpaceOrderByRelationAggregateInput
+    channels?: ChannelOrderByRelationAggregateInput
+  }
+
+  export type SpaceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SpaceWhereInput | SpaceWhereInput[]
+    OR?: SpaceWhereInput[]
+    NOT?: SpaceWhereInput | SpaceWhereInput[]
+    communityId?: StringFilter<"Space"> | string
+    parentSpaceId?: StringNullableFilter<"Space"> | string | null
+    name?: StringFilter<"Space"> | string
+    description?: StringFilter<"Space"> | string
+    icon?: StringNullableFilter<"Space"> | string | null
+    color?: StringNullableFilter<"Space"> | string | null
+    position?: IntFilter<"Space"> | number
+    createdBy?: StringFilter<"Space"> | string
+    createdAt?: DateTimeFilter<"Space"> | Date | string
+    updatedAt?: DateTimeFilter<"Space"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Space"> | Date | string | null
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    parentSpace?: XOR<SpaceNullableScalarRelationFilter, SpaceWhereInput> | null
+    childSpaces?: SpaceListRelationFilter
+    channels?: ChannelListRelationFilter
+  }, "id">
+
+  export type SpaceOrderByWithAggregationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    parentSpaceId?: SortOrderInput | SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    icon?: SortOrderInput | SortOrder
+    color?: SortOrderInput | SortOrder
+    position?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: SpaceCountOrderByAggregateInput
+    _avg?: SpaceAvgOrderByAggregateInput
+    _max?: SpaceMaxOrderByAggregateInput
+    _min?: SpaceMinOrderByAggregateInput
+    _sum?: SpaceSumOrderByAggregateInput
+  }
+
+  export type SpaceScalarWhereWithAggregatesInput = {
+    AND?: SpaceScalarWhereWithAggregatesInput | SpaceScalarWhereWithAggregatesInput[]
+    OR?: SpaceScalarWhereWithAggregatesInput[]
+    NOT?: SpaceScalarWhereWithAggregatesInput | SpaceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Space"> | string
+    communityId?: StringWithAggregatesFilter<"Space"> | string
+    parentSpaceId?: StringNullableWithAggregatesFilter<"Space"> | string | null
+    name?: StringWithAggregatesFilter<"Space"> | string
+    description?: StringWithAggregatesFilter<"Space"> | string
+    icon?: StringNullableWithAggregatesFilter<"Space"> | string | null
+    color?: StringNullableWithAggregatesFilter<"Space"> | string | null
+    position?: IntWithAggregatesFilter<"Space"> | number
+    createdBy?: StringWithAggregatesFilter<"Space"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Space"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Space"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Space"> | Date | string | null
+  }
+
+  export type ChannelWhereInput = {
+    AND?: ChannelWhereInput | ChannelWhereInput[]
+    OR?: ChannelWhereInput[]
+    NOT?: ChannelWhereInput | ChannelWhereInput[]
+    id?: StringFilter<"Channel"> | string
+    communityId?: StringFilter<"Channel"> | string
+    spaceId?: StringNullableFilter<"Channel"> | string | null
+    name?: StringFilter<"Channel"> | string
+    description?: StringFilter<"Channel"> | string
+    permission?: StringFilter<"Channel"> | string
+    requiredTierId?: StringNullableFilter<"Channel"> | string | null
+    icon?: StringNullableFilter<"Channel"> | string | null
+    position?: IntFilter<"Channel"> | number
+    createdBy?: StringFilter<"Channel"> | string
+    createdAt?: DateTimeFilter<"Channel"> | Date | string
+    updatedAt?: DateTimeFilter<"Channel"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Channel"> | Date | string | null
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    space?: XOR<SpaceNullableScalarRelationFilter, SpaceWhereInput> | null
+    requiredTier?: XOR<PaymentTierNullableScalarRelationFilter, PaymentTierWhereInput> | null
+  }
+
+  export type ChannelOrderByWithRelationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    spaceId?: SortOrderInput | SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    permission?: SortOrder
+    requiredTierId?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
+    position?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    community?: CommunityOrderByWithRelationInput
+    space?: SpaceOrderByWithRelationInput
+    requiredTier?: PaymentTierOrderByWithRelationInput
+  }
+
+  export type ChannelWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ChannelWhereInput | ChannelWhereInput[]
+    OR?: ChannelWhereInput[]
+    NOT?: ChannelWhereInput | ChannelWhereInput[]
+    communityId?: StringFilter<"Channel"> | string
+    spaceId?: StringNullableFilter<"Channel"> | string | null
+    name?: StringFilter<"Channel"> | string
+    description?: StringFilter<"Channel"> | string
+    permission?: StringFilter<"Channel"> | string
+    requiredTierId?: StringNullableFilter<"Channel"> | string | null
+    icon?: StringNullableFilter<"Channel"> | string | null
+    position?: IntFilter<"Channel"> | number
+    createdBy?: StringFilter<"Channel"> | string
+    createdAt?: DateTimeFilter<"Channel"> | Date | string
+    updatedAt?: DateTimeFilter<"Channel"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Channel"> | Date | string | null
+    community?: XOR<CommunityScalarRelationFilter, CommunityWhereInput>
+    space?: XOR<SpaceNullableScalarRelationFilter, SpaceWhereInput> | null
+    requiredTier?: XOR<PaymentTierNullableScalarRelationFilter, PaymentTierWhereInput> | null
+  }, "id">
+
+  export type ChannelOrderByWithAggregationInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    spaceId?: SortOrderInput | SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    permission?: SortOrder
+    requiredTierId?: SortOrderInput | SortOrder
+    icon?: SortOrderInput | SortOrder
+    position?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: ChannelCountOrderByAggregateInput
+    _avg?: ChannelAvgOrderByAggregateInput
+    _max?: ChannelMaxOrderByAggregateInput
+    _min?: ChannelMinOrderByAggregateInput
+    _sum?: ChannelSumOrderByAggregateInput
+  }
+
+  export type ChannelScalarWhereWithAggregatesInput = {
+    AND?: ChannelScalarWhereWithAggregatesInput | ChannelScalarWhereWithAggregatesInput[]
+    OR?: ChannelScalarWhereWithAggregatesInput[]
+    NOT?: ChannelScalarWhereWithAggregatesInput | ChannelScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Channel"> | string
+    communityId?: StringWithAggregatesFilter<"Channel"> | string
+    spaceId?: StringNullableWithAggregatesFilter<"Channel"> | string | null
+    name?: StringWithAggregatesFilter<"Channel"> | string
+    description?: StringWithAggregatesFilter<"Channel"> | string
+    permission?: StringWithAggregatesFilter<"Channel"> | string
+    requiredTierId?: StringNullableWithAggregatesFilter<"Channel"> | string | null
+    icon?: StringNullableWithAggregatesFilter<"Channel"> | string | null
+    position?: IntWithAggregatesFilter<"Channel"> | number
+    createdBy?: StringWithAggregatesFilter<"Channel"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Channel"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Channel"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Channel"> | Date | string | null
+  }
+
   export type UserCreateInput = {
     id?: string
     clerkId: string
@@ -22208,6 +29492,9 @@ export namespace Prisma {
     memberships?: CommunityMemberCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressCreateNestedManyWithoutUserInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -22228,6 +29515,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftUncheckedCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -22248,6 +29538,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUpdateManyWithoutUserNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -22268,6 +29561,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUncheckedUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -22323,11 +29619,14 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberCreateNestedManyWithoutCommunityInput
     posts?: PostCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
     coupons?: CouponCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceCreateNestedManyWithoutCommunityInput
+    channels?: ChannelCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateInput = {
@@ -22342,11 +29641,14 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
     coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceUncheckedCreateNestedManyWithoutCommunityInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUpdateInput = {
@@ -22361,11 +29663,14 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
     posts?: PostUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateInput = {
@@ -22380,11 +29685,14 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityCreateManyInput = {
@@ -22487,13 +29795,13 @@ export namespace Prisma {
   export type PostCreateInput = {
     id?: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
@@ -22501,7 +29809,9 @@ export namespace Prisma {
     community: CommunityCreateNestedOneWithoutPostsInput
     author: UserCreateNestedOneWithoutPostsInput
     comments?: CommentCreateNestedManyWithoutPostInput
-    attachments?: PostAttachmentCreateNestedManyWithoutPostInput
+    likes?: LikeCreateNestedManyWithoutPostInput
+    attachments?: AttachmentCreateNestedManyWithoutPostInput
+    drafts?: PostDraftCreateNestedManyWithoutPostInput
     versions?: ContentVersionCreateNestedManyWithoutPostInput
   }
 
@@ -22510,32 +29820,34 @@ export namespace Prisma {
     communityId: string
     authorId: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     deletedAt?: Date | string | null
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
-    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutPostInput
+    drafts?: PostDraftUncheckedCreateNestedManyWithoutPostInput
     versions?: ContentVersionUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22543,7 +29855,9 @@ export namespace Prisma {
     community?: CommunityUpdateOneRequiredWithoutPostsNestedInput
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     comments?: CommentUpdateManyWithoutPostNestedInput
-    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput
+    likes?: LikeUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUpdateManyWithoutPostNestedInput
     versions?: ContentVersionUpdateManyWithoutPostNestedInput
   }
 
@@ -22552,19 +29866,21 @@ export namespace Prisma {
     communityId?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
-    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUncheckedUpdateManyWithoutPostNestedInput
     versions?: ContentVersionUncheckedUpdateManyWithoutPostNestedInput
   }
 
@@ -22573,13 +29889,13 @@ export namespace Prisma {
     communityId: string
     authorId: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
@@ -22589,13 +29905,13 @@ export namespace Prisma {
   export type PostUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22607,100 +29923,166 @@ export namespace Prisma {
     communityId?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PostAttachmentCreateInput = {
+  export type PostDraftCreateInput = {
     id?: string
-    fileName: string
-    fileUrl: string
-    fileSize: number
+    content: JsonNullValueInput | InputJsonValue
+    savedAt?: Date | string
+    expiresAt: Date | string
+    post?: PostCreateNestedOneWithoutDraftsInput
+    user: UserCreateNestedOneWithoutPostDraftsInput
+  }
+
+  export type PostDraftUncheckedCreateInput = {
+    id?: string
+    postId?: string | null
+    userId: string
+    content: JsonNullValueInput | InputJsonValue
+    savedAt?: Date | string
+    expiresAt: Date | string
+  }
+
+  export type PostDraftUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    savedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: PostUpdateOneWithoutDraftsNestedInput
+    user?: UserUpdateOneRequiredWithoutPostDraftsNestedInput
+  }
+
+  export type PostDraftUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    savedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostDraftCreateManyInput = {
+    id?: string
+    postId?: string | null
+    userId: string
+    content: JsonNullValueInput | InputJsonValue
+    savedAt?: Date | string
+    expiresAt: Date | string
+  }
+
+  export type PostDraftUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    savedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostDraftUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    savedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentCreateInput = {
+    id?: string
+    url: string
+    filename: string
     mimeType: string
+    size: number
     createdAt?: Date | string
     deletedAt?: Date | string | null
     post: PostCreateNestedOneWithoutAttachmentsInput
+    uploader: UserCreateNestedOneWithoutUploadedAttachmentsInput
   }
 
-  export type PostAttachmentUncheckedCreateInput = {
+  export type AttachmentUncheckedCreateInput = {
     id?: string
     postId: string
-    fileName: string
-    fileUrl: string
-    fileSize: number
+    url: string
+    filename: string
     mimeType: string
+    size: number
+    uploadedBy: string
     createdAt?: Date | string
     deletedAt?: Date | string | null
   }
 
-  export type PostAttachmentUpdateInput = {
+  export type AttachmentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    fileName?: StringFieldUpdateOperationsInput | string
-    fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: IntFieldUpdateOperationsInput | number
+    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
     mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     post?: PostUpdateOneRequiredWithoutAttachmentsNestedInput
+    uploader?: UserUpdateOneRequiredWithoutUploadedAttachmentsNestedInput
   }
 
-  export type PostAttachmentUncheckedUpdateInput = {
+  export type AttachmentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     postId?: StringFieldUpdateOperationsInput | string
-    fileName?: StringFieldUpdateOperationsInput | string
-    fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: IntFieldUpdateOperationsInput | number
+    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
     mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PostAttachmentCreateManyInput = {
+  export type AttachmentCreateManyInput = {
     id?: string
     postId: string
-    fileName: string
-    fileUrl: string
-    fileSize: number
+    url: string
+    filename: string
     mimeType: string
+    size: number
+    uploadedBy: string
     createdAt?: Date | string
     deletedAt?: Date | string | null
   }
 
-  export type PostAttachmentUpdateManyMutationInput = {
+  export type AttachmentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    fileName?: StringFieldUpdateOperationsInput | string
-    fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: IntFieldUpdateOperationsInput | number
+    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
     mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PostAttachmentUncheckedUpdateManyInput = {
+  export type AttachmentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     postId?: StringFieldUpdateOperationsInput | string
-    fileName?: StringFieldUpdateOperationsInput | string
-    fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: IntFieldUpdateOperationsInput | number
+    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
     mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CommentCreateInput = {
     id?: string
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
@@ -22708,6 +30090,7 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutRepliesInput
     replies?: CommentCreateNestedManyWithoutParentInput
+    likes?: LikeCreateNestedManyWithoutCommentInput
     versions?: ContentVersionCreateNestedManyWithoutCommentInput
   }
 
@@ -22716,21 +30099,20 @@ export namespace Prisma {
     postId: string
     authorId: string
     parentId?: string | null
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     replies?: CommentUncheckedCreateNestedManyWithoutParentInput
+    likes?: LikeUncheckedCreateNestedManyWithoutCommentInput
     versions?: ContentVersionUncheckedCreateNestedManyWithoutCommentInput
   }
 
   export type CommentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22738,6 +30120,7 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutRepliesNestedInput
     replies?: CommentUpdateManyWithoutParentNestedInput
+    likes?: LikeUpdateManyWithoutCommentNestedInput
     versions?: ContentVersionUpdateManyWithoutCommentNestedInput
   }
 
@@ -22746,13 +30129,13 @@ export namespace Prisma {
     postId?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     replies?: CommentUncheckedUpdateManyWithoutParentNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutCommentNestedInput
     versions?: ContentVersionUncheckedUpdateManyWithoutCommentNestedInput
   }
 
@@ -22761,9 +30144,8 @@ export namespace Prisma {
     postId: string
     authorId: string
     parentId?: string | null
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
@@ -22771,9 +30153,8 @@ export namespace Prisma {
 
   export type CommentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22784,12 +30165,161 @@ export namespace Prisma {
     postId?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type LikeCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutLikesInput
+    post?: PostCreateNestedOneWithoutLikesInput
+    comment?: CommentCreateNestedOneWithoutLikesInput
+  }
+
+  export type LikeUncheckedCreateInput = {
+    id?: string
+    userId: string
+    postId?: string | null
+    commentId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LikeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutLikesNestedInput
+    post?: PostUpdateOneWithoutLikesNestedInput
+    comment?: CommentUpdateOneWithoutLikesNestedInput
+  }
+
+  export type LikeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LikeCreateManyInput = {
+    id?: string
+    userId: string
+    postId?: string | null
+    commentId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LikeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LikeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityBannerCreateInput = {
+    id?: string
+    title: string
+    subtitle?: string | null
+    ctaText?: string | null
+    ctaLink?: string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    community: CommunityCreateNestedOneWithoutBannersInput
+  }
+
+  export type CommunityBannerUncheckedCreateInput = {
+    id?: string
+    communityId: string
+    title: string
+    subtitle?: string | null
+    ctaText?: string | null
+    ctaLink?: string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CommunityBannerUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaText?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaLink?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    community?: CommunityUpdateOneRequiredWithoutBannersNestedInput
+  }
+
+  export type CommunityBannerUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaText?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaLink?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityBannerCreateManyInput = {
+    id?: string
+    communityId: string
+    title: string
+    subtitle?: string | null
+    ctaText?: string | null
+    ctaLink?: string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CommunityBannerUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaText?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaLink?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityBannerUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaText?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaLink?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ContentVersionCreateInput = {
@@ -23334,6 +30864,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     community: CommunityCreateNestedOneWithoutPaymentTiersInput
     subscriptions?: SubscriptionCreateNestedManyWithoutPaymentTierInput
+    channels?: ChannelCreateNestedManyWithoutRequiredTierInput
   }
 
   export type PaymentTierUncheckedCreateInput = {
@@ -23349,6 +30880,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutPaymentTierInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutRequiredTierInput
   }
 
   export type PaymentTierUpdateInput = {
@@ -23364,6 +30896,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     community?: CommunityUpdateOneRequiredWithoutPaymentTiersNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutPaymentTierNestedInput
+    channels?: ChannelUpdateManyWithoutRequiredTierNestedInput
   }
 
   export type PaymentTierUncheckedUpdateInput = {
@@ -23379,6 +30912,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutPaymentTierNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutRequiredTierNestedInput
   }
 
   export type PaymentTierCreateManyInput = {
@@ -23649,6 +31183,226 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type SpaceCreateInput = {
+    id?: string
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutSpacesInput
+    parentSpace?: SpaceCreateNestedOneWithoutChildSpacesInput
+    childSpaces?: SpaceCreateNestedManyWithoutParentSpaceInput
+    channels?: ChannelCreateNestedManyWithoutSpaceInput
+  }
+
+  export type SpaceUncheckedCreateInput = {
+    id?: string
+    communityId: string
+    parentSpaceId?: string | null
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    childSpaces?: SpaceUncheckedCreateNestedManyWithoutParentSpaceInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutSpaceInput
+  }
+
+  export type SpaceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutSpacesNestedInput
+    parentSpace?: SpaceUpdateOneWithoutChildSpacesNestedInput
+    childSpaces?: SpaceUpdateManyWithoutParentSpaceNestedInput
+    channels?: ChannelUpdateManyWithoutSpaceNestedInput
+  }
+
+  export type SpaceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    parentSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    childSpaces?: SpaceUncheckedUpdateManyWithoutParentSpaceNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutSpaceNestedInput
+  }
+
+  export type SpaceCreateManyInput = {
+    id?: string
+    communityId: string
+    parentSpaceId?: string | null
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type SpaceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SpaceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    parentSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ChannelCreateInput = {
+    id?: string
+    name: string
+    description: string
+    permission: string
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutChannelsInput
+    space?: SpaceCreateNestedOneWithoutChannelsInput
+    requiredTier?: PaymentTierCreateNestedOneWithoutChannelsInput
+  }
+
+  export type ChannelUncheckedCreateInput = {
+    id?: string
+    communityId: string
+    spaceId?: string | null
+    name: string
+    description: string
+    permission: string
+    requiredTierId?: string | null
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type ChannelUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutChannelsNestedInput
+    space?: SpaceUpdateOneWithoutChannelsNestedInput
+    requiredTier?: PaymentTierUpdateOneWithoutChannelsNestedInput
+  }
+
+  export type ChannelUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    spaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    requiredTierId?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ChannelCreateManyInput = {
+    id?: string
+    communityId: string
+    spaceId?: string | null
+    name: string
+    description: string
+    permission: string
+    requiredTierId?: string | null
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type ChannelUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ChannelUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    spaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    requiredTierId?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -23719,6 +31473,24 @@ export namespace Prisma {
     none?: CommentWhereInput
   }
 
+  export type LikeListRelationFilter = {
+    every?: LikeWhereInput
+    some?: LikeWhereInput
+    none?: LikeWhereInput
+  }
+
+  export type PostDraftListRelationFilter = {
+    every?: PostDraftWhereInput
+    some?: PostDraftWhereInput
+    none?: PostDraftWhereInput
+  }
+
+  export type AttachmentListRelationFilter = {
+    every?: AttachmentWhereInput
+    some?: AttachmentWhereInput
+    none?: AttachmentWhereInput
+  }
+
   export type CourseListRelationFilter = {
     every?: CourseWhereInput
     some?: CourseWhereInput
@@ -23763,6 +31535,18 @@ export namespace Prisma {
   }
 
   export type CommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type LikeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PostDraftOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type AttachmentOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -23891,6 +31675,12 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type CommunityBannerListRelationFilter = {
+    every?: CommunityBannerWhereInput
+    some?: CommunityBannerWhereInput
+    none?: CommunityBannerWhereInput
+  }
+
   export type PaymentTierListRelationFilter = {
     every?: PaymentTierWhereInput
     some?: PaymentTierWhereInput
@@ -23903,11 +31693,35 @@ export namespace Prisma {
     none?: CouponWhereInput
   }
 
+  export type SpaceListRelationFilter = {
+    every?: SpaceWhereInput
+    some?: SpaceWhereInput
+    none?: SpaceWhereInput
+  }
+
+  export type ChannelListRelationFilter = {
+    every?: ChannelWhereInput
+    some?: ChannelWhereInput
+    none?: ChannelWhereInput
+  }
+
+  export type CommunityBannerOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type PaymentTierOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type CouponOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SpaceOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ChannelOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -24025,20 +31839,10 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type PostAttachmentListRelationFilter = {
-    every?: PostAttachmentWhereInput
-    some?: PostAttachmentWhereInput
-    none?: PostAttachmentWhereInput
-  }
-
   export type ContentVersionListRelationFilter = {
     every?: ContentVersionWhereInput
     some?: ContentVersionWhereInput
     none?: ContentVersionWhereInput
-  }
-
-  export type PostAttachmentOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type ContentVersionOrderByRelationAggregateInput = {
@@ -24050,13 +31854,13 @@ export namespace Prisma {
     communityId?: SortOrder
     authorId?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    body?: SortOrder
+    isDraft?: SortOrder
+    category?: SortOrder
     isPinned?: SortOrder
-    isSolved?: SortOrder
-    likeCount?: SortOrder
-    helpfulCount?: SortOrder
-    commentCount?: SortOrder
     viewCount?: SortOrder
+    likeCount?: SortOrder
+    commentCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishedAt?: SortOrder
@@ -24064,10 +31868,9 @@ export namespace Prisma {
   }
 
   export type PostAvgOrderByAggregateInput = {
-    likeCount?: SortOrder
-    helpfulCount?: SortOrder
-    commentCount?: SortOrder
     viewCount?: SortOrder
+    likeCount?: SortOrder
+    commentCount?: SortOrder
   }
 
   export type PostMaxOrderByAggregateInput = {
@@ -24075,13 +31878,13 @@ export namespace Prisma {
     communityId?: SortOrder
     authorId?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    body?: SortOrder
+    isDraft?: SortOrder
+    category?: SortOrder
     isPinned?: SortOrder
-    isSolved?: SortOrder
-    likeCount?: SortOrder
-    helpfulCount?: SortOrder
-    commentCount?: SortOrder
     viewCount?: SortOrder
+    likeCount?: SortOrder
+    commentCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishedAt?: SortOrder
@@ -24093,13 +31896,13 @@ export namespace Prisma {
     communityId?: SortOrder
     authorId?: SortOrder
     title?: SortOrder
-    content?: SortOrder
+    body?: SortOrder
+    isDraft?: SortOrder
+    category?: SortOrder
     isPinned?: SortOrder
-    isSolved?: SortOrder
-    likeCount?: SortOrder
-    helpfulCount?: SortOrder
-    commentCount?: SortOrder
     viewCount?: SortOrder
+    likeCount?: SortOrder
+    commentCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     publishedAt?: SortOrder
@@ -24107,10 +31910,9 @@ export namespace Prisma {
   }
 
   export type PostSumOrderByAggregateInput = {
-    likeCount?: SortOrder
-    helpfulCount?: SortOrder
-    commentCount?: SortOrder
     viewCount?: SortOrder
+    likeCount?: SortOrder
+    commentCount?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -24128,51 +31930,133 @@ export namespace Prisma {
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type PostNullableScalarRelationFilter = {
+    is?: PostWhereInput | null
+    isNot?: PostWhereInput | null
+  }
+
+  export type PostDraftCountOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    savedAt?: SortOrder
+    expiresAt?: SortOrder
+  }
+
+  export type PostDraftMaxOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    savedAt?: SortOrder
+    expiresAt?: SortOrder
+  }
+
+  export type PostDraftMinOrderByAggregateInput = {
+    id?: SortOrder
+    postId?: SortOrder
+    userId?: SortOrder
+    savedAt?: SortOrder
+    expiresAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
 
   export type PostScalarRelationFilter = {
     is?: PostWhereInput
     isNot?: PostWhereInput
   }
 
-  export type PostAttachmentCountOrderByAggregateInput = {
+  export type AttachmentCountOrderByAggregateInput = {
     id?: SortOrder
     postId?: SortOrder
-    fileName?: SortOrder
-    fileUrl?: SortOrder
-    fileSize?: SortOrder
+    url?: SortOrder
+    filename?: SortOrder
     mimeType?: SortOrder
+    size?: SortOrder
+    uploadedBy?: SortOrder
     createdAt?: SortOrder
     deletedAt?: SortOrder
   }
 
-  export type PostAttachmentAvgOrderByAggregateInput = {
-    fileSize?: SortOrder
+  export type AttachmentAvgOrderByAggregateInput = {
+    size?: SortOrder
   }
 
-  export type PostAttachmentMaxOrderByAggregateInput = {
+  export type AttachmentMaxOrderByAggregateInput = {
     id?: SortOrder
     postId?: SortOrder
-    fileName?: SortOrder
-    fileUrl?: SortOrder
-    fileSize?: SortOrder
+    url?: SortOrder
+    filename?: SortOrder
     mimeType?: SortOrder
+    size?: SortOrder
+    uploadedBy?: SortOrder
     createdAt?: SortOrder
     deletedAt?: SortOrder
   }
 
-  export type PostAttachmentMinOrderByAggregateInput = {
+  export type AttachmentMinOrderByAggregateInput = {
     id?: SortOrder
     postId?: SortOrder
-    fileName?: SortOrder
-    fileUrl?: SortOrder
-    fileSize?: SortOrder
+    url?: SortOrder
+    filename?: SortOrder
     mimeType?: SortOrder
+    size?: SortOrder
+    uploadedBy?: SortOrder
     createdAt?: SortOrder
     deletedAt?: SortOrder
   }
 
-  export type PostAttachmentSumOrderByAggregateInput = {
-    fileSize?: SortOrder
+  export type AttachmentSumOrderByAggregateInput = {
+    size?: SortOrder
   }
 
   export type CommentNullableScalarRelationFilter = {
@@ -24185,9 +32069,8 @@ export namespace Prisma {
     postId?: SortOrder
     authorId?: SortOrder
     parentId?: SortOrder
-    content?: SortOrder
+    body?: SortOrder
     likeCount?: SortOrder
-    helpfulCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -24195,7 +32078,6 @@ export namespace Prisma {
 
   export type CommentAvgOrderByAggregateInput = {
     likeCount?: SortOrder
-    helpfulCount?: SortOrder
   }
 
   export type CommentMaxOrderByAggregateInput = {
@@ -24203,9 +32085,8 @@ export namespace Prisma {
     postId?: SortOrder
     authorId?: SortOrder
     parentId?: SortOrder
-    content?: SortOrder
+    body?: SortOrder
     likeCount?: SortOrder
-    helpfulCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -24216,9 +32097,8 @@ export namespace Prisma {
     postId?: SortOrder
     authorId?: SortOrder
     parentId?: SortOrder
-    content?: SortOrder
+    body?: SortOrder
     likeCount?: SortOrder
-    helpfulCount?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     deletedAt?: SortOrder
@@ -24226,7 +32106,129 @@ export namespace Prisma {
 
   export type CommentSumOrderByAggregateInput = {
     likeCount?: SortOrder
-    helpfulCount?: SortOrder
+  }
+
+  export type LikeUserIdPostIdCompoundUniqueInput = {
+    userId: string
+    postId: string
+  }
+
+  export type LikeUserIdCommentIdCompoundUniqueInput = {
+    userId: string
+    commentId: string
+  }
+
+  export type LikeCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    postId?: SortOrder
+    commentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LikeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    postId?: SortOrder
+    commentId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type LikeMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    postId?: SortOrder
+    commentId?: SortOrder
+    createdAt?: SortOrder
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type CommunityBannerCountOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrder
+    ctaText?: SortOrder
+    ctaLink?: SortOrder
+    backgroundGradient?: SortOrder
+    backgroundImageUrl?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CommunityBannerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrder
+    ctaText?: SortOrder
+    ctaLink?: SortOrder
+    backgroundImageUrl?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CommunityBannerMinOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    title?: SortOrder
+    subtitle?: SortOrder
+    ctaText?: SortOrder
+    ctaLink?: SortOrder
+    backgroundImageUrl?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type EnumContentTypeFilter<$PrismaModel = never> = {
@@ -24234,11 +32236,6 @@ export namespace Prisma {
     in?: $Enums.ContentType[] | ListEnumContentTypeFieldRefInput<$PrismaModel>
     notIn?: $Enums.ContentType[] | ListEnumContentTypeFieldRefInput<$PrismaModel>
     not?: NestedEnumContentTypeFilter<$PrismaModel> | $Enums.ContentType
-  }
-
-  export type PostNullableScalarRelationFilter = {
-    is?: PostWhereInput | null
-    isNot?: PostWhereInput | null
   }
 
   export type ContentVersionContentIdVersionNumberCompoundUniqueInput = {
@@ -24748,6 +32745,125 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
+  export type SpaceNullableScalarRelationFilter = {
+    is?: SpaceWhereInput | null
+    isNot?: SpaceWhereInput | null
+  }
+
+  export type SpaceCountOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    parentSpaceId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    icon?: SortOrder
+    color?: SortOrder
+    position?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type SpaceAvgOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
+  export type SpaceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    parentSpaceId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    icon?: SortOrder
+    color?: SortOrder
+    position?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type SpaceMinOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    parentSpaceId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    icon?: SortOrder
+    color?: SortOrder
+    position?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type SpaceSumOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
+  export type PaymentTierNullableScalarRelationFilter = {
+    is?: PaymentTierWhereInput | null
+    isNot?: PaymentTierWhereInput | null
+  }
+
+  export type ChannelCountOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    spaceId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    permission?: SortOrder
+    requiredTierId?: SortOrder
+    icon?: SortOrder
+    position?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type ChannelAvgOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
+  export type ChannelMaxOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    spaceId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    permission?: SortOrder
+    requiredTierId?: SortOrder
+    icon?: SortOrder
+    position?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type ChannelMinOrderByAggregateInput = {
+    id?: SortOrder
+    communityId?: SortOrder
+    spaceId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    permission?: SortOrder
+    requiredTierId?: SortOrder
+    icon?: SortOrder
+    position?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type ChannelSumOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
   export type CommunityMemberCreateNestedManyWithoutUserInput = {
     create?: XOR<CommunityMemberCreateWithoutUserInput, CommunityMemberUncheckedCreateWithoutUserInput> | CommunityMemberCreateWithoutUserInput[] | CommunityMemberUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CommunityMemberCreateOrConnectWithoutUserInput | CommunityMemberCreateOrConnectWithoutUserInput[]
@@ -24767,6 +32883,27 @@ export namespace Prisma {
     connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
     createMany?: CommentCreateManyAuthorInputEnvelope
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type LikeCreateNestedManyWithoutUserInput = {
+    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[]
+    createMany?: LikeCreateManyUserInputEnvelope
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+  }
+
+  export type PostDraftCreateNestedManyWithoutUserInput = {
+    create?: XOR<PostDraftCreateWithoutUserInput, PostDraftUncheckedCreateWithoutUserInput> | PostDraftCreateWithoutUserInput[] | PostDraftUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostDraftCreateOrConnectWithoutUserInput | PostDraftCreateOrConnectWithoutUserInput[]
+    createMany?: PostDraftCreateManyUserInputEnvelope
+    connect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+  }
+
+  export type AttachmentCreateNestedManyWithoutUploaderInput = {
+    create?: XOR<AttachmentCreateWithoutUploaderInput, AttachmentUncheckedCreateWithoutUploaderInput> | AttachmentCreateWithoutUploaderInput[] | AttachmentUncheckedCreateWithoutUploaderInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutUploaderInput | AttachmentCreateOrConnectWithoutUploaderInput[]
+    createMany?: AttachmentCreateManyUploaderInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
   export type CourseCreateNestedManyWithoutInstructorInput = {
@@ -24823,6 +32960,27 @@ export namespace Prisma {
     connectOrCreate?: CommentCreateOrConnectWithoutAuthorInput | CommentCreateOrConnectWithoutAuthorInput[]
     createMany?: CommentCreateManyAuthorInputEnvelope
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type LikeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[]
+    createMany?: LikeCreateManyUserInputEnvelope
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+  }
+
+  export type PostDraftUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PostDraftCreateWithoutUserInput, PostDraftUncheckedCreateWithoutUserInput> | PostDraftCreateWithoutUserInput[] | PostDraftUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostDraftCreateOrConnectWithoutUserInput | PostDraftCreateOrConnectWithoutUserInput[]
+    createMany?: PostDraftCreateManyUserInputEnvelope
+    connect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+  }
+
+  export type AttachmentUncheckedCreateNestedManyWithoutUploaderInput = {
+    create?: XOR<AttachmentCreateWithoutUploaderInput, AttachmentUncheckedCreateWithoutUploaderInput> | AttachmentCreateWithoutUploaderInput[] | AttachmentUncheckedCreateWithoutUploaderInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutUploaderInput | AttachmentCreateOrConnectWithoutUploaderInput[]
+    createMany?: AttachmentCreateManyUploaderInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
   }
 
   export type CourseUncheckedCreateNestedManyWithoutInstructorInput = {
@@ -24916,6 +33074,48 @@ export namespace Prisma {
     update?: CommentUpdateWithWhereUniqueWithoutAuthorInput | CommentUpdateWithWhereUniqueWithoutAuthorInput[]
     updateMany?: CommentUpdateManyWithWhereWithoutAuthorInput | CommentUpdateManyWithWhereWithoutAuthorInput[]
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type LikeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[]
+    upsert?: LikeUpsertWithWhereUniqueWithoutUserInput | LikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LikeCreateManyUserInputEnvelope
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    update?: LikeUpdateWithWhereUniqueWithoutUserInput | LikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LikeUpdateManyWithWhereWithoutUserInput | LikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
+  }
+
+  export type PostDraftUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PostDraftCreateWithoutUserInput, PostDraftUncheckedCreateWithoutUserInput> | PostDraftCreateWithoutUserInput[] | PostDraftUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostDraftCreateOrConnectWithoutUserInput | PostDraftCreateOrConnectWithoutUserInput[]
+    upsert?: PostDraftUpsertWithWhereUniqueWithoutUserInput | PostDraftUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PostDraftCreateManyUserInputEnvelope
+    set?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    disconnect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    delete?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    connect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    update?: PostDraftUpdateWithWhereUniqueWithoutUserInput | PostDraftUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PostDraftUpdateManyWithWhereWithoutUserInput | PostDraftUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PostDraftScalarWhereInput | PostDraftScalarWhereInput[]
+  }
+
+  export type AttachmentUpdateManyWithoutUploaderNestedInput = {
+    create?: XOR<AttachmentCreateWithoutUploaderInput, AttachmentUncheckedCreateWithoutUploaderInput> | AttachmentCreateWithoutUploaderInput[] | AttachmentUncheckedCreateWithoutUploaderInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutUploaderInput | AttachmentCreateOrConnectWithoutUploaderInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutUploaderInput | AttachmentUpsertWithWhereUniqueWithoutUploaderInput[]
+    createMany?: AttachmentCreateManyUploaderInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutUploaderInput | AttachmentUpdateWithWhereUniqueWithoutUploaderInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutUploaderInput | AttachmentUpdateManyWithWhereWithoutUploaderInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
   }
 
   export type CourseUpdateManyWithoutInstructorNestedInput = {
@@ -25030,6 +33230,48 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type LikeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput> | LikeCreateWithoutUserInput[] | LikeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutUserInput | LikeCreateOrConnectWithoutUserInput[]
+    upsert?: LikeUpsertWithWhereUniqueWithoutUserInput | LikeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: LikeCreateManyUserInputEnvelope
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    update?: LikeUpdateWithWhereUniqueWithoutUserInput | LikeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: LikeUpdateManyWithWhereWithoutUserInput | LikeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
+  }
+
+  export type PostDraftUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PostDraftCreateWithoutUserInput, PostDraftUncheckedCreateWithoutUserInput> | PostDraftCreateWithoutUserInput[] | PostDraftUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PostDraftCreateOrConnectWithoutUserInput | PostDraftCreateOrConnectWithoutUserInput[]
+    upsert?: PostDraftUpsertWithWhereUniqueWithoutUserInput | PostDraftUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PostDraftCreateManyUserInputEnvelope
+    set?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    disconnect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    delete?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    connect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    update?: PostDraftUpdateWithWhereUniqueWithoutUserInput | PostDraftUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PostDraftUpdateManyWithWhereWithoutUserInput | PostDraftUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PostDraftScalarWhereInput | PostDraftScalarWhereInput[]
+  }
+
+  export type AttachmentUncheckedUpdateManyWithoutUploaderNestedInput = {
+    create?: XOR<AttachmentCreateWithoutUploaderInput, AttachmentUncheckedCreateWithoutUploaderInput> | AttachmentCreateWithoutUploaderInput[] | AttachmentUncheckedCreateWithoutUploaderInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutUploaderInput | AttachmentCreateOrConnectWithoutUploaderInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutUploaderInput | AttachmentUpsertWithWhereUniqueWithoutUploaderInput[]
+    createMany?: AttachmentCreateManyUploaderInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutUploaderInput | AttachmentUpdateWithWhereUniqueWithoutUploaderInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutUploaderInput | AttachmentUpdateManyWithWhereWithoutUploaderInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
   export type CourseUncheckedUpdateManyWithoutInstructorNestedInput = {
     create?: XOR<CourseCreateWithoutInstructorInput, CourseUncheckedCreateWithoutInstructorInput> | CourseCreateWithoutInstructorInput[] | CourseUncheckedCreateWithoutInstructorInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutInstructorInput | CourseCreateOrConnectWithoutInstructorInput[]
@@ -25114,6 +33356,13 @@ export namespace Prisma {
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
   }
 
+  export type CommunityBannerCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<CommunityBannerCreateWithoutCommunityInput, CommunityBannerUncheckedCreateWithoutCommunityInput> | CommunityBannerCreateWithoutCommunityInput[] | CommunityBannerUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: CommunityBannerCreateOrConnectWithoutCommunityInput | CommunityBannerCreateOrConnectWithoutCommunityInput[]
+    createMany?: CommunityBannerCreateManyCommunityInputEnvelope
+    connect?: CommunityBannerWhereUniqueInput | CommunityBannerWhereUniqueInput[]
+  }
+
   export type CourseCreateNestedManyWithoutCommunityInput = {
     create?: XOR<CourseCreateWithoutCommunityInput, CourseUncheckedCreateWithoutCommunityInput> | CourseCreateWithoutCommunityInput[] | CourseUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: CourseCreateOrConnectWithoutCommunityInput | CourseCreateOrConnectWithoutCommunityInput[]
@@ -25149,6 +33398,20 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type SpaceCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<SpaceCreateWithoutCommunityInput, SpaceUncheckedCreateWithoutCommunityInput> | SpaceCreateWithoutCommunityInput[] | SpaceUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: SpaceCreateOrConnectWithoutCommunityInput | SpaceCreateOrConnectWithoutCommunityInput[]
+    createMany?: SpaceCreateManyCommunityInputEnvelope
+    connect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+  }
+
+  export type ChannelCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<ChannelCreateWithoutCommunityInput, ChannelUncheckedCreateWithoutCommunityInput> | ChannelCreateWithoutCommunityInput[] | ChannelUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutCommunityInput | ChannelCreateOrConnectWithoutCommunityInput[]
+    createMany?: ChannelCreateManyCommunityInputEnvelope
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+  }
+
   export type CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput = {
     create?: XOR<CommunityMemberCreateWithoutCommunityInput, CommunityMemberUncheckedCreateWithoutCommunityInput> | CommunityMemberCreateWithoutCommunityInput[] | CommunityMemberUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: CommunityMemberCreateOrConnectWithoutCommunityInput | CommunityMemberCreateOrConnectWithoutCommunityInput[]
@@ -25161,6 +33424,13 @@ export namespace Prisma {
     connectOrCreate?: PostCreateOrConnectWithoutCommunityInput | PostCreateOrConnectWithoutCommunityInput[]
     createMany?: PostCreateManyCommunityInputEnvelope
     connect?: PostWhereUniqueInput | PostWhereUniqueInput[]
+  }
+
+  export type CommunityBannerUncheckedCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<CommunityBannerCreateWithoutCommunityInput, CommunityBannerUncheckedCreateWithoutCommunityInput> | CommunityBannerCreateWithoutCommunityInput[] | CommunityBannerUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: CommunityBannerCreateOrConnectWithoutCommunityInput | CommunityBannerCreateOrConnectWithoutCommunityInput[]
+    createMany?: CommunityBannerCreateManyCommunityInputEnvelope
+    connect?: CommunityBannerWhereUniqueInput | CommunityBannerWhereUniqueInput[]
   }
 
   export type CourseUncheckedCreateNestedManyWithoutCommunityInput = {
@@ -25198,6 +33468,20 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type SpaceUncheckedCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<SpaceCreateWithoutCommunityInput, SpaceUncheckedCreateWithoutCommunityInput> | SpaceCreateWithoutCommunityInput[] | SpaceUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: SpaceCreateOrConnectWithoutCommunityInput | SpaceCreateOrConnectWithoutCommunityInput[]
+    createMany?: SpaceCreateManyCommunityInputEnvelope
+    connect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+  }
+
+  export type ChannelUncheckedCreateNestedManyWithoutCommunityInput = {
+    create?: XOR<ChannelCreateWithoutCommunityInput, ChannelUncheckedCreateWithoutCommunityInput> | ChannelCreateWithoutCommunityInput[] | ChannelUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutCommunityInput | ChannelCreateOrConnectWithoutCommunityInput[]
+    createMany?: ChannelCreateManyCommunityInputEnvelope
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
@@ -25228,6 +33512,20 @@ export namespace Prisma {
     update?: PostUpdateWithWhereUniqueWithoutCommunityInput | PostUpdateWithWhereUniqueWithoutCommunityInput[]
     updateMany?: PostUpdateManyWithWhereWithoutCommunityInput | PostUpdateManyWithWhereWithoutCommunityInput[]
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  }
+
+  export type CommunityBannerUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<CommunityBannerCreateWithoutCommunityInput, CommunityBannerUncheckedCreateWithoutCommunityInput> | CommunityBannerCreateWithoutCommunityInput[] | CommunityBannerUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: CommunityBannerCreateOrConnectWithoutCommunityInput | CommunityBannerCreateOrConnectWithoutCommunityInput[]
+    upsert?: CommunityBannerUpsertWithWhereUniqueWithoutCommunityInput | CommunityBannerUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: CommunityBannerCreateManyCommunityInputEnvelope
+    set?: CommunityBannerWhereUniqueInput | CommunityBannerWhereUniqueInput[]
+    disconnect?: CommunityBannerWhereUniqueInput | CommunityBannerWhereUniqueInput[]
+    delete?: CommunityBannerWhereUniqueInput | CommunityBannerWhereUniqueInput[]
+    connect?: CommunityBannerWhereUniqueInput | CommunityBannerWhereUniqueInput[]
+    update?: CommunityBannerUpdateWithWhereUniqueWithoutCommunityInput | CommunityBannerUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: CommunityBannerUpdateManyWithWhereWithoutCommunityInput | CommunityBannerUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: CommunityBannerScalarWhereInput | CommunityBannerScalarWhereInput[]
   }
 
   export type CourseUpdateManyWithoutCommunityNestedInput = {
@@ -25300,6 +33598,34 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type SpaceUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<SpaceCreateWithoutCommunityInput, SpaceUncheckedCreateWithoutCommunityInput> | SpaceCreateWithoutCommunityInput[] | SpaceUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: SpaceCreateOrConnectWithoutCommunityInput | SpaceCreateOrConnectWithoutCommunityInput[]
+    upsert?: SpaceUpsertWithWhereUniqueWithoutCommunityInput | SpaceUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: SpaceCreateManyCommunityInputEnvelope
+    set?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    disconnect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    delete?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    connect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    update?: SpaceUpdateWithWhereUniqueWithoutCommunityInput | SpaceUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: SpaceUpdateManyWithWhereWithoutCommunityInput | SpaceUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: SpaceScalarWhereInput | SpaceScalarWhereInput[]
+  }
+
+  export type ChannelUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<ChannelCreateWithoutCommunityInput, ChannelUncheckedCreateWithoutCommunityInput> | ChannelCreateWithoutCommunityInput[] | ChannelUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutCommunityInput | ChannelCreateOrConnectWithoutCommunityInput[]
+    upsert?: ChannelUpsertWithWhereUniqueWithoutCommunityInput | ChannelUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: ChannelCreateManyCommunityInputEnvelope
+    set?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    disconnect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    delete?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    update?: ChannelUpdateWithWhereUniqueWithoutCommunityInput | ChannelUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: ChannelUpdateManyWithWhereWithoutCommunityInput | ChannelUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: ChannelScalarWhereInput | ChannelScalarWhereInput[]
+  }
+
   export type CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput = {
     create?: XOR<CommunityMemberCreateWithoutCommunityInput, CommunityMemberUncheckedCreateWithoutCommunityInput> | CommunityMemberCreateWithoutCommunityInput[] | CommunityMemberUncheckedCreateWithoutCommunityInput[]
     connectOrCreate?: CommunityMemberCreateOrConnectWithoutCommunityInput | CommunityMemberCreateOrConnectWithoutCommunityInput[]
@@ -25326,6 +33652,20 @@ export namespace Prisma {
     update?: PostUpdateWithWhereUniqueWithoutCommunityInput | PostUpdateWithWhereUniqueWithoutCommunityInput[]
     updateMany?: PostUpdateManyWithWhereWithoutCommunityInput | PostUpdateManyWithWhereWithoutCommunityInput[]
     deleteMany?: PostScalarWhereInput | PostScalarWhereInput[]
+  }
+
+  export type CommunityBannerUncheckedUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<CommunityBannerCreateWithoutCommunityInput, CommunityBannerUncheckedCreateWithoutCommunityInput> | CommunityBannerCreateWithoutCommunityInput[] | CommunityBannerUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: CommunityBannerCreateOrConnectWithoutCommunityInput | CommunityBannerCreateOrConnectWithoutCommunityInput[]
+    upsert?: CommunityBannerUpsertWithWhereUniqueWithoutCommunityInput | CommunityBannerUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: CommunityBannerCreateManyCommunityInputEnvelope
+    set?: CommunityBannerWhereUniqueInput | CommunityBannerWhereUniqueInput[]
+    disconnect?: CommunityBannerWhereUniqueInput | CommunityBannerWhereUniqueInput[]
+    delete?: CommunityBannerWhereUniqueInput | CommunityBannerWhereUniqueInput[]
+    connect?: CommunityBannerWhereUniqueInput | CommunityBannerWhereUniqueInput[]
+    update?: CommunityBannerUpdateWithWhereUniqueWithoutCommunityInput | CommunityBannerUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: CommunityBannerUpdateManyWithWhereWithoutCommunityInput | CommunityBannerUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: CommunityBannerScalarWhereInput | CommunityBannerScalarWhereInput[]
   }
 
   export type CourseUncheckedUpdateManyWithoutCommunityNestedInput = {
@@ -25398,6 +33738,34 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type SpaceUncheckedUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<SpaceCreateWithoutCommunityInput, SpaceUncheckedCreateWithoutCommunityInput> | SpaceCreateWithoutCommunityInput[] | SpaceUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: SpaceCreateOrConnectWithoutCommunityInput | SpaceCreateOrConnectWithoutCommunityInput[]
+    upsert?: SpaceUpsertWithWhereUniqueWithoutCommunityInput | SpaceUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: SpaceCreateManyCommunityInputEnvelope
+    set?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    disconnect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    delete?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    connect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    update?: SpaceUpdateWithWhereUniqueWithoutCommunityInput | SpaceUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: SpaceUpdateManyWithWhereWithoutCommunityInput | SpaceUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: SpaceScalarWhereInput | SpaceScalarWhereInput[]
+  }
+
+  export type ChannelUncheckedUpdateManyWithoutCommunityNestedInput = {
+    create?: XOR<ChannelCreateWithoutCommunityInput, ChannelUncheckedCreateWithoutCommunityInput> | ChannelCreateWithoutCommunityInput[] | ChannelUncheckedCreateWithoutCommunityInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutCommunityInput | ChannelCreateOrConnectWithoutCommunityInput[]
+    upsert?: ChannelUpsertWithWhereUniqueWithoutCommunityInput | ChannelUpsertWithWhereUniqueWithoutCommunityInput[]
+    createMany?: ChannelCreateManyCommunityInputEnvelope
+    set?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    disconnect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    delete?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    update?: ChannelUpdateWithWhereUniqueWithoutCommunityInput | ChannelUpdateWithWhereUniqueWithoutCommunityInput[]
+    updateMany?: ChannelUpdateManyWithWhereWithoutCommunityInput | ChannelUpdateManyWithWhereWithoutCommunityInput[]
+    deleteMany?: ChannelScalarWhereInput | ChannelScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutMembershipsInput = {
     create?: XOR<UserCreateWithoutMembershipsInput, UserUncheckedCreateWithoutMembershipsInput>
     connectOrCreate?: UserCreateOrConnectWithoutMembershipsInput
@@ -25449,11 +33817,25 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
-  export type PostAttachmentCreateNestedManyWithoutPostInput = {
-    create?: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput> | PostAttachmentCreateWithoutPostInput[] | PostAttachmentUncheckedCreateWithoutPostInput[]
-    connectOrCreate?: PostAttachmentCreateOrConnectWithoutPostInput | PostAttachmentCreateOrConnectWithoutPostInput[]
-    createMany?: PostAttachmentCreateManyPostInputEnvelope
-    connect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[]
+  export type LikeCreateNestedManyWithoutPostInput = {
+    create?: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput> | LikeCreateWithoutPostInput[] | LikeUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[]
+    createMany?: LikeCreateManyPostInputEnvelope
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+  }
+
+  export type AttachmentCreateNestedManyWithoutPostInput = {
+    create?: XOR<AttachmentCreateWithoutPostInput, AttachmentUncheckedCreateWithoutPostInput> | AttachmentCreateWithoutPostInput[] | AttachmentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutPostInput | AttachmentCreateOrConnectWithoutPostInput[]
+    createMany?: AttachmentCreateManyPostInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+  }
+
+  export type PostDraftCreateNestedManyWithoutPostInput = {
+    create?: XOR<PostDraftCreateWithoutPostInput, PostDraftUncheckedCreateWithoutPostInput> | PostDraftCreateWithoutPostInput[] | PostDraftUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostDraftCreateOrConnectWithoutPostInput | PostDraftCreateOrConnectWithoutPostInput[]
+    createMany?: PostDraftCreateManyPostInputEnvelope
+    connect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
   }
 
   export type ContentVersionCreateNestedManyWithoutPostInput = {
@@ -25470,11 +33852,25 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
-  export type PostAttachmentUncheckedCreateNestedManyWithoutPostInput = {
-    create?: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput> | PostAttachmentCreateWithoutPostInput[] | PostAttachmentUncheckedCreateWithoutPostInput[]
-    connectOrCreate?: PostAttachmentCreateOrConnectWithoutPostInput | PostAttachmentCreateOrConnectWithoutPostInput[]
-    createMany?: PostAttachmentCreateManyPostInputEnvelope
-    connect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[]
+  export type LikeUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput> | LikeCreateWithoutPostInput[] | LikeUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[]
+    createMany?: LikeCreateManyPostInputEnvelope
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+  }
+
+  export type AttachmentUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<AttachmentCreateWithoutPostInput, AttachmentUncheckedCreateWithoutPostInput> | AttachmentCreateWithoutPostInput[] | AttachmentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutPostInput | AttachmentCreateOrConnectWithoutPostInput[]
+    createMany?: AttachmentCreateManyPostInputEnvelope
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+  }
+
+  export type PostDraftUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<PostDraftCreateWithoutPostInput, PostDraftUncheckedCreateWithoutPostInput> | PostDraftCreateWithoutPostInput[] | PostDraftUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostDraftCreateOrConnectWithoutPostInput | PostDraftCreateOrConnectWithoutPostInput[]
+    createMany?: PostDraftCreateManyPostInputEnvelope
+    connect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
   }
 
   export type ContentVersionUncheckedCreateNestedManyWithoutPostInput = {
@@ -25522,18 +33918,46 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
-  export type PostAttachmentUpdateManyWithoutPostNestedInput = {
-    create?: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput> | PostAttachmentCreateWithoutPostInput[] | PostAttachmentUncheckedCreateWithoutPostInput[]
-    connectOrCreate?: PostAttachmentCreateOrConnectWithoutPostInput | PostAttachmentCreateOrConnectWithoutPostInput[]
-    upsert?: PostAttachmentUpsertWithWhereUniqueWithoutPostInput | PostAttachmentUpsertWithWhereUniqueWithoutPostInput[]
-    createMany?: PostAttachmentCreateManyPostInputEnvelope
-    set?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[]
-    disconnect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[]
-    delete?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[]
-    connect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[]
-    update?: PostAttachmentUpdateWithWhereUniqueWithoutPostInput | PostAttachmentUpdateWithWhereUniqueWithoutPostInput[]
-    updateMany?: PostAttachmentUpdateManyWithWhereWithoutPostInput | PostAttachmentUpdateManyWithWhereWithoutPostInput[]
-    deleteMany?: PostAttachmentScalarWhereInput | PostAttachmentScalarWhereInput[]
+  export type LikeUpdateManyWithoutPostNestedInput = {
+    create?: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput> | LikeCreateWithoutPostInput[] | LikeUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[]
+    upsert?: LikeUpsertWithWhereUniqueWithoutPostInput | LikeUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: LikeCreateManyPostInputEnvelope
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    update?: LikeUpdateWithWhereUniqueWithoutPostInput | LikeUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: LikeUpdateManyWithWhereWithoutPostInput | LikeUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
+  }
+
+  export type AttachmentUpdateManyWithoutPostNestedInput = {
+    create?: XOR<AttachmentCreateWithoutPostInput, AttachmentUncheckedCreateWithoutPostInput> | AttachmentCreateWithoutPostInput[] | AttachmentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutPostInput | AttachmentCreateOrConnectWithoutPostInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutPostInput | AttachmentUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: AttachmentCreateManyPostInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutPostInput | AttachmentUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutPostInput | AttachmentUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
+  export type PostDraftUpdateManyWithoutPostNestedInput = {
+    create?: XOR<PostDraftCreateWithoutPostInput, PostDraftUncheckedCreateWithoutPostInput> | PostDraftCreateWithoutPostInput[] | PostDraftUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostDraftCreateOrConnectWithoutPostInput | PostDraftCreateOrConnectWithoutPostInput[]
+    upsert?: PostDraftUpsertWithWhereUniqueWithoutPostInput | PostDraftUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: PostDraftCreateManyPostInputEnvelope
+    set?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    disconnect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    delete?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    connect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    update?: PostDraftUpdateWithWhereUniqueWithoutPostInput | PostDraftUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: PostDraftUpdateManyWithWhereWithoutPostInput | PostDraftUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: PostDraftScalarWhereInput | PostDraftScalarWhereInput[]
   }
 
   export type ContentVersionUpdateManyWithoutPostNestedInput = {
@@ -25564,18 +33988,46 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
-  export type PostAttachmentUncheckedUpdateManyWithoutPostNestedInput = {
-    create?: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput> | PostAttachmentCreateWithoutPostInput[] | PostAttachmentUncheckedCreateWithoutPostInput[]
-    connectOrCreate?: PostAttachmentCreateOrConnectWithoutPostInput | PostAttachmentCreateOrConnectWithoutPostInput[]
-    upsert?: PostAttachmentUpsertWithWhereUniqueWithoutPostInput | PostAttachmentUpsertWithWhereUniqueWithoutPostInput[]
-    createMany?: PostAttachmentCreateManyPostInputEnvelope
-    set?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[]
-    disconnect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[]
-    delete?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[]
-    connect?: PostAttachmentWhereUniqueInput | PostAttachmentWhereUniqueInput[]
-    update?: PostAttachmentUpdateWithWhereUniqueWithoutPostInput | PostAttachmentUpdateWithWhereUniqueWithoutPostInput[]
-    updateMany?: PostAttachmentUpdateManyWithWhereWithoutPostInput | PostAttachmentUpdateManyWithWhereWithoutPostInput[]
-    deleteMany?: PostAttachmentScalarWhereInput | PostAttachmentScalarWhereInput[]
+  export type LikeUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput> | LikeCreateWithoutPostInput[] | LikeUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutPostInput | LikeCreateOrConnectWithoutPostInput[]
+    upsert?: LikeUpsertWithWhereUniqueWithoutPostInput | LikeUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: LikeCreateManyPostInputEnvelope
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    update?: LikeUpdateWithWhereUniqueWithoutPostInput | LikeUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: LikeUpdateManyWithWhereWithoutPostInput | LikeUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
+  }
+
+  export type AttachmentUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<AttachmentCreateWithoutPostInput, AttachmentUncheckedCreateWithoutPostInput> | AttachmentCreateWithoutPostInput[] | AttachmentUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: AttachmentCreateOrConnectWithoutPostInput | AttachmentCreateOrConnectWithoutPostInput[]
+    upsert?: AttachmentUpsertWithWhereUniqueWithoutPostInput | AttachmentUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: AttachmentCreateManyPostInputEnvelope
+    set?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    disconnect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    delete?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    connect?: AttachmentWhereUniqueInput | AttachmentWhereUniqueInput[]
+    update?: AttachmentUpdateWithWhereUniqueWithoutPostInput | AttachmentUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: AttachmentUpdateManyWithWhereWithoutPostInput | AttachmentUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+  }
+
+  export type PostDraftUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<PostDraftCreateWithoutPostInput, PostDraftUncheckedCreateWithoutPostInput> | PostDraftCreateWithoutPostInput[] | PostDraftUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: PostDraftCreateOrConnectWithoutPostInput | PostDraftCreateOrConnectWithoutPostInput[]
+    upsert?: PostDraftUpsertWithWhereUniqueWithoutPostInput | PostDraftUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: PostDraftCreateManyPostInputEnvelope
+    set?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    disconnect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    delete?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    connect?: PostDraftWhereUniqueInput | PostDraftWhereUniqueInput[]
+    update?: PostDraftUpdateWithWhereUniqueWithoutPostInput | PostDraftUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: PostDraftUpdateManyWithWhereWithoutPostInput | PostDraftUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: PostDraftScalarWhereInput | PostDraftScalarWhereInput[]
   }
 
   export type ContentVersionUncheckedUpdateManyWithoutPostNestedInput = {
@@ -25592,10 +34044,46 @@ export namespace Prisma {
     deleteMany?: ContentVersionScalarWhereInput | ContentVersionScalarWhereInput[]
   }
 
+  export type PostCreateNestedOneWithoutDraftsInput = {
+    create?: XOR<PostCreateWithoutDraftsInput, PostUncheckedCreateWithoutDraftsInput>
+    connectOrCreate?: PostCreateOrConnectWithoutDraftsInput
+    connect?: PostWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutPostDraftsInput = {
+    create?: XOR<UserCreateWithoutPostDraftsInput, UserUncheckedCreateWithoutPostDraftsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostDraftsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PostUpdateOneWithoutDraftsNestedInput = {
+    create?: XOR<PostCreateWithoutDraftsInput, PostUncheckedCreateWithoutDraftsInput>
+    connectOrCreate?: PostCreateOrConnectWithoutDraftsInput
+    upsert?: PostUpsertWithoutDraftsInput
+    disconnect?: PostWhereInput | boolean
+    delete?: PostWhereInput | boolean
+    connect?: PostWhereUniqueInput
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutDraftsInput, PostUpdateWithoutDraftsInput>, PostUncheckedUpdateWithoutDraftsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutPostDraftsNestedInput = {
+    create?: XOR<UserCreateWithoutPostDraftsInput, UserUncheckedCreateWithoutPostDraftsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPostDraftsInput
+    upsert?: UserUpsertWithoutPostDraftsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPostDraftsInput, UserUpdateWithoutPostDraftsInput>, UserUncheckedUpdateWithoutPostDraftsInput>
+  }
+
   export type PostCreateNestedOneWithoutAttachmentsInput = {
     create?: XOR<PostCreateWithoutAttachmentsInput, PostUncheckedCreateWithoutAttachmentsInput>
     connectOrCreate?: PostCreateOrConnectWithoutAttachmentsInput
     connect?: PostWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutUploadedAttachmentsInput = {
+    create?: XOR<UserCreateWithoutUploadedAttachmentsInput, UserUncheckedCreateWithoutUploadedAttachmentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadedAttachmentsInput
+    connect?: UserWhereUniqueInput
   }
 
   export type PostUpdateOneRequiredWithoutAttachmentsNestedInput = {
@@ -25604,6 +34092,14 @@ export namespace Prisma {
     upsert?: PostUpsertWithoutAttachmentsInput
     connect?: PostWhereUniqueInput
     update?: XOR<XOR<PostUpdateToOneWithWhereWithoutAttachmentsInput, PostUpdateWithoutAttachmentsInput>, PostUncheckedUpdateWithoutAttachmentsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutUploadedAttachmentsNestedInput = {
+    create?: XOR<UserCreateWithoutUploadedAttachmentsInput, UserUncheckedCreateWithoutUploadedAttachmentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadedAttachmentsInput
+    upsert?: UserUpsertWithoutUploadedAttachmentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUploadedAttachmentsInput, UserUpdateWithoutUploadedAttachmentsInput>, UserUncheckedUpdateWithoutUploadedAttachmentsInput>
   }
 
   export type PostCreateNestedOneWithoutCommentsInput = {
@@ -25631,6 +34127,13 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
+  export type LikeCreateNestedManyWithoutCommentInput = {
+    create?: XOR<LikeCreateWithoutCommentInput, LikeUncheckedCreateWithoutCommentInput> | LikeCreateWithoutCommentInput[] | LikeUncheckedCreateWithoutCommentInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutCommentInput | LikeCreateOrConnectWithoutCommentInput[]
+    createMany?: LikeCreateManyCommentInputEnvelope
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+  }
+
   export type ContentVersionCreateNestedManyWithoutCommentInput = {
     create?: XOR<ContentVersionCreateWithoutCommentInput, ContentVersionUncheckedCreateWithoutCommentInput> | ContentVersionCreateWithoutCommentInput[] | ContentVersionUncheckedCreateWithoutCommentInput[]
     connectOrCreate?: ContentVersionCreateOrConnectWithoutCommentInput | ContentVersionCreateOrConnectWithoutCommentInput[]
@@ -25643,6 +34146,13 @@ export namespace Prisma {
     connectOrCreate?: CommentCreateOrConnectWithoutParentInput | CommentCreateOrConnectWithoutParentInput[]
     createMany?: CommentCreateManyParentInputEnvelope
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type LikeUncheckedCreateNestedManyWithoutCommentInput = {
+    create?: XOR<LikeCreateWithoutCommentInput, LikeUncheckedCreateWithoutCommentInput> | LikeCreateWithoutCommentInput[] | LikeUncheckedCreateWithoutCommentInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutCommentInput | LikeCreateOrConnectWithoutCommentInput[]
+    createMany?: LikeCreateManyCommentInputEnvelope
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
   }
 
   export type ContentVersionUncheckedCreateNestedManyWithoutCommentInput = {
@@ -25692,6 +34202,20 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type LikeUpdateManyWithoutCommentNestedInput = {
+    create?: XOR<LikeCreateWithoutCommentInput, LikeUncheckedCreateWithoutCommentInput> | LikeCreateWithoutCommentInput[] | LikeUncheckedCreateWithoutCommentInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutCommentInput | LikeCreateOrConnectWithoutCommentInput[]
+    upsert?: LikeUpsertWithWhereUniqueWithoutCommentInput | LikeUpsertWithWhereUniqueWithoutCommentInput[]
+    createMany?: LikeCreateManyCommentInputEnvelope
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    update?: LikeUpdateWithWhereUniqueWithoutCommentInput | LikeUpdateWithWhereUniqueWithoutCommentInput[]
+    updateMany?: LikeUpdateManyWithWhereWithoutCommentInput | LikeUpdateManyWithWhereWithoutCommentInput[]
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
+  }
+
   export type ContentVersionUpdateManyWithoutCommentNestedInput = {
     create?: XOR<ContentVersionCreateWithoutCommentInput, ContentVersionUncheckedCreateWithoutCommentInput> | ContentVersionCreateWithoutCommentInput[] | ContentVersionUncheckedCreateWithoutCommentInput[]
     connectOrCreate?: ContentVersionCreateOrConnectWithoutCommentInput | ContentVersionCreateOrConnectWithoutCommentInput[]
@@ -25720,6 +34244,20 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type LikeUncheckedUpdateManyWithoutCommentNestedInput = {
+    create?: XOR<LikeCreateWithoutCommentInput, LikeUncheckedCreateWithoutCommentInput> | LikeCreateWithoutCommentInput[] | LikeUncheckedCreateWithoutCommentInput[]
+    connectOrCreate?: LikeCreateOrConnectWithoutCommentInput | LikeCreateOrConnectWithoutCommentInput[]
+    upsert?: LikeUpsertWithWhereUniqueWithoutCommentInput | LikeUpsertWithWhereUniqueWithoutCommentInput[]
+    createMany?: LikeCreateManyCommentInputEnvelope
+    set?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    disconnect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    delete?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    connect?: LikeWhereUniqueInput | LikeWhereUniqueInput[]
+    update?: LikeUpdateWithWhereUniqueWithoutCommentInput | LikeUpdateWithWhereUniqueWithoutCommentInput[]
+    updateMany?: LikeUpdateManyWithWhereWithoutCommentInput | LikeUpdateManyWithWhereWithoutCommentInput[]
+    deleteMany?: LikeScalarWhereInput | LikeScalarWhereInput[]
+  }
+
   export type ContentVersionUncheckedUpdateManyWithoutCommentNestedInput = {
     create?: XOR<ContentVersionCreateWithoutCommentInput, ContentVersionUncheckedCreateWithoutCommentInput> | ContentVersionCreateWithoutCommentInput[] | ContentVersionUncheckedCreateWithoutCommentInput[]
     connectOrCreate?: ContentVersionCreateOrConnectWithoutCommentInput | ContentVersionCreateOrConnectWithoutCommentInput[]
@@ -25732,6 +34270,66 @@ export namespace Prisma {
     update?: ContentVersionUpdateWithWhereUniqueWithoutCommentInput | ContentVersionUpdateWithWhereUniqueWithoutCommentInput[]
     updateMany?: ContentVersionUpdateManyWithWhereWithoutCommentInput | ContentVersionUpdateManyWithWhereWithoutCommentInput[]
     deleteMany?: ContentVersionScalarWhereInput | ContentVersionScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutLikesInput = {
+    create?: XOR<UserCreateWithoutLikesInput, UserUncheckedCreateWithoutLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLikesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PostCreateNestedOneWithoutLikesInput = {
+    create?: XOR<PostCreateWithoutLikesInput, PostUncheckedCreateWithoutLikesInput>
+    connectOrCreate?: PostCreateOrConnectWithoutLikesInput
+    connect?: PostWhereUniqueInput
+  }
+
+  export type CommentCreateNestedOneWithoutLikesInput = {
+    create?: XOR<CommentCreateWithoutLikesInput, CommentUncheckedCreateWithoutLikesInput>
+    connectOrCreate?: CommentCreateOrConnectWithoutLikesInput
+    connect?: CommentWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutLikesNestedInput = {
+    create?: XOR<UserCreateWithoutLikesInput, UserUncheckedCreateWithoutLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutLikesInput
+    upsert?: UserUpsertWithoutLikesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLikesInput, UserUpdateWithoutLikesInput>, UserUncheckedUpdateWithoutLikesInput>
+  }
+
+  export type PostUpdateOneWithoutLikesNestedInput = {
+    create?: XOR<PostCreateWithoutLikesInput, PostUncheckedCreateWithoutLikesInput>
+    connectOrCreate?: PostCreateOrConnectWithoutLikesInput
+    upsert?: PostUpsertWithoutLikesInput
+    disconnect?: PostWhereInput | boolean
+    delete?: PostWhereInput | boolean
+    connect?: PostWhereUniqueInput
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutLikesInput, PostUpdateWithoutLikesInput>, PostUncheckedUpdateWithoutLikesInput>
+  }
+
+  export type CommentUpdateOneWithoutLikesNestedInput = {
+    create?: XOR<CommentCreateWithoutLikesInput, CommentUncheckedCreateWithoutLikesInput>
+    connectOrCreate?: CommentCreateOrConnectWithoutLikesInput
+    upsert?: CommentUpsertWithoutLikesInput
+    disconnect?: CommentWhereInput | boolean
+    delete?: CommentWhereInput | boolean
+    connect?: CommentWhereUniqueInput
+    update?: XOR<XOR<CommentUpdateToOneWithWhereWithoutLikesInput, CommentUpdateWithoutLikesInput>, CommentUncheckedUpdateWithoutLikesInput>
+  }
+
+  export type CommunityCreateNestedOneWithoutBannersInput = {
+    create?: XOR<CommunityCreateWithoutBannersInput, CommunityUncheckedCreateWithoutBannersInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutBannersInput
+    connect?: CommunityWhereUniqueInput
+  }
+
+  export type CommunityUpdateOneRequiredWithoutBannersNestedInput = {
+    create?: XOR<CommunityCreateWithoutBannersInput, CommunityUncheckedCreateWithoutBannersInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutBannersInput
+    upsert?: CommunityUpsertWithoutBannersInput
+    connect?: CommunityWhereUniqueInput
+    update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutBannersInput, CommunityUpdateWithoutBannersInput>, CommunityUncheckedUpdateWithoutBannersInput>
   }
 
   export type PostCreateNestedOneWithoutVersionsInput = {
@@ -26052,11 +34650,25 @@ export namespace Prisma {
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
   }
 
+  export type ChannelCreateNestedManyWithoutRequiredTierInput = {
+    create?: XOR<ChannelCreateWithoutRequiredTierInput, ChannelUncheckedCreateWithoutRequiredTierInput> | ChannelCreateWithoutRequiredTierInput[] | ChannelUncheckedCreateWithoutRequiredTierInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutRequiredTierInput | ChannelCreateOrConnectWithoutRequiredTierInput[]
+    createMany?: ChannelCreateManyRequiredTierInputEnvelope
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+  }
+
   export type SubscriptionUncheckedCreateNestedManyWithoutPaymentTierInput = {
     create?: XOR<SubscriptionCreateWithoutPaymentTierInput, SubscriptionUncheckedCreateWithoutPaymentTierInput> | SubscriptionCreateWithoutPaymentTierInput[] | SubscriptionUncheckedCreateWithoutPaymentTierInput[]
     connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentTierInput | SubscriptionCreateOrConnectWithoutPaymentTierInput[]
     createMany?: SubscriptionCreateManyPaymentTierInputEnvelope
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
+  }
+
+  export type ChannelUncheckedCreateNestedManyWithoutRequiredTierInput = {
+    create?: XOR<ChannelCreateWithoutRequiredTierInput, ChannelUncheckedCreateWithoutRequiredTierInput> | ChannelCreateWithoutRequiredTierInput[] | ChannelUncheckedCreateWithoutRequiredTierInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutRequiredTierInput | ChannelCreateOrConnectWithoutRequiredTierInput[]
+    createMany?: ChannelCreateManyRequiredTierInputEnvelope
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
   }
 
   export type PaymentTierUpdatefeaturesInput = {
@@ -26086,6 +34698,20 @@ export namespace Prisma {
     deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
   }
 
+  export type ChannelUpdateManyWithoutRequiredTierNestedInput = {
+    create?: XOR<ChannelCreateWithoutRequiredTierInput, ChannelUncheckedCreateWithoutRequiredTierInput> | ChannelCreateWithoutRequiredTierInput[] | ChannelUncheckedCreateWithoutRequiredTierInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutRequiredTierInput | ChannelCreateOrConnectWithoutRequiredTierInput[]
+    upsert?: ChannelUpsertWithWhereUniqueWithoutRequiredTierInput | ChannelUpsertWithWhereUniqueWithoutRequiredTierInput[]
+    createMany?: ChannelCreateManyRequiredTierInputEnvelope
+    set?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    disconnect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    delete?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    update?: ChannelUpdateWithWhereUniqueWithoutRequiredTierInput | ChannelUpdateWithWhereUniqueWithoutRequiredTierInput[]
+    updateMany?: ChannelUpdateManyWithWhereWithoutRequiredTierInput | ChannelUpdateManyWithWhereWithoutRequiredTierInput[]
+    deleteMany?: ChannelScalarWhereInput | ChannelScalarWhereInput[]
+  }
+
   export type SubscriptionUncheckedUpdateManyWithoutPaymentTierNestedInput = {
     create?: XOR<SubscriptionCreateWithoutPaymentTierInput, SubscriptionUncheckedCreateWithoutPaymentTierInput> | SubscriptionCreateWithoutPaymentTierInput[] | SubscriptionUncheckedCreateWithoutPaymentTierInput[]
     connectOrCreate?: SubscriptionCreateOrConnectWithoutPaymentTierInput | SubscriptionCreateOrConnectWithoutPaymentTierInput[]
@@ -26098,6 +34724,20 @@ export namespace Prisma {
     update?: SubscriptionUpdateWithWhereUniqueWithoutPaymentTierInput | SubscriptionUpdateWithWhereUniqueWithoutPaymentTierInput[]
     updateMany?: SubscriptionUpdateManyWithWhereWithoutPaymentTierInput | SubscriptionUpdateManyWithWhereWithoutPaymentTierInput[]
     deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
+  }
+
+  export type ChannelUncheckedUpdateManyWithoutRequiredTierNestedInput = {
+    create?: XOR<ChannelCreateWithoutRequiredTierInput, ChannelUncheckedCreateWithoutRequiredTierInput> | ChannelCreateWithoutRequiredTierInput[] | ChannelUncheckedCreateWithoutRequiredTierInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutRequiredTierInput | ChannelCreateOrConnectWithoutRequiredTierInput[]
+    upsert?: ChannelUpsertWithWhereUniqueWithoutRequiredTierInput | ChannelUpsertWithWhereUniqueWithoutRequiredTierInput[]
+    createMany?: ChannelCreateManyRequiredTierInputEnvelope
+    set?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    disconnect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    delete?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    update?: ChannelUpdateWithWhereUniqueWithoutRequiredTierInput | ChannelUpdateWithWhereUniqueWithoutRequiredTierInput[]
+    updateMany?: ChannelUpdateManyWithWhereWithoutRequiredTierInput | ChannelUpdateManyWithWhereWithoutRequiredTierInput[]
+    deleteMany?: ChannelScalarWhereInput | ChannelScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutSubscriptionsInput = {
@@ -26162,6 +34802,166 @@ export namespace Prisma {
     upsert?: CommunityUpsertWithoutCouponsInput
     connect?: CommunityWhereUniqueInput
     update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutCouponsInput, CommunityUpdateWithoutCouponsInput>, CommunityUncheckedUpdateWithoutCouponsInput>
+  }
+
+  export type CommunityCreateNestedOneWithoutSpacesInput = {
+    create?: XOR<CommunityCreateWithoutSpacesInput, CommunityUncheckedCreateWithoutSpacesInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutSpacesInput
+    connect?: CommunityWhereUniqueInput
+  }
+
+  export type SpaceCreateNestedOneWithoutChildSpacesInput = {
+    create?: XOR<SpaceCreateWithoutChildSpacesInput, SpaceUncheckedCreateWithoutChildSpacesInput>
+    connectOrCreate?: SpaceCreateOrConnectWithoutChildSpacesInput
+    connect?: SpaceWhereUniqueInput
+  }
+
+  export type SpaceCreateNestedManyWithoutParentSpaceInput = {
+    create?: XOR<SpaceCreateWithoutParentSpaceInput, SpaceUncheckedCreateWithoutParentSpaceInput> | SpaceCreateWithoutParentSpaceInput[] | SpaceUncheckedCreateWithoutParentSpaceInput[]
+    connectOrCreate?: SpaceCreateOrConnectWithoutParentSpaceInput | SpaceCreateOrConnectWithoutParentSpaceInput[]
+    createMany?: SpaceCreateManyParentSpaceInputEnvelope
+    connect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+  }
+
+  export type ChannelCreateNestedManyWithoutSpaceInput = {
+    create?: XOR<ChannelCreateWithoutSpaceInput, ChannelUncheckedCreateWithoutSpaceInput> | ChannelCreateWithoutSpaceInput[] | ChannelUncheckedCreateWithoutSpaceInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutSpaceInput | ChannelCreateOrConnectWithoutSpaceInput[]
+    createMany?: ChannelCreateManySpaceInputEnvelope
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+  }
+
+  export type SpaceUncheckedCreateNestedManyWithoutParentSpaceInput = {
+    create?: XOR<SpaceCreateWithoutParentSpaceInput, SpaceUncheckedCreateWithoutParentSpaceInput> | SpaceCreateWithoutParentSpaceInput[] | SpaceUncheckedCreateWithoutParentSpaceInput[]
+    connectOrCreate?: SpaceCreateOrConnectWithoutParentSpaceInput | SpaceCreateOrConnectWithoutParentSpaceInput[]
+    createMany?: SpaceCreateManyParentSpaceInputEnvelope
+    connect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+  }
+
+  export type ChannelUncheckedCreateNestedManyWithoutSpaceInput = {
+    create?: XOR<ChannelCreateWithoutSpaceInput, ChannelUncheckedCreateWithoutSpaceInput> | ChannelCreateWithoutSpaceInput[] | ChannelUncheckedCreateWithoutSpaceInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutSpaceInput | ChannelCreateOrConnectWithoutSpaceInput[]
+    createMany?: ChannelCreateManySpaceInputEnvelope
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+  }
+
+  export type CommunityUpdateOneRequiredWithoutSpacesNestedInput = {
+    create?: XOR<CommunityCreateWithoutSpacesInput, CommunityUncheckedCreateWithoutSpacesInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutSpacesInput
+    upsert?: CommunityUpsertWithoutSpacesInput
+    connect?: CommunityWhereUniqueInput
+    update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutSpacesInput, CommunityUpdateWithoutSpacesInput>, CommunityUncheckedUpdateWithoutSpacesInput>
+  }
+
+  export type SpaceUpdateOneWithoutChildSpacesNestedInput = {
+    create?: XOR<SpaceCreateWithoutChildSpacesInput, SpaceUncheckedCreateWithoutChildSpacesInput>
+    connectOrCreate?: SpaceCreateOrConnectWithoutChildSpacesInput
+    upsert?: SpaceUpsertWithoutChildSpacesInput
+    disconnect?: SpaceWhereInput | boolean
+    delete?: SpaceWhereInput | boolean
+    connect?: SpaceWhereUniqueInput
+    update?: XOR<XOR<SpaceUpdateToOneWithWhereWithoutChildSpacesInput, SpaceUpdateWithoutChildSpacesInput>, SpaceUncheckedUpdateWithoutChildSpacesInput>
+  }
+
+  export type SpaceUpdateManyWithoutParentSpaceNestedInput = {
+    create?: XOR<SpaceCreateWithoutParentSpaceInput, SpaceUncheckedCreateWithoutParentSpaceInput> | SpaceCreateWithoutParentSpaceInput[] | SpaceUncheckedCreateWithoutParentSpaceInput[]
+    connectOrCreate?: SpaceCreateOrConnectWithoutParentSpaceInput | SpaceCreateOrConnectWithoutParentSpaceInput[]
+    upsert?: SpaceUpsertWithWhereUniqueWithoutParentSpaceInput | SpaceUpsertWithWhereUniqueWithoutParentSpaceInput[]
+    createMany?: SpaceCreateManyParentSpaceInputEnvelope
+    set?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    disconnect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    delete?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    connect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    update?: SpaceUpdateWithWhereUniqueWithoutParentSpaceInput | SpaceUpdateWithWhereUniqueWithoutParentSpaceInput[]
+    updateMany?: SpaceUpdateManyWithWhereWithoutParentSpaceInput | SpaceUpdateManyWithWhereWithoutParentSpaceInput[]
+    deleteMany?: SpaceScalarWhereInput | SpaceScalarWhereInput[]
+  }
+
+  export type ChannelUpdateManyWithoutSpaceNestedInput = {
+    create?: XOR<ChannelCreateWithoutSpaceInput, ChannelUncheckedCreateWithoutSpaceInput> | ChannelCreateWithoutSpaceInput[] | ChannelUncheckedCreateWithoutSpaceInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutSpaceInput | ChannelCreateOrConnectWithoutSpaceInput[]
+    upsert?: ChannelUpsertWithWhereUniqueWithoutSpaceInput | ChannelUpsertWithWhereUniqueWithoutSpaceInput[]
+    createMany?: ChannelCreateManySpaceInputEnvelope
+    set?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    disconnect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    delete?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    update?: ChannelUpdateWithWhereUniqueWithoutSpaceInput | ChannelUpdateWithWhereUniqueWithoutSpaceInput[]
+    updateMany?: ChannelUpdateManyWithWhereWithoutSpaceInput | ChannelUpdateManyWithWhereWithoutSpaceInput[]
+    deleteMany?: ChannelScalarWhereInput | ChannelScalarWhereInput[]
+  }
+
+  export type SpaceUncheckedUpdateManyWithoutParentSpaceNestedInput = {
+    create?: XOR<SpaceCreateWithoutParentSpaceInput, SpaceUncheckedCreateWithoutParentSpaceInput> | SpaceCreateWithoutParentSpaceInput[] | SpaceUncheckedCreateWithoutParentSpaceInput[]
+    connectOrCreate?: SpaceCreateOrConnectWithoutParentSpaceInput | SpaceCreateOrConnectWithoutParentSpaceInput[]
+    upsert?: SpaceUpsertWithWhereUniqueWithoutParentSpaceInput | SpaceUpsertWithWhereUniqueWithoutParentSpaceInput[]
+    createMany?: SpaceCreateManyParentSpaceInputEnvelope
+    set?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    disconnect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    delete?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    connect?: SpaceWhereUniqueInput | SpaceWhereUniqueInput[]
+    update?: SpaceUpdateWithWhereUniqueWithoutParentSpaceInput | SpaceUpdateWithWhereUniqueWithoutParentSpaceInput[]
+    updateMany?: SpaceUpdateManyWithWhereWithoutParentSpaceInput | SpaceUpdateManyWithWhereWithoutParentSpaceInput[]
+    deleteMany?: SpaceScalarWhereInput | SpaceScalarWhereInput[]
+  }
+
+  export type ChannelUncheckedUpdateManyWithoutSpaceNestedInput = {
+    create?: XOR<ChannelCreateWithoutSpaceInput, ChannelUncheckedCreateWithoutSpaceInput> | ChannelCreateWithoutSpaceInput[] | ChannelUncheckedCreateWithoutSpaceInput[]
+    connectOrCreate?: ChannelCreateOrConnectWithoutSpaceInput | ChannelCreateOrConnectWithoutSpaceInput[]
+    upsert?: ChannelUpsertWithWhereUniqueWithoutSpaceInput | ChannelUpsertWithWhereUniqueWithoutSpaceInput[]
+    createMany?: ChannelCreateManySpaceInputEnvelope
+    set?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    disconnect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    delete?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    connect?: ChannelWhereUniqueInput | ChannelWhereUniqueInput[]
+    update?: ChannelUpdateWithWhereUniqueWithoutSpaceInput | ChannelUpdateWithWhereUniqueWithoutSpaceInput[]
+    updateMany?: ChannelUpdateManyWithWhereWithoutSpaceInput | ChannelUpdateManyWithWhereWithoutSpaceInput[]
+    deleteMany?: ChannelScalarWhereInput | ChannelScalarWhereInput[]
+  }
+
+  export type CommunityCreateNestedOneWithoutChannelsInput = {
+    create?: XOR<CommunityCreateWithoutChannelsInput, CommunityUncheckedCreateWithoutChannelsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutChannelsInput
+    connect?: CommunityWhereUniqueInput
+  }
+
+  export type SpaceCreateNestedOneWithoutChannelsInput = {
+    create?: XOR<SpaceCreateWithoutChannelsInput, SpaceUncheckedCreateWithoutChannelsInput>
+    connectOrCreate?: SpaceCreateOrConnectWithoutChannelsInput
+    connect?: SpaceWhereUniqueInput
+  }
+
+  export type PaymentTierCreateNestedOneWithoutChannelsInput = {
+    create?: XOR<PaymentTierCreateWithoutChannelsInput, PaymentTierUncheckedCreateWithoutChannelsInput>
+    connectOrCreate?: PaymentTierCreateOrConnectWithoutChannelsInput
+    connect?: PaymentTierWhereUniqueInput
+  }
+
+  export type CommunityUpdateOneRequiredWithoutChannelsNestedInput = {
+    create?: XOR<CommunityCreateWithoutChannelsInput, CommunityUncheckedCreateWithoutChannelsInput>
+    connectOrCreate?: CommunityCreateOrConnectWithoutChannelsInput
+    upsert?: CommunityUpsertWithoutChannelsInput
+    connect?: CommunityWhereUniqueInput
+    update?: XOR<XOR<CommunityUpdateToOneWithWhereWithoutChannelsInput, CommunityUpdateWithoutChannelsInput>, CommunityUncheckedUpdateWithoutChannelsInput>
+  }
+
+  export type SpaceUpdateOneWithoutChannelsNestedInput = {
+    create?: XOR<SpaceCreateWithoutChannelsInput, SpaceUncheckedCreateWithoutChannelsInput>
+    connectOrCreate?: SpaceCreateOrConnectWithoutChannelsInput
+    upsert?: SpaceUpsertWithoutChannelsInput
+    disconnect?: SpaceWhereInput | boolean
+    delete?: SpaceWhereInput | boolean
+    connect?: SpaceWhereUniqueInput
+    update?: XOR<XOR<SpaceUpdateToOneWithWhereWithoutChannelsInput, SpaceUpdateWithoutChannelsInput>, SpaceUncheckedUpdateWithoutChannelsInput>
+  }
+
+  export type PaymentTierUpdateOneWithoutChannelsNestedInput = {
+    create?: XOR<PaymentTierCreateWithoutChannelsInput, PaymentTierUncheckedCreateWithoutChannelsInput>
+    connectOrCreate?: PaymentTierCreateOrConnectWithoutChannelsInput
+    upsert?: PaymentTierUpsertWithoutChannelsInput
+    disconnect?: PaymentTierWhereInput | boolean
+    delete?: PaymentTierWhereInput | boolean
+    connect?: PaymentTierWhereUniqueInput
+    update?: XOR<XOR<PaymentTierUpdateToOneWithWhereWithoutChannelsInput, PaymentTierUpdateWithoutChannelsInput>, PaymentTierUncheckedUpdateWithoutChannelsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -26354,6 +35154,52 @@ export namespace Prisma {
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
   }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedEnumContentTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.ContentType | EnumContentTypeFieldRefInput<$PrismaModel>
@@ -26445,20 +35291,22 @@ export namespace Prisma {
   export type PostCreateWithoutAuthorInput = {
     id?: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     deletedAt?: Date | string | null
     community: CommunityCreateNestedOneWithoutPostsInput
     comments?: CommentCreateNestedManyWithoutPostInput
-    attachments?: PostAttachmentCreateNestedManyWithoutPostInput
+    likes?: LikeCreateNestedManyWithoutPostInput
+    attachments?: AttachmentCreateNestedManyWithoutPostInput
+    drafts?: PostDraftCreateNestedManyWithoutPostInput
     versions?: ContentVersionCreateNestedManyWithoutPostInput
   }
 
@@ -26466,19 +35314,21 @@ export namespace Prisma {
     id?: string
     communityId: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     deletedAt?: Date | string | null
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
-    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutPostInput
+    drafts?: PostDraftUncheckedCreateNestedManyWithoutPostInput
     versions?: ContentVersionUncheckedCreateNestedManyWithoutPostInput
   }
 
@@ -26494,15 +35344,15 @@ export namespace Prisma {
 
   export type CommentCreateWithoutAuthorInput = {
     id?: string
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     post: PostCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutRepliesInput
     replies?: CommentCreateNestedManyWithoutParentInput
+    likes?: LikeCreateNestedManyWithoutCommentInput
     versions?: ContentVersionCreateNestedManyWithoutCommentInput
   }
 
@@ -26510,13 +35360,13 @@ export namespace Prisma {
     id?: string
     postId: string
     parentId?: string | null
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     replies?: CommentUncheckedCreateNestedManyWithoutParentInput
+    likes?: LikeUncheckedCreateNestedManyWithoutCommentInput
     versions?: ContentVersionUncheckedCreateNestedManyWithoutCommentInput
   }
 
@@ -26527,6 +35377,88 @@ export namespace Prisma {
 
   export type CommentCreateManyAuthorInputEnvelope = {
     data: CommentCreateManyAuthorInput | CommentCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LikeCreateWithoutUserInput = {
+    id?: string
+    createdAt?: Date | string
+    post?: PostCreateNestedOneWithoutLikesInput
+    comment?: CommentCreateNestedOneWithoutLikesInput
+  }
+
+  export type LikeUncheckedCreateWithoutUserInput = {
+    id?: string
+    postId?: string | null
+    commentId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LikeCreateOrConnectWithoutUserInput = {
+    where: LikeWhereUniqueInput
+    create: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type LikeCreateManyUserInputEnvelope = {
+    data: LikeCreateManyUserInput | LikeCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PostDraftCreateWithoutUserInput = {
+    id?: string
+    content: JsonNullValueInput | InputJsonValue
+    savedAt?: Date | string
+    expiresAt: Date | string
+    post?: PostCreateNestedOneWithoutDraftsInput
+  }
+
+  export type PostDraftUncheckedCreateWithoutUserInput = {
+    id?: string
+    postId?: string | null
+    content: JsonNullValueInput | InputJsonValue
+    savedAt?: Date | string
+    expiresAt: Date | string
+  }
+
+  export type PostDraftCreateOrConnectWithoutUserInput = {
+    where: PostDraftWhereUniqueInput
+    create: XOR<PostDraftCreateWithoutUserInput, PostDraftUncheckedCreateWithoutUserInput>
+  }
+
+  export type PostDraftCreateManyUserInputEnvelope = {
+    data: PostDraftCreateManyUserInput | PostDraftCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttachmentCreateWithoutUploaderInput = {
+    id?: string
+    url: string
+    filename: string
+    mimeType: string
+    size: number
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    post: PostCreateNestedOneWithoutAttachmentsInput
+  }
+
+  export type AttachmentUncheckedCreateWithoutUploaderInput = {
+    id?: string
+    postId: string
+    url: string
+    filename: string
+    mimeType: string
+    size: number
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type AttachmentCreateOrConnectWithoutUploaderInput = {
+    where: AttachmentWhereUniqueInput
+    create: XOR<AttachmentCreateWithoutUploaderInput, AttachmentUncheckedCreateWithoutUploaderInput>
+  }
+
+  export type AttachmentCreateManyUploaderInputEnvelope = {
+    data: AttachmentCreateManyUploaderInput | AttachmentCreateManyUploaderInput[]
     skipDuplicates?: boolean
   }
 
@@ -26764,13 +35696,13 @@ export namespace Prisma {
     communityId?: StringFilter<"Post"> | string
     authorId?: StringFilter<"Post"> | string
     title?: StringFilter<"Post"> | string
-    content?: StringFilter<"Post"> | string
+    body?: StringFilter<"Post"> | string
+    isDraft?: BoolFilter<"Post"> | boolean
+    category?: StringNullableFilter<"Post"> | string | null
     isPinned?: BoolFilter<"Post"> | boolean
-    isSolved?: BoolFilter<"Post"> | boolean
-    likeCount?: IntFilter<"Post"> | number
-    helpfulCount?: IntFilter<"Post"> | number
-    commentCount?: IntFilter<"Post"> | number
     viewCount?: IntFilter<"Post"> | number
+    likeCount?: IntFilter<"Post"> | number
+    commentCount?: IntFilter<"Post"> | number
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
     publishedAt?: DateTimeNullableFilter<"Post"> | Date | string | null
@@ -26801,12 +35733,97 @@ export namespace Prisma {
     postId?: StringFilter<"Comment"> | string
     authorId?: StringFilter<"Comment"> | string
     parentId?: StringNullableFilter<"Comment"> | string | null
-    content?: StringFilter<"Comment"> | string
+    body?: StringFilter<"Comment"> | string
     likeCount?: IntFilter<"Comment"> | number
-    helpfulCount?: IntFilter<"Comment"> | number
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
+  }
+
+  export type LikeUpsertWithWhereUniqueWithoutUserInput = {
+    where: LikeWhereUniqueInput
+    update: XOR<LikeUpdateWithoutUserInput, LikeUncheckedUpdateWithoutUserInput>
+    create: XOR<LikeCreateWithoutUserInput, LikeUncheckedCreateWithoutUserInput>
+  }
+
+  export type LikeUpdateWithWhereUniqueWithoutUserInput = {
+    where: LikeWhereUniqueInput
+    data: XOR<LikeUpdateWithoutUserInput, LikeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type LikeUpdateManyWithWhereWithoutUserInput = {
+    where: LikeScalarWhereInput
+    data: XOR<LikeUpdateManyMutationInput, LikeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type LikeScalarWhereInput = {
+    AND?: LikeScalarWhereInput | LikeScalarWhereInput[]
+    OR?: LikeScalarWhereInput[]
+    NOT?: LikeScalarWhereInput | LikeScalarWhereInput[]
+    id?: StringFilter<"Like"> | string
+    userId?: StringFilter<"Like"> | string
+    postId?: StringNullableFilter<"Like"> | string | null
+    commentId?: StringNullableFilter<"Like"> | string | null
+    createdAt?: DateTimeFilter<"Like"> | Date | string
+  }
+
+  export type PostDraftUpsertWithWhereUniqueWithoutUserInput = {
+    where: PostDraftWhereUniqueInput
+    update: XOR<PostDraftUpdateWithoutUserInput, PostDraftUncheckedUpdateWithoutUserInput>
+    create: XOR<PostDraftCreateWithoutUserInput, PostDraftUncheckedCreateWithoutUserInput>
+  }
+
+  export type PostDraftUpdateWithWhereUniqueWithoutUserInput = {
+    where: PostDraftWhereUniqueInput
+    data: XOR<PostDraftUpdateWithoutUserInput, PostDraftUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PostDraftUpdateManyWithWhereWithoutUserInput = {
+    where: PostDraftScalarWhereInput
+    data: XOR<PostDraftUpdateManyMutationInput, PostDraftUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PostDraftScalarWhereInput = {
+    AND?: PostDraftScalarWhereInput | PostDraftScalarWhereInput[]
+    OR?: PostDraftScalarWhereInput[]
+    NOT?: PostDraftScalarWhereInput | PostDraftScalarWhereInput[]
+    id?: StringFilter<"PostDraft"> | string
+    postId?: StringNullableFilter<"PostDraft"> | string | null
+    userId?: StringFilter<"PostDraft"> | string
+    content?: JsonFilter<"PostDraft">
+    savedAt?: DateTimeFilter<"PostDraft"> | Date | string
+    expiresAt?: DateTimeFilter<"PostDraft"> | Date | string
+  }
+
+  export type AttachmentUpsertWithWhereUniqueWithoutUploaderInput = {
+    where: AttachmentWhereUniqueInput
+    update: XOR<AttachmentUpdateWithoutUploaderInput, AttachmentUncheckedUpdateWithoutUploaderInput>
+    create: XOR<AttachmentCreateWithoutUploaderInput, AttachmentUncheckedCreateWithoutUploaderInput>
+  }
+
+  export type AttachmentUpdateWithWhereUniqueWithoutUploaderInput = {
+    where: AttachmentWhereUniqueInput
+    data: XOR<AttachmentUpdateWithoutUploaderInput, AttachmentUncheckedUpdateWithoutUploaderInput>
+  }
+
+  export type AttachmentUpdateManyWithWhereWithoutUploaderInput = {
+    where: AttachmentScalarWhereInput
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyWithoutUploaderInput>
+  }
+
+  export type AttachmentScalarWhereInput = {
+    AND?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+    OR?: AttachmentScalarWhereInput[]
+    NOT?: AttachmentScalarWhereInput | AttachmentScalarWhereInput[]
+    id?: StringFilter<"Attachment"> | string
+    postId?: StringFilter<"Attachment"> | string
+    url?: StringFilter<"Attachment"> | string
+    filename?: StringFilter<"Attachment"> | string
+    mimeType?: StringFilter<"Attachment"> | string
+    size?: IntFilter<"Attachment"> | number
+    uploadedBy?: StringFilter<"Attachment"> | string
+    createdAt?: DateTimeFilter<"Attachment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Attachment"> | Date | string | null
   }
 
   export type CourseUpsertWithWhereUniqueWithoutInstructorInput = {
@@ -27001,20 +36018,22 @@ export namespace Prisma {
   export type PostCreateWithoutCommunityInput = {
     id?: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     deletedAt?: Date | string | null
     author: UserCreateNestedOneWithoutPostsInput
     comments?: CommentCreateNestedManyWithoutPostInput
-    attachments?: PostAttachmentCreateNestedManyWithoutPostInput
+    likes?: LikeCreateNestedManyWithoutPostInput
+    attachments?: AttachmentCreateNestedManyWithoutPostInput
+    drafts?: PostDraftCreateNestedManyWithoutPostInput
     versions?: ContentVersionCreateNestedManyWithoutPostInput
   }
 
@@ -27022,19 +36041,21 @@ export namespace Prisma {
     id?: string
     authorId: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     deletedAt?: Date | string | null
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
-    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutPostInput
+    drafts?: PostDraftUncheckedCreateNestedManyWithoutPostInput
     versions?: ContentVersionUncheckedCreateNestedManyWithoutPostInput
   }
 
@@ -27045,6 +36066,42 @@ export namespace Prisma {
 
   export type PostCreateManyCommunityInputEnvelope = {
     data: PostCreateManyCommunityInput | PostCreateManyCommunityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityBannerCreateWithoutCommunityInput = {
+    id?: string
+    title: string
+    subtitle?: string | null
+    ctaText?: string | null
+    ctaLink?: string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CommunityBannerUncheckedCreateWithoutCommunityInput = {
+    id?: string
+    title: string
+    subtitle?: string | null
+    ctaText?: string | null
+    ctaLink?: string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CommunityBannerCreateOrConnectWithoutCommunityInput = {
+    where: CommunityBannerWhereUniqueInput
+    create: XOR<CommunityBannerCreateWithoutCommunityInput, CommunityBannerUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type CommunityBannerCreateManyCommunityInputEnvelope = {
+    data: CommunityBannerCreateManyCommunityInput | CommunityBannerCreateManyCommunityInput[]
     skipDuplicates?: boolean
   }
 
@@ -27100,6 +36157,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     subscriptions?: SubscriptionCreateNestedManyWithoutPaymentTierInput
+    channels?: ChannelCreateNestedManyWithoutRequiredTierInput
   }
 
   export type PaymentTierUncheckedCreateWithoutCommunityInput = {
@@ -27114,6 +36172,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutPaymentTierInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutRequiredTierInput
   }
 
   export type PaymentTierCreateOrConnectWithoutCommunityInput = {
@@ -27242,6 +36301,88 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type SpaceCreateWithoutCommunityInput = {
+    id?: string
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    parentSpace?: SpaceCreateNestedOneWithoutChildSpacesInput
+    childSpaces?: SpaceCreateNestedManyWithoutParentSpaceInput
+    channels?: ChannelCreateNestedManyWithoutSpaceInput
+  }
+
+  export type SpaceUncheckedCreateWithoutCommunityInput = {
+    id?: string
+    parentSpaceId?: string | null
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    childSpaces?: SpaceUncheckedCreateNestedManyWithoutParentSpaceInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutSpaceInput
+  }
+
+  export type SpaceCreateOrConnectWithoutCommunityInput = {
+    where: SpaceWhereUniqueInput
+    create: XOR<SpaceCreateWithoutCommunityInput, SpaceUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type SpaceCreateManyCommunityInputEnvelope = {
+    data: SpaceCreateManyCommunityInput | SpaceCreateManyCommunityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChannelCreateWithoutCommunityInput = {
+    id?: string
+    name: string
+    description: string
+    permission: string
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    space?: SpaceCreateNestedOneWithoutChannelsInput
+    requiredTier?: PaymentTierCreateNestedOneWithoutChannelsInput
+  }
+
+  export type ChannelUncheckedCreateWithoutCommunityInput = {
+    id?: string
+    spaceId?: string | null
+    name: string
+    description: string
+    permission: string
+    requiredTierId?: string | null
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type ChannelCreateOrConnectWithoutCommunityInput = {
+    where: ChannelWhereUniqueInput
+    create: XOR<ChannelCreateWithoutCommunityInput, ChannelUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type ChannelCreateManyCommunityInputEnvelope = {
+    data: ChannelCreateManyCommunityInput | ChannelCreateManyCommunityInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CommunityMemberUpsertWithWhereUniqueWithoutCommunityInput = {
     where: CommunityMemberWhereUniqueInput
     update: XOR<CommunityMemberUpdateWithoutCommunityInput, CommunityMemberUncheckedUpdateWithoutCommunityInput>
@@ -27272,6 +36413,39 @@ export namespace Prisma {
   export type PostUpdateManyWithWhereWithoutCommunityInput = {
     where: PostScalarWhereInput
     data: XOR<PostUpdateManyMutationInput, PostUncheckedUpdateManyWithoutCommunityInput>
+  }
+
+  export type CommunityBannerUpsertWithWhereUniqueWithoutCommunityInput = {
+    where: CommunityBannerWhereUniqueInput
+    update: XOR<CommunityBannerUpdateWithoutCommunityInput, CommunityBannerUncheckedUpdateWithoutCommunityInput>
+    create: XOR<CommunityBannerCreateWithoutCommunityInput, CommunityBannerUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type CommunityBannerUpdateWithWhereUniqueWithoutCommunityInput = {
+    where: CommunityBannerWhereUniqueInput
+    data: XOR<CommunityBannerUpdateWithoutCommunityInput, CommunityBannerUncheckedUpdateWithoutCommunityInput>
+  }
+
+  export type CommunityBannerUpdateManyWithWhereWithoutCommunityInput = {
+    where: CommunityBannerScalarWhereInput
+    data: XOR<CommunityBannerUpdateManyMutationInput, CommunityBannerUncheckedUpdateManyWithoutCommunityInput>
+  }
+
+  export type CommunityBannerScalarWhereInput = {
+    AND?: CommunityBannerScalarWhereInput | CommunityBannerScalarWhereInput[]
+    OR?: CommunityBannerScalarWhereInput[]
+    NOT?: CommunityBannerScalarWhereInput | CommunityBannerScalarWhereInput[]
+    id?: StringFilter<"CommunityBanner"> | string
+    communityId?: StringFilter<"CommunityBanner"> | string
+    title?: StringFilter<"CommunityBanner"> | string
+    subtitle?: StringNullableFilter<"CommunityBanner"> | string | null
+    ctaText?: StringNullableFilter<"CommunityBanner"> | string | null
+    ctaLink?: StringNullableFilter<"CommunityBanner"> | string | null
+    backgroundGradient?: JsonNullableFilter<"CommunityBanner">
+    backgroundImageUrl?: StringNullableFilter<"CommunityBanner"> | string | null
+    isActive?: BoolFilter<"CommunityBanner"> | boolean
+    createdAt?: DateTimeFilter<"CommunityBanner"> | Date | string
+    updatedAt?: DateTimeFilter<"CommunityBanner"> | Date | string
   }
 
   export type CourseUpsertWithWhereUniqueWithoutCommunityInput = {
@@ -27389,6 +36563,75 @@ export namespace Prisma {
     data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutCommunityInput>
   }
 
+  export type SpaceUpsertWithWhereUniqueWithoutCommunityInput = {
+    where: SpaceWhereUniqueInput
+    update: XOR<SpaceUpdateWithoutCommunityInput, SpaceUncheckedUpdateWithoutCommunityInput>
+    create: XOR<SpaceCreateWithoutCommunityInput, SpaceUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type SpaceUpdateWithWhereUniqueWithoutCommunityInput = {
+    where: SpaceWhereUniqueInput
+    data: XOR<SpaceUpdateWithoutCommunityInput, SpaceUncheckedUpdateWithoutCommunityInput>
+  }
+
+  export type SpaceUpdateManyWithWhereWithoutCommunityInput = {
+    where: SpaceScalarWhereInput
+    data: XOR<SpaceUpdateManyMutationInput, SpaceUncheckedUpdateManyWithoutCommunityInput>
+  }
+
+  export type SpaceScalarWhereInput = {
+    AND?: SpaceScalarWhereInput | SpaceScalarWhereInput[]
+    OR?: SpaceScalarWhereInput[]
+    NOT?: SpaceScalarWhereInput | SpaceScalarWhereInput[]
+    id?: StringFilter<"Space"> | string
+    communityId?: StringFilter<"Space"> | string
+    parentSpaceId?: StringNullableFilter<"Space"> | string | null
+    name?: StringFilter<"Space"> | string
+    description?: StringFilter<"Space"> | string
+    icon?: StringNullableFilter<"Space"> | string | null
+    color?: StringNullableFilter<"Space"> | string | null
+    position?: IntFilter<"Space"> | number
+    createdBy?: StringFilter<"Space"> | string
+    createdAt?: DateTimeFilter<"Space"> | Date | string
+    updatedAt?: DateTimeFilter<"Space"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Space"> | Date | string | null
+  }
+
+  export type ChannelUpsertWithWhereUniqueWithoutCommunityInput = {
+    where: ChannelWhereUniqueInput
+    update: XOR<ChannelUpdateWithoutCommunityInput, ChannelUncheckedUpdateWithoutCommunityInput>
+    create: XOR<ChannelCreateWithoutCommunityInput, ChannelUncheckedCreateWithoutCommunityInput>
+  }
+
+  export type ChannelUpdateWithWhereUniqueWithoutCommunityInput = {
+    where: ChannelWhereUniqueInput
+    data: XOR<ChannelUpdateWithoutCommunityInput, ChannelUncheckedUpdateWithoutCommunityInput>
+  }
+
+  export type ChannelUpdateManyWithWhereWithoutCommunityInput = {
+    where: ChannelScalarWhereInput
+    data: XOR<ChannelUpdateManyMutationInput, ChannelUncheckedUpdateManyWithoutCommunityInput>
+  }
+
+  export type ChannelScalarWhereInput = {
+    AND?: ChannelScalarWhereInput | ChannelScalarWhereInput[]
+    OR?: ChannelScalarWhereInput[]
+    NOT?: ChannelScalarWhereInput | ChannelScalarWhereInput[]
+    id?: StringFilter<"Channel"> | string
+    communityId?: StringFilter<"Channel"> | string
+    spaceId?: StringNullableFilter<"Channel"> | string | null
+    name?: StringFilter<"Channel"> | string
+    description?: StringFilter<"Channel"> | string
+    permission?: StringFilter<"Channel"> | string
+    requiredTierId?: StringNullableFilter<"Channel"> | string | null
+    icon?: StringNullableFilter<"Channel"> | string | null
+    position?: IntFilter<"Channel"> | number
+    createdBy?: StringFilter<"Channel"> | string
+    createdAt?: DateTimeFilter<"Channel"> | Date | string
+    updatedAt?: DateTimeFilter<"Channel"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Channel"> | Date | string | null
+  }
+
   export type UserCreateWithoutMembershipsInput = {
     id?: string
     clerkId: string
@@ -27401,6 +36644,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressCreateNestedManyWithoutUserInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -27420,6 +36666,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftUncheckedCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -27443,11 +36692,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     posts?: PostCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
     coupons?: CouponCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceCreateNestedManyWithoutCommunityInput
+    channels?: ChannelCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutMembersInput = {
@@ -27461,11 +36713,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
     coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceUncheckedCreateNestedManyWithoutCommunityInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutMembersInput = {
@@ -27496,6 +36751,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUpdateManyWithoutUserNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -27515,6 +36773,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUncheckedUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -27544,11 +36805,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     posts?: PostUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutMembersInput = {
@@ -27562,11 +36826,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityCreateWithoutPostsInput = {
@@ -27580,11 +36847,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     members?: CommunityMemberCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
     coupons?: CouponCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceCreateNestedManyWithoutCommunityInput
+    channels?: ChannelCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutPostsInput = {
@@ -27598,11 +36868,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
     coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceUncheckedCreateNestedManyWithoutCommunityInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutPostsInput = {
@@ -27622,6 +36895,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     memberships?: CommunityMemberCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressCreateNestedManyWithoutUserInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -27641,6 +36917,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     memberships?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftUncheckedCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -27655,15 +36934,15 @@ export namespace Prisma {
 
   export type CommentCreateWithoutPostInput = {
     id?: string
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     author: UserCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutRepliesInput
     replies?: CommentCreateNestedManyWithoutParentInput
+    likes?: LikeCreateNestedManyWithoutCommentInput
     versions?: ContentVersionCreateNestedManyWithoutCommentInput
   }
 
@@ -27671,13 +36950,13 @@ export namespace Prisma {
     id?: string
     authorId: string
     parentId?: string | null
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     replies?: CommentUncheckedCreateNestedManyWithoutParentInput
+    likes?: LikeUncheckedCreateNestedManyWithoutCommentInput
     versions?: ContentVersionUncheckedCreateNestedManyWithoutCommentInput
   }
 
@@ -27691,33 +36970,85 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type PostAttachmentCreateWithoutPostInput = {
+  export type LikeCreateWithoutPostInput = {
     id?: string
-    fileName: string
-    fileUrl: string
-    fileSize: number
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutLikesInput
+    comment?: CommentCreateNestedOneWithoutLikesInput
+  }
+
+  export type LikeUncheckedCreateWithoutPostInput = {
+    id?: string
+    userId: string
+    commentId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LikeCreateOrConnectWithoutPostInput = {
+    where: LikeWhereUniqueInput
+    create: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput>
+  }
+
+  export type LikeCreateManyPostInputEnvelope = {
+    data: LikeCreateManyPostInput | LikeCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AttachmentCreateWithoutPostInput = {
+    id?: string
+    url: string
+    filename: string
     mimeType: string
+    size: number
+    createdAt?: Date | string
+    deletedAt?: Date | string | null
+    uploader: UserCreateNestedOneWithoutUploadedAttachmentsInput
+  }
+
+  export type AttachmentUncheckedCreateWithoutPostInput = {
+    id?: string
+    url: string
+    filename: string
+    mimeType: string
+    size: number
+    uploadedBy: string
     createdAt?: Date | string
     deletedAt?: Date | string | null
   }
 
-  export type PostAttachmentUncheckedCreateWithoutPostInput = {
+  export type AttachmentCreateOrConnectWithoutPostInput = {
+    where: AttachmentWhereUniqueInput
+    create: XOR<AttachmentCreateWithoutPostInput, AttachmentUncheckedCreateWithoutPostInput>
+  }
+
+  export type AttachmentCreateManyPostInputEnvelope = {
+    data: AttachmentCreateManyPostInput | AttachmentCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PostDraftCreateWithoutPostInput = {
     id?: string
-    fileName: string
-    fileUrl: string
-    fileSize: number
-    mimeType: string
-    createdAt?: Date | string
-    deletedAt?: Date | string | null
+    content: JsonNullValueInput | InputJsonValue
+    savedAt?: Date | string
+    expiresAt: Date | string
+    user: UserCreateNestedOneWithoutPostDraftsInput
   }
 
-  export type PostAttachmentCreateOrConnectWithoutPostInput = {
-    where: PostAttachmentWhereUniqueInput
-    create: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput>
+  export type PostDraftUncheckedCreateWithoutPostInput = {
+    id?: string
+    userId: string
+    content: JsonNullValueInput | InputJsonValue
+    savedAt?: Date | string
+    expiresAt: Date | string
   }
 
-  export type PostAttachmentCreateManyPostInputEnvelope = {
-    data: PostAttachmentCreateManyPostInput | PostAttachmentCreateManyPostInput[]
+  export type PostDraftCreateOrConnectWithoutPostInput = {
+    where: PostDraftWhereUniqueInput
+    create: XOR<PostDraftCreateWithoutPostInput, PostDraftUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostDraftCreateManyPostInputEnvelope = {
+    data: PostDraftCreateManyPostInput | PostDraftCreateManyPostInput[]
     skipDuplicates?: boolean
   }
 
@@ -27770,11 +37101,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutPostsInput = {
@@ -27788,11 +37122,14 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type UserUpsertWithoutPostsInput = {
@@ -27818,6 +37155,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: CommunityMemberUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUpdateManyWithoutUserNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -27837,6 +37177,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUncheckedUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -27860,34 +37203,52 @@ export namespace Prisma {
     data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutPostInput>
   }
 
-  export type PostAttachmentUpsertWithWhereUniqueWithoutPostInput = {
-    where: PostAttachmentWhereUniqueInput
-    update: XOR<PostAttachmentUpdateWithoutPostInput, PostAttachmentUncheckedUpdateWithoutPostInput>
-    create: XOR<PostAttachmentCreateWithoutPostInput, PostAttachmentUncheckedCreateWithoutPostInput>
+  export type LikeUpsertWithWhereUniqueWithoutPostInput = {
+    where: LikeWhereUniqueInput
+    update: XOR<LikeUpdateWithoutPostInput, LikeUncheckedUpdateWithoutPostInput>
+    create: XOR<LikeCreateWithoutPostInput, LikeUncheckedCreateWithoutPostInput>
   }
 
-  export type PostAttachmentUpdateWithWhereUniqueWithoutPostInput = {
-    where: PostAttachmentWhereUniqueInput
-    data: XOR<PostAttachmentUpdateWithoutPostInput, PostAttachmentUncheckedUpdateWithoutPostInput>
+  export type LikeUpdateWithWhereUniqueWithoutPostInput = {
+    where: LikeWhereUniqueInput
+    data: XOR<LikeUpdateWithoutPostInput, LikeUncheckedUpdateWithoutPostInput>
   }
 
-  export type PostAttachmentUpdateManyWithWhereWithoutPostInput = {
-    where: PostAttachmentScalarWhereInput
-    data: XOR<PostAttachmentUpdateManyMutationInput, PostAttachmentUncheckedUpdateManyWithoutPostInput>
+  export type LikeUpdateManyWithWhereWithoutPostInput = {
+    where: LikeScalarWhereInput
+    data: XOR<LikeUpdateManyMutationInput, LikeUncheckedUpdateManyWithoutPostInput>
   }
 
-  export type PostAttachmentScalarWhereInput = {
-    AND?: PostAttachmentScalarWhereInput | PostAttachmentScalarWhereInput[]
-    OR?: PostAttachmentScalarWhereInput[]
-    NOT?: PostAttachmentScalarWhereInput | PostAttachmentScalarWhereInput[]
-    id?: StringFilter<"PostAttachment"> | string
-    postId?: StringFilter<"PostAttachment"> | string
-    fileName?: StringFilter<"PostAttachment"> | string
-    fileUrl?: StringFilter<"PostAttachment"> | string
-    fileSize?: IntFilter<"PostAttachment"> | number
-    mimeType?: StringFilter<"PostAttachment"> | string
-    createdAt?: DateTimeFilter<"PostAttachment"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"PostAttachment"> | Date | string | null
+  export type AttachmentUpsertWithWhereUniqueWithoutPostInput = {
+    where: AttachmentWhereUniqueInput
+    update: XOR<AttachmentUpdateWithoutPostInput, AttachmentUncheckedUpdateWithoutPostInput>
+    create: XOR<AttachmentCreateWithoutPostInput, AttachmentUncheckedCreateWithoutPostInput>
+  }
+
+  export type AttachmentUpdateWithWhereUniqueWithoutPostInput = {
+    where: AttachmentWhereUniqueInput
+    data: XOR<AttachmentUpdateWithoutPostInput, AttachmentUncheckedUpdateWithoutPostInput>
+  }
+
+  export type AttachmentUpdateManyWithWhereWithoutPostInput = {
+    where: AttachmentScalarWhereInput
+    data: XOR<AttachmentUpdateManyMutationInput, AttachmentUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type PostDraftUpsertWithWhereUniqueWithoutPostInput = {
+    where: PostDraftWhereUniqueInput
+    update: XOR<PostDraftUpdateWithoutPostInput, PostDraftUncheckedUpdateWithoutPostInput>
+    create: XOR<PostDraftCreateWithoutPostInput, PostDraftUncheckedCreateWithoutPostInput>
+  }
+
+  export type PostDraftUpdateWithWhereUniqueWithoutPostInput = {
+    where: PostDraftWhereUniqueInput
+    data: XOR<PostDraftUpdateWithoutPostInput, PostDraftUncheckedUpdateWithoutPostInput>
+  }
+
+  export type PostDraftUpdateManyWithWhereWithoutPostInput = {
+    where: PostDraftScalarWhereInput
+    data: XOR<PostDraftUpdateManyMutationInput, PostDraftUncheckedUpdateManyWithoutPostInput>
   }
 
   export type ContentVersionUpsertWithWhereUniqueWithoutPostInput = {
@@ -27918,16 +37279,16 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"ContentVersion"> | Date | string
   }
 
-  export type PostCreateWithoutAttachmentsInput = {
+  export type PostCreateWithoutDraftsInput = {
     id?: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
@@ -27935,6 +37296,216 @@ export namespace Prisma {
     community: CommunityCreateNestedOneWithoutPostsInput
     author: UserCreateNestedOneWithoutPostsInput
     comments?: CommentCreateNestedManyWithoutPostInput
+    likes?: LikeCreateNestedManyWithoutPostInput
+    attachments?: AttachmentCreateNestedManyWithoutPostInput
+    versions?: ContentVersionCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutDraftsInput = {
+    id?: string
+    communityId: string
+    authorId: string
+    title: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
+    isPinned?: boolean
+    viewCount?: number
+    likeCount?: number
+    commentCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutPostInput
+    versions?: ContentVersionUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutDraftsInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutDraftsInput, PostUncheckedCreateWithoutDraftsInput>
+  }
+
+  export type UserCreateWithoutPostDraftsInput = {
+    id?: string
+    clerkId: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    imageUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: CommunityMemberCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentCreateNestedManyWithoutUploaderInput
+    instructedCourses?: CourseCreateNestedManyWithoutInstructorInput
+    courseProgresses?: CourseProgressCreateNestedManyWithoutUserInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPostDraftsInput = {
+    id?: string
+    clerkId: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    imageUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
+    instructedCourses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
+    courseProgresses?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPostDraftsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPostDraftsInput, UserUncheckedCreateWithoutPostDraftsInput>
+  }
+
+  export type PostUpsertWithoutDraftsInput = {
+    update: XOR<PostUpdateWithoutDraftsInput, PostUncheckedUpdateWithoutDraftsInput>
+    create: XOR<PostCreateWithoutDraftsInput, PostUncheckedCreateWithoutDraftsInput>
+    where?: PostWhereInput
+  }
+
+  export type PostUpdateToOneWithWhereWithoutDraftsInput = {
+    where?: PostWhereInput
+    data: XOR<PostUpdateWithoutDraftsInput, PostUncheckedUpdateWithoutDraftsInput>
+  }
+
+  export type PostUpdateWithoutDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutPostsNestedInput
+    author?: UserUpdateOneRequiredWithoutPostsNestedInput
+    comments?: CommentUpdateManyWithoutPostNestedInput
+    likes?: LikeUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUpdateManyWithoutPostNestedInput
+    versions?: ContentVersionUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutPostNestedInput
+    versions?: ContentVersionUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type UserUpsertWithoutPostDraftsInput = {
+    update: XOR<UserUpdateWithoutPostDraftsInput, UserUncheckedUpdateWithoutPostDraftsInput>
+    create: XOR<UserCreateWithoutPostDraftsInput, UserUncheckedCreateWithoutPostDraftsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPostDraftsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPostDraftsInput, UserUncheckedUpdateWithoutPostDraftsInput>
+  }
+
+  export type UserUpdateWithoutPostDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: CommunityMemberUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUpdateManyWithoutUploaderNestedInput
+    instructedCourses?: CourseUpdateManyWithoutInstructorNestedInput
+    courseProgresses?: CourseProgressUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPostDraftsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
+    instructedCourses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
+    courseProgresses?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PostCreateWithoutAttachmentsInput = {
+    id?: string
+    title: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
+    isPinned?: boolean
+    viewCount?: number
+    likeCount?: number
+    commentCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutPostsInput
+    author: UserCreateNestedOneWithoutPostsInput
+    comments?: CommentCreateNestedManyWithoutPostInput
+    likes?: LikeCreateNestedManyWithoutPostInput
+    drafts?: PostDraftCreateNestedManyWithoutPostInput
     versions?: ContentVersionCreateNestedManyWithoutPostInput
   }
 
@@ -27943,24 +37514,75 @@ export namespace Prisma {
     communityId: string
     authorId: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     deletedAt?: Date | string | null
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    drafts?: PostDraftUncheckedCreateNestedManyWithoutPostInput
     versions?: ContentVersionUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutAttachmentsInput = {
     where: PostWhereUniqueInput
     create: XOR<PostCreateWithoutAttachmentsInput, PostUncheckedCreateWithoutAttachmentsInput>
+  }
+
+  export type UserCreateWithoutUploadedAttachmentsInput = {
+    id?: string
+    clerkId: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    imageUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: CommunityMemberCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftCreateNestedManyWithoutUserInput
+    instructedCourses?: CourseCreateNestedManyWithoutInstructorInput
+    courseProgresses?: CourseProgressCreateNestedManyWithoutUserInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutUploadedAttachmentsInput = {
+    id?: string
+    clerkId: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    imageUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftUncheckedCreateNestedManyWithoutUserInput
+    instructedCourses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
+    courseProgresses?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutUploadedAttachmentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUploadedAttachmentsInput, UserUncheckedCreateWithoutUploadedAttachmentsInput>
   }
 
   export type PostUpsertWithoutAttachmentsInput = {
@@ -27977,13 +37599,13 @@ export namespace Prisma {
   export type PostUpdateWithoutAttachmentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27991,6 +37613,8 @@ export namespace Prisma {
     community?: CommunityUpdateOneRequiredWithoutPostsNestedInput
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     comments?: CommentUpdateManyWithoutPostNestedInput
+    likes?: LikeUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUpdateManyWithoutPostNestedInput
     versions?: ContentVersionUpdateManyWithoutPostNestedInput
   }
 
@@ -27999,38 +37623,97 @@ export namespace Prisma {
     communityId?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUncheckedUpdateManyWithoutPostNestedInput
     versions?: ContentVersionUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type UserUpsertWithoutUploadedAttachmentsInput = {
+    update: XOR<UserUpdateWithoutUploadedAttachmentsInput, UserUncheckedUpdateWithoutUploadedAttachmentsInput>
+    create: XOR<UserCreateWithoutUploadedAttachmentsInput, UserUncheckedCreateWithoutUploadedAttachmentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUploadedAttachmentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUploadedAttachmentsInput, UserUncheckedUpdateWithoutUploadedAttachmentsInput>
+  }
+
+  export type UserUpdateWithoutUploadedAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: CommunityMemberUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUpdateManyWithoutUserNestedInput
+    instructedCourses?: CourseUpdateManyWithoutInstructorNestedInput
+    courseProgresses?: CourseProgressUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUploadedAttachmentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUncheckedUpdateManyWithoutUserNestedInput
+    instructedCourses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
+    courseProgresses?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PostCreateWithoutCommentsInput = {
     id?: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     deletedAt?: Date | string | null
     community: CommunityCreateNestedOneWithoutPostsInput
     author: UserCreateNestedOneWithoutPostsInput
-    attachments?: PostAttachmentCreateNestedManyWithoutPostInput
+    likes?: LikeCreateNestedManyWithoutPostInput
+    attachments?: AttachmentCreateNestedManyWithoutPostInput
+    drafts?: PostDraftCreateNestedManyWithoutPostInput
     versions?: ContentVersionCreateNestedManyWithoutPostInput
   }
 
@@ -28039,18 +37722,20 @@ export namespace Prisma {
     communityId: string
     authorId: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     deletedAt?: Date | string | null
-    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutPostInput
+    drafts?: PostDraftUncheckedCreateNestedManyWithoutPostInput
     versions?: ContentVersionUncheckedCreateNestedManyWithoutPostInput
   }
 
@@ -28071,6 +37756,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     memberships?: CommunityMemberCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressCreateNestedManyWithoutUserInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -28090,6 +37778,9 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     memberships?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftUncheckedCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -28104,15 +37795,15 @@ export namespace Prisma {
 
   export type CommentCreateWithoutRepliesInput = {
     id?: string
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     post: PostCreateNestedOneWithoutCommentsInput
     author: UserCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutRepliesInput
+    likes?: LikeCreateNestedManyWithoutCommentInput
     versions?: ContentVersionCreateNestedManyWithoutCommentInput
   }
 
@@ -28121,12 +37812,12 @@ export namespace Prisma {
     postId: string
     authorId: string
     parentId?: string | null
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
+    likes?: LikeUncheckedCreateNestedManyWithoutCommentInput
     versions?: ContentVersionUncheckedCreateNestedManyWithoutCommentInput
   }
 
@@ -28137,15 +37828,15 @@ export namespace Prisma {
 
   export type CommentCreateWithoutParentInput = {
     id?: string
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     post: PostCreateNestedOneWithoutCommentsInput
     author: UserCreateNestedOneWithoutCommentsInput
     replies?: CommentCreateNestedManyWithoutParentInput
+    likes?: LikeCreateNestedManyWithoutCommentInput
     versions?: ContentVersionCreateNestedManyWithoutCommentInput
   }
 
@@ -28153,13 +37844,13 @@ export namespace Prisma {
     id?: string
     postId: string
     authorId: string
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     replies?: CommentUncheckedCreateNestedManyWithoutParentInput
+    likes?: LikeUncheckedCreateNestedManyWithoutCommentInput
     versions?: ContentVersionUncheckedCreateNestedManyWithoutCommentInput
   }
 
@@ -28170,6 +37861,30 @@ export namespace Prisma {
 
   export type CommentCreateManyParentInputEnvelope = {
     data: CommentCreateManyParentInput | CommentCreateManyParentInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LikeCreateWithoutCommentInput = {
+    id?: string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutLikesInput
+    post?: PostCreateNestedOneWithoutLikesInput
+  }
+
+  export type LikeUncheckedCreateWithoutCommentInput = {
+    id?: string
+    userId: string
+    postId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type LikeCreateOrConnectWithoutCommentInput = {
+    where: LikeWhereUniqueInput
+    create: XOR<LikeCreateWithoutCommentInput, LikeUncheckedCreateWithoutCommentInput>
+  }
+
+  export type LikeCreateManyCommentInputEnvelope = {
+    data: LikeCreateManyCommentInput | LikeCreateManyCommentInput[]
     skipDuplicates?: boolean
   }
 
@@ -28214,20 +37929,22 @@ export namespace Prisma {
   export type PostUpdateWithoutCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     community?: CommunityUpdateOneRequiredWithoutPostsNestedInput
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
-    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput
+    likes?: LikeUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUpdateManyWithoutPostNestedInput
     versions?: ContentVersionUpdateManyWithoutPostNestedInput
   }
 
@@ -28236,18 +37953,20 @@ export namespace Prisma {
     communityId?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUncheckedUpdateManyWithoutPostNestedInput
     versions?: ContentVersionUncheckedUpdateManyWithoutPostNestedInput
   }
 
@@ -28274,6 +37993,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: CommunityMemberUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUpdateManyWithoutUserNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -28293,6 +38015,9 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     memberships?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUncheckedUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -28313,15 +38038,15 @@ export namespace Prisma {
 
   export type CommentUpdateWithoutRepliesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     post?: PostUpdateOneRequiredWithoutCommentsNestedInput
     author?: UserUpdateOneRequiredWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutRepliesNestedInput
+    likes?: LikeUpdateManyWithoutCommentNestedInput
     versions?: ContentVersionUpdateManyWithoutCommentNestedInput
   }
 
@@ -28330,12 +38055,12 @@ export namespace Prisma {
     postId?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    likes?: LikeUncheckedUpdateManyWithoutCommentNestedInput
     versions?: ContentVersionUncheckedUpdateManyWithoutCommentNestedInput
   }
 
@@ -28355,6 +38080,22 @@ export namespace Prisma {
     data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutParentInput>
   }
 
+  export type LikeUpsertWithWhereUniqueWithoutCommentInput = {
+    where: LikeWhereUniqueInput
+    update: XOR<LikeUpdateWithoutCommentInput, LikeUncheckedUpdateWithoutCommentInput>
+    create: XOR<LikeCreateWithoutCommentInput, LikeUncheckedCreateWithoutCommentInput>
+  }
+
+  export type LikeUpdateWithWhereUniqueWithoutCommentInput = {
+    where: LikeWhereUniqueInput
+    data: XOR<LikeUpdateWithoutCommentInput, LikeUncheckedUpdateWithoutCommentInput>
+  }
+
+  export type LikeUpdateManyWithWhereWithoutCommentInput = {
+    where: LikeScalarWhereInput
+    data: XOR<LikeUpdateManyMutationInput, LikeUncheckedUpdateManyWithoutCommentInput>
+  }
+
   export type ContentVersionUpsertWithWhereUniqueWithoutCommentInput = {
     where: ContentVersionWhereUniqueInput
     update: XOR<ContentVersionUpdateWithoutCommentInput, ContentVersionUncheckedUpdateWithoutCommentInput>
@@ -28371,16 +38112,65 @@ export namespace Prisma {
     data: XOR<ContentVersionUpdateManyMutationInput, ContentVersionUncheckedUpdateManyWithoutCommentInput>
   }
 
-  export type PostCreateWithoutVersionsInput = {
+  export type UserCreateWithoutLikesInput = {
+    id?: string
+    clerkId: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    imageUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: CommunityMemberCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutAuthorInput
+    comments?: CommentCreateNestedManyWithoutAuthorInput
+    postDrafts?: PostDraftCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentCreateNestedManyWithoutUploaderInput
+    instructedCourses?: CourseCreateNestedManyWithoutInstructorInput
+    courseProgresses?: CourseProgressCreateNestedManyWithoutUserInput
+    certificates?: CertificateCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutLikesInput = {
+    id?: string
+    clerkId: string
+    email: string
+    firstName?: string | null
+    lastName?: string | null
+    imageUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    memberships?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    postDrafts?: PostDraftUncheckedCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
+    instructedCourses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
+    courseProgresses?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
+    certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutLikesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutLikesInput, UserUncheckedCreateWithoutLikesInput>
+  }
+
+  export type PostCreateWithoutLikesInput = {
     id?: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
@@ -28388,7 +38178,340 @@ export namespace Prisma {
     community: CommunityCreateNestedOneWithoutPostsInput
     author: UserCreateNestedOneWithoutPostsInput
     comments?: CommentCreateNestedManyWithoutPostInput
-    attachments?: PostAttachmentCreateNestedManyWithoutPostInput
+    attachments?: AttachmentCreateNestedManyWithoutPostInput
+    drafts?: PostDraftCreateNestedManyWithoutPostInput
+    versions?: ContentVersionCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutLikesInput = {
+    id?: string
+    communityId: string
+    authorId: string
+    title: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
+    isPinned?: boolean
+    viewCount?: number
+    likeCount?: number
+    commentCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutPostInput
+    drafts?: PostDraftUncheckedCreateNestedManyWithoutPostInput
+    versions?: ContentVersionUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutLikesInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutLikesInput, PostUncheckedCreateWithoutLikesInput>
+  }
+
+  export type CommentCreateWithoutLikesInput = {
+    id?: string
+    body: string
+    likeCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    post: PostCreateNestedOneWithoutCommentsInput
+    author: UserCreateNestedOneWithoutCommentsInput
+    parent?: CommentCreateNestedOneWithoutRepliesInput
+    replies?: CommentCreateNestedManyWithoutParentInput
+    versions?: ContentVersionCreateNestedManyWithoutCommentInput
+  }
+
+  export type CommentUncheckedCreateWithoutLikesInput = {
+    id?: string
+    postId: string
+    authorId: string
+    parentId?: string | null
+    body: string
+    likeCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    replies?: CommentUncheckedCreateNestedManyWithoutParentInput
+    versions?: ContentVersionUncheckedCreateNestedManyWithoutCommentInput
+  }
+
+  export type CommentCreateOrConnectWithoutLikesInput = {
+    where: CommentWhereUniqueInput
+    create: XOR<CommentCreateWithoutLikesInput, CommentUncheckedCreateWithoutLikesInput>
+  }
+
+  export type UserUpsertWithoutLikesInput = {
+    update: XOR<UserUpdateWithoutLikesInput, UserUncheckedUpdateWithoutLikesInput>
+    create: XOR<UserCreateWithoutLikesInput, UserUncheckedCreateWithoutLikesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutLikesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutLikesInput, UserUncheckedUpdateWithoutLikesInput>
+  }
+
+  export type UserUpdateWithoutLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: CommunityMemberUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUpdateManyWithoutAuthorNestedInput
+    postDrafts?: PostDraftUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUpdateManyWithoutUploaderNestedInput
+    instructedCourses?: CourseUpdateManyWithoutInstructorNestedInput
+    courseProgresses?: CourseProgressUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    clerkId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    firstName?: NullableStringFieldUpdateOperationsInput | string | null
+    lastName?: NullableStringFieldUpdateOperationsInput | string | null
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    memberships?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    postDrafts?: PostDraftUncheckedUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
+    instructedCourses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
+    courseProgresses?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
+    certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PostUpsertWithoutLikesInput = {
+    update: XOR<PostUpdateWithoutLikesInput, PostUncheckedUpdateWithoutLikesInput>
+    create: XOR<PostCreateWithoutLikesInput, PostUncheckedCreateWithoutLikesInput>
+    where?: PostWhereInput
+  }
+
+  export type PostUpdateToOneWithWhereWithoutLikesInput = {
+    where?: PostWhereInput
+    data: XOR<PostUpdateWithoutLikesInput, PostUncheckedUpdateWithoutLikesInput>
+  }
+
+  export type PostUpdateWithoutLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutPostsNestedInput
+    author?: UserUpdateOneRequiredWithoutPostsNestedInput
+    comments?: CommentUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUpdateManyWithoutPostNestedInput
+    versions?: ContentVersionUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
+    isPinned?: BoolFieldUpdateOperationsInput | boolean
+    viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUncheckedUpdateManyWithoutPostNestedInput
+    versions?: ContentVersionUncheckedUpdateManyWithoutPostNestedInput
+  }
+
+  export type CommentUpsertWithoutLikesInput = {
+    update: XOR<CommentUpdateWithoutLikesInput, CommentUncheckedUpdateWithoutLikesInput>
+    create: XOR<CommentCreateWithoutLikesInput, CommentUncheckedCreateWithoutLikesInput>
+    where?: CommentWhereInput
+  }
+
+  export type CommentUpdateToOneWithWhereWithoutLikesInput = {
+    where?: CommentWhereInput
+    data: XOR<CommentUpdateWithoutLikesInput, CommentUncheckedUpdateWithoutLikesInput>
+  }
+
+  export type CommentUpdateWithoutLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    likeCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    post?: PostUpdateOneRequiredWithoutCommentsNestedInput
+    author?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    parent?: CommentUpdateOneWithoutRepliesNestedInput
+    replies?: CommentUpdateManyWithoutParentNestedInput
+    versions?: ContentVersionUpdateManyWithoutCommentNestedInput
+  }
+
+  export type CommentUncheckedUpdateWithoutLikesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    body?: StringFieldUpdateOperationsInput | string
+    likeCount?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    replies?: CommentUncheckedUpdateManyWithoutParentNestedInput
+    versions?: ContentVersionUncheckedUpdateManyWithoutCommentNestedInput
+  }
+
+  export type CommunityCreateWithoutBannersInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    darkMode?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    members?: CommunityMemberCreateNestedManyWithoutCommunityInput
+    posts?: PostCreateNestedManyWithoutCommunityInput
+    courses?: CourseCreateNestedManyWithoutCommunityInput
+    paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
+    coupons?: CouponCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceCreateNestedManyWithoutCommunityInput
+    channels?: ChannelCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityUncheckedCreateWithoutBannersInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    darkMode?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
+    posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
+    paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
+    coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceUncheckedCreateNestedManyWithoutCommunityInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityCreateOrConnectWithoutBannersInput = {
+    where: CommunityWhereUniqueInput
+    create: XOR<CommunityCreateWithoutBannersInput, CommunityUncheckedCreateWithoutBannersInput>
+  }
+
+  export type CommunityUpsertWithoutBannersInput = {
+    update: XOR<CommunityUpdateWithoutBannersInput, CommunityUncheckedUpdateWithoutBannersInput>
+    create: XOR<CommunityCreateWithoutBannersInput, CommunityUncheckedCreateWithoutBannersInput>
+    where?: CommunityWhereInput
+  }
+
+  export type CommunityUpdateToOneWithWhereWithoutBannersInput = {
+    where?: CommunityWhereInput
+    data: XOR<CommunityUpdateWithoutBannersInput, CommunityUncheckedUpdateWithoutBannersInput>
+  }
+
+  export type CommunityUpdateWithoutBannersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    darkMode?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
+    posts?: PostUpdateManyWithoutCommunityNestedInput
+    courses?: CourseUpdateManyWithoutCommunityNestedInput
+    paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityUncheckedUpdateWithoutBannersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    darkMode?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
+    paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type PostCreateWithoutVersionsInput = {
+    id?: string
+    title: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
+    isPinned?: boolean
+    viewCount?: number
+    likeCount?: number
+    commentCount?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    publishedAt?: Date | string | null
+    deletedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutPostsInput
+    author: UserCreateNestedOneWithoutPostsInput
+    comments?: CommentCreateNestedManyWithoutPostInput
+    likes?: LikeCreateNestedManyWithoutPostInput
+    attachments?: AttachmentCreateNestedManyWithoutPostInput
+    drafts?: PostDraftCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutVersionsInput = {
@@ -28396,19 +38519,21 @@ export namespace Prisma {
     communityId: string
     authorId: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     deletedAt?: Date | string | null
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
-    attachments?: PostAttachmentUncheckedCreateNestedManyWithoutPostInput
+    likes?: LikeUncheckedCreateNestedManyWithoutPostInput
+    attachments?: AttachmentUncheckedCreateNestedManyWithoutPostInput
+    drafts?: PostDraftUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutVersionsInput = {
@@ -28418,9 +38543,8 @@ export namespace Prisma {
 
   export type CommentCreateWithoutVersionsInput = {
     id?: string
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
@@ -28428,6 +38552,7 @@ export namespace Prisma {
     author: UserCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutRepliesInput
     replies?: CommentCreateNestedManyWithoutParentInput
+    likes?: LikeCreateNestedManyWithoutCommentInput
   }
 
   export type CommentUncheckedCreateWithoutVersionsInput = {
@@ -28435,13 +38560,13 @@ export namespace Prisma {
     postId: string
     authorId: string
     parentId?: string | null
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     replies?: CommentUncheckedCreateNestedManyWithoutParentInput
+    likes?: LikeUncheckedCreateNestedManyWithoutCommentInput
   }
 
   export type CommentCreateOrConnectWithoutVersionsInput = {
@@ -28463,13 +38588,13 @@ export namespace Prisma {
   export type PostUpdateWithoutVersionsInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28477,7 +38602,9 @@ export namespace Prisma {
     community?: CommunityUpdateOneRequiredWithoutPostsNestedInput
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     comments?: CommentUpdateManyWithoutPostNestedInput
-    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput
+    likes?: LikeUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutVersionsInput = {
@@ -28485,19 +38612,21 @@ export namespace Prisma {
     communityId?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
-    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type CommentUpsertWithoutVersionsInput = {
@@ -28513,9 +38642,8 @@ export namespace Prisma {
 
   export type CommentUpdateWithoutVersionsInput = {
     id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -28523,6 +38651,7 @@ export namespace Prisma {
     author?: UserUpdateOneRequiredWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutRepliesNestedInput
     replies?: CommentUpdateManyWithoutParentNestedInput
+    likes?: LikeUpdateManyWithoutCommentNestedInput
   }
 
   export type CommentUncheckedUpdateWithoutVersionsInput = {
@@ -28530,13 +38659,13 @@ export namespace Prisma {
     postId?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     replies?: CommentUncheckedUpdateManyWithoutParentNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutCommentNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -28552,6 +38681,9 @@ export namespace Prisma {
     memberships?: CommunityMemberCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressCreateNestedManyWithoutUserInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -28571,6 +38703,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftUncheckedCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -28594,10 +38729,13 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberCreateNestedManyWithoutCommunityInput
     posts?: PostCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
     coupons?: CouponCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceCreateNestedManyWithoutCommunityInput
+    channels?: ChannelCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutNotificationsInput = {
@@ -28612,10 +38750,13 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
     coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceUncheckedCreateNestedManyWithoutCommunityInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutNotificationsInput = {
@@ -28647,6 +38788,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUpdateManyWithoutUserNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -28666,6 +38810,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUncheckedUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -28695,10 +38842,13 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
     posts?: PostUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutNotificationsInput = {
@@ -28713,10 +38863,13 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityCreateWithoutCoursesInput = {
@@ -28731,10 +38884,13 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberCreateNestedManyWithoutCommunityInput
     posts?: PostCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
     coupons?: CouponCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceCreateNestedManyWithoutCommunityInput
+    channels?: ChannelCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutCoursesInput = {
@@ -28749,10 +38905,13 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
     coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceUncheckedCreateNestedManyWithoutCommunityInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutCoursesInput = {
@@ -28773,6 +38932,9 @@ export namespace Prisma {
     memberships?: CommunityMemberCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentCreateNestedManyWithoutUploaderInput
     courseProgresses?: CourseProgressCreateNestedManyWithoutUserInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
@@ -28792,6 +38954,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftUncheckedCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
     courseProgresses?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -28930,10 +39095,13 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
     posts?: PostUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutCoursesInput = {
@@ -28948,10 +39116,13 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type UserUpsertWithoutInstructedCoursesInput = {
@@ -28978,6 +39149,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUpdateManyWithoutUploaderNestedInput
     courseProgresses?: CourseProgressUpdateManyWithoutUserNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
@@ -28997,6 +39171,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUncheckedUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
     courseProgresses?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -29194,6 +39371,9 @@ export namespace Prisma {
     memberships?: CommunityMemberCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseCreateNestedManyWithoutInstructorInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
@@ -29213,6 +39393,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftUncheckedCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -29289,6 +39472,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUpdateManyWithoutInstructorNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
@@ -29308,6 +39494,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUncheckedUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -29362,6 +39551,9 @@ export namespace Prisma {
     memberships?: CommunityMemberCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressCreateNestedManyWithoutUserInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
@@ -29381,6 +39573,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftUncheckedCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
@@ -29457,6 +39652,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUpdateManyWithoutUserNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
@@ -29476,6 +39674,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUncheckedUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
@@ -29494,10 +39695,13 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberCreateNestedManyWithoutCommunityInput
     posts?: PostCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
     coupons?: CouponCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceCreateNestedManyWithoutCommunityInput
+    channels?: ChannelCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutPaymentTiersInput = {
@@ -29512,10 +39716,13 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
     coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceUncheckedCreateNestedManyWithoutCommunityInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutPaymentTiersInput = {
@@ -29567,6 +39774,46 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ChannelCreateWithoutRequiredTierInput = {
+    id?: string
+    name: string
+    description: string
+    permission: string
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutChannelsInput
+    space?: SpaceCreateNestedOneWithoutChannelsInput
+  }
+
+  export type ChannelUncheckedCreateWithoutRequiredTierInput = {
+    id?: string
+    communityId: string
+    spaceId?: string | null
+    name: string
+    description: string
+    permission: string
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type ChannelCreateOrConnectWithoutRequiredTierInput = {
+    where: ChannelWhereUniqueInput
+    create: XOR<ChannelCreateWithoutRequiredTierInput, ChannelUncheckedCreateWithoutRequiredTierInput>
+  }
+
+  export type ChannelCreateManyRequiredTierInputEnvelope = {
+    data: ChannelCreateManyRequiredTierInput | ChannelCreateManyRequiredTierInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CommunityUpsertWithoutPaymentTiersInput = {
     update: XOR<CommunityUpdateWithoutPaymentTiersInput, CommunityUncheckedUpdateWithoutPaymentTiersInput>
     create: XOR<CommunityCreateWithoutPaymentTiersInput, CommunityUncheckedCreateWithoutPaymentTiersInput>
@@ -29590,10 +39837,13 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
     posts?: PostUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutPaymentTiersInput = {
@@ -29608,10 +39858,13 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type SubscriptionUpsertWithWhereUniqueWithoutPaymentTierInput = {
@@ -29630,6 +39883,22 @@ export namespace Prisma {
     data: XOR<SubscriptionUpdateManyMutationInput, SubscriptionUncheckedUpdateManyWithoutPaymentTierInput>
   }
 
+  export type ChannelUpsertWithWhereUniqueWithoutRequiredTierInput = {
+    where: ChannelWhereUniqueInput
+    update: XOR<ChannelUpdateWithoutRequiredTierInput, ChannelUncheckedUpdateWithoutRequiredTierInput>
+    create: XOR<ChannelCreateWithoutRequiredTierInput, ChannelUncheckedCreateWithoutRequiredTierInput>
+  }
+
+  export type ChannelUpdateWithWhereUniqueWithoutRequiredTierInput = {
+    where: ChannelWhereUniqueInput
+    data: XOR<ChannelUpdateWithoutRequiredTierInput, ChannelUncheckedUpdateWithoutRequiredTierInput>
+  }
+
+  export type ChannelUpdateManyWithWhereWithoutRequiredTierInput = {
+    where: ChannelScalarWhereInput
+    data: XOR<ChannelUpdateManyMutationInput, ChannelUncheckedUpdateManyWithoutRequiredTierInput>
+  }
+
   export type UserCreateWithoutSubscriptionsInput = {
     id?: string
     clerkId: string
@@ -29643,6 +39912,9 @@ export namespace Prisma {
     memberships?: CommunityMemberCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressCreateNestedManyWithoutUserInput
     certificates?: CertificateCreateNestedManyWithoutUserInput
@@ -29662,6 +39934,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    postDrafts?: PostDraftUncheckedCreateNestedManyWithoutUserInput
+    uploadedAttachments?: AttachmentUncheckedCreateNestedManyWithoutUploaderInput
     instructedCourses?: CourseUncheckedCreateNestedManyWithoutInstructorInput
     courseProgresses?: CourseProgressUncheckedCreateNestedManyWithoutUserInput
     certificates?: CertificateUncheckedCreateNestedManyWithoutUserInput
@@ -29685,10 +39960,13 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberCreateNestedManyWithoutCommunityInput
     posts?: PostCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
     coupons?: CouponCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceCreateNestedManyWithoutCommunityInput
+    channels?: ChannelCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutSubscriptionsInput = {
@@ -29703,10 +39981,13 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
     coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceUncheckedCreateNestedManyWithoutCommunityInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutSubscriptionsInput = {
@@ -29726,6 +40007,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     community: CommunityCreateNestedOneWithoutPaymentTiersInput
+    channels?: ChannelCreateNestedManyWithoutRequiredTierInput
   }
 
   export type PaymentTierUncheckedCreateWithoutSubscriptionsInput = {
@@ -29740,6 +40022,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
+    channels?: ChannelUncheckedCreateNestedManyWithoutRequiredTierInput
   }
 
   export type PaymentTierCreateOrConnectWithoutSubscriptionsInput = {
@@ -29771,6 +40054,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUpdateManyWithoutUserNestedInput
     certificates?: CertificateUpdateManyWithoutUserNestedInput
@@ -29790,6 +40076,9 @@ export namespace Prisma {
     memberships?: CommunityMemberUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    postDrafts?: PostDraftUncheckedUpdateManyWithoutUserNestedInput
+    uploadedAttachments?: AttachmentUncheckedUpdateManyWithoutUploaderNestedInput
     instructedCourses?: CourseUncheckedUpdateManyWithoutInstructorNestedInput
     courseProgresses?: CourseProgressUncheckedUpdateManyWithoutUserNestedInput
     certificates?: CertificateUncheckedUpdateManyWithoutUserNestedInput
@@ -29819,10 +40108,13 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
     posts?: PostUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutSubscriptionsInput = {
@@ -29837,10 +40129,13 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
     coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutCommunityNestedInput
   }
 
   export type PaymentTierUpsertWithoutSubscriptionsInput = {
@@ -29866,6 +40161,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     community?: CommunityUpdateOneRequiredWithoutPaymentTiersNestedInput
+    channels?: ChannelUpdateManyWithoutRequiredTierNestedInput
   }
 
   export type PaymentTierUncheckedUpdateWithoutSubscriptionsInput = {
@@ -29880,6 +40176,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    channels?: ChannelUncheckedUpdateManyWithoutRequiredTierNestedInput
   }
 
   export type CommunityCreateWithoutCouponsInput = {
@@ -29894,10 +40191,13 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberCreateNestedManyWithoutCommunityInput
     posts?: PostCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerCreateNestedManyWithoutCommunityInput
     courses?: CourseCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
     notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceCreateNestedManyWithoutCommunityInput
+    channels?: ChannelCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityUncheckedCreateWithoutCouponsInput = {
@@ -29912,10 +40212,13 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
     posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerUncheckedCreateNestedManyWithoutCommunityInput
     courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
     paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceUncheckedCreateNestedManyWithoutCommunityInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutCommunityInput
   }
 
   export type CommunityCreateOrConnectWithoutCouponsInput = {
@@ -29946,10 +40249,13 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
     posts?: PostUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUpdateManyWithoutCommunityNestedInput
     courses?: CourseUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUpdateManyWithoutCommunityNestedInput
   }
 
   export type CommunityUncheckedUpdateWithoutCouponsInput = {
@@ -29964,10 +40270,563 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
     posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUncheckedUpdateManyWithoutCommunityNestedInput
     courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
     paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUncheckedUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityCreateWithoutSpacesInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    darkMode?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    members?: CommunityMemberCreateNestedManyWithoutCommunityInput
+    posts?: PostCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerCreateNestedManyWithoutCommunityInput
+    courses?: CourseCreateNestedManyWithoutCommunityInput
+    paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
+    coupons?: CouponCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    channels?: ChannelCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityUncheckedCreateWithoutSpacesInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    darkMode?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
+    posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerUncheckedCreateNestedManyWithoutCommunityInput
+    courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
+    paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
+    coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityCreateOrConnectWithoutSpacesInput = {
+    where: CommunityWhereUniqueInput
+    create: XOR<CommunityCreateWithoutSpacesInput, CommunityUncheckedCreateWithoutSpacesInput>
+  }
+
+  export type SpaceCreateWithoutChildSpacesInput = {
+    id?: string
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutSpacesInput
+    parentSpace?: SpaceCreateNestedOneWithoutChildSpacesInput
+    channels?: ChannelCreateNestedManyWithoutSpaceInput
+  }
+
+  export type SpaceUncheckedCreateWithoutChildSpacesInput = {
+    id?: string
+    communityId: string
+    parentSpaceId?: string | null
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    channels?: ChannelUncheckedCreateNestedManyWithoutSpaceInput
+  }
+
+  export type SpaceCreateOrConnectWithoutChildSpacesInput = {
+    where: SpaceWhereUniqueInput
+    create: XOR<SpaceCreateWithoutChildSpacesInput, SpaceUncheckedCreateWithoutChildSpacesInput>
+  }
+
+  export type SpaceCreateWithoutParentSpaceInput = {
+    id?: string
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutSpacesInput
+    childSpaces?: SpaceCreateNestedManyWithoutParentSpaceInput
+    channels?: ChannelCreateNestedManyWithoutSpaceInput
+  }
+
+  export type SpaceUncheckedCreateWithoutParentSpaceInput = {
+    id?: string
+    communityId: string
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    childSpaces?: SpaceUncheckedCreateNestedManyWithoutParentSpaceInput
+    channels?: ChannelUncheckedCreateNestedManyWithoutSpaceInput
+  }
+
+  export type SpaceCreateOrConnectWithoutParentSpaceInput = {
+    where: SpaceWhereUniqueInput
+    create: XOR<SpaceCreateWithoutParentSpaceInput, SpaceUncheckedCreateWithoutParentSpaceInput>
+  }
+
+  export type SpaceCreateManyParentSpaceInputEnvelope = {
+    data: SpaceCreateManyParentSpaceInput | SpaceCreateManyParentSpaceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ChannelCreateWithoutSpaceInput = {
+    id?: string
+    name: string
+    description: string
+    permission: string
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutChannelsInput
+    requiredTier?: PaymentTierCreateNestedOneWithoutChannelsInput
+  }
+
+  export type ChannelUncheckedCreateWithoutSpaceInput = {
+    id?: string
+    communityId: string
+    name: string
+    description: string
+    permission: string
+    requiredTierId?: string | null
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type ChannelCreateOrConnectWithoutSpaceInput = {
+    where: ChannelWhereUniqueInput
+    create: XOR<ChannelCreateWithoutSpaceInput, ChannelUncheckedCreateWithoutSpaceInput>
+  }
+
+  export type ChannelCreateManySpaceInputEnvelope = {
+    data: ChannelCreateManySpaceInput | ChannelCreateManySpaceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommunityUpsertWithoutSpacesInput = {
+    update: XOR<CommunityUpdateWithoutSpacesInput, CommunityUncheckedUpdateWithoutSpacesInput>
+    create: XOR<CommunityCreateWithoutSpacesInput, CommunityUncheckedCreateWithoutSpacesInput>
+    where?: CommunityWhereInput
+  }
+
+  export type CommunityUpdateToOneWithWhereWithoutSpacesInput = {
+    where?: CommunityWhereInput
+    data: XOR<CommunityUpdateWithoutSpacesInput, CommunityUncheckedUpdateWithoutSpacesInput>
+  }
+
+  export type CommunityUpdateWithoutSpacesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    darkMode?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
+    posts?: PostUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUpdateManyWithoutCommunityNestedInput
+    courses?: CourseUpdateManyWithoutCommunityNestedInput
+    paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityUncheckedUpdateWithoutSpacesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    darkMode?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUncheckedUpdateManyWithoutCommunityNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
+    paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type SpaceUpsertWithoutChildSpacesInput = {
+    update: XOR<SpaceUpdateWithoutChildSpacesInput, SpaceUncheckedUpdateWithoutChildSpacesInput>
+    create: XOR<SpaceCreateWithoutChildSpacesInput, SpaceUncheckedCreateWithoutChildSpacesInput>
+    where?: SpaceWhereInput
+  }
+
+  export type SpaceUpdateToOneWithWhereWithoutChildSpacesInput = {
+    where?: SpaceWhereInput
+    data: XOR<SpaceUpdateWithoutChildSpacesInput, SpaceUncheckedUpdateWithoutChildSpacesInput>
+  }
+
+  export type SpaceUpdateWithoutChildSpacesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutSpacesNestedInput
+    parentSpace?: SpaceUpdateOneWithoutChildSpacesNestedInput
+    channels?: ChannelUpdateManyWithoutSpaceNestedInput
+  }
+
+  export type SpaceUncheckedUpdateWithoutChildSpacesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    parentSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    channels?: ChannelUncheckedUpdateManyWithoutSpaceNestedInput
+  }
+
+  export type SpaceUpsertWithWhereUniqueWithoutParentSpaceInput = {
+    where: SpaceWhereUniqueInput
+    update: XOR<SpaceUpdateWithoutParentSpaceInput, SpaceUncheckedUpdateWithoutParentSpaceInput>
+    create: XOR<SpaceCreateWithoutParentSpaceInput, SpaceUncheckedCreateWithoutParentSpaceInput>
+  }
+
+  export type SpaceUpdateWithWhereUniqueWithoutParentSpaceInput = {
+    where: SpaceWhereUniqueInput
+    data: XOR<SpaceUpdateWithoutParentSpaceInput, SpaceUncheckedUpdateWithoutParentSpaceInput>
+  }
+
+  export type SpaceUpdateManyWithWhereWithoutParentSpaceInput = {
+    where: SpaceScalarWhereInput
+    data: XOR<SpaceUpdateManyMutationInput, SpaceUncheckedUpdateManyWithoutParentSpaceInput>
+  }
+
+  export type ChannelUpsertWithWhereUniqueWithoutSpaceInput = {
+    where: ChannelWhereUniqueInput
+    update: XOR<ChannelUpdateWithoutSpaceInput, ChannelUncheckedUpdateWithoutSpaceInput>
+    create: XOR<ChannelCreateWithoutSpaceInput, ChannelUncheckedCreateWithoutSpaceInput>
+  }
+
+  export type ChannelUpdateWithWhereUniqueWithoutSpaceInput = {
+    where: ChannelWhereUniqueInput
+    data: XOR<ChannelUpdateWithoutSpaceInput, ChannelUncheckedUpdateWithoutSpaceInput>
+  }
+
+  export type ChannelUpdateManyWithWhereWithoutSpaceInput = {
+    where: ChannelScalarWhereInput
+    data: XOR<ChannelUpdateManyMutationInput, ChannelUncheckedUpdateManyWithoutSpaceInput>
+  }
+
+  export type CommunityCreateWithoutChannelsInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    darkMode?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    members?: CommunityMemberCreateNestedManyWithoutCommunityInput
+    posts?: PostCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerCreateNestedManyWithoutCommunityInput
+    courses?: CourseCreateNestedManyWithoutCommunityInput
+    paymentTiers?: PaymentTierCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutCommunityInput
+    coupons?: CouponCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityUncheckedCreateWithoutChannelsInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    darkMode?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    members?: CommunityMemberUncheckedCreateNestedManyWithoutCommunityInput
+    posts?: PostUncheckedCreateNestedManyWithoutCommunityInput
+    banners?: CommunityBannerUncheckedCreateNestedManyWithoutCommunityInput
+    courses?: CourseUncheckedCreateNestedManyWithoutCommunityInput
+    paymentTiers?: PaymentTierUncheckedCreateNestedManyWithoutCommunityInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutCommunityInput
+    coupons?: CouponUncheckedCreateNestedManyWithoutCommunityInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutCommunityInput
+    spaces?: SpaceUncheckedCreateNestedManyWithoutCommunityInput
+  }
+
+  export type CommunityCreateOrConnectWithoutChannelsInput = {
+    where: CommunityWhereUniqueInput
+    create: XOR<CommunityCreateWithoutChannelsInput, CommunityUncheckedCreateWithoutChannelsInput>
+  }
+
+  export type SpaceCreateWithoutChannelsInput = {
+    id?: string
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutSpacesInput
+    parentSpace?: SpaceCreateNestedOneWithoutChildSpacesInput
+    childSpaces?: SpaceCreateNestedManyWithoutParentSpaceInput
+  }
+
+  export type SpaceUncheckedCreateWithoutChannelsInput = {
+    id?: string
+    communityId: string
+    parentSpaceId?: string | null
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    childSpaces?: SpaceUncheckedCreateNestedManyWithoutParentSpaceInput
+  }
+
+  export type SpaceCreateOrConnectWithoutChannelsInput = {
+    where: SpaceWhereUniqueInput
+    create: XOR<SpaceCreateWithoutChannelsInput, SpaceUncheckedCreateWithoutChannelsInput>
+  }
+
+  export type PaymentTierCreateWithoutChannelsInput = {
+    id?: string
+    name: string
+    description: string
+    priceMonthly?: number
+    priceAnnual?: number
+    features?: PaymentTierCreatefeaturesInput | string[]
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    community: CommunityCreateNestedOneWithoutPaymentTiersInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutPaymentTierInput
+  }
+
+  export type PaymentTierUncheckedCreateWithoutChannelsInput = {
+    id?: string
+    communityId: string
+    name: string
+    description: string
+    priceMonthly?: number
+    priceAnnual?: number
+    features?: PaymentTierCreatefeaturesInput | string[]
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutPaymentTierInput
+  }
+
+  export type PaymentTierCreateOrConnectWithoutChannelsInput = {
+    where: PaymentTierWhereUniqueInput
+    create: XOR<PaymentTierCreateWithoutChannelsInput, PaymentTierUncheckedCreateWithoutChannelsInput>
+  }
+
+  export type CommunityUpsertWithoutChannelsInput = {
+    update: XOR<CommunityUpdateWithoutChannelsInput, CommunityUncheckedUpdateWithoutChannelsInput>
+    create: XOR<CommunityCreateWithoutChannelsInput, CommunityUncheckedCreateWithoutChannelsInput>
+    where?: CommunityWhereInput
+  }
+
+  export type CommunityUpdateToOneWithWhereWithoutChannelsInput = {
+    where?: CommunityWhereInput
+    data: XOR<CommunityUpdateWithoutChannelsInput, CommunityUncheckedUpdateWithoutChannelsInput>
+  }
+
+  export type CommunityUpdateWithoutChannelsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    darkMode?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: CommunityMemberUpdateManyWithoutCommunityNestedInput
+    posts?: PostUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUpdateManyWithoutCommunityNestedInput
+    courses?: CourseUpdateManyWithoutCommunityNestedInput
+    paymentTiers?: PaymentTierUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type CommunityUncheckedUpdateWithoutChannelsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    darkMode?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    members?: CommunityMemberUncheckedUpdateManyWithoutCommunityNestedInput
+    posts?: PostUncheckedUpdateManyWithoutCommunityNestedInput
+    banners?: CommunityBannerUncheckedUpdateManyWithoutCommunityNestedInput
+    courses?: CourseUncheckedUpdateManyWithoutCommunityNestedInput
+    paymentTiers?: PaymentTierUncheckedUpdateManyWithoutCommunityNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutCommunityNestedInput
+    coupons?: CouponUncheckedUpdateManyWithoutCommunityNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutCommunityNestedInput
+    spaces?: SpaceUncheckedUpdateManyWithoutCommunityNestedInput
+  }
+
+  export type SpaceUpsertWithoutChannelsInput = {
+    update: XOR<SpaceUpdateWithoutChannelsInput, SpaceUncheckedUpdateWithoutChannelsInput>
+    create: XOR<SpaceCreateWithoutChannelsInput, SpaceUncheckedCreateWithoutChannelsInput>
+    where?: SpaceWhereInput
+  }
+
+  export type SpaceUpdateToOneWithWhereWithoutChannelsInput = {
+    where?: SpaceWhereInput
+    data: XOR<SpaceUpdateWithoutChannelsInput, SpaceUncheckedUpdateWithoutChannelsInput>
+  }
+
+  export type SpaceUpdateWithoutChannelsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutSpacesNestedInput
+    parentSpace?: SpaceUpdateOneWithoutChildSpacesNestedInput
+    childSpaces?: SpaceUpdateManyWithoutParentSpaceNestedInput
+  }
+
+  export type SpaceUncheckedUpdateWithoutChannelsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    parentSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    childSpaces?: SpaceUncheckedUpdateManyWithoutParentSpaceNestedInput
+  }
+
+  export type PaymentTierUpsertWithoutChannelsInput = {
+    update: XOR<PaymentTierUpdateWithoutChannelsInput, PaymentTierUncheckedUpdateWithoutChannelsInput>
+    create: XOR<PaymentTierCreateWithoutChannelsInput, PaymentTierUncheckedCreateWithoutChannelsInput>
+    where?: PaymentTierWhereInput
+  }
+
+  export type PaymentTierUpdateToOneWithWhereWithoutChannelsInput = {
+    where?: PaymentTierWhereInput
+    data: XOR<PaymentTierUpdateWithoutChannelsInput, PaymentTierUncheckedUpdateWithoutChannelsInput>
+  }
+
+  export type PaymentTierUpdateWithoutChannelsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    priceMonthly?: IntFieldUpdateOperationsInput | number
+    priceAnnual?: IntFieldUpdateOperationsInput | number
+    features?: PaymentTierUpdatefeaturesInput | string[]
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutPaymentTiersNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutPaymentTierNestedInput
+  }
+
+  export type PaymentTierUncheckedUpdateWithoutChannelsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    priceMonthly?: IntFieldUpdateOperationsInput | number
+    priceAnnual?: IntFieldUpdateOperationsInput | number
+    features?: PaymentTierUpdatefeaturesInput | string[]
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutPaymentTierNestedInput
   }
 
   export type CommunityMemberCreateManyUserInput = {
@@ -29982,13 +40841,13 @@ export namespace Prisma {
     id?: string
     communityId: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
@@ -29999,11 +40858,36 @@ export namespace Prisma {
     id?: string
     postId: string
     parentId?: string | null
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type LikeCreateManyUserInput = {
+    id?: string
+    postId?: string | null
+    commentId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PostDraftCreateManyUserInput = {
+    id?: string
+    postId?: string | null
+    content: JsonNullValueInput | InputJsonValue
+    savedAt?: Date | string
+    expiresAt: Date | string
+  }
+
+  export type AttachmentCreateManyUploaderInput = {
+    id?: string
+    postId: string
+    url: string
+    filename: string
+    mimeType: string
+    size: number
+    createdAt?: Date | string
     deletedAt?: Date | string | null
   }
 
@@ -30097,20 +40981,22 @@ export namespace Prisma {
   export type PostUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     community?: CommunityUpdateOneRequiredWithoutPostsNestedInput
     comments?: CommentUpdateManyWithoutPostNestedInput
-    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput
+    likes?: LikeUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUpdateManyWithoutPostNestedInput
     versions?: ContentVersionUpdateManyWithoutPostNestedInput
   }
 
@@ -30118,19 +41004,21 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     communityId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
-    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUncheckedUpdateManyWithoutPostNestedInput
     versions?: ContentVersionUncheckedUpdateManyWithoutPostNestedInput
   }
 
@@ -30138,13 +41026,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     communityId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30153,15 +41041,15 @@ export namespace Prisma {
 
   export type CommentUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     post?: PostUpdateOneRequiredWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutRepliesNestedInput
     replies?: CommentUpdateManyWithoutParentNestedInput
+    likes?: LikeUpdateManyWithoutCommentNestedInput
     versions?: ContentVersionUpdateManyWithoutCommentNestedInput
   }
 
@@ -30169,13 +41057,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     postId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     replies?: CommentUncheckedUpdateManyWithoutParentNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutCommentNestedInput
     versions?: ContentVersionUncheckedUpdateManyWithoutCommentNestedInput
   }
 
@@ -30183,11 +41071,88 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     postId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type LikeUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: PostUpdateOneWithoutLikesNestedInput
+    comment?: CommentUpdateOneWithoutLikesNestedInput
+  }
+
+  export type LikeUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LikeUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostDraftUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    savedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: PostUpdateOneWithoutDraftsNestedInput
+  }
+
+  export type PostDraftUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: JsonNullValueInput | InputJsonValue
+    savedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostDraftUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: JsonNullValueInput | InputJsonValue
+    savedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentUpdateWithoutUploaderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    post?: PostUpdateOneRequiredWithoutAttachmentsNestedInput
+  }
+
+  export type AttachmentUncheckedUpdateWithoutUploaderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type AttachmentUncheckedUpdateManyWithoutUploaderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    postId?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
@@ -30398,17 +41363,30 @@ export namespace Prisma {
     id?: string
     authorId: string
     title: string
-    content: string
+    body: string
+    isDraft?: boolean
+    category?: string | null
     isPinned?: boolean
-    isSolved?: boolean
-    likeCount?: number
-    helpfulCount?: number
-    commentCount?: number
     viewCount?: number
+    likeCount?: number
+    commentCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     publishedAt?: Date | string | null
     deletedAt?: Date | string | null
+  }
+
+  export type CommunityBannerCreateManyCommunityInput = {
+    id?: string
+    title: string
+    subtitle?: string | null
+    ctaText?: string | null
+    ctaLink?: string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CourseCreateManyCommunityInput = {
@@ -30479,6 +41457,35 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
+  export type SpaceCreateManyCommunityInput = {
+    id?: string
+    parentSpaceId?: string | null
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type ChannelCreateManyCommunityInput = {
+    id?: string
+    spaceId?: string | null
+    name: string
+    description: string
+    permission: string
+    requiredTierId?: string | null
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
   export type CommunityMemberUpdateWithoutCommunityInput = {
     id?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -30506,20 +41513,22 @@ export namespace Prisma {
   export type PostUpdateWithoutCommunityInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     author?: UserUpdateOneRequiredWithoutPostsNestedInput
     comments?: CommentUpdateManyWithoutPostNestedInput
-    attachments?: PostAttachmentUpdateManyWithoutPostNestedInput
+    likes?: LikeUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUpdateManyWithoutPostNestedInput
     versions?: ContentVersionUpdateManyWithoutPostNestedInput
   }
 
@@ -30527,19 +41536,21 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
-    attachments?: PostAttachmentUncheckedUpdateManyWithoutPostNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutPostNestedInput
+    attachments?: AttachmentUncheckedUpdateManyWithoutPostNestedInput
+    drafts?: PostDraftUncheckedUpdateManyWithoutPostNestedInput
     versions?: ContentVersionUncheckedUpdateManyWithoutPostNestedInput
   }
 
@@ -30547,17 +41558,56 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    isDraft?: BoolFieldUpdateOperationsInput | boolean
+    category?: NullableStringFieldUpdateOperationsInput | string | null
     isPinned?: BoolFieldUpdateOperationsInput | boolean
-    isSolved?: BoolFieldUpdateOperationsInput | boolean
-    likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
-    commentCount?: IntFieldUpdateOperationsInput | number
     viewCount?: IntFieldUpdateOperationsInput | number
+    likeCount?: IntFieldUpdateOperationsInput | number
+    commentCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type CommunityBannerUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaText?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaLink?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityBannerUncheckedUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaText?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaLink?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CommunityBannerUncheckedUpdateManyWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    subtitle?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaText?: NullableStringFieldUpdateOperationsInput | string | null
+    ctaLink?: NullableStringFieldUpdateOperationsInput | string | null
+    backgroundGradient?: NullableJsonNullValueInput | InputJsonValue
+    backgroundImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CourseUpdateWithoutCommunityInput = {
@@ -30614,6 +41664,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptions?: SubscriptionUpdateManyWithoutPaymentTierNestedInput
+    channels?: ChannelUpdateManyWithoutRequiredTierNestedInput
   }
 
   export type PaymentTierUncheckedUpdateWithoutCommunityInput = {
@@ -30628,6 +41679,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutPaymentTierNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutRequiredTierNestedInput
   }
 
   export type PaymentTierUncheckedUpdateManyWithoutCommunityInput = {
@@ -30772,26 +41824,132 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type SpaceUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    parentSpace?: SpaceUpdateOneWithoutChildSpacesNestedInput
+    childSpaces?: SpaceUpdateManyWithoutParentSpaceNestedInput
+    channels?: ChannelUpdateManyWithoutSpaceNestedInput
+  }
+
+  export type SpaceUncheckedUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parentSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    childSpaces?: SpaceUncheckedUpdateManyWithoutParentSpaceNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutSpaceNestedInput
+  }
+
+  export type SpaceUncheckedUpdateManyWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    parentSpaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ChannelUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    space?: SpaceUpdateOneWithoutChannelsNestedInput
+    requiredTier?: PaymentTierUpdateOneWithoutChannelsNestedInput
+  }
+
+  export type ChannelUncheckedUpdateWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    spaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    requiredTierId?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ChannelUncheckedUpdateManyWithoutCommunityInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    spaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    requiredTierId?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type CommentCreateManyPostInput = {
     id?: string
     authorId: string
     parentId?: string | null
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
   }
 
-  export type PostAttachmentCreateManyPostInput = {
+  export type LikeCreateManyPostInput = {
     id?: string
-    fileName: string
-    fileUrl: string
-    fileSize: number
+    userId: string
+    commentId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AttachmentCreateManyPostInput = {
+    id?: string
+    url: string
+    filename: string
     mimeType: string
+    size: number
+    uploadedBy: string
     createdAt?: Date | string
     deletedAt?: Date | string | null
+  }
+
+  export type PostDraftCreateManyPostInput = {
+    id?: string
+    userId: string
+    content: JsonNullValueInput | InputJsonValue
+    savedAt?: Date | string
+    expiresAt: Date | string
   }
 
   export type ContentVersionCreateManyPostInput = {
@@ -30804,15 +41962,15 @@ export namespace Prisma {
 
   export type CommentUpdateWithoutPostInput = {
     id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     author?: UserUpdateOneRequiredWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutRepliesNestedInput
     replies?: CommentUpdateManyWithoutParentNestedInput
+    likes?: LikeUpdateManyWithoutCommentNestedInput
     versions?: ContentVersionUpdateManyWithoutCommentNestedInput
   }
 
@@ -30820,13 +41978,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     replies?: CommentUncheckedUpdateManyWithoutParentNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutCommentNestedInput
     versions?: ContentVersionUncheckedUpdateManyWithoutCommentNestedInput
   }
 
@@ -30834,42 +41992,89 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     parentId?: NullableStringFieldUpdateOperationsInput | string | null
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PostAttachmentUpdateWithoutPostInput = {
+  export type LikeUpdateWithoutPostInput = {
     id?: StringFieldUpdateOperationsInput | string
-    fileName?: StringFieldUpdateOperationsInput | string
-    fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutLikesNestedInput
+    comment?: CommentUpdateOneWithoutLikesNestedInput
+  }
+
+  export type LikeUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LikeUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    commentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AttachmentUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
     mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    uploader?: UserUpdateOneRequiredWithoutUploadedAttachmentsNestedInput
+  }
+
+  export type AttachmentUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
+    mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PostAttachmentUncheckedUpdateWithoutPostInput = {
+  export type AttachmentUncheckedUpdateManyWithoutPostInput = {
     id?: StringFieldUpdateOperationsInput | string
-    fileName?: StringFieldUpdateOperationsInput | string
-    fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: IntFieldUpdateOperationsInput | number
+    url?: StringFieldUpdateOperationsInput | string
+    filename?: StringFieldUpdateOperationsInput | string
     mimeType?: StringFieldUpdateOperationsInput | string
+    size?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type PostAttachmentUncheckedUpdateManyWithoutPostInput = {
+  export type PostDraftUpdateWithoutPostInput = {
     id?: StringFieldUpdateOperationsInput | string
-    fileName?: StringFieldUpdateOperationsInput | string
-    fileUrl?: StringFieldUpdateOperationsInput | string
-    fileSize?: IntFieldUpdateOperationsInput | number
-    mimeType?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    content?: JsonNullValueInput | InputJsonValue
+    savedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPostDraftsNestedInput
+  }
+
+  export type PostDraftUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    savedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PostDraftUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    savedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ContentVersionUpdateWithoutPostInput = {
@@ -30901,12 +42106,18 @@ export namespace Prisma {
     id?: string
     postId: string
     authorId: string
-    content: string
+    body: string
     likeCount?: number
-    helpfulCount?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
+  }
+
+  export type LikeCreateManyCommentInput = {
+    id?: string
+    userId: string
+    postId?: string | null
+    createdAt?: Date | string
   }
 
   export type ContentVersionCreateManyCommentInput = {
@@ -30919,15 +42130,15 @@ export namespace Prisma {
 
   export type CommentUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     post?: PostUpdateOneRequiredWithoutCommentsNestedInput
     author?: UserUpdateOneRequiredWithoutCommentsNestedInput
     replies?: CommentUpdateManyWithoutParentNestedInput
+    likes?: LikeUpdateManyWithoutCommentNestedInput
     versions?: ContentVersionUpdateManyWithoutCommentNestedInput
   }
 
@@ -30935,13 +42146,13 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     postId?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     replies?: CommentUncheckedUpdateManyWithoutParentNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutCommentNestedInput
     versions?: ContentVersionUncheckedUpdateManyWithoutCommentNestedInput
   }
 
@@ -30949,12 +42160,32 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     postId?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
     likeCount?: IntFieldUpdateOperationsInput | number
-    helpfulCount?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type LikeUpdateWithoutCommentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutLikesNestedInput
+    post?: PostUpdateOneWithoutLikesNestedInput
+  }
+
+  export type LikeUncheckedUpdateWithoutCommentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LikeUncheckedUpdateManyWithoutCommentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ContentVersionUpdateWithoutCommentInput = {
@@ -31147,6 +42378,21 @@ export namespace Prisma {
     deletedAt?: Date | string | null
   }
 
+  export type ChannelCreateManyRequiredTierInput = {
+    id?: string
+    communityId: string
+    spaceId?: string | null
+    name: string
+    description: string
+    permission: string
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
   export type SubscriptionUpdateWithoutPaymentTierInput = {
     id?: StringFieldUpdateOperationsInput | string
     stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31193,6 +42439,171 @@ export namespace Prisma {
     currentPeriodEnd?: DateTimeFieldUpdateOperationsInput | Date | string
     cancelAtPeriodEnd?: BoolFieldUpdateOperationsInput | boolean
     trialEndsAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ChannelUpdateWithoutRequiredTierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutChannelsNestedInput
+    space?: SpaceUpdateOneWithoutChannelsNestedInput
+  }
+
+  export type ChannelUncheckedUpdateWithoutRequiredTierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    spaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ChannelUncheckedUpdateManyWithoutRequiredTierInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    spaceId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type SpaceCreateManyParentSpaceInput = {
+    id?: string
+    communityId: string
+    name: string
+    description: string
+    icon?: string | null
+    color?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type ChannelCreateManySpaceInput = {
+    id?: string
+    communityId: string
+    name: string
+    description: string
+    permission: string
+    requiredTierId?: string | null
+    icon?: string | null
+    position?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type SpaceUpdateWithoutParentSpaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutSpacesNestedInput
+    childSpaces?: SpaceUpdateManyWithoutParentSpaceNestedInput
+    channels?: ChannelUpdateManyWithoutSpaceNestedInput
+  }
+
+  export type SpaceUncheckedUpdateWithoutParentSpaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    childSpaces?: SpaceUncheckedUpdateManyWithoutParentSpaceNestedInput
+    channels?: ChannelUncheckedUpdateManyWithoutSpaceNestedInput
+  }
+
+  export type SpaceUncheckedUpdateManyWithoutParentSpaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ChannelUpdateWithoutSpaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    community?: CommunityUpdateOneRequiredWithoutChannelsNestedInput
+    requiredTier?: PaymentTierUpdateOneWithoutChannelsNestedInput
+  }
+
+  export type ChannelUncheckedUpdateWithoutSpaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    requiredTierId?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ChannelUncheckedUpdateManyWithoutSpaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    communityId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    permission?: StringFieldUpdateOperationsInput | string
+    requiredTierId?: NullableStringFieldUpdateOperationsInput | string | null
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    position?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

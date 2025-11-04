@@ -1,5 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
+import { PublishPostUseCase } from "@/application/use-cases/posts/publish-post.usecase";
+import { PostRepositoryPrisma } from "@/infrastructure/repositories";
+import { PostError } from "@/application/errors/post.errors";
 
 /**
  * API Route: POST /api/posts/[id]/publish
@@ -11,10 +14,9 @@ import { NextRequest, NextResponse } from "next/server";
  * - Only DRAFT posts can be published
  *
  * Error Mapping:
- * - 400: INVALID_POST_ID
  * - 401: Unauthorized (not authenticated)
  * - 404: POST_NOT_FOUND
- * - 409: POST_ALREADY_PUBLISHED, POST_ALREADY_ARCHIVED
+ * - 409: POST_ALREADY_PUBLISHED, CANNOT_PUBLISH_ARCHIVED_POST
  * - 500: INTERNAL_SERVER_ERROR
  */
 export async function POST(
@@ -33,53 +35,36 @@ export async function POST(
 
     const postId = params.id;
 
-    // TODO: Instantiate use case when application layer is ready
-    // const useCase = new PublishPostUseCase(new PostRepositoryPrisma());
-    // const dto = await useCase.execute(postId);
+    // Instantiate use case with repository
+    const useCase = new PublishPostUseCase(new PostRepositoryPrisma());
+    const dto = await useCase.execute(postId);
 
-    // TEMPORARY: Return mock response
-    return NextResponse.json({
-      success: true,
-      message: "Publish post API route ready - waiting for application layer",
-      data: {
-        id: postId,
-        status: "PUBLISHED",
-        publishedAt: new Date(),
-      },
-    });
-
-    // FINAL IMPLEMENTATION (uncomment when use cases ready):
-    // return NextResponse.json({ success: true, data: dto });
+    return NextResponse.json({ success: true, data: dto });
   } catch (error) {
-    // Use case errors (uncomment when use cases ready)
-    // if (error instanceof Error) {
-    //   if (error.message === PostError.INVALID_POST_ID) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 400 }
-    //     );
-    //   }
-    //   if (error.message === PostError.POST_NOT_FOUND) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 404 }
-    //     );
-    //   }
-    //   if (error.message === PostError.POST_ALREADY_PUBLISHED) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 409 }
-    //     );
-    //   }
-    //   if (error.message === PostError.POST_ALREADY_ARCHIVED) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 409 }
-    //     );
-    //   }
-    // }
+    // Use case errors
+    if (error instanceof Error) {
+      if (error.message === PostError.POST_NOT_FOUND) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 404 }
+        );
+      }
+      if (error.message === PostError.POST_ALREADY_PUBLISHED) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 409 }
+        );
+      }
+      if (error.message === PostError.CANNOT_PUBLISH_ARCHIVED_POST) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 409 }
+        );
+      }
+    }
 
     // Internal server error
+    console.error("POST /api/posts/[id]/publish error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }

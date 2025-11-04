@@ -2,6 +2,11 @@ import { auth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { UpdatePostSchema } from "@/lib/validations/post.schema";
+import { GetPostUseCase } from "@/application/use-cases/posts/get-post.usecase";
+import { UpdatePostUseCase } from "@/application/use-cases/posts/update-post.usecase";
+import { ArchivePostUseCase } from "@/application/use-cases/posts/archive-post.usecase";
+import { PostRepositoryPrisma } from "@/infrastructure/repositories";
+import { PostError } from "@/application/errors/post.errors";
 
 /**
  * API Route: GET /api/posts/[id]
@@ -11,10 +16,10 @@ import { UpdatePostSchema } from "@/lib/validations/post.schema";
  * - Thin controller layer
  * - Delegates to GetPostUseCase which also increments view count
  * - Enforces soft delete filter in repository
+ * - Authentication is optional for public posts
  *
  * Error Mapping:
- * - 400: INVALID_POST_ID
- * - 401: Unauthorized (not authenticated)
+ * - 400: INVALID_POST_ID, INVALID_INPUT
  * - 404: POST_NOT_FOUND
  * - 500: INTERNAL_SERVER_ERROR
  */
@@ -23,60 +28,32 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    // Authentication check
-    const { userId } = await auth();
-    if (!userId) {
-      return NextResponse.json(
-        { success: false, message: "Unauthorized" },
-        { status: 401 }
-      );
-    }
-
     const postId = params.id;
 
-    // TODO: Instantiate use case when application layer is ready
-    // const useCase = new GetPostUseCase(new PostRepositoryPrisma());
-    // const dto = await useCase.execute(postId); // also increments view count
+    // Instantiate use case with repository
+    const useCase = new GetPostUseCase(new PostRepositoryPrisma());
+    const dto = await useCase.execute(postId);
 
-    // TEMPORARY: Return mock response
-    return NextResponse.json({
-      success: true,
-      message: "Get post API route ready - waiting for application layer",
-      data: {
-        id: postId,
-        communityId: "mock-community-id",
-        authorId: "mock-author-id",
-        title: "Mock Post",
-        content: "This is mock content",
-        status: "PUBLISHED",
-        isPinned: false,
-        isSolved: false,
-        viewCount: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    });
-
-    // FINAL IMPLEMENTATION (uncomment when use cases ready):
-    // return NextResponse.json({ success: true, data: dto });
+    return NextResponse.json({ success: true, data: dto });
   } catch (error) {
-    // Use case errors (uncomment when use cases ready)
-    // if (error instanceof Error) {
-    //   if (error.message === PostError.INVALID_POST_ID) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 400 }
-    //     );
-    //   }
-    //   if (error.message === PostError.POST_NOT_FOUND) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 404 }
-    //     );
-    //   }
-    // }
+    // Use case errors
+    if (error instanceof Error) {
+      if (error.message === PostError.INVALID_INPUT) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 400 }
+        );
+      }
+      if (error.message === PostError.POST_NOT_FOUND) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 404 }
+        );
+      }
+    }
 
     // Internal server error
+    console.error("GET /api/posts/[id] error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }
@@ -120,23 +97,15 @@ export async function PATCH(
     const body = await request.json();
     const validatedData = UpdatePostSchema.parse(body);
 
-    // TODO: Instantiate use case when application layer is ready
-    // const useCase = new UpdatePostUseCase(new PostRepositoryPrisma());
-    // const dto = await useCase.execute(postId, validatedData);
-
-    // TEMPORARY: Return mock response
-    return NextResponse.json({
-      success: true,
-      message: "Update post API route ready - waiting for application layer",
-      data: {
-        id: postId,
-        ...validatedData,
-        updatedAt: new Date(),
-      },
+    // Instantiate use case with repository
+    const useCase = new UpdatePostUseCase(new PostRepositoryPrisma());
+    const dto = await useCase.execute({
+      postId,
+      title: validatedData.title,
+      content: validatedData.content,
     });
 
-    // FINAL IMPLEMENTATION (uncomment when use cases ready):
-    // return NextResponse.json({ success: true, data: dto });
+    return NextResponse.json({ success: true, data: dto });
   } catch (error) {
     // Validation errors
     if (error instanceof z.ZodError) {
@@ -150,41 +119,42 @@ export async function PATCH(
       );
     }
 
-    // Use case errors (uncomment when use cases ready)
-    // if (error instanceof Error) {
-    //   if (error.message === PostError.INVALID_TITLE) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 400 }
-    //     );
-    //   }
-    //   if (error.message === PostError.INVALID_CONTENT) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 400 }
-    //     );
-    //   }
-    //   if (error.message === PostError.POST_NOT_FOUND) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 404 }
-    //     );
-    //   }
-    //   if (error.message === PostError.POST_ALREADY_ARCHIVED) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 409 }
-    //     );
-    //   }
-    //   if (error.message === PostError.CANNOT_MODIFY_ARCHIVED_POST) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 409 }
-    //     );
-    //   }
-    // }
+    // Use case errors
+    if (error instanceof Error) {
+      if (error.message === PostError.INVALID_TITLE) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 400 }
+        );
+      }
+      if (error.message === PostError.INVALID_CONTENT) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 400 }
+        );
+      }
+      if (error.message === PostError.POST_NOT_FOUND) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 404 }
+        );
+      }
+      if (error.message === PostError.POST_ALREADY_ARCHIVED) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 409 }
+        );
+      }
+      if (error.message === PostError.CANNOT_MODIFY_ARCHIVED_POST) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 409 }
+        );
+      }
+    }
 
     // Internal server error
+    console.error("PATCH /api/posts/[id] error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }
@@ -202,7 +172,7 @@ export async function PATCH(
  * - Sets deletedAt timestamp (soft delete pattern)
  *
  * Error Mapping:
- * - 400: INVALID_POST_ID
+ * - 400: INVALID_POST_ID, INVALID_INPUT
  * - 401: Unauthorized (not authenticated)
  * - 404: POST_NOT_FOUND
  * - 409: POST_ALREADY_ARCHIVED
@@ -224,42 +194,39 @@ export async function DELETE(
 
     const postId = params.id;
 
-    // TODO: Instantiate use case when application layer is ready
-    // const useCase = new ArchivePostUseCase(new PostRepositoryPrisma());
-    // await useCase.execute(postId);
+    // Instantiate use case with repository
+    const useCase = new ArchivePostUseCase(new PostRepositoryPrisma());
+    await useCase.execute(postId);
 
-    // TEMPORARY: Return mock response
     return NextResponse.json({
       success: true,
-      message: "Archive post API route ready - waiting for application layer",
+      message: "Post archived successfully"
     });
-
-    // FINAL IMPLEMENTATION (uncomment when use cases ready):
-    // return NextResponse.json({ success: true, message: "Post archived successfully" });
   } catch (error) {
-    // Use case errors (uncomment when use cases ready)
-    // if (error instanceof Error) {
-    //   if (error.message === PostError.INVALID_POST_ID) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 400 }
-    //     );
-    //   }
-    //   if (error.message === PostError.POST_NOT_FOUND) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 404 }
-    //     );
-    //   }
-    //   if (error.message === PostError.POST_ALREADY_ARCHIVED) {
-    //     return NextResponse.json(
-    //       { success: false, message: error.message },
-    //       { status: 409 }
-    //     );
-    //   }
-    // }
+    // Use case errors
+    if (error instanceof Error) {
+      if (error.message === PostError.INVALID_INPUT) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 400 }
+        );
+      }
+      if (error.message === PostError.POST_NOT_FOUND) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 404 }
+        );
+      }
+      if (error.message === PostError.POST_ALREADY_ARCHIVED) {
+        return NextResponse.json(
+          { success: false, message: error.message },
+          { status: 409 }
+        );
+      }
+    }
 
     // Internal server error
+    console.error("DELETE /api/posts/[id] error:", error);
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }

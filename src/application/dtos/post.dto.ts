@@ -70,3 +70,72 @@ export interface PinPostDto {
 export interface MarkSolvedDto {
   postId: string;
 }
+
+/**
+ * Post with Comments DTO for API responses
+ * Full post details with threaded comments
+ */
+export interface PostWithCommentsDto {
+  post: PostDto;
+  comments: CommentTreeDto[];
+  userHasLiked: boolean; // Whether current user liked the post
+}
+
+/**
+ * Comment Tree DTO for threaded comments
+ * Supports 2-level nesting (top-level + replies)
+ */
+export interface CommentTreeDto {
+  id: string;
+  postId: string;
+  authorId: string;
+  authorName: string;
+  authorAvatar: string | null;
+  content: string;
+  likeCount: number;
+  helpfulCount: number;
+  createdAt: string; // ISO 8601 string
+  updatedAt: string; // ISO 8601 string
+  replies: CommentReplyDto[]; // Nested replies (max 1 level)
+}
+
+/**
+ * Comment Reply DTO for nested comments
+ * Second level of threading
+ */
+export interface CommentReplyDto {
+  id: string;
+  postId: string;
+  parentId: string;
+  authorId: string;
+  authorName: string;
+  authorAvatar: string | null;
+  content: string;
+  likeCount: number;
+  helpfulCount: number;
+  createdAt: string; // ISO 8601 string
+  updatedAt: string; // ISO 8601 string
+}
+
+/**
+ * List Posts DTO for API responses
+ * Paginated list of posts with metadata
+ */
+export interface ListPostsDto {
+  posts: PostDto[];
+  total: number;
+  page: number;
+  limit: number;
+  hasMore: boolean;
+}
+
+/**
+ * List Posts Query DTO for API requests
+ * Query parameters for listing posts
+ */
+export interface ListPostsQueryDto {
+  communityId: string;
+  filter: 'all' | 'new' | 'active' | 'top';
+  page?: number; // Default 1
+  limit?: number; // Default 20
+}

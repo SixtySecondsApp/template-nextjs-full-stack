@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community OS - AI-First Community Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --background: #ffffff;
+            --surface: #f9fafb;
+            --surface-elevated: #ffffff;
+            --border: #e5e7eb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --text-tertiary: #9ca3af;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --background: #0f172a;
+            --surface: #1e293b;
+            --surface-elevated: #334155;
+            --border: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-tertiary: #94a3b8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .nav-section {
+            padding: 16px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-tertiary);
+            padding: 0 12px 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 2px;
+        }
+
+        .nav-item:hover {
+            background: var(--surface-elevated);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.7;
+        }
+
+        .nav-item.active .nav-icon {
+            opacity: 1;
+        }
+
+        .online-indicator {
+            margin-top: auto;
+            padding: 16px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: var(--surface-elevated);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-tab {
+            padding: 8px 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .top-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 8px 16px 8px 40px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text-primary);
+            width: 300px;
+            font-size: 14px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.5;
+        }
+
+        .icon-button {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .icon-button:hover {
+            background: var(--surface);
+            color: var(--text-primary);
+        }
+
+        .theme-toggle {
+            position: relative;
+        }
+
+        /* Content Feed */
+        .content-area {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .feed-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 60px 40px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        /* Post Composer */
+        .post-composer {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .composer-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text-primary);
+            font-size: 15px;
+            resize: none;
+            min-height: 60px;
+            font-family: inherit;
+        }
+
+        .composer-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .composer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .composer-tools {
+            display: flex;
+            gap: 8px;
+        }
+
+        .tool-button {
+            padding: 6px 12px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+
+        .tool-button:hover {
+            background: var(--surface);
+            color: var(--text-primary);
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .filter-chip {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--surface-elevated);
+            color: var(--text-secondary);
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .filter-chip:hover {
+            border-color: var(--primary-color);
+            color: var(--text-primary);
+        }
+
+        .filter-chip.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Post Card */
+        .post-card {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s;
+        }
+
+        .post-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .post-author {
+            display: flex;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .post-meta {
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        .post-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .post-options {
+            color: var(--text-tertiary);
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .post-content {
+            margin-bottom: 16px;
+        }
+
+        .post-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .post-body {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .tag {
+            padding: 4px 10px;
+            background: var(--surface);
+            border-radius: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .post-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .action-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .action-button:hover {
+            background: var(--surface);
+            color: var(--text-primary);
+        }
+
+        .action-button.liked {
+            color: var(--danger);
+        }
+
+        .post-stats {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-tertiary);
+        }
+
+        /* Sidebar Right */
+        .sidebar-right {
+            width: 320px;
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .widget {
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .widget-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .community-info {
+            text-align: center;
+        }
+
+        .community-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            border-radius: 16px;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .community-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .community-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .leaderboard-list {
+            list-style: none;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .rank {
+            width: 24px;
+            height: 24px;
+            background: var(--surface);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .rank.top {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .leaderboard-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            flex-shrink: 0;
+        }
+
+        .leaderboard-info {
+            flex: 1;
+        }
+
+        .leaderboard-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        .leaderboard-points {
+            font-size: 13px;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        /* Event Card */
+        .event-card {
+            padding: 12px;
+            background: var(--surface);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .event-card:hover {
+            background: var(--surface-elevated);
+        }
+
+        .event-date {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            margin-bottom: 4px;
+        }
+
+        .event-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .event-attendees {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* AI Assistant Indicator */
+        .ai-badge {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .ai-badge:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .ai-pulse {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        /* Autosave Indicator */
+        .autosave-indicator {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--surface-elevated);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .autosave-indicator.visible {
+            opacity: 1;
+        }
+
+        .save-icon {
+            width: 16px;
+            height: 16px;
+            color: var(--success);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .sidebar-right {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                height: 100vh;
+                z-index: 100;
+                transition: left 0.3s;
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .search-input {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">CO</div>
+                    <span>Community OS</span>
+                </div>
+            </div>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Main</div>
+                <a href="#" class="nav-item active">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span>Home</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <span>Members</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    <span>Courses</span>
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Spaces</div>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+                    </svg>
+                    <span>General Discussion</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                    </svg>
+                    <span>Getting Started</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                    </svg>
+                    <span>Events</span>
+                </a>
+            </nav>
+
+            <nav class="nav-section">
+                <div class="nav-section-title">Learning</div>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                    <span>Course Lessons</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <span>Resources</span>
+                </a>
+            </nav>
+
+            <div class="online-indicator">
+                <div class="online-dot"></div>
+                <span>420 members online</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <header class="top-nav">
+                <div class="nav-tabs">
+                    <a href="#" class="nav-tab active">Community</a>
+                    <a href="#" class="nav-tab">Chat</a>
+                    <a href="#" class="nav-tab">Calendar</a>
+                    <a href="#" class="nav-tab">Leaderboard</a>
+                </div>
+
+                <div class="top-nav-actions">
+                    <div class="search-box">
+                        <svg class="search-icon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <input type="text" class="search-input" placeholder="Search...">
+                    </div>
+                    
+                    <button class="icon-button" title="Notifications">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                    </button>
+
+                    <button class="icon-button theme-toggle" title="Toggle dark mode" onclick="toggleTheme()">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                    </button>
+
+                    <button class="btn btn-primary">New Post</button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div class="feed-container">
+                    <!-- Hero Banner -->
+                    <div class="hero-banner">
+                        <div class="hero-content">
+                            <div class="hero-tag">New Member Hub</div>
+                            <h1 class="hero-title">INTRODUCE<br>YOURSELF</h1>
+                        </div>
+                    </div>
+
+                    <!-- Post Composer -->
+                    <div class="post-composer">
+                        <textarea class="composer-input" placeholder="What's on your mind?" oninput="showAutosave()"></textarea>
+                        <div class="composer-actions">
+                            <div class="composer-tools">
+                                <button class="tool-button">📎 Attach</button>
+                                <button class="tool-button">🖼️ Image</button>
+                                <button class="tool-button">📊 Poll</button>
+                                <button class="tool-button">🎥 Video</button>
+                            </div>
+                            <button class="btn btn-primary">Post</button>
+                        </div>
+                    </div>
+
+                    <!-- Filter Bar -->
+                    <div class="filter-bar">
+                        <div class="filter-chip active">All</div>
+                        <div class="filter-chip">New</div>
+                        <div class="filter-chip">Active</div>
+                        <div class="filter-chip">Top</div>
+                        <div class="filter-chip">Solved</div>
+                        <div class="filter-chip">🔥 Trending</div>
+                    </div>
+
+                    <!-- Post Card -->
+                    <article class="post-card">
+                        <div class="post-header">
+                            <div class="post-author">
+                                <div class="avatar">LJ</div>
+                                <div class="author-info">
+                                    <div class="author-name">
+                                        Lisa Jones
+                                        <span class="post-badge">NEW</span>
+                                    </div>
+                                    <div class="post-meta">Mar 31 · 2 min read</div>
+                                </div>
+                            </div>
+                            <div class="post-options">⋯</div>
+                        </div>
+
+                        <div class="post-content">
+                            <h2 class="post-title">Hey everyone! ✨ Excited to be a part of this awesome cycling community!</h2>
+                            <div class="post-body">
+                                My name is Serena, and I'm diving headfirst into the world of sports! 🚴 A proud newbie eager to embrace the thrill of competition and the camaraderie that comes with it. 💪 I've always been passionate about staying active, and recently, I decided to take it up a notch by joining this vibrant community. Whether it's cycling, running, or hitting the gym, count me in! 🚴‍♀️🏃‍♀️💪
+                            </div>
+                            <div class="post-tags">
+                                <span class="tag">#NewBeginnings</span>
+                                <span class="tag">#ActiveLifestyle</span>
+                                <span class="tag">#CyclingCommunity</span>
+                            </div>
+                        </div>
+
+                        <div class="post-footer">
+                            <div class="post-actions">
+                                <button class="action-button">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                    </svg>
+                                    <span>Like</span>
+                                </button>
+                                <button class="action-button">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                    </svg>
+                                    <span>Comment</span>
+                                </button>
+                                <button class="action-button">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+                                    </svg>
+                                    <span>Share</span>
+                                </button>
+                            </div>
+                            <div class="post-stats">
+                                <span>Liked by Jeroen and 34 others</span>
+                                <span>·</span>
+                                <span>7 comments</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Another Post Card -->
+                    <article class="post-card">
+                        <div class="post-header">
+                            <div class="post-author">
+                                <div class="avatar">NH</div>
+                                <div class="author-info">
+                                    <div class="author-name">
+                                        Nate Herk 
+                                        <span class="post-badge" style="background: #f59e0b;">PINNED</span>
+                                    </div>
+                                    <div class="post-meta">3d · YouTube Resources 📺</div>
+                                </div>
+                            </div>
+                            <div class="post-options">⋯</div>
+                        </div>
+
+                        <div class="post-content">
+                            <h2 class="post-title">🚀 New Video: How I made $231,000 in 30 days (as an AI Consultant...)</h2>
+                            <div class="post-body">
+                                Today, I'll be showing you how I made $231,000 in 30 days as an AI Consultant. In this video I'll go over how I did it, how I'd do it if I started out again, and actionable steps to help you get started.
+                            </div>
+                        </div>
+
+                        <div class="post-footer">
+                            <div class="post-actions">
+                                <button class="action-button liked">
+                                    <svg width="18" height="18" fill="currentColor" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                    </svg>
+                                    <span>259</span>
+                                </button>
+                                <button class="action-button">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                    </svg>
+                                    <span>166</span>
+                                </button>
+                            </div>
+                            <div class="post-stats">
+                                <span>New comment 11m ago</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Another Post -->
+                    <article class="post-card">
+                        <div class="post-header">
+                            <div class="post-author">
+                                <div class="avatar">YC</div>
+                                <div class="author-info">
+                                    <div class="author-name">Yash Chauhan 🔥</div>
+                                    <div class="post-meta">3d · 💡 Wins 👏</div>
+                                </div>
+                            </div>
+                            <div class="post-options">⋯</div>
+                        </div>
+
+                        <div class="post-content">
+                            <h2 class="post-title">🏆 Weekly Wins Recap | Oct 25 – Oct 31</h2>
+                            <div class="post-body">
+                                Every week inside AIS+, members are turning ideas into results - from high-ticket projects to breakthrough automations. Here are this week's highlights inside AIS+ 👇
+                            </div>
+                        </div>
+
+                        <div class="post-footer">
+                            <div class="post-actions">
+                                <button class="action-button">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                    </svg>
+                                    <span>53</span>
+                                </button>
+                                <button class="action-button">
+                                    <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                                    </svg>
+                                    <span>35</span>
+                                </button>
+                            </div>
+                            <div class="post-stats">
+                                <span>New comment 2h ago</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Right Sidebar -->
+                <aside class="sidebar-right">
+                    <!-- Community Info Widget -->
+                    <div class="widget community-info">
+                        <div class="community-logo">CO</div>
+                        <h3 class="community-name">Community OS</h3>
+                        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 8px;">
+                            The AI-first community platform
+                        </p>
+
+                        <div class="community-stats">
+                            <div class="stat">
+                                <span class="stat-value">1.2k</span>
+                                <span class="stat-label">Members</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">420</span>
+                                <span class="stat-label">Online</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">15</span>
+                                <span class="stat-label">Admins</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Leaderboard Widget -->
+                    <div class="widget">
+                        <h3 class="widget-title">🏆 Leaderboard (30-day)</h3>
+                        <ul class="leaderboard-list">
+                            <li class="leaderboard-item">
+                                <div class="rank top">1</div>
+                                <div class="leaderboard-avatar"></div>
+                                <div class="leaderboard-info">
+                                    <div class="leaderboard-name">Titus Blair</div>
+                                    <div class="leaderboard-points">+3052 pts</div>
+                                </div>
+                            </li>
+                            <li class="leaderboard-item">
+                                <div class="rank top">2</div>
+                                <div class="leaderboard-avatar"></div>
+                                <div class="leaderboard-info">
+                                    <div class="leaderboard-name">Muskan An. 🔥</div>
+                                    <div class="leaderboard-points">+2538 pts</div>
+                                </div>
+                            </li>
+                            <li class="leaderboard-item">
+                                <div class="rank top">3</div>
+                                <div class="leaderboard-avatar"></div>
+                                <div class="leaderboard-info">
+                                    <div class="leaderboard-name">Christian Ri...</div>
+                                    <div class="leaderboard-points">+2088 pts</div>
+                                </div>
+                            </li>
+                            <li class="leaderboard-item">
+                                <div class="rank">4</div>
+                                <div class="leaderboard-avatar"></div>
+                                <div class="leaderboard-info">
+                                    <div class="leaderboard-name">Frank van B...</div>
+                                    <div class="leaderboard-points">+1990 pts</div>
+                                </div>
+                            </li>
+                            <li class="leaderboard-item">
+                                <div class="rank">5</div>
+                                <div class="leaderboard-avatar"></div>
+                                <div class="leaderboard-info">
+                                    <div class="leaderboard-name">Kevin troy Lum...</div>
+                                    <div class="leaderboard-points">+1393 pts</div>
+                                </div>
+                            </li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 12px; background: var(--surface); color: var(--text-primary);">
+                            See all leaderboards
+                        </button>
+                    </div>
+
+                    <!-- Upcoming Events Widget -->
+                    <div class="widget">
+                        <h3 class="widget-title">📅 Upcoming Events</h3>
+                        <div class="event-card">
+                            <div class="event-date">Tomorrow at 3:00 PM</div>
+                            <div class="event-title">Q&A with Nate - AI Automation</div>
+                            <div class="event-attendees">142 attending</div>
+                        </div>
+                        <div class="event-card">
+                            <div class="event-date">Nov 5 at 2:00 PM</div>
+                            <div class="event-title">Weekly Wins Showcase</div>
+                            <div class="event-attendees">89 attending</div>
+                        </div>
+                        <div class="event-card">
+                            <div class="event-date">Nov 8 at 10:00 AM</div>
+                            <div class="event-title">Community Office Hours</div>
+                            <div class="event-attendees">56 attending</div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+    </div>
+
+    <!-- AI Assistant Badge -->
+    <div class="ai-badge">
+        <div class="ai-pulse"></div>
+        <span>AI Assistant</span>
+    </div>
+
+    <!-- Autosave Indicator -->
+    <div class="autosave-indicator" id="autosave">
+        <svg class="save-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span>Draft saved</span>
+    </div>
+
+    <script>
+        // Theme Toggle
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        // Autosave Indicator
+        let autosaveTimeout;
+        function showAutosave() {
+            const indicator = document.getElementById('autosave');
+            clearTimeout(autosaveTimeout);
+            
+            indicator.classList.add('visible');
+            
+            autosaveTimeout = setTimeout(() => {
+                indicator.classList.remove('visible');
+            }, 2000);
+        }
+
+        // Simulate autosave every 5 seconds when typing
+        let typingTimer;
+        document.querySelector('.composer-input')?.addEventListener('input', function() {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => {
+                showAutosave();
+            }, 5000);
+        });
+    </script>
+</body>
+</html>

@@ -40,3 +40,35 @@ export enum PostError {
   // Server errors (500)
   INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR"
 }
+
+/**
+ * Like error types for like/reaction operations
+ */
+export enum LikeError {
+  // Validation errors (400)
+  INVALID_INPUT = "INVALID_INPUT",
+
+  // Not found errors (404)
+  POST_NOT_FOUND = "POST_NOT_FOUND",
+  COMMENT_NOT_FOUND = "COMMENT_NOT_FOUND",
+  USER_NOT_FOUND = "USER_NOT_FOUND",
+
+  // Server errors (500)
+  INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
+}
+
+/**
+ * Draft error types for draft management operations
+ */
+export enum DraftError {
+  // Validation errors (400)
+  INVALID_CONTENT = "INVALID_CONTENT",
+  EMPTY_CONTENT = "EMPTY_CONTENT",
+
+  // Not found errors (404)
+  DRAFT_NOT_FOUND = "DRAFT_NOT_FOUND",
+  USER_NOT_FOUND = "USER_NOT_FOUND",
+
+  // Server errors (500)
+  INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
+}

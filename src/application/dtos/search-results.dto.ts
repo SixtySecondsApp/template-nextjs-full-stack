@@ -17,3 +17,15 @@ export interface SearchResultsDto {
   totalResults: number;
   query: string;
 }
+
+/**
+ * Search Query DTO for API requests
+ * Full-text search parameters
+ */
+export interface SearchQueryDto {
+  query: string;
+  type: 'posts' | 'members' | 'all';
+  communityId: string;
+  limit?: number; // Default 20
+  offset?: number; // Default 0
+}

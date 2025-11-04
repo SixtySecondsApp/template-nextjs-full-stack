@@ -26,7 +26,7 @@ const navSections: NavSection[] = [
   {
     title: "Main",
     items: [
-      { icon: Home, label: "Home", href: "/", active: true },
+      { icon: Home, label: "Home", href: "/dashboard", active: true },
       { icon: Users, label: "Members", href: "/members" },
       { icon: BookOpen, label: "Courses", href: "/courses" },
     ],

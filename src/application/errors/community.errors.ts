@@ -25,3 +25,21 @@ export enum CommunityError {
   // Server errors (500)
   INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
 }
+
+/**
+ * Search error types for search operations
+ */
+export enum SearchError {
+  // Validation errors (400)
+  INVALID_QUERY = "INVALID_QUERY",
+  QUERY_TOO_SHORT = "QUERY_TOO_SHORT",
+  INVALID_TYPE = "INVALID_TYPE",
+  INVALID_COMMUNITY_ID = "INVALID_COMMUNITY_ID",
+
+  // Not found errors (404)
+  COMMUNITY_NOT_FOUND = "COMMUNITY_NOT_FOUND",
+
+  // Server errors (500)
+  INTERNAL_SERVER_ERROR = "INTERNAL_SERVER_ERROR",
+  SEARCH_SERVICE_UNAVAILABLE = "SEARCH_SERVICE_UNAVAILABLE",
+}

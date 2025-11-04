@@ -368,6 +368,83 @@ export interface ICertificateRepository {
 }
 
 /**
+ * Like Repository Interface
+ * Defines persistence operations for Like aggregate
+ */
+export interface ILikeRepository {
+  /**
+   * Create a new like (user likes a post or comment)
+   */
+  create(like: any): Promise<any>; // TODO: Replace with Like entity when created
+
+  /**
+   * Delete a like (user unlikes a post or comment)
+   */
+  delete(id: string): Promise<void>;
+
+  /**
+   * Find like by user and post
+   */
+  findByUserAndPost(userId: string, postId: string): Promise<any | null>;
+
+  /**
+   * Find like by user and comment
+   */
+  findByUserAndComment(userId: string, commentId: string): Promise<any | null>;
+
+  /**
+   * Count likes for a post
+   */
+  countByPost(postId: string): Promise<number>;
+
+  /**
+   * Count likes for a comment
+   */
+  countByComment(commentId: string): Promise<number>;
+}
+
+/**
+ * PostDraft Repository Interface
+ * Defines persistence operations for PostDraft aggregate
+ */
+export interface IPostDraftRepository {
+  /**
+   * Create a new draft
+   */
+  create(draft: any): Promise<any>; // TODO: Replace with PostDraft entity
+
+  /**
+   * Update an existing draft
+   */
+  update(draft: any): Promise<any>;
+
+  /**
+   * Delete a draft
+   */
+  delete(id: string): Promise<void>;
+
+  /**
+   * Find draft by ID
+   */
+  findById(id: string): Promise<any | null>;
+
+  /**
+   * Find draft by user ID and post ID
+   */
+  findByUserAndPost(userId: string, postId: string | null): Promise<any | null>;
+
+  /**
+   * Find all drafts by user ID
+   */
+  findByUserId(userId: string): Promise<any[]>;
+
+  /**
+   * Delete expired drafts (older than 7 days)
+   */
+  deleteExpired(): Promise<void>;
+}
+
+/**
  * Export infrastructure port interfaces
  * These are re-exported from infrastructure layer for convenience
  */

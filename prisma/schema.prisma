@@ -41,6 +41,9 @@ model User {
   memberships       CommunityMember[]
   posts             Post[]
   comments          Comment[]
+  likes             Like[]
+  postDrafts        PostDraft[]
+  uploadedAttachments Attachment[]    @relation("UploadedAttachments")
   instructedCourses Course[]          @relation("InstructedCourses")
   courseProgresses  CourseProgress[]
   certificates      Certificate[]
@@ -66,6 +69,7 @@ model Community {
   // Relationships
   members       CommunityMember[]
   posts         Post[]
+  banners       CommunityBanner[]
   courses       Course[]
   paymentTiers  PaymentTier[]
   subscriptions Subscription[]
@@ -114,75 +118,138 @@ model Post {
   communityId  String
   authorId     String
   title        String
-  content      String    @db.Text // Rich text HTML
+  body         String    @db.Text // Rich text HTML
+  isDraft      Boolean   @default(true)
+  category     String? // Optional categorization
   isPinned     Boolean   @default(false)
-  isSolved     Boolean   @default(false)
-  likeCount    Int       @default(0)
-  helpfulCount Int       @default(0)
-  commentCount Int       @default(0)
   viewCount    Int       @default(0)
+  likeCount    Int       @default(0) // Denormalized for performance
+  commentCount Int       @default(0) // Denormalized for performance
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   publishedAt  DateTime? // Null = draft
-  deletedAt    DateTime? // Soft delete (7-day retention)
+  deletedAt    DateTime? // Soft delete
 
   // Relationships
   community   Community        @relation(fields: [communityId], references: [id], onDelete: Cascade)
   author      User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
   comments    Comment[]
-  attachments PostAttachment[]
+  likes       Like[]
+  attachments Attachment[]
+  drafts      PostDraft[]
   versions    ContentVersion[]
 
   @@index([communityId])
   @@index([authorId])
-  @@index([createdAt])
-  @@index([publishedAt])
   @@index([deletedAt])
+  @@index([isPinned])
+  @@index([publishedAt])
   @@map("posts")
 }
 
-model PostAttachment {
+model PostDraft {
   id        String    @id @default(cuid())
-  postId    String
-  fileName  String
-  fileUrl   String // S3 URL
-  fileSize  Int // Bytes
-  mimeType  String
-  createdAt DateTime  @default(now())
-  deletedAt DateTime? // Soft delete
+  postId    String? // Nullable - can be draft before post creation
+  userId    String
+  content   Json // JSON content for autosave
+  savedAt   DateTime  @default(now())
+  expiresAt DateTime // 7 days from savedAt
 
   // Relationships
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([postId])
+  @@index([expiresAt])
+  @@map("post_drafts")
+}
+
+model Attachment {
+  id         String    @id @default(cuid())
+  postId     String
+  url        String // S3 URL
+  filename   String
+  mimeType   String
+  size       Int // Bytes
+  uploadedBy String
+  createdAt  DateTime  @default(now())
+  deletedAt  DateTime? // Soft delete
+
+  // Relationships
+  post     Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  uploader User @relation("UploadedAttachments", fields: [uploadedBy], references: [id], onDelete: Cascade)
 
   @@index([postId])
-  @@map("post_attachments")
+  @@index([uploadedBy])
+  @@map("attachments")
 }
 
 model Comment {
-  id           String    @id @default(cuid())
-  postId       String
-  authorId     String
-  parentId     String? // For threading (max 2 levels in V1)
-  content      String    @db.Text // Rich text HTML
-  likeCount    Int       @default(0)
-  helpfulCount Int       @default(0)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  deletedAt    DateTime? // Soft delete (7-day retention)
+  id        String    @id @default(cuid())
+  postId    String
+  authorId  String
+  parentId  String? // For threading (max 2 levels in V1)
+  body      String    @db.Text // Rich text HTML
+  likeCount Int       @default(0) // Denormalized for performance
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime? // Soft delete
 
   // Relationships
   post     Post             @relation(fields: [postId], references: [id], onDelete: Cascade)
   author   User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
   parent   Comment?         @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
   replies  Comment[]        @relation("CommentReplies")
+  likes    Like[]
   versions ContentVersion[]
 
   @@index([postId])
-  @@index([authorId])
   @@index([parentId])
-  @@index([createdAt])
+  @@index([authorId])
   @@index([deletedAt])
   @@map("comments")
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String? // Nullable - either postId or commentId must be set
+  commentId String? // Nullable - either postId or commentId must be set
+  createdAt DateTime @default(now())
+
+  // Relationships
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post    Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@unique([userId, commentId])
+  @@index([userId])
+  @@index([postId])
+  @@index([commentId])
+  @@map("likes")
+}
+
+model CommunityBanner {
+  id                  String    @id @default(cuid())
+  communityId         String
+  title               String
+  subtitle            String?
+  ctaText             String?
+  ctaLink             String?
+  backgroundGradient  Json? // JSON gradient configuration
+  backgroundImageUrl  String? // Optional background image
+  isActive            Boolean   @default(true)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  // Relationships
+  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
+  @@index([communityId])
+  @@index([isActive])
+  @@map("community_banners")
 }
 
 // ----------------------------------------------------------------------------

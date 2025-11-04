@@ -158,26 +158,36 @@ exports.Prisma.PostScalarFieldEnum = {
   communityId: 'communityId',
   authorId: 'authorId',
   title: 'title',
-  content: 'content',
+  body: 'body',
+  isDraft: 'isDraft',
+  category: 'category',
   isPinned: 'isPinned',
-  isSolved: 'isSolved',
-  likeCount: 'likeCount',
-  helpfulCount: 'helpfulCount',
-  commentCount: 'commentCount',
   viewCount: 'viewCount',
+  likeCount: 'likeCount',
+  commentCount: 'commentCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   publishedAt: 'publishedAt',
   deletedAt: 'deletedAt'
 };
 
-exports.Prisma.PostAttachmentScalarFieldEnum = {
+exports.Prisma.PostDraftScalarFieldEnum = {
   id: 'id',
   postId: 'postId',
-  fileName: 'fileName',
-  fileUrl: 'fileUrl',
-  fileSize: 'fileSize',
+  userId: 'userId',
+  content: 'content',
+  savedAt: 'savedAt',
+  expiresAt: 'expiresAt'
+};
+
+exports.Prisma.AttachmentScalarFieldEnum = {
+  id: 'id',
+  postId: 'postId',
+  url: 'url',
+  filename: 'filename',
   mimeType: 'mimeType',
+  size: 'size',
+  uploadedBy: 'uploadedBy',
   createdAt: 'createdAt',
   deletedAt: 'deletedAt'
 };
@@ -187,12 +197,33 @@ exports.Prisma.CommentScalarFieldEnum = {
   postId: 'postId',
   authorId: 'authorId',
   parentId: 'parentId',
-  content: 'content',
+  body: 'body',
   likeCount: 'likeCount',
-  helpfulCount: 'helpfulCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
+};
+
+exports.Prisma.LikeScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  postId: 'postId',
+  commentId: 'commentId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CommunityBannerScalarFieldEnum = {
+  id: 'id',
+  communityId: 'communityId',
+  title: 'title',
+  subtitle: 'subtitle',
+  ctaText: 'ctaText',
+  ctaLink: 'ctaLink',
+  backgroundGradient: 'backgroundGradient',
+  backgroundImageUrl: 'backgroundImageUrl',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ContentVersionScalarFieldEnum = {
@@ -317,9 +348,49 @@ exports.Prisma.CouponScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.SpaceScalarFieldEnum = {
+  id: 'id',
+  communityId: 'communityId',
+  parentSpaceId: 'parentSpaceId',
+  name: 'name',
+  description: 'description',
+  icon: 'icon',
+  color: 'color',
+  position: 'position',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.ChannelScalarFieldEnum = {
+  id: 'id',
+  communityId: 'communityId',
+  spaceId: 'spaceId',
+  name: 'name',
+  description: 'description',
+  permission: 'permission',
+  requiredTierId: 'requiredTierId',
+  icon: 'icon',
+  position: 'position',
+  createdBy: 'createdBy',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -330,6 +401,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.Role = exports.$Enums.Role = {
   OWNER: 'OWNER',
@@ -358,8 +435,11 @@ exports.Prisma.ModelName = {
   Community: 'Community',
   CommunityMember: 'CommunityMember',
   Post: 'Post',
-  PostAttachment: 'PostAttachment',
+  PostDraft: 'PostDraft',
+  Attachment: 'Attachment',
   Comment: 'Comment',
+  Like: 'Like',
+  CommunityBanner: 'CommunityBanner',
   ContentVersion: 'ContentVersion',
   Notification: 'Notification',
   Course: 'Course',
@@ -368,7 +448,9 @@ exports.Prisma.ModelName = {
   Certificate: 'Certificate',
   PaymentTier: 'PaymentTier',
   Subscription: 'Subscription',
-  Coupon: 'Coupon'
+  Coupon: 'Coupon',
+  Space: 'Space',
+  Channel: 'Channel'
 };
 
 /**

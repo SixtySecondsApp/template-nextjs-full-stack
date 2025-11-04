@@ -10,12 +10,6 @@ CREATE TYPE "public"."ContentType" AS ENUM ('POST', 'COMMENT');
 -- CreateEnum
 CREATE TYPE "public"."NotificationType" AS ENUM ('MENTION', 'REPLY', 'LIKE', 'COURSE_ENROLLMENT', 'SUBSCRIPTION_CREATED', 'SUBSCRIPTION_CANCELLED');
 
--- CreateEnum
-CREATE TYPE "public"."SubscriptionStatus" AS ENUM ('ACTIVE', 'TRIALING', 'PAST_DUE', 'CANCELED', 'UNPAID');
-
--- CreateEnum
-CREATE TYPE "public"."PaymentStatus" AS ENUM ('SUCCEEDED', 'PENDING', 'FAILED', 'REFUNDED');
-
 -- CreateTable
 CREATE TABLE "public"."users" (
     "id" TEXT NOT NULL,
@@ -64,13 +58,13 @@ CREATE TABLE "public"."posts" (
     "communityId" TEXT NOT NULL,
     "authorId" TEXT NOT NULL,
     "title" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
+    "body" TEXT NOT NULL,
+    "isDraft" BOOLEAN NOT NULL DEFAULT true,
+    "category" TEXT,
     "isPinned" BOOLEAN NOT NULL DEFAULT false,
-    "isSolved" BOOLEAN NOT NULL DEFAULT false,
-    "likeCount" INTEGER NOT NULL DEFAULT 0,
-    "helpfulCount" INTEGER NOT NULL DEFAULT 0,
-    "commentCount" INTEGER NOT NULL DEFAULT 0,
     "viewCount" INTEGER NOT NULL DEFAULT 0,
+    "likeCount" INTEGER NOT NULL DEFAULT 0,
+    "commentCount" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "publishedAt" TIMESTAMP(3),
@@ -80,17 +74,30 @@ CREATE TABLE "public"."posts" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."post_attachments" (
+CREATE TABLE "public"."post_drafts" (
+    "id" TEXT NOT NULL,
+    "postId" TEXT,
+    "userId" TEXT NOT NULL,
+    "content" JSONB NOT NULL,
+    "savedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "expiresAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "post_drafts_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."attachments" (
     "id" TEXT NOT NULL,
     "postId" TEXT NOT NULL,
-    "fileName" TEXT NOT NULL,
-    "fileUrl" TEXT NOT NULL,
-    "fileSize" INTEGER NOT NULL,
+    "url" TEXT NOT NULL,
+    "filename" TEXT NOT NULL,
     "mimeType" TEXT NOT NULL,
+    "size" INTEGER NOT NULL,
+    "uploadedBy" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP(3),
 
-    CONSTRAINT "post_attachments_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "attachments_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -99,14 +106,41 @@ CREATE TABLE "public"."comments" (
     "postId" TEXT NOT NULL,
     "authorId" TEXT NOT NULL,
     "parentId" TEXT,
-    "content" TEXT NOT NULL,
+    "body" TEXT NOT NULL,
     "likeCount" INTEGER NOT NULL DEFAULT 0,
-    "helpfulCount" INTEGER NOT NULL DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
 
     CONSTRAINT "comments_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."likes" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "postId" TEXT,
+    "commentId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "likes_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."community_banners" (
+    "id" TEXT NOT NULL,
+    "communityId" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "subtitle" TEXT,
+    "ctaText" TEXT,
+    "ctaLink" TEXT,
+    "backgroundGradient" JSONB,
+    "backgroundImageUrl" TEXT,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "community_banners_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -207,11 +241,9 @@ CREATE TABLE "public"."payment_tiers" (
     "id" TEXT NOT NULL,
     "communityId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "description" TEXT,
-    "price" INTEGER NOT NULL DEFAULT 0,
-    "interval" TEXT,
-    "stripeProductId" TEXT,
-    "stripePriceId" TEXT,
+    "description" TEXT NOT NULL,
+    "priceMonthly" INTEGER NOT NULL DEFAULT 0,
+    "priceAnnual" INTEGER NOT NULL DEFAULT 0,
     "features" TEXT[],
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -225,14 +257,16 @@ CREATE TABLE "public"."payment_tiers" (
 CREATE TABLE "public"."subscriptions" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
-    "tierId" TEXT NOT NULL,
-    "stripeCustomerId" TEXT,
+    "communityId" TEXT NOT NULL,
+    "paymentTierId" TEXT NOT NULL,
     "stripeSubscriptionId" TEXT,
-    "status" "public"."SubscriptionStatus" NOT NULL DEFAULT 'ACTIVE',
+    "stripeCustomerId" TEXT,
+    "status" TEXT NOT NULL,
+    "interval" TEXT NOT NULL,
     "currentPeriodStart" TIMESTAMP(3) NOT NULL,
     "currentPeriodEnd" TIMESTAMP(3) NOT NULL,
-    "cancelAt" TIMESTAMP(3),
-    "canceledAt" TIMESTAMP(3),
+    "cancelAtPeriodEnd" BOOLEAN NOT NULL DEFAULT false,
+    "trialEndsAt" TIMESTAMP(3),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "deletedAt" TIMESTAMP(3),
@@ -241,17 +275,58 @@ CREATE TABLE "public"."subscriptions" (
 );
 
 -- CreateTable
-CREATE TABLE "public"."payments" (
+CREATE TABLE "public"."coupons" (
     "id" TEXT NOT NULL,
-    "subscriptionId" TEXT NOT NULL,
-    "stripePaymentId" TEXT NOT NULL,
-    "amount" INTEGER NOT NULL,
-    "currency" TEXT NOT NULL DEFAULT 'usd',
-    "status" "public"."PaymentStatus" NOT NULL,
+    "communityId" TEXT NOT NULL,
+    "code" TEXT NOT NULL,
+    "discountType" TEXT NOT NULL,
+    "discountValue" INTEGER NOT NULL,
+    "expiresAt" TIMESTAMP(3),
+    "maxUses" INTEGER,
+    "usedCount" INTEGER NOT NULL DEFAULT 0,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
 
-    CONSTRAINT "payments_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "coupons_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."spaces" (
+    "id" TEXT NOT NULL,
+    "communityId" TEXT NOT NULL,
+    "parentSpaceId" TEXT,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "icon" TEXT,
+    "color" TEXT,
+    "position" INTEGER NOT NULL DEFAULT 0,
+    "createdBy" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+
+    CONSTRAINT "spaces_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "public"."channels" (
+    "id" TEXT NOT NULL,
+    "communityId" TEXT NOT NULL,
+    "spaceId" TEXT,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "permission" TEXT NOT NULL,
+    "requiredTierId" TEXT,
+    "icon" TEXT,
+    "position" INTEGER NOT NULL DEFAULT 0,
+    "createdBy" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "deletedAt" TIMESTAMP(3),
+
+    CONSTRAINT "channels_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -291,31 +366,61 @@ CREATE INDEX "posts_communityId_idx" ON "public"."posts"("communityId");
 CREATE INDEX "posts_authorId_idx" ON "public"."posts"("authorId");
 
 -- CreateIndex
-CREATE INDEX "posts_createdAt_idx" ON "public"."posts"("createdAt");
+CREATE INDEX "posts_deletedAt_idx" ON "public"."posts"("deletedAt");
+
+-- CreateIndex
+CREATE INDEX "posts_isPinned_idx" ON "public"."posts"("isPinned");
 
 -- CreateIndex
 CREATE INDEX "posts_publishedAt_idx" ON "public"."posts"("publishedAt");
 
 -- CreateIndex
-CREATE INDEX "posts_deletedAt_idx" ON "public"."posts"("deletedAt");
+CREATE INDEX "post_drafts_userId_idx" ON "public"."post_drafts"("userId");
 
 -- CreateIndex
-CREATE INDEX "post_attachments_postId_idx" ON "public"."post_attachments"("postId");
+CREATE INDEX "post_drafts_postId_idx" ON "public"."post_drafts"("postId");
+
+-- CreateIndex
+CREATE INDEX "post_drafts_expiresAt_idx" ON "public"."post_drafts"("expiresAt");
+
+-- CreateIndex
+CREATE INDEX "attachments_postId_idx" ON "public"."attachments"("postId");
+
+-- CreateIndex
+CREATE INDEX "attachments_uploadedBy_idx" ON "public"."attachments"("uploadedBy");
 
 -- CreateIndex
 CREATE INDEX "comments_postId_idx" ON "public"."comments"("postId");
 
 -- CreateIndex
-CREATE INDEX "comments_authorId_idx" ON "public"."comments"("authorId");
-
--- CreateIndex
 CREATE INDEX "comments_parentId_idx" ON "public"."comments"("parentId");
 
 -- CreateIndex
-CREATE INDEX "comments_createdAt_idx" ON "public"."comments"("createdAt");
+CREATE INDEX "comments_authorId_idx" ON "public"."comments"("authorId");
 
 -- CreateIndex
 CREATE INDEX "comments_deletedAt_idx" ON "public"."comments"("deletedAt");
+
+-- CreateIndex
+CREATE INDEX "likes_userId_idx" ON "public"."likes"("userId");
+
+-- CreateIndex
+CREATE INDEX "likes_postId_idx" ON "public"."likes"("postId");
+
+-- CreateIndex
+CREATE INDEX "likes_commentId_idx" ON "public"."likes"("commentId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "likes_userId_postId_key" ON "public"."likes"("userId", "postId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "likes_userId_commentId_key" ON "public"."likes"("userId", "commentId");
+
+-- CreateIndex
+CREATE INDEX "community_banners_communityId_idx" ON "public"."community_banners"("communityId");
+
+-- CreateIndex
+CREATE INDEX "community_banners_isActive_idx" ON "public"."community_banners"("isActive");
 
 -- CreateIndex
 CREATE INDEX "content_versions_contentId_contentType_idx" ON "public"."content_versions"("contentId", "contentType");
@@ -396,31 +501,76 @@ CREATE INDEX "payment_tiers_communityId_idx" ON "public"."payment_tiers"("commun
 CREATE INDEX "payment_tiers_isActive_idx" ON "public"."payment_tiers"("isActive");
 
 -- CreateIndex
+CREATE INDEX "payment_tiers_deletedAt_idx" ON "public"."payment_tiers"("deletedAt");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "subscriptions_stripeSubscriptionId_key" ON "public"."subscriptions"("stripeSubscriptionId");
 
 -- CreateIndex
 CREATE INDEX "subscriptions_userId_idx" ON "public"."subscriptions"("userId");
 
 -- CreateIndex
-CREATE INDEX "subscriptions_tierId_idx" ON "public"."subscriptions"("tierId");
+CREATE INDEX "subscriptions_communityId_idx" ON "public"."subscriptions"("communityId");
 
 -- CreateIndex
-CREATE INDEX "subscriptions_stripeSubscriptionId_idx" ON "public"."subscriptions"("stripeSubscriptionId");
+CREATE INDEX "subscriptions_stripeCustomerId_idx" ON "public"."subscriptions"("stripeCustomerId");
 
 -- CreateIndex
 CREATE INDEX "subscriptions_status_idx" ON "public"."subscriptions"("status");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "payments_stripePaymentId_key" ON "public"."payments"("stripePaymentId");
+CREATE INDEX "subscriptions_deletedAt_idx" ON "public"."subscriptions"("deletedAt");
 
 -- CreateIndex
-CREATE INDEX "payments_subscriptionId_idx" ON "public"."payments"("subscriptionId");
+CREATE UNIQUE INDEX "subscriptions_userId_communityId_key" ON "public"."subscriptions"("userId", "communityId");
 
 -- CreateIndex
-CREATE INDEX "payments_stripePaymentId_idx" ON "public"."payments"("stripePaymentId");
+CREATE INDEX "coupons_communityId_idx" ON "public"."coupons"("communityId");
 
 -- CreateIndex
-CREATE INDEX "payments_status_idx" ON "public"."payments"("status");
+CREATE INDEX "coupons_code_idx" ON "public"."coupons"("code");
+
+-- CreateIndex
+CREATE INDEX "coupons_isActive_idx" ON "public"."coupons"("isActive");
+
+-- CreateIndex
+CREATE INDEX "coupons_expiresAt_idx" ON "public"."coupons"("expiresAt");
+
+-- CreateIndex
+CREATE INDEX "coupons_deletedAt_idx" ON "public"."coupons"("deletedAt");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "coupons_communityId_code_key" ON "public"."coupons"("communityId", "code");
+
+-- CreateIndex
+CREATE INDEX "spaces_communityId_idx" ON "public"."spaces"("communityId");
+
+-- CreateIndex
+CREATE INDEX "spaces_parentSpaceId_idx" ON "public"."spaces"("parentSpaceId");
+
+-- CreateIndex
+CREATE INDEX "spaces_position_idx" ON "public"."spaces"("position");
+
+-- CreateIndex
+CREATE INDEX "spaces_deletedAt_idx" ON "public"."spaces"("deletedAt");
+
+-- CreateIndex
+CREATE INDEX "channels_communityId_idx" ON "public"."channels"("communityId");
+
+-- CreateIndex
+CREATE INDEX "channels_spaceId_idx" ON "public"."channels"("spaceId");
+
+-- CreateIndex
+CREATE INDEX "channels_permission_idx" ON "public"."channels"("permission");
+
+-- CreateIndex
+CREATE INDEX "channels_requiredTierId_idx" ON "public"."channels"("requiredTierId");
+
+-- CreateIndex
+CREATE INDEX "channels_position_idx" ON "public"."channels"("position");
+
+-- CreateIndex
+CREATE INDEX "channels_deletedAt_idx" ON "public"."channels"("deletedAt");
 
 -- AddForeignKey
 ALTER TABLE "public"."community_members" ADD CONSTRAINT "community_members_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -435,7 +585,16 @@ ALTER TABLE "public"."posts" ADD CONSTRAINT "posts_communityId_fkey" FOREIGN KEY
 ALTER TABLE "public"."posts" ADD CONSTRAINT "posts_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."post_attachments" ADD CONSTRAINT "post_attachments_postId_fkey" FOREIGN KEY ("postId") REFERENCES "public"."posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."post_drafts" ADD CONSTRAINT "post_drafts_postId_fkey" FOREIGN KEY ("postId") REFERENCES "public"."posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."post_drafts" ADD CONSTRAINT "post_drafts_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."attachments" ADD CONSTRAINT "attachments_postId_fkey" FOREIGN KEY ("postId") REFERENCES "public"."posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."attachments" ADD CONSTRAINT "attachments_uploadedBy_fkey" FOREIGN KEY ("uploadedBy") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."comments" ADD CONSTRAINT "comments_postId_fkey" FOREIGN KEY ("postId") REFERENCES "public"."posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -445,6 +604,18 @@ ALTER TABLE "public"."comments" ADD CONSTRAINT "comments_authorId_fkey" FOREIGN 
 
 -- AddForeignKey
 ALTER TABLE "public"."comments" ADD CONSTRAINT "comments_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "public"."comments"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."likes" ADD CONSTRAINT "likes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."likes" ADD CONSTRAINT "likes_postId_fkey" FOREIGN KEY ("postId") REFERENCES "public"."posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."likes" ADD CONSTRAINT "likes_commentId_fkey" FOREIGN KEY ("commentId") REFERENCES "public"."comments"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."community_banners" ADD CONSTRAINT "community_banners_communityId_fkey" FOREIGN KEY ("communityId") REFERENCES "public"."communities"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "public"."content_versions" ADD CONSTRAINT "content_versions_post_id_fkey" FOREIGN KEY ("contentId") REFERENCES "public"."posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
@@ -486,8 +657,26 @@ ALTER TABLE "public"."payment_tiers" ADD CONSTRAINT "payment_tiers_communityId_f
 ALTER TABLE "public"."subscriptions" ADD CONSTRAINT "subscriptions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."subscriptions" ADD CONSTRAINT "subscriptions_tierId_fkey" FOREIGN KEY ("tierId") REFERENCES "public"."payment_tiers"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."subscriptions" ADD CONSTRAINT "subscriptions_communityId_fkey" FOREIGN KEY ("communityId") REFERENCES "public"."communities"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "public"."payments" ADD CONSTRAINT "payments_subscriptionId_fkey" FOREIGN KEY ("subscriptionId") REFERENCES "public"."subscriptions"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "public"."subscriptions" ADD CONSTRAINT "subscriptions_paymentTierId_fkey" FOREIGN KEY ("paymentTierId") REFERENCES "public"."payment_tiers"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."coupons" ADD CONSTRAINT "coupons_communityId_fkey" FOREIGN KEY ("communityId") REFERENCES "public"."communities"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."spaces" ADD CONSTRAINT "spaces_communityId_fkey" FOREIGN KEY ("communityId") REFERENCES "public"."communities"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."spaces" ADD CONSTRAINT "spaces_parentSpaceId_fkey" FOREIGN KEY ("parentSpaceId") REFERENCES "public"."spaces"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."channels" ADD CONSTRAINT "channels_communityId_fkey" FOREIGN KEY ("communityId") REFERENCES "public"."communities"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."channels" ADD CONSTRAINT "channels_spaceId_fkey" FOREIGN KEY ("spaceId") REFERENCES "public"."spaces"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "public"."channels" ADD CONSTRAINT "channels_requiredTierId_fkey" FOREIGN KEY ("requiredTierId") REFERENCES "public"."payment_tiers"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
