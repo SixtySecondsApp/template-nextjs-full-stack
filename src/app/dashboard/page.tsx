@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 };
 
 /**
- * Dashboard V2 Home Page
+ * Dashboard Home Page
  *
  * Main dashboard landing page based on the Community OS design with:
  * - Welcome banner with setup checklist
@@ -44,7 +44,7 @@ const mockSetupProgress = {
       label: 'Customize your branding',
       description: 'Upload logo and set colors',
       isCompleted: true,
-      actionUrl: '/dashboard-v2/customize',
+      actionUrl: '/dashboard/customize',
       order: 1,
     },
     {
@@ -52,7 +52,7 @@ const mockSetupProgress = {
       label: 'Create your first post',
       description: 'Welcome your community',
       isCompleted: false,
-      actionUrl: '/dashboard-v2/content/new',
+      actionUrl: '/dashboard/content/new',
       order: 2,
     },
     {
@@ -60,7 +60,7 @@ const mockSetupProgress = {
       label: 'Invite 5 members',
       description: 'Build your community',
       isCompleted: false,
-      actionUrl: '/dashboard-v2/members/invite',
+      actionUrl: '/dashboard/members/invite',
       order: 3,
     },
     {
@@ -68,13 +68,13 @@ const mockSetupProgress = {
       label: 'Set up pricing',
       description: 'Configure membership tiers',
       isCompleted: false,
-      actionUrl: '/dashboard-v2/pricing',
+      actionUrl: '/dashboard/pricing',
       order: 4,
     },
   ],
 };
 
-export default function DashboardV2Page() {
+export default function DashboardPage() {
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>

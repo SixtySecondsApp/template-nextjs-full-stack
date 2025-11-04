@@ -28,7 +28,7 @@ export function TopNav() {
       {/* Admin Dashboard Link */}
       {isAdmin && (
         <Link
-          href="/dashboard-v2"
+          href="/dashboard"
           style={{
             display: 'flex',
             alignItems: 'center',

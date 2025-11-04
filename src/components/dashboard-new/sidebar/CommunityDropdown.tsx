@@ -164,7 +164,7 @@ export function CommunityDropdown({ currentCommunity, communities = [] }: Commun
                   isActive={community.id === currentCommunity.id}
                   onClick={() => {
                     // In a real app, this would switch the dashboard context
-                    window.location.href = `/dashboard-v2?community=${community.slug}`;
+                    window.location.href = `/dashboard?community=${community.slug}`;
                   }}
                 />
               ))}
@@ -205,7 +205,7 @@ export function CommunityDropdown({ currentCommunity, communities = [] }: Commun
               onClick={() => {
                 setIsOpen(false);
                 // In a real app, this would open the community creation wizard
-                window.location.href = '/dashboard-v2/communities';
+                window.location.href = '/dashboard/communities';
               }}
               style={{
                 width: '100%',

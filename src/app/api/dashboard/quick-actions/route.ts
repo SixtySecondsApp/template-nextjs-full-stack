@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
         icon: 'FileText',
         label: 'Create Post',
         description: 'Share content with your community',
-        actionUrl: '/dashboard-v2/content/new',
+        actionUrl: '/dashboard/content/new',
         requiresPermission: null,
       },
       {
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
         icon: 'UserPlus',
         label: 'Invite Members',
         description: 'Grow your community',
-        actionUrl: '/dashboard-v2/members/invite',
+        actionUrl: '/dashboard/members/invite',
         requiresPermission: null,
       },
       {
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
         icon: 'Palette',
         label: 'Customize',
         description: 'Personalize your space',
-        actionUrl: '/dashboard-v2/customize',
+        actionUrl: '/dashboard/customize',
         requiresPermission: null,
       },
       {
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
         icon: 'BookOpen',
         label: 'Add Course',
         description: 'Create educational content',
-        actionUrl: '/dashboard-v2/courses/new',
+        actionUrl: '/dashboard/courses/new',
         requiresPermission: null,
       },
       {
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
         icon: 'Calendar',
         label: 'Schedule Event',
         description: 'Plan community activities',
-        actionUrl: '/dashboard-v2/events/new',
+        actionUrl: '/dashboard/events/new',
         requiresPermission: null,
       },
       {
@@ -55,7 +55,7 @@ export async function GET(request: NextRequest) {
         icon: 'DollarSign',
         label: 'View Revenue',
         description: 'Check your earnings',
-        actionUrl: '/dashboard-v2/transactions',
+        actionUrl: '/dashboard/transactions',
         requiresPermission: null,
       },
     ];

@@ -1,18 +1,18 @@
 import { ReactNode } from 'react';
-import { Sidebar } from '@/components/dashboard-v2/sidebar/sidebar';
-import { TopBar } from '@/components/dashboard-v2/layout/top-bar';
+import { Sidebar } from '@/components/dashboard-new/sidebar/sidebar';
+import { TopBar } from '@/components/dashboard-new/layout/top-bar';
 
-interface DashboardV2LayoutProps {
+interface DashboardLayoutProps {
   children: ReactNode;
 }
 
 /**
- * Dashboard V2 Layout
+ * Dashboard Layout
  *
- * Layout wrapper for the new dashboard with sidebar navigation
+ * Layout wrapper for the dashboard with sidebar navigation
  * Based on Community OS design system
  */
-export default function DashboardV2Layout({ children }: DashboardV2LayoutProps) {
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
   return (
     <div className="flex h-screen overflow-hidden" style={{ background: 'var(--background)' }}>
       {/* Sidebar */}

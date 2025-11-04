@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
         status: 'pending' as const,
         createdAt: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
         dueAt: null,
-        actionUrl: '/dashboard-v2/content?filter=flagged',
+        actionUrl: '/dashboard/content?filter=flagged',
         actionLabel: 'Review Posts',
         count: 2,
       },
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest) {
         status: 'pending' as const,
         createdAt: new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
         dueAt: null,
-        actionUrl: '/dashboard-v2/members?filter=pending',
+        actionUrl: '/dashboard/members?filter=pending',
         actionLabel: 'Review Applications',
         count: 5,
       },
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
         status: 'pending' as const,
         createdAt: new Date(now.getTime() - 12 * 60 * 60 * 1000).toISOString(), // 12 hours ago
         dueAt: new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
-        actionUrl: '/dashboard-v2/billing',
+        actionUrl: '/dashboard/billing',
         actionLabel: 'Add Payment Method',
         count: null,
       },

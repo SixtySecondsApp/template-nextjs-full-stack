@@ -21,25 +21,25 @@ const mockCommunities = [
 ];
 
 const mainNavItems: NavItem[] = [
-  { id: 'home', icon: Home, label: 'Home', href: '/dashboard-v2' },
-  { id: 'analytics', icon: BarChart3, label: 'Analytics', href: '/dashboard-v2/analytics' },
-  { id: 'communities', icon: Building2, label: 'Communities', href: '/dashboard-v2/communities' },
-  { id: 'members', icon: Users, label: 'Members', href: '/dashboard-v2/members' },
-  { id: 'content', icon: MessageSquare, label: 'Content', href: '/dashboard-v2/content' },
-  { id: 'courses', icon: BookOpen, label: 'Courses', href: '/dashboard-v2/courses' },
+  { id: 'home', icon: Home, label: 'Home', href: '/dashboard' },
+  { id: 'analytics', icon: BarChart3, label: 'Analytics', href: '/dashboard/analytics' },
+  { id: 'communities', icon: Building2, label: 'Communities', href: '/dashboard/communities' },
+  { id: 'members', icon: Users, label: 'Members', href: '/dashboard/members' },
+  { id: 'content', icon: MessageSquare, label: 'Content', href: '/dashboard/content' },
+  { id: 'courses', icon: BookOpen, label: 'Courses', href: '/dashboard/courses' },
 ];
 
 const monetizationNavItems: NavItem[] = [
-  { id: 'pricing', icon: DollarSign, label: 'Plans & Pricing', href: '/dashboard-v2/pricing' },
-  { id: 'coupons', icon: Ticket, label: 'Coupons', href: '/dashboard-v2/coupons' },
-  { id: 'transactions', icon: CreditCard, label: 'Transactions', href: '/dashboard-v2/transactions' },
+  { id: 'pricing', icon: DollarSign, label: 'Plans & Pricing', href: '/dashboard/pricing' },
+  { id: 'coupons', icon: Ticket, label: 'Coupons', href: '/dashboard/coupons' },
+  { id: 'transactions', icon: CreditCard, label: 'Transactions', href: '/dashboard/transactions' },
 ];
 
 const settingsNavItems: NavItem[] = [
-  { id: 'customize', icon: Palette, label: 'Customize', href: '/dashboard-v2/customize' },
-  { id: 'settings', icon: Settings, label: 'Settings', href: '/dashboard-v2/settings' },
-  { id: 'ai', icon: Lightbulb, label: 'AI Assistant', href: '/dashboard-v2/ai', badge: 2 },
-  { id: 'help', icon: HelpCircle, label: 'Help & Support', href: '/dashboard-v2/help' },
+  { id: 'customize', icon: Palette, label: 'Customize', href: '/dashboard/customize' },
+  { id: 'settings', icon: Settings, label: 'Settings', href: '/dashboard/settings' },
+  { id: 'ai', icon: Lightbulb, label: 'AI Assistant', href: '/dashboard/ai', badge: 2 },
+  { id: 'help', icon: HelpCircle, label: 'Help & Support', href: '/dashboard/help' },
 ];
 
 /**
