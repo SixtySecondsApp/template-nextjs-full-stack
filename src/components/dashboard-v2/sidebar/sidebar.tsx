@@ -3,6 +3,7 @@
 import { Home, BarChart3, Users, MessageSquare, BookOpen, DollarSign, Ticket, CreditCard, Palette, Settings, Lightbulb, HelpCircle, Building2 } from 'lucide-react';
 import { NavSection } from './nav-section';
 import { SidebarFooter } from './sidebar-footer';
+import { CommunityDropdown } from './CommunityDropdown';
 
 export interface NavItem {
   id: string;
@@ -11,6 +12,13 @@ export interface NavItem {
   href: string;
   badge?: number;
 }
+
+// Mock data - In a real app, this would come from the database/API
+const mockCommunities = [
+  { id: '1', name: 'Community OS', slug: 'community-os' },
+  { id: '2', name: 'Tech Innovators', slug: 'tech-innovators' },
+  { id: '3', name: 'Design Guild', slug: 'design-guild' },
+];
 
 const mainNavItems: NavItem[] = [
   { id: 'home', icon: Home, label: 'Home', href: '/dashboard-v2' },
@@ -54,38 +62,10 @@ export function Sidebar() {
     }}>
       {/* Sidebar Header */}
       <div style={{ padding: '20px', borderBottom: '1px solid var(--border)' }}>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          padding: '12px',
-          background: 'var(--surface-elevated)',
-          border: '1px solid var(--border)',
-          borderRadius: '8px',
-          cursor: 'pointer',
-          transition: 'all 0.2s'
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.background = 'var(--surface)'}
-        onMouseLeave={(e) => e.currentTarget.style.background = 'var(--surface-elevated)'}>
-          <div style={{
-            width: '40px',
-            height: '40px',
-            background: 'linear-gradient(135deg, var(--primary-color), #8b5cf6)',
-            borderRadius: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontWeight: '700',
-            fontSize: '16px'
-          }}>
-            CO
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ fontWeight: '600', fontSize: '14px', color: 'var(--text-primary)' }}>Community OS</div>
-            <div style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>View live →</div>
-          </div>
-        </div>
+        <CommunityDropdown
+          currentCommunity={mockCommunities[0]}
+          communities={mockCommunities}
+        />
       </div>
 
       {/* Navigation Sections */}
