@@ -56,8 +56,7 @@ export function CommunityDropdown({ currentCommunity, communities = [] }: Commun
   return (
     <div ref={dropdownRef} style={{ position: 'relative' }}>
       {/* Current Community Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
+      <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={{
@@ -69,7 +68,6 @@ export function CommunityDropdown({ currentCommunity, communities = [] }: Commun
           background: isHovered || isOpen ? 'var(--surface)' : 'var(--surface-elevated)',
           border: '1px solid var(--border)',
           borderRadius: '8px',
-          cursor: 'pointer',
           transition: 'all 0.2s'
         }}
       >
@@ -91,21 +89,45 @@ export function CommunityDropdown({ currentCommunity, communities = [] }: Commun
           <div style={{ fontWeight: '600', fontSize: '14px', color: 'var(--text-primary)' }}>
             {currentCommunity.name}
           </div>
-          <div style={{ fontSize: '12px', color: 'var(--text-tertiary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <Link
+            href="/community-example"
+            style={{
+              fontSize: '12px',
+              color: 'var(--text-tertiary)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              textDecoration: 'none',
+              width: 'fit-content'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
             View live
             <ExternalLink style={{ width: '10px', height: '10px' }} />
-          </div>
+          </Link>
         </div>
-        <ChevronDown
+        <button
+          onClick={() => setIsOpen(!isOpen)}
           style={{
-            width: '16px',
-            height: '16px',
-            color: 'var(--text-tertiary)',
-            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-            transition: 'transform 0.2s'
+            background: 'transparent',
+            border: 'none',
+            padding: 0,
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center'
           }}
-        />
-      </button>
+        >
+          <ChevronDown
+            style={{
+              width: '16px',
+              height: '16px',
+              color: 'var(--text-tertiary)',
+              transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.2s'
+            }}
+          />
+        </button>
+      </div>
 
       {/* Dropdown Menu */}
       {isOpen && (
