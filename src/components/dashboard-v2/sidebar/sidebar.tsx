@@ -53,7 +53,7 @@ const settingsNavItems: NavItem[] = [
 export function Sidebar() {
   return (
     <aside style={{
-      width: '240px',
+      width: '280px',
       background: 'var(--surface)',
       borderRight: '1px solid var(--border)',
       display: 'flex',
