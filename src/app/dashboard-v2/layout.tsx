@@ -14,7 +14,7 @@ interface DashboardV2LayoutProps {
  */
 export default function DashboardV2Layout({ children }: DashboardV2LayoutProps) {
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden" style={{ background: 'var(--background)' }}>
       {/* Sidebar */}
       <Sidebar />
 
@@ -27,7 +27,7 @@ export default function DashboardV2Layout({ children }: DashboardV2LayoutProps) 
         />
 
         {/* Content Area */}
-        <main className="flex-1 overflow-y-auto bg-background">
+        <main className="flex-1 overflow-y-auto" style={{ background: 'var(--background)' }}>
           {children}
         </main>
       </div>

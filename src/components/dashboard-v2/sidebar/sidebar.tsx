@@ -44,16 +44,26 @@ const settingsNavItems: NavItem[] = [
  */
 export function Sidebar() {
   return (
-    <aside className="w-60 border-r bg-muted/10 flex flex-col overflow-y-auto">
+    <aside className="w-60 flex flex-col overflow-y-auto" style={{
+      background: 'var(--surface-1)',
+      borderRight: '1px solid var(--border-default)'
+    }}>
       {/* Sidebar Header */}
-      <div className="p-5 border-b">
-        <div className="flex items-center gap-3 p-3 bg-card border rounded-lg cursor-pointer hover:bg-muted/50 transition-all">
-          <div className="w-10 h-10 bg-gradient-to-br from-primary to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+      <div className="p-5" style={{ borderBottom: '1px solid var(--border-default)' }}>
+        <div className="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all" style={{
+          background: 'var(--surface-elevated)',
+          border: '1px solid var(--border-default)'
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.background = 'var(--surface-1)'}
+        onMouseLeave={(e) => e.currentTarget.style.background = 'var(--surface-elevated)'}>
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{
+            background: 'linear-gradient(135deg, var(--color-primary-500), #8b5cf6)'
+          }}>
             CO
           </div>
           <div className="flex-1">
-            <div className="text-sm font-semibold">Community OS</div>
-            <div className="text-xs text-muted-foreground">View live →</div>
+            <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Community OS</div>
+            <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>View live →</div>
           </div>
         </div>
       </div>

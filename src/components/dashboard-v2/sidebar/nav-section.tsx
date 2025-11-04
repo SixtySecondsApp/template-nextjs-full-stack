@@ -19,7 +19,11 @@ export function NavSection({ title, items }: NavSectionProps) {
 
   return (
     <div className="mb-6">
-      <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground px-3 mb-2">
+      <div className="text-xs font-semibold uppercase tracking-wide px-3 mb-2" style={{
+        color: 'var(--text-tertiary)',
+        fontSize: '11px',
+        letterSpacing: '0.5px'
+      }}>
         {title}
       </div>
       <div className="space-y-0.5">
