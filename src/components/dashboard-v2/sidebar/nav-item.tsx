@@ -18,42 +18,38 @@ export function NavItem({ item, isActive }: NavItemProps) {
   const Icon = item.icon;
   const [isHovered, setIsHovered] = useState(false);
 
-  const activeStyle = {
-    background: 'var(--color-primary-500)',
-    color: 'white',
-    fontWeight: 500
-  };
-
-  const hoverStyle = {
-    background: 'var(--surface-elevated)',
-    color: 'var(--text-primary)'
-  };
-
-  const defaultStyle = {
-    color: 'var(--text-secondary)'
-  };
-
-  const currentStyle = isActive ? activeStyle : isHovered ? hoverStyle : defaultStyle;
-
   return (
     <Link
       href={item.href}
-      className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm mb-0.5"
       style={{
-        ...currentStyle,
-        transition: 'all 0.2s'
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        padding: '8px 12px',
+        borderRadius: '6px',
+        color: isActive ? 'white' : isHovered ? 'var(--text-primary)' : 'var(--text-secondary)',
+        textDecoration: 'none',
+        cursor: 'pointer',
+        transition: 'all 0.2s',
+        marginBottom: '2px',
+        fontSize: '14px',
+        background: isActive ? 'var(--primary-color)' : isHovered ? 'var(--surface-elevated)' : 'transparent',
+        fontWeight: isActive ? 500 : 'normal'
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Icon size={18} className="shrink-0" style={{ opacity: isActive ? 1 : 0.7 }} />
-      <span className="flex-1">{item.label}</span>
+      <Icon size={18} style={{ width: '18px', height: '18px', opacity: isActive ? 1 : 0.7, flexShrink: 0 }} />
+      <span style={{ flex: 1 }}>{item.label}</span>
       {item.badge && (
-        <span className="ml-auto text-xs px-1.5 py-0.5 rounded-full font-semibold" style={{
-          background: 'var(--color-error-light)',
+        <span style={{
+          marginLeft: 'auto',
+          background: 'var(--danger)',
           color: 'white',
           fontSize: '11px',
-          padding: '2px 6px'
+          padding: '2px 6px',
+          borderRadius: '10px',
+          fontWeight: '600'
         }}>
           {item.badge}
         </span>

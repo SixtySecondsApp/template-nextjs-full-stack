@@ -38,34 +38,38 @@ export function MetricsGrid({ timeFilter = '30d' }: MetricsGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+      gap: '20px'
+    }}>
       <MetricCard
         title={metrics.members.label}
         value={metrics.members.formattedValue}
         change={metrics.members.changeDescription}
         changeType={metrics.members.changeType}
-        icon={<Users className="h-5 w-5" />}
+        icon={<Users style={{ width: '20px', height: '20px' }} />}
       />
       <MetricCard
         title={metrics.posts.label}
         value={metrics.posts.formattedValue}
         change={metrics.posts.changeDescription}
         changeType={metrics.posts.changeType}
-        icon={<FileText className="h-5 w-5" />}
+        icon={<FileText style={{ width: '20px', height: '20px' }} />}
       />
       <MetricCard
         title={metrics.comments.label}
         value={metrics.comments.formattedValue}
         change={metrics.comments.changeDescription}
         changeType={metrics.comments.changeType}
-        icon={<MessageSquare className="h-5 w-5" />}
+        icon={<MessageSquare style={{ width: '20px', height: '20px' }} />}
       />
       <MetricCard
         title={metrics.monthlyRecurringRevenue.label}
         value={metrics.monthlyRecurringRevenue.formattedValue}
         change={metrics.monthlyRecurringRevenue.changeDescription}
         changeType={metrics.monthlyRecurringRevenue.changeType}
-        icon={<DollarSign className="h-5 w-5" />}
+        icon={<DollarSign style={{ width: '20px', height: '20px' }} />}
       />
     </div>
   );

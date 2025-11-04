@@ -76,88 +76,103 @@ const mockSetupProgress = {
 
 export default function DashboardV2Page() {
   return (
-    <div className="p-6">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
         {/* Welcome Banner with Setup Progress */}
-        <Suspense fallback={<WelcomeBannerSkeleton />}>
-          <WelcomeBanner
-            setupProgress={mockSetupProgress}
-            communityName="Community OS"
-          />
-        </Suspense>
+        <div style={{ marginBottom: '32px' }}>
+          <Suspense fallback={<WelcomeBannerSkeleton />}>
+            <WelcomeBanner
+              setupProgress={mockSetupProgress}
+              communityName="Community OS"
+            />
+          </Suspense>
+        </div>
 
         {/* Key Metrics Grid */}
-        <Suspense fallback={<MetricCardSkeleton />}>
-          <MetricsGrid timeFilter="30d" />
-        </Suspense>
+        <div style={{ marginBottom: '32px' }}>
+          <Suspense fallback={<MetricCardSkeleton />}>
+            <MetricsGrid timeFilter="30d" />
+          </Suspense>
+        </div>
 
         {/* Activity Graph */}
-        <Suspense fallback={<ActivityGraphSkeleton />}>
-          <ActivityGraph />
-        </Suspense>
+        <div style={{ marginBottom: '24px' }}>
+          <Suspense fallback={<ActivityGraphSkeleton />}>
+            <ActivityGraph />
+          </Suspense>
+        </div>
 
         {/* Two Column Layout: Recent Activity & Pending Tasks */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <Suspense
-              fallback={
-                <div className="rounded-xl border bg-card p-6">
-                  <Skeleton className="h-6 w-40 mb-5" />
-                  <ActivityFeedSkeleton />
-                </div>
-              }
-            >
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '2fr 1fr',
+          gap: '24px',
+          marginBottom: '24px'
+        }}>
+          <div>
+            <Suspense fallback={<ActivityFeedSkeleton />}>
               <RecentActivity />
             </Suspense>
           </div>
 
           <div>
-            <Suspense
-              fallback={
-                <div className="rounded-xl border bg-card p-6">
-                  <Skeleton className="h-6 w-40 mb-5" />
-                  <div className="space-y-3">
-                    {Array.from({ length: 3 }).map((_, i) => (
-                      <Skeleton key={i} className="h-16 w-full" />
-                    ))}
-                  </div>
+            <Suspense fallback={
+              <div style={{
+                background: 'var(--surface-elevated)',
+                border: '1px solid var(--border)',
+                borderRadius: '12px',
+                padding: '24px'
+              }}>
+                <Skeleton className="h-6 w-40 mb-5" />
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {Array.from({ length: 3 }).map((_, i) => (
+                    <Skeleton key={i} className="h-16 w-full" />
+                  ))}
                 </div>
-              }
-            >
+              </div>
+            }>
               <PendingTasks />
             </Suspense>
           </div>
         </div>
 
         {/* Quick Actions */}
-        <Suspense
-          fallback={
-            <div className="rounded-xl border bg-card p-6">
+        <div style={{ marginBottom: '24px' }}>
+          <Suspense fallback={
+            <div style={{
+              background: 'var(--surface-elevated)',
+              border: '1px solid var(--border)',
+              borderRadius: '12px',
+              padding: '24px'
+            }}>
               <Skeleton className="h-6 w-32 mb-5" />
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px' }}>
                 {Array.from({ length: 6 }).map((_, i) => (
                   <Skeleton key={i} className="h-16 w-full" />
                 ))}
               </div>
             </div>
-          }
-        >
-          <QuickActions />
-        </Suspense>
+          }>
+            <QuickActions />
+          </Suspense>
+        </div>
 
         {/* Recommended Resources */}
-        <Suspense
-          fallback={
-            <div className="rounded-xl border bg-card p-6">
-              <Skeleton className="h-6 w-48 mb-5" />
-              <div className="space-y-3">
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <Skeleton key={i} className="h-20 w-full" />
-                ))}
-              </div>
+        <Suspense fallback={
+          <div style={{
+            background: 'var(--surface-elevated)',
+            border: '1px solid var(--border)',
+            borderRadius: '12px',
+            padding: '24px'
+          }}>
+            <Skeleton className="h-6 w-48 mb-5" />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Skeleton key={i} className="h-20 w-full" />
+              ))}
             </div>
-          }
-        >
+          </div>
+        }>
           <RecommendedResources />
         </Suspense>
       </div>

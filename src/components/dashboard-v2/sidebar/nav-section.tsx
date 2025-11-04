@@ -18,15 +18,18 @@ export function NavSection({ title, items }: NavSectionProps) {
   const pathname = usePathname();
 
   return (
-    <div className="mb-6">
-      <div className="text-xs font-semibold uppercase tracking-wide px-3 mb-2" style={{
-        color: 'var(--text-tertiary)',
+    <div style={{ marginBottom: '16px' }}>
+      <div style={{
         fontSize: '11px',
-        letterSpacing: '0.5px'
+        fontWeight: '600',
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px',
+        color: 'var(--text-tertiary)',
+        padding: '0 12px 8px'
       }}>
         {title}
       </div>
-      <div className="space-y-0.5">
+      <div>
         {items.map((item) => (
           <NavItem
             key={item.id}

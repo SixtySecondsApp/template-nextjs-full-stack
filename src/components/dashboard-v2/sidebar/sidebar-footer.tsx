@@ -17,48 +17,67 @@ export function SidebarFooter() {
   const [isUpgradeHovered, setIsUpgradeHovered] = useState(false);
 
   return (
-    <div className="p-4" style={{
+    <div style={{
       marginTop: 'auto',
-      borderTop: '1px solid var(--border-default)'
+      padding: '16px',
+      borderTop: '1px solid var(--border)'
     }}>
       {/* Plan Badge */}
-      <div className="text-white p-3 rounded-lg mb-3 flex items-center justify-between text-sm font-semibold" style={{
-        background: 'linear-gradient(135deg, var(--color-primary-500), #8b5cf6)'
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '12px',
+        background: 'linear-gradient(135deg, var(--primary-color), #8b5cf6)',
+        borderRadius: '8px',
+        color: 'white',
+        fontSize: '13px',
+        fontWeight: '600',
+        marginBottom: '12px'
       }}>
         <span>Growth Plan</span>
         <span>✨</span>
       </div>
 
       {/* Storage Usage */}
-      <div className="mb-3">
-        <div className="text-xs flex justify-between mb-2" style={{
+      <div style={{ marginBottom: '12px' }}>
+        <div style={{
+          fontSize: '12px',
           color: 'var(--text-secondary)',
-          fontSize: '12px'
+          marginBottom: '6px',
+          display: 'flex',
+          justifyContent: 'space-between'
         }}>
           <span>Storage</span>
           <span>{storageUsed} GB / {storageTotal} GB</span>
         </div>
-        <div className="rounded-full overflow-hidden" style={{
+        <div style={{
           height: '6px',
-          background: 'var(--border-default)'
+          background: 'var(--border)',
+          borderRadius: '3px',
+          overflow: 'hidden'
         }}>
-          <div
-            className="h-full rounded-full transition-all"
-            style={{
-              width: `${storagePercentage}%`,
-              background: 'var(--color-success-light)'
-            }}
-          />
+          <div style={{
+            height: '100%',
+            background: 'var(--success)',
+            width: `${storagePercentage}%`,
+            transition: 'width 0.3s'
+          }} />
         </div>
       </div>
 
       {/* Upgrade Button */}
       <button
-        className="w-full p-2 rounded-lg font-semibold cursor-pointer transition-all"
         style={{
-          background: isUpgradeHovered ? 'var(--color-primary-500)' : 'var(--surface-elevated)',
-          border: `1px solid ${isUpgradeHovered ? 'var(--color-primary-500)' : 'var(--border-default)'}`,
+          width: '100%',
+          padding: '8px',
+          background: isUpgradeHovered ? 'var(--primary-color)' : 'var(--surface-elevated)',
+          border: `1px solid ${isUpgradeHovered ? 'var(--primary-color)' : 'var(--border)'}`,
+          borderRadius: '6px',
           color: isUpgradeHovered ? 'white' : 'var(--text-primary)',
+          fontWeight: '600',
+          cursor: 'pointer',
+          transition: 'all 0.2s',
           fontSize: '13px'
         }}
         onMouseEnter={() => setIsUpgradeHovered(true)}

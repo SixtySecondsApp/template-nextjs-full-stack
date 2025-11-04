@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import type { MetricChangeType } from '@/application/dto/dashboard.dto';
 import { MetricCardSkeleton } from './MetricCardSkeleton';
@@ -21,16 +22,18 @@ export function MetricCard({
   icon,
   loading = false,
 }: MetricCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
   if (loading) {
     return <MetricCardSkeleton />;
   }
 
-  const changeColorClass =
+  const changeColor =
     changeType === 'positive'
-      ? 'text-green-600 dark:text-green-500'
+      ? 'var(--success)'
       : changeType === 'negative'
-      ? 'text-red-600 dark:text-red-500'
-      : 'text-gray-600 dark:text-gray-400';
+      ? 'var(--danger)'
+      : 'var(--text-tertiary)';
 
   const ChangeIcon =
     changeType === 'positive'
@@ -40,21 +43,59 @@ export function MetricCard({
       : Minus;
 
   return (
-    <div className="group rounded-xl border bg-card text-card-foreground shadow-sm transition-all hover:shadow-md hover:-translate-y-1 cursor-pointer">
-      <div className="p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-2xl">
-            {icon}
-          </div>
-          <div className="text-sm font-medium text-muted-foreground">
-            {title}
-          </div>
+    <div
+      style={{
+        background: 'var(--surface-elevated)',
+        border: '1px solid var(--border)',
+        borderRadius: '12px',
+        padding: '20px',
+        cursor: 'pointer',
+        transition: 'all 0.2s',
+        boxShadow: isHovered ? 'var(--shadow-md)' : 'none',
+        transform: isHovered ? 'translateY(-2px)' : 'translateY(0)'
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+        <div
+          style={{
+            width: '40px',
+            height: '40px',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '20px',
+            background: 'rgba(99, 102, 241, 0.1)'
+          }}
+        >
+          {icon}
         </div>
-        <div className="text-3xl font-bold mb-2">{value}</div>
-        <div className={`flex items-center gap-1 text-sm ${changeColorClass}`}>
-          <ChangeIcon className="h-4 w-4" />
-          <span>{change}</span>
+        <div style={{
+          fontSize: '14px',
+          color: 'var(--text-secondary)',
+          fontWeight: '500'
+        }}>
+          {title}
         </div>
+      </div>
+      <div style={{
+        fontSize: '32px',
+        fontWeight: '700',
+        marginBottom: '8px'
+      }}>
+        {value}
+      </div>
+      <div style={{
+        fontSize: '13px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '4px',
+        color: changeColor
+      }}>
+        <ChangeIcon style={{ width: '16px', height: '16px' }} />
+        <span>{change}</span>
       </div>
     </div>
   );

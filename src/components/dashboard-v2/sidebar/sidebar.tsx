@@ -44,32 +44,52 @@ const settingsNavItems: NavItem[] = [
  */
 export function Sidebar() {
   return (
-    <aside className="w-60 flex flex-col overflow-y-auto" style={{
-      background: 'var(--surface-1)',
-      borderRight: '1px solid var(--border-default)'
+    <aside style={{
+      width: '240px',
+      background: 'var(--surface)',
+      borderRight: '1px solid var(--border)',
+      display: 'flex',
+      flexDirection: 'column',
+      overflowY: 'auto'
     }}>
       {/* Sidebar Header */}
-      <div className="p-5" style={{ borderBottom: '1px solid var(--border-default)' }}>
-        <div className="flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-all" style={{
+      <div style={{ padding: '20px', borderBottom: '1px solid var(--border)' }}>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          padding: '12px',
           background: 'var(--surface-elevated)',
-          border: '1px solid var(--border-default)'
+          border: '1px solid var(--border)',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          transition: 'all 0.2s'
         }}
-        onMouseEnter={(e) => e.currentTarget.style.background = 'var(--surface-1)'}
+        onMouseEnter={(e) => e.currentTarget.style.background = 'var(--surface)'}
         onMouseLeave={(e) => e.currentTarget.style.background = 'var(--surface-elevated)'}>
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-sm" style={{
-            background: 'linear-gradient(135deg, var(--color-primary-500), #8b5cf6)'
+          <div style={{
+            width: '40px',
+            height: '40px',
+            background: 'linear-gradient(135deg, var(--primary-color), #8b5cf6)',
+            borderRadius: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontWeight: '700',
+            fontSize: '16px'
           }}>
             CO
           </div>
-          <div className="flex-1">
-            <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Community OS</div>
-            <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>View live →</div>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: '600', fontSize: '14px', color: 'var(--text-primary)' }}>Community OS</div>
+            <div style={{ fontSize: '12px', color: 'var(--text-tertiary)' }}>View live →</div>
           </div>
         </div>
       </div>
 
       {/* Navigation Sections */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div style={{ flex: 1, overflowY: 'auto', padding: '16px' }}>
         <NavSection title="Main" items={mainNavItems} />
         <NavSection title="Monetization" items={monetizationNavItems} />
         <NavSection title="Settings" items={settingsNavItems} />

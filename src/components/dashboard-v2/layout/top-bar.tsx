@@ -25,34 +25,45 @@ export function TopBar({ title, subtitle }: TopBarProps) {
   const [themeToggleHovered, setThemeToggleHovered] = useState(false);
 
   return (
-    <header className="px-6 py-4 flex items-center justify-between" style={{
+    <header style={{
       background: 'var(--surface-elevated)',
-      borderBottom: '1px solid var(--border-default)'
+      borderBottom: '1px solid var(--border)',
+      padding: '16px 24px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between'
     }}>
       <div>
-        <h1 className="text-2xl font-bold flex items-center gap-2" style={{
-          color: 'var(--text-primary)',
+        <h1 style={{
           fontSize: '24px',
-          fontWeight: 700,
+          fontWeight: '700',
           marginBottom: '4px'
         }}>
           {title}
         </h1>
         {subtitle && (
-          <p className="text-sm mt-1" style={{
+          <p style={{
             fontSize: '14px',
             color: 'var(--text-secondary)'
           }}>{subtitle}</p>
         )}
       </div>
 
-      <div className="flex items-center gap-3">
+      <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
         {/* Theme Toggle */}
         <button
-          className="w-9 h-9 rounded-lg flex items-center justify-center cursor-pointer transition-all"
           style={{
-            background: themeToggleHovered ? 'var(--surface-1)' : 'transparent',
-            color: themeToggleHovered ? 'var(--text-primary)' : 'var(--text-secondary)'
+            width: '36px',
+            height: '36px',
+            border: 'none',
+            background: themeToggleHovered ? 'var(--surface)' : 'transparent',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: themeToggleHovered ? 'var(--text-primary)' : 'var(--text-secondary)',
+            transition: 'all 0.2s'
           }}
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           onMouseEnter={() => setThemeToggleHovered(true)}
@@ -64,12 +75,19 @@ export function TopBar({ title, subtitle }: TopBarProps) {
 
         {/* Export Report */}
         <button
-          className="px-4 py-2 rounded-lg font-semibold cursor-pointer transition-all flex items-center gap-2"
           style={{
-            background: exportHovered ? 'var(--surface-elevated)' : 'var(--surface-1)',
-            color: 'var(--text-primary)',
-            border: `1px solid var(--border-default)`,
-            fontSize: '14px'
+            padding: '10px 16px',
+            border: '1px solid var(--border)',
+            borderRadius: '8px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
+            fontSize: '14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: exportHovered ? 'var(--surface-elevated)' : 'var(--surface)',
+            color: 'var(--text-primary)'
           }}
           onMouseEnter={() => setExportHovered(true)}
           onMouseLeave={() => setExportHovered(false)}
@@ -80,12 +98,19 @@ export function TopBar({ title, subtitle }: TopBarProps) {
 
         {/* New Post */}
         <button
-          className="px-4 py-2 rounded-lg font-semibold cursor-pointer transition-all flex items-center gap-2"
           style={{
-            background: 'var(--color-primary-500)',
-            color: 'white',
+            padding: '10px 16px',
             border: 'none',
+            borderRadius: '8px',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.2s',
             fontSize: '14px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'var(--primary-color)',
+            color: 'white',
             transform: newPostHovered ? 'translateY(-1px)' : 'translateY(0)',
             boxShadow: newPostHovered ? 'var(--shadow-md)' : 'none'
           }}
