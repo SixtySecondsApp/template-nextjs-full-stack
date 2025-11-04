@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, BarChart3, Users, MessageSquare, BookOpen, DollarSign, Ticket, CreditCard, Palette, Settings, Lightbulb, HelpCircle } from 'lucide-react';
+import { Home, BarChart3, Users, MessageSquare, BookOpen, DollarSign, Ticket, CreditCard, Palette, Settings, Lightbulb, HelpCircle, Building2 } from 'lucide-react';
 import { NavSection } from './nav-section';
 import { SidebarFooter } from './sidebar-footer';
 
@@ -15,6 +15,7 @@ export interface NavItem {
 const mainNavItems: NavItem[] = [
   { id: 'home', icon: Home, label: 'Home', href: '/dashboard-v2' },
   { id: 'analytics', icon: BarChart3, label: 'Analytics', href: '/dashboard-v2/analytics' },
+  { id: 'communities', icon: Building2, label: 'Communities', href: '/dashboard-v2/communities' },
   { id: 'members', icon: Users, label: 'Members', href: '/dashboard-v2/members' },
   { id: 'content', icon: MessageSquare, label: 'Content', href: '/dashboard-v2/content' },
   { id: 'courses', icon: BookOpen, label: 'Courses', href: '/dashboard-v2/courses' },
