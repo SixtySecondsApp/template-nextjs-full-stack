@@ -5,7 +5,12 @@ const barHeights = [45, 60, 35, 70, 55, 80, 65, 50, 75, 85, 70, 60];
 
 export function ActivityGraphSkeleton() {
   return (
-    <div className="rounded-xl border bg-card p-6">
+    <div style={{
+      background: 'var(--surface-elevated)',
+      border: '1px solid var(--border)',
+      borderRadius: '12px',
+      padding: '24px'
+    }}>
       <div className="flex items-center justify-between mb-5">
         <Skeleton className="h-6 w-40" />
         <div className="flex gap-2">

@@ -13,7 +13,7 @@ export function WizardProgress({ currentStep, totalSteps, steps }: WizardProgres
     <div
       className="flex px-10 py-8"
       style={{
-        background: 'var(--muted)',
+        background: 'var(--surface-2)',
         borderBottom: '1px solid var(--border)'
       }}
     >
@@ -41,7 +41,7 @@ export function WizardProgress({ currentStep, totalSteps, steps }: WizardProgres
             <div
               className="w-10 h-10 rounded-full flex items-center justify-center font-semibold relative z-10 mb-2 transition-all"
               style={{
-                background: isCompleted ? 'var(--primary)' : 'var(--card)',
+                background: isCompleted ? 'var(--primary)' : 'var(--surface)',
                 border: `${isActive ? '3px' : '2px'} solid ${
                   isCompleted
                     ? 'var(--primary)'
@@ -50,10 +50,10 @@ export function WizardProgress({ currentStep, totalSteps, steps }: WizardProgres
                     : 'var(--border)'
                 }`,
                 color: isCompleted
-                  ? 'var(--primary-foreground)'
+                  ? '#ffffff'
                   : isActive
                   ? 'var(--primary)'
-                  : 'var(--muted-foreground)',
+                  : 'var(--text-tertiary)',
               }}
             >
               {isCompleted ? (
@@ -66,7 +66,7 @@ export function WizardProgress({ currentStep, totalSteps, steps }: WizardProgres
             {/* Step label */}
             <div
               className="text-sm font-medium text-center"
-              style={{ color: 'var(--muted-foreground)' }}
+              style={{ color: 'var(--text-tertiary)' }}
             >
               {label}
             </div>

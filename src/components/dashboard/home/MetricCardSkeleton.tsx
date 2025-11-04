@@ -2,7 +2,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export function MetricCardSkeleton() {
   return (
-    <div className="rounded-xl border bg-card p-6">
+    <div style={{
+      background: 'var(--surface-elevated)',
+      border: '1px solid var(--border)',
+      borderRadius: '12px',
+      padding: '24px'
+    }}>
       <div className="flex items-center gap-3 mb-4">
         <Skeleton className="h-10 w-10 rounded-lg" />
         <Skeleton className="h-4 w-20" />

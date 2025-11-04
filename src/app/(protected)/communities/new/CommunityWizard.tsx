@@ -158,7 +158,7 @@ export function CommunityWizard() {
       <div
         className="w-full max-w-4xl rounded-2xl overflow-hidden"
         style={{
-          background: 'var(--card)',
+          background: 'var(--surface)',
           border: '1px solid var(--border)',
           boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
         }}
@@ -205,7 +205,7 @@ export function CommunityWizard() {
                     className="w-full px-4 py-3 rounded-lg text-base transition-all"
                     style={{
                       border: '1px solid var(--border)',
-                      background: 'var(--card)',
+                      background: 'var(--surface)',
                       color: 'var(--foreground)',
                     }}
                     onFocus={(e) => {
@@ -217,7 +217,7 @@ export function CommunityWizard() {
                       e.currentTarget.style.boxShadow = 'none';
                     }}
                   />
-                  <p className="text-sm mt-1.5" style={{ color: 'var(--muted-foreground)' }}>
+                  <p className="text-sm mt-1.5" style={{ color: 'var(--text-tertiary)' }}>
                     Choose a name that reflects your community&apos;s purpose
                   </p>
                 </div>
@@ -239,7 +239,7 @@ export function CommunityWizard() {
                     className="w-full px-4 py-3 rounded-lg text-base resize-y transition-all"
                     style={{
                       border: '1px solid var(--border)',
-                      background: 'var(--card)',
+                      background: 'var(--surface)',
                       color: 'var(--foreground)',
                       minHeight: '120px',
                     }}
@@ -252,7 +252,7 @@ export function CommunityWizard() {
                       e.currentTarget.style.boxShadow = 'none';
                     }}
                   />
-                  <p className="text-sm mt-1.5" style={{ color: 'var(--muted-foreground)' }}>
+                  <p className="text-sm mt-1.5" style={{ color: 'var(--text-tertiary)' }}>
                     Help people understand what makes your community special
                   </p>
                 </div>
@@ -264,7 +264,7 @@ export function CommunityWizard() {
                     style={{ color: 'var(--foreground)' }}
                   >
                     Community URL{' '}
-                    <span className="font-normal" style={{ color: 'var(--muted-foreground)' }}>
+                    <span className="font-normal" style={{ color: 'var(--text-tertiary)' }}>
                       (optional)
                     </span>
                   </label>
@@ -277,7 +277,7 @@ export function CommunityWizard() {
                     className="w-full px-4 py-3 rounded-lg text-base transition-all"
                     style={{
                       border: '1px solid var(--border)',
-                      background: 'var(--card)',
+                      background: 'var(--surface)',
                       color: 'var(--foreground)',
                     }}
                     onFocus={(e) => {
@@ -289,7 +289,7 @@ export function CommunityWizard() {
                       e.currentTarget.style.boxShadow = 'none';
                     }}
                   />
-                  <p className="text-sm mt-1.5" style={{ color: 'var(--muted-foreground)' }}>
+                  <p className="text-sm mt-1.5" style={{ color: 'var(--text-tertiary)' }}>
                     yourplatform.com/{formData.slug || 'your-community'}
                   </p>
                 </div>
@@ -350,7 +350,7 @@ export function CommunityWizard() {
               <div
                 className="p-6 rounded-xl mb-6"
                 style={{
-                  background: 'var(--muted)',
+                  background: 'var(--surface-2)',
                   border: '1px solid var(--border)',
                 }}
               >
@@ -362,7 +362,7 @@ export function CommunityWizard() {
                   <div className="pb-4" style={{ borderBottom: '1px solid var(--border)' }}>
                     <div
                       className="text-xs font-semibold uppercase tracking-wide mb-1"
-                      style={{ color: 'var(--muted-foreground)', letterSpacing: '0.5px' }}
+                      style={{ color: 'var(--text-tertiary)', letterSpacing: '0.5px' }}
                     >
                       Name
                     </div>
@@ -374,7 +374,7 @@ export function CommunityWizard() {
                   <div className="pb-4" style={{ borderBottom: '1px solid var(--border)' }}>
                     <div
                       className="text-xs font-semibold uppercase tracking-wide mb-1"
-                      style={{ color: 'var(--muted-foreground)', letterSpacing: '0.5px' }}
+                      style={{ color: 'var(--text-tertiary)', letterSpacing: '0.5px' }}
                     >
                       Description
                     </div>
@@ -386,7 +386,7 @@ export function CommunityWizard() {
                   <div className="pb-4" style={{ borderBottom: '1px solid var(--border)' }}>
                     <div
                       className="text-xs font-semibold uppercase tracking-wide mb-1"
-                      style={{ color: 'var(--muted-foreground)', letterSpacing: '0.5px' }}
+                      style={{ color: 'var(--text-tertiary)', letterSpacing: '0.5px' }}
                     >
                       Category
                     </div>
@@ -398,7 +398,7 @@ export function CommunityWizard() {
                   <div>
                     <div
                       className="text-xs font-semibold uppercase tracking-wide mb-1"
-                      style={{ color: 'var(--muted-foreground)', letterSpacing: '0.5px' }}
+                      style={{ color: 'var(--text-tertiary)', letterSpacing: '0.5px' }}
                     >
                       Privacy
                     </div>
@@ -423,7 +423,7 @@ export function CommunityWizard() {
                   <div className="font-semibold mb-1" style={{ color: 'var(--foreground)' }}>
                     Good to know
                   </div>
-                  <p className="text-sm" style={{ color: 'var(--muted-foreground)' }}>
+                  <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
                     You can change these settings later in your community dashboard.
                   </p>
                 </div>
@@ -437,7 +437,7 @@ export function CommunityWizard() {
           className="flex justify-between px-10 py-6"
           style={{
             borderTop: '1px solid var(--border)',
-            background: 'var(--muted)',
+            background: 'var(--surface-2)',
           }}
         >
           <button
@@ -446,18 +446,18 @@ export function CommunityWizard() {
             className="px-6 py-3 rounded-lg text-base font-semibold transition-all flex items-center gap-2 disabled:opacity-0 disabled:pointer-events-none"
             style={{
               background: 'transparent',
-              color: 'var(--muted-foreground)',
+              color: 'var(--text-tertiary)',
               border: '1px solid var(--border)',
             }}
             onMouseEnter={(e) => {
               if (currentStep > 1) {
-                e.currentTarget.style.background = 'var(--card)';
+                e.currentTarget.style.background = 'var(--surface)';
                 e.currentTarget.style.color = 'var(--foreground)';
               }
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = 'transparent';
-              e.currentTarget.style.color = 'var(--muted-foreground)';
+              e.currentTarget.style.color = 'var(--text-tertiary)';
             }}
           >
             <ChevronLeft size={16} />
@@ -472,7 +472,7 @@ export function CommunityWizard() {
             className="px-6 py-3 rounded-lg text-base font-semibold transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
               background: 'var(--primary)',
-              color: 'var(--primary-foreground)',
+              color: '#ffffff',
             }}
             onMouseEnter={(e) => {
               if (canProceedFromStep(currentStep) && !isSubmitting) {

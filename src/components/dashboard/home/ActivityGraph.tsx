@@ -132,7 +132,12 @@ export function ActivityGraph() {
   }
 
   return (
-    <div className="rounded-xl border bg-card p-6">
+    <div style={{
+      background: 'var(--surface-elevated)',
+      border: '1px solid var(--border)',
+      borderRadius: '12px',
+      padding: '24px'
+    }}>
       <div className="flex items-center justify-between mb-5">
         <h3 className="text-lg font-bold flex items-center gap-2">
           <BarChart3 className="h-5 w-5" />
