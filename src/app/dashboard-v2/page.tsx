@@ -77,7 +77,7 @@ const mockSetupProgress = {
 export default function DashboardV2Page() {
   return (
     <div style={{ flex: 1, overflowY: 'auto', padding: '24px' }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         {/* Welcome Banner with Setup Progress */}
         <div style={{ marginBottom: '32px' }}>
           <Suspense fallback={<WelcomeBannerSkeleton />}>
