@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { X, CheckCircle2, Circle } from 'lucide-react';
+import { X, CheckCircle2, Circle, Hand } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { SetupProgressDTO } from '@/application/dto/dashboard.dto';
 
@@ -45,8 +45,9 @@ export function WelcomeBanner({
         <X className="h-5 w-5" />
       </button>
 
-      <h2 className="text-xl font-bold mb-3">
-        👋 Welcome to {communityName}!
+      <h2 className="text-xl font-bold mb-3 flex items-center gap-2">
+        <Hand className="h-6 w-6" />
+        Welcome to {communityName}!
       </h2>
       <p className="mb-4 text-white/90">
         Let's get your community set up in {setupProgress.totalSteps} steps:

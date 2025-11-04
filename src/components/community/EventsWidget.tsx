@@ -1,3 +1,5 @@
+import { Calendar } from "lucide-react";
+
 export function EventsWidget() {
   const events = [
     { date: "Tomorrow at 3:00 PM", title: "Q&A with Nate - AI Automation", attendees: 142 },
@@ -7,7 +9,10 @@ export function EventsWidget() {
 
   return (
     <div className="widget">
-      <h3 className="widget-title">📅 Upcoming Events</h3>
+      <h3 className="widget-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Calendar size={18} style={{ color: 'var(--primary)' }} />
+        Upcoming Events
+      </h3>
       {events.map((event, idx) => (
         <div key={idx} className="event-card">
           <div className="event-date">{event.date}</div>

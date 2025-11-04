@@ -1,6 +1,7 @@
 "use client";
 
 import { useLeaderboard } from "@/hooks/useLeaderboard";
+import { Trophy } from "lucide-react";
 
 interface LeaderboardWidgetProps {
   communityId: string;
@@ -31,7 +32,10 @@ export function LeaderboardWidget({ communityId, limit = 5 }: LeaderboardWidgetP
   if (error) {
     return (
       <div className="widget">
-        <h3 className="widget-title">🏆 Leaderboard (30-day)</h3>
+        <h3 className="widget-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Trophy size={18} style={{ color: 'var(--primary)' }} />
+          Leaderboard (30-day)
+        </h3>
         <p style={{ color: "var(--error)", fontSize: "14px", padding: "12px" }}>
           Failed to load leaderboard
         </p>
@@ -41,7 +45,10 @@ export function LeaderboardWidget({ communityId, limit = 5 }: LeaderboardWidgetP
 
   return (
     <div className="widget">
-      <h3 className="widget-title">🏆 Leaderboard (30-day)</h3>
+      <h3 className="widget-title" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <Trophy size={18} style={{ color: 'var(--primary)' }} />
+        Leaderboard (30-day)
+      </h3>
       <ul className="leaderboard-list">
         {isLoading ? (
           Array.from({ length: limit }).map((_, idx) => (

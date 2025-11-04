@@ -6,6 +6,8 @@ import { UserButton } from "@clerk/nextjs";
 import { DarkModeToggle } from "@/components/theme/DarkModeToggle";
 import { SearchBar } from "@/components/search";
 import { NotificationBell } from "@/components/notifications";
+import { LayoutDashboard } from "lucide-react";
+import Link from "next/link";
 
 const tabs = [
   { id: "community", label: "Community" },
@@ -18,8 +20,44 @@ export function TopNav() {
   const [activeTab, setActiveTab] = useState("community");
   const { user } = useUser();
 
+  // Mock role check - In production, this would check user roles from database
+  const isAdmin = user?.publicMetadata?.role === 'admin' || user?.publicMetadata?.role === 'owner';
+
   return (
     <header className="top-nav">
+      {/* Admin Dashboard Link */}
+      {isAdmin && (
+        <Link
+          href="/dashboard-v2"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 16px',
+            marginRight: '16px',
+            background: 'linear-gradient(135deg, var(--primary), #8b5cf6)',
+            color: 'white',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            fontSize: '14px',
+            fontWeight: '500',
+            transition: 'all 0.2s',
+            boxShadow: 'var(--shadow-sm)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-1px)';
+            e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = 'var(--shadow-sm)';
+          }}
+        >
+          <LayoutDashboard size={16} />
+          <span>Dashboard</span>
+        </Link>
+      )}
+
       <div className="nav-tabs">
         {tabs.map((tab) => (
           <button

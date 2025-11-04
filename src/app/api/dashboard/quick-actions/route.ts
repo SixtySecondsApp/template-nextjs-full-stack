@@ -8,10 +8,11 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
   try {
     // Mock data - replace with actual database queries
+    // Icons now use Lucide icon names instead of emojis
     const quickActions = [
       {
         id: '1',
-        icon: '📝',
+        icon: 'FileText',
         label: 'Create Post',
         description: 'Share content with your community',
         actionUrl: '/dashboard-v2/content/new',
@@ -19,7 +20,7 @@ export async function GET(request: NextRequest) {
       },
       {
         id: '2',
-        icon: '📧',
+        icon: 'UserPlus',
         label: 'Invite Members',
         description: 'Grow your community',
         actionUrl: '/dashboard-v2/members/invite',
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
       },
       {
         id: '3',
-        icon: '🎨',
+        icon: 'Palette',
         label: 'Customize',
         description: 'Personalize your space',
         actionUrl: '/dashboard-v2/customize',
@@ -35,7 +36,7 @@ export async function GET(request: NextRequest) {
       },
       {
         id: '4',
-        icon: '📚',
+        icon: 'BookOpen',
         label: 'Add Course',
         description: 'Create educational content',
         actionUrl: '/dashboard-v2/courses/new',
@@ -43,7 +44,7 @@ export async function GET(request: NextRequest) {
       },
       {
         id: '5',
-        icon: '📅',
+        icon: 'Calendar',
         label: 'Schedule Event',
         description: 'Plan community activities',
         actionUrl: '/dashboard-v2/events/new',
@@ -51,7 +52,7 @@ export async function GET(request: NextRequest) {
       },
       {
         id: '6',
-        icon: '💰',
+        icon: 'DollarSign',
         label: 'View Revenue',
         description: 'Check your earnings',
         actionUrl: '/dashboard-v2/transactions',

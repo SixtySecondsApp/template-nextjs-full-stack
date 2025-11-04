@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import { Sparkles } from 'lucide-react';
 
 /**
  * SidebarFooter Component
@@ -36,7 +37,7 @@ export function SidebarFooter() {
         marginBottom: '12px'
       }}>
         <span>Growth Plan</span>
-        <span>✨</span>
+        <Sparkles size={16} />
       </div>
 
       {/* Storage Usage */}

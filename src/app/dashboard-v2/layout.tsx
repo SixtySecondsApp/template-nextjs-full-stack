@@ -22,7 +22,7 @@ export default function DashboardV2Layout({ children }: DashboardV2LayoutProps) 
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
         <TopBar
-          title="🏠 Home"
+          title="Home"
           subtitle="Overview of your community performance"
         />
 
