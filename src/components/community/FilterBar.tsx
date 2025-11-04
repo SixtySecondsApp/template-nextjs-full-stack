@@ -1,18 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { usePostFilter, type PostFilter } from "@/hooks/usePostFilter";
 
-export function FilterBar() {
-  const [activeFilter, setActiveFilter] = useState("all");
+interface FilterBarProps {
+  onFilterChange?: (filter: PostFilter) => void;
+}
+
+export function FilterBar({ onFilterChange }: FilterBarProps) {
+  const { filter: activeFilter, setFilter } = usePostFilter("all");
 
   const filters = [
-    { id: "all", label: "All" },
-    { id: "new", label: "New" },
-    { id: "active", label: "Active" },
-    { id: "top", label: "Top" },
-    { id: "solved", label: "Solved" },
-    { id: "trending", label: "🔥 Trending" },
+    { id: "all" as PostFilter, label: "All" },
+    { id: "new" as PostFilter, label: "New" },
+    { id: "active" as PostFilter, label: "Active" },
+    { id: "top" as PostFilter, label: "Top" },
   ];
+
+  const handleFilterClick = (filterId: PostFilter) => {
+    setFilter(filterId);
+    onFilterChange?.(filterId);
+
+    // Smooth scroll to top when filter changes
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <div className="filter-bar">
@@ -20,7 +30,7 @@ export function FilterBar() {
         <div
           key={filter.id}
           className={`filter-chip ${activeFilter === filter.id ? "active" : ""}`}
-          onClick={() => setActiveFilter(filter.id)}
+          onClick={() => handleFilterClick(filter.id)}
         >
           {filter.label}
         </div>

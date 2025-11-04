@@ -22,6 +22,36 @@ export const CreateCommunitySchema = z.object({
       /^[a-zA-Z0-9\s_-]+$/,
       "Community name can only contain letters, numbers, spaces, hyphens, and underscores"
     ),
+  description: z
+    .string()
+    .min(10, "Description must be at least 10 characters")
+    .max(500, "Description must not exceed 500 characters")
+    .optional(),
+  slug: z
+    .string()
+    .min(3, "Slug must be at least 3 characters")
+    .max(100, "Slug must not exceed 100 characters")
+    .regex(
+      /^[a-z0-9-]+$/,
+      "Slug can only contain lowercase letters, numbers, and hyphens"
+    )
+    .optional(),
+  category: z
+    .enum([
+      'education',
+      'business',
+      'creative',
+      'fitness',
+      'technology',
+      'lifestyle',
+      'gaming',
+      'other',
+    ])
+    .optional(),
+  privacy: z
+    .enum(['PUBLIC', 'PRIVATE', 'SECRET'])
+    .default('PUBLIC')
+    .optional(),
   logoUrl: z
     .string()
     .url("Invalid logo URL format")
@@ -45,7 +75,7 @@ export const CreateCommunitySchema = z.object({
       "Primary color must be a valid hex color code (e.g., #0066CC or #06C)"
     )
     .optional(),
-  ownerId: z.string().min(1, "Owner ID is required"),
+  ownerId: z.string().min(1, "Owner ID is required").optional(),
 });
 
 /**

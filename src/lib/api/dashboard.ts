@@ -26,7 +26,8 @@ export async function getDashboardMetrics(
   if (!response.ok) {
     throw new Error('Failed to fetch dashboard metrics');
   }
-  return response.json();
+  const json = await response.json();
+  return json.data;
 }
 
 /**
@@ -39,7 +40,8 @@ export async function getRecentActivity(
   if (!response.ok) {
     throw new Error('Failed to fetch recent activity');
   }
-  return response.json();
+  const json = await response.json();
+  return json.data;
 }
 
 /**
@@ -50,7 +52,8 @@ export async function getPendingTasks(): Promise<PendingTaskDTO[]> {
   if (!response.ok) {
     throw new Error('Failed to fetch pending tasks');
   }
-  return response.json();
+  const json = await response.json();
+  return json.data;
 }
 
 /**
@@ -61,7 +64,8 @@ export async function getQuickActions(): Promise<QuickActionDTO[]> {
   if (!response.ok) {
     throw new Error('Failed to fetch quick actions');
   }
-  return response.json();
+  const json = await response.json();
+  return json.data;
 }
 
 /**
@@ -72,7 +76,8 @@ export async function getRecommendedResources(): Promise<ResourceDTO[]> {
   if (!response.ok) {
     throw new Error('Failed to fetch recommended resources');
   }
-  return response.json();
+  const json = await response.json();
+  return json.data;
 }
 
 /**
@@ -96,7 +101,8 @@ export async function getActivityTrends(
   if (!response.ok) {
     throw new Error('Failed to fetch activity trends');
   }
-  return response.json();
+  const json = await response.json();
+  return json.data;
 }
 
 /**

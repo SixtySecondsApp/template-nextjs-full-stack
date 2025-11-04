@@ -32,7 +32,10 @@ export async function POST(request: NextRequest) {
 
     // Validate request body
     const body = await request.json();
-    const validatedData = CreateCommunitySchema.parse(body);
+    const validatedData = CreateCommunitySchema.parse({
+      ...body,
+      ownerId: userId,
+    });
 
     // TODO: Instantiate use case when application layer is ready
     // const useCase = new CreateCommunityUseCase(
@@ -50,6 +53,7 @@ export async function POST(request: NextRequest) {
         data: {
           id: "mock-id",
           ...validatedData,
+          slug: validatedData.slug || body.name.toLowerCase().replace(/\s+/g, '-'),
           primaryColor: validatedData.primaryColor ?? "#0066CC",
           createdAt: new Date(),
           updatedAt: new Date(),

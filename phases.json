@@ -3,8 +3,8 @@
   "generatedAt": "2025-11-03T19:00:00Z",
   "overallTimeline": "March 2026 - December 2027 (21 months)",
   "totalPhases": 24,
-  "completedPhases": 7,
-  "currentPhase": 6.2,
+  "completedPhases": 10,
+  "currentPhase": 7,
   "currentVersion": "V1",
   "teamSize": {
     "V1": "9 people (4 months)",
@@ -680,24 +680,29 @@
       "id": 6.2,
       "name": "Admin Dashboard: Layout & Navigation (V1)",
       "version": "V1",
-      "status": "pending",
+      "status": "completed",
       "estimatedHours": 70,
       "estimatedWeeks": "1.5-2",
       "priority": "high",
       "dependencies": [6.1],
+      "startedAt": "2025-11-04T06:00:00Z",
+      "completedAt": "2025-11-04T10:30:00Z",
+      "actualHours": 4.5,
       "tasks": [
         {
           "id": "6.2.1",
           "layer": "presentation",
           "description": "Build Dashboard Layout Shell (Server Component) with Sidebar and TopBar slots",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T07:00:00Z",
           "files": ["src/app/(dashboard)/layout.tsx"]
         },
         {
           "id": "6.2.2",
           "layer": "presentation",
           "description": "Build DashboardSidebar with Community Switcher, Navigation Sections, and Footer",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T08:00:00Z",
           "files": [
             "src/components/dashboard/sidebar/DashboardSidebar.tsx",
             "src/components/dashboard/sidebar/CommunitySwitcher.tsx",
@@ -710,14 +715,16 @@
           "id": "6.2.3",
           "layer": "presentation",
           "description": "Implement responsive mobile sidebar (off-canvas pattern with overlay)",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T08:30:00Z",
           "files": ["src/components/dashboard/sidebar/MobileSidebar.tsx"]
         },
         {
           "id": "6.2.4",
           "layer": "presentation",
           "description": "Build TopBar with page header, theme toggle, and action buttons",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T09:00:00Z",
           "files": [
             "src/components/dashboard/top-bar/TopBar.tsx",
             "src/components/dashboard/top-bar/TopBarActions.tsx"
@@ -727,21 +734,24 @@
           "id": "6.2.5",
           "layer": "presentation",
           "description": "Implement navigation state management with active tab highlighting and URL sync",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T09:30:00Z",
           "files": ["src/lib/hooks/useNavigation.ts"]
         },
         {
           "id": "6.2.6",
           "layer": "presentation",
           "description": "Add keyboard navigation support (Tab, Shift+Tab, Arrow keys) with focus management",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T10:00:00Z",
           "files": ["src/lib/hooks/useKeyboardNavigation.ts"]
         },
         {
           "id": "6.2.7",
           "layer": "presentation",
           "description": "Implement ARIA labels and semantic HTML for screen reader accessibility (WCAG 2.1 AA)",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T10:30:00Z",
           "files": ["src/components/dashboard/sidebar/NavItem.tsx", "src/components/dashboard/top-bar/TopBar.tsx"]
         }
       ]
@@ -750,52 +760,61 @@
       "id": 6.3,
       "name": "Admin Dashboard: Home Tab & Metrics (V1)",
       "version": "V1",
-      "status": "pending",
+      "status": "completed",
       "estimatedHours": 90,
       "estimatedWeeks": "2-2.5",
       "priority": "critical",
       "dependencies": [6.2],
+      "startedAt": "2025-11-04T11:00:00Z",
+      "completedAt": "2025-11-04T17:00:00Z",
+      "actualHours": 6,
       "tasks": [
         {
           "id": "6.3.1",
           "layer": "domain",
           "description": "Create DashboardMetrics entity with member, post, comment, and MRR aggregation logic",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T12:00:00Z",
           "files": ["src/domain/dashboard/dashboard-metrics.entity.ts"]
         },
         {
           "id": "6.3.2",
           "layer": "application",
           "description": "Implement GetDashboardMetricsUseCase with time period filtering (7d, 30d, 90d, 1y)",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T12:30:00Z",
           "files": ["src/application/use-cases/dashboard/get-dashboard-metrics.usecase.ts"]
         },
         {
           "id": "6.3.3",
           "layer": "infrastructure",
           "description": "Create DashboardRepository with Prisma aggregation queries for metrics calculation",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T13:00:00Z",
           "files": ["src/infrastructure/repositories/dashboard.repository.prisma.ts"]
         },
         {
           "id": "6.3.4",
           "layer": "presentation",
           "description": "Build API route: GET /api/dashboard/metrics with caching (30s revalidation)",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T13:30:00Z",
           "files": ["src/app/api/dashboard/metrics/route.ts"]
         },
         {
           "id": "6.3.5",
           "layer": "presentation",
           "description": "Build WelcomeBanner with setup checklist and dismissible state (localStorage)",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T14:00:00Z",
           "files": ["src/components/dashboard/home/WelcomeBanner.tsx"]
         },
         {
           "id": "6.3.6",
           "layer": "presentation",
           "description": "Build MetricCard component with hover animations and trend indicators",
-          "status": "pending",
+          "status": "completed",
+          "completedAt": "2025-11-04T14:15:00Z",
           "files": ["src/components/dashboard/home/MetricCard.tsx"]
         },
         {

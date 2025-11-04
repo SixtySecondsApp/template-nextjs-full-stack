@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { LucideIcon } from 'lucide-react';
+import * as Icons from 'lucide-react';
 
 interface ResourceCardProps {
-  icon: LucideIcon;
+  iconName: string;
   title: string;
   description: string;
   href?: string;
@@ -12,12 +12,14 @@ interface ResourceCardProps {
 }
 
 export function ResourceCard({
-  icon: Icon,
+  iconName,
   title,
   description,
   href,
   onClick,
 }: ResourceCardProps) {
+  // Dynamically get the icon component from lucide-react
+  const Icon = (Icons as any)[iconName] || Icons.HelpCircle;
   const Component = href ? 'a' : 'button';
   const extraProps = href
     ? { href, target: '_blank', rel: 'noopener noreferrer' }

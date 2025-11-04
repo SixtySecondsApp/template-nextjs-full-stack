@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Heart, MessageCircle, Share2, MoreHorizontal } from "lucide-react";
 import { useLikePost } from "@/hooks/useLikePost";
 import Link from "next/link";
+import { sanitizeHtml, sanitizeAndTruncate } from "@/lib/sanitize";
 
 interface Author {
   id: string;
@@ -114,12 +115,13 @@ export function CommunityPostCard({ post }: CommunityPostCardProps) {
       </div>
 
       <Link href={`/posts/${post.id}`} className="post-content">
-        <h2 className="post-title">{post.title}</h2>
-        <div className="post-body">
-          {post.content.length > 200
-            ? `${post.content.substring(0, 200)}...`
-            : post.content}
-        </div>
+        <h2 className="post-title">{sanitizeHtml(post.title, 'text')}</h2>
+        <div
+          className="post-body"
+          dangerouslySetInnerHTML={{
+            __html: sanitizeAndTruncate(post.content, 200, 'basic')
+          }}
+        />
       </Link>
 
       <div className="post-footer">
